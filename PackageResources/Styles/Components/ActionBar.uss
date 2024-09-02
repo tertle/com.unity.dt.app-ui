@@ -1,0 +1,48 @@
+/* ActionBar */
+.appui-actionbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--appui-alias-control-gap-md);
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-actionbar {
+    flex-direction: row-reverse;
+}
+
+.appui-actionbar__checkbox.appui-checkbox {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.appui-actionbar__label.appui-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.appui--ltr .appui-actionbar__label.appui-text {
+    -unity-text-align: middle-left;
+    padding-left: var(--appui-alias-control-gap-md);
+}
+
+.appui--rtl .appui-actionbar__label.appui-text {
+    -unity-text-align: middle-right;
+    padding-right: var(--appui-alias-control-gap-md);
+}
+
+.appui-actionbar__actiongroup.appui-actiongroup {
+    margin-left: var(--appui-sizing-100); /*margin-inline-start: var(--appui-sizing-100);*/
+    margin-right: 0; /*margin-inline-end: 0;*/
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.appui--rtl .appui-actionbar__actiongroup.appui-actiongroup {
+    margin-right: var(--appui-sizing-100); /*margin-inline-end: var(--appui-sizing-100);*/
+    margin-left: 0; /*margin-inline-start: 0;*/
+}

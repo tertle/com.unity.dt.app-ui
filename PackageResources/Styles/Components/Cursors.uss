@@ -1,0 +1,65 @@
+/* Cursors */
+:root {
+    cursor: var(--appui-alias-control-cursor-default);
+}
+
+.cursor--pointer {
+    cursor: var(--appui-alias-control-cursor-pointer);
+}
+
+.cursor--text {
+    cursor: var(--appui-alias-control-cursor-text);
+}
+
+.cursor--disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.cursor--ew-resize {
+    cursor: var(--appui-alias-control-cursor-ewresize);
+}
+
+.cursor--ns-resize {
+    cursor: var(--appui-alias-control-cursor-nsresize);
+}
+
+.cursor--nesw-resize {
+    cursor: var(--appui-alias-control-cursor-neswresize);
+}
+
+.cursor--nwse-resize {
+    cursor: var(--appui-alias-control-cursor-nwseresize);
+}
+
+.cursor--move,
+.cursor--move * {
+    cursor: var(--appui-alias-control-cursor-move);
+}
+
+.cursor--grab,
+.cursor--grab * {
+    cursor: var(--appui-alias-control-cursor-grab);
+}
+
+.cursor--grabbing,
+.cursor--grabbing * {
+    cursor: var(--appui-alias-control-cursor-grabbing);
+}
+
+/* Unity Editor Overrides */
+.unity-editor {
+    --appui-alias-control-cursor-move: move-arrow;
+    --appui-alias-control-cursor-nwseresize: resize-up-left;
+    --appui-alias-control-cursor-neswresize: resize-up-right;
+    --appui-alias-control-cursor-nsresize: resize-vertical;
+    --appui-alias-control-cursor-ewresize: resize-horizontal;
+    --appui-alias-control-cursor-col-resize: split-resize-left-right;
+    --appui-alias-control-cursor-row-resize: split-resize-up-down;
+    --appui-alias-control-cursor-text: text;
+    --appui-alias-control-cursor-pointer: link;
+    --appui-alias-control-cursor-default: arrow;
+    --appui-alias-control-cursor-grab: pan;
+    --appui-alias-control-cursor-grabbing: pan;
+
+    --appui-alias-control-cursor-disabled: arrow;
+}

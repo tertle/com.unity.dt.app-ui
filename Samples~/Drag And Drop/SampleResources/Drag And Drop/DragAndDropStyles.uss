@@ -1,0 +1,130 @@
+:root {
+    --appui-icon-link-simple-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkSimple.png");
+}
+
+.appui-icon--link-simple--regular {
+    --unity-image: var(--appui-icon-link-simple-regular);
+}
+
+.dnd-main-root {
+    flex-grow: 1;
+    background-color: var(--appui-backgrounds-200);
+    padding: var(--appui-alias-control-gap-xl);
+    width: 100%;
+}
+
+.dnd-desc {
+    -unity-text-align: middle-center;
+    margin: var(--appui-alias-control-gap-md);
+    margin-top: var(--appui-alias-control-gap-lg);
+}
+
+.dnd-list-container {
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    padding: var(--appui-alias-control-gap-md);
+}
+
+.dnd-gridview-container {
+    height: 100%;
+    flex-grow: 1;
+    border-radius: var(--appui-alias-control-border-radius);
+    background-color: var(--appui-base-50);
+}
+
+.dnd-arrow {
+    margin: var(--appui-alias-control-gap-lg);
+}
+
+.dnd-gridview {
+    flex-grow: 1;
+}
+
+.dnd-dropzone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.dnd-item {
+    padding: var(--appui-alias-control-gap-md);
+}
+
+.dnd-item__label {
+    -unity-text-align: middle-center;
+    background-color: var(--appui-base-100);
+    border-radius: var(--appui-alias-control-border-radius);
+    border-color: rgba(0,0,0,0);
+    border-width: var(--appui-alias-control-border-width);
+    flex-grow: 1;
+}
+
+.dnd-item:hover .dnd-item__label {
+    background-color: var(--appui-base-200);
+}
+
+.dnd-item.is-selected .dnd-item__label {
+    border-color: var(--appui-accent-100);
+}
+
+
+.dnd-form__title {
+    -unity-font-style: bold;
+    margin-top: var(--appui-alias-control-gap-xl);
+}
+
+.dnd-form {
+    border-radius: var(--appui-alias-control-border-radius);
+    border-width: var(--appui-alias-control-border-width);
+    border-color: var(--appui-alias-actions-border-color-default);
+    padding: var(--appui-alias-control-gap-md);
+}
+
+.dnd-form__tabs {
+    margin-bottom: var(--appui-alias-control-gap-md);
+}
+
+.dnd-form__text-area.appui-textarea {
+    border-top-left-radius: 0;
+}
+
+.dnd-form__attached-items-bar {
+    flex-direction: row;
+    padding-top: var(--appui-alias-control-gap-md);
+}
+
+.dnd-form__attached-items {
+    flex-direction: row;
+}
+
+.dnd-form__attached-items * {
+    margin-right: var(--appui-alias-control-gap-sm);
+}
+
+.dnd-form__divider,
+.dnd-form__attach-files-button {
+    flex-shrink: 0;
+}
+
+.dnd-form__divider,
+.dnd-form__attached-items {
+    display: none;
+}
+
+.dnd-form--with-attachments .dnd-form__divider,
+.dnd-form--with-attachments .dnd-form__attached-items {
+    display: flex;
+}
+
+.dnd-form__send-button {
+    align-self: flex-end;
+    padding-left: var(--appui-alias-control-gap-md);
+    padding-right: var(--appui-alias-control-gap-md);
+}
+
+.dnd-dropzone-container {
+    margin-bottom: var(--appui-alias-control-gap-md);
+}

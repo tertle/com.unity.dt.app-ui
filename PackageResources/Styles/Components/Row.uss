@@ -1,0 +1,9 @@
+/* Row */
+.appui-row {
+  flex-direction: row;
+  align-items: center;
+}
+
+.appui--rtl .appui-row {
+  flex-direction: row-reverse;
+}

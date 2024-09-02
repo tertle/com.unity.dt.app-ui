@@ -1,0 +1,84 @@
+/* Avatar */
+:root {
+    --appui-avatar-size-sm: var(--appui-sizing-500);
+    --appui-avatar-size-md: var(--appui-sizing-650);
+    --appui-avatar-size-lg: var(--appui-sizing-800);
+}
+
+.appui-avatar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    position: relative;
+    flex-shrink: 0;
+
+    transition: border-color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125);
+}
+
+.appui-avatar--circular {
+    border-radius: 1000px;
+}
+
+.appui-avatar--rounded {
+    border-radius: var(--appui-alias-control-border-radius);
+}
+
+.appui-avatar--size-s {
+    width: var(--appui-avatar-size-sm);
+    height: var(--appui-avatar-size-sm);
+}
+
+.appui-avatar--size-m {
+    width: var(--appui-avatar-size-md);
+    height: var(--appui-avatar-size-md);
+}
+
+.appui-avatar--size-l {
+    width: var(--appui-avatar-size-lg);
+    height: var(--appui-avatar-size-lg);
+}
+
+.appui-avatar__container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.appui-avatar--circular .appui-avatar__container {
+    border-radius: 1000px;
+}
+
+.appui-avatar--rounded .appui-avatar__container {
+    border-radius: var(--appui-alias-control-border-radius);
+}
+
+.appui-avatar .appui-text {
+    -unity-font-definition: var(--appui-font-weights-200);
+    letter-spacing: -0.3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -unity-text-overflow-position: end;
+    -unity-text-align: middle-center;
+}
+
+.appui-avatar--size-s .appui-text {
+    font-size: var(--appui-font-sizes-50);
+}
+
+.appui-avatar--size-m .appui-text {
+    font-size: var(--appui-font-sizes-100);
+}
+
+.appui-avatar--size-l .appui-text {
+    font-size: var(--appui-font-sizes-200);
+}
+
+.appui-avatar:disabled {
+    opacity: var(--appui-opacity-25);
+}

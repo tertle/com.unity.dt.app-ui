@@ -1,0 +1,28 @@
+/* HelpText */
+.appui-help-text {
+    display: flex;
+    -unity-text-align: middle-left;
+}
+
+.appui--rtl .appui-help-text {
+    -unity-text-align: middle-right;
+}
+
+.appui-help-text,
+.appui-help-text--default {
+    color: var(--appui-foregrounds-50);
+}
+
+.appui-help-text--warning {
+    color: var(--appui-warning-100);
+}
+
+.appui-help-text--destructive {
+    color: var(--appui-destructive-100);
+}
+
+.appui-help-text:disabled,
+.is-disabled .appui-help-text,
+.is-disabled.appui-help-text {
+    color: var(--appui-foregrounds-25);
+}

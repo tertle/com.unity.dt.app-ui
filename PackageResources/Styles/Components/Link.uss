@@ -1,0 +1,13 @@
+/* Link */
+.appui-link {
+    color: var(--appui-accent-100);
+    cursor: var(--appui-alias-control-cursor-pointer);
+}
+
+.appui-link.is-hovered {
+    color: var(--appui-accent-200);
+}
+
+.appui-link.is-active {
+    color: var(--appui-accent-50);
+}

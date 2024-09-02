@@ -1,0 +1,101 @@
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 8px;
+}
+
+.breadcrumb {
+    cursor: link;
+}
+
+.breadcrumb:hover {
+    color: #2c9af5;
+}
+
+.breadcrumb:active {
+    color: #1f649b;
+}
+
+.description-container {
+    background-color: var(--unity-colors-window-background);
+    padding: 0 8px;
+}
+
+.inspector-container {
+    background-color: var(--unity-colors-window-background);
+    padding: 0 6px;
+}
+
+.inspector-container .unity-collection-view {
+    max-height: none;
+}
+
+.inspector-container > * {
+    margin: 4px 0;
+}
+
+.description-label {
+    -unity-font-style: italic;
+    color: #9d9d9d;
+    translate: 0px -6px;
+}
+
+.destination #node-border {
+    border-color: #7b6ca8;
+    border-width: 2px;
+}
+
+.start-destination #node-border {
+    border-color: #5cb85c;
+    border-width: 2px;
+}
+
+.global-action #node-border {
+    border-color: #b98922;
+    border-width: 2px;
+}
+
+.local-action #node-border {
+    border-color: #7e5812;
+    border-width: 2px;
+}
+
+.subgraph #node-border {
+    border-color: #5e47ad;
+    border-width: 2px;
+}
+
+.current-destination #node-border {
+    border-color: #f364ff;
+    border-width: 2px;
+}
+
+.preview-container {
+    min-height: 100px;
+}
+
+.graph-view-pane {
+    position: relative;
+    flex-grow: 1;
+}
+
+.generate-code-button {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 8px;
+}
+
+.follow-navigation-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: var(--unity-colors-toolbar-background);
+    border-width: 1px;
+    border-color: var(--unity-colors-inspector_titlebar-border);
+    padding: 8px;
+    border-radius: 4px;
+}

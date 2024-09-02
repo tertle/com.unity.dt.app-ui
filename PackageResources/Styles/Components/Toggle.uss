@@ -1,0 +1,210 @@
+/* Toggle */
+:root {
+    --appui-toggle__box-width-sm: var(--appui-sizing-400);
+    --appui-toggle__box-width-md: var(--appui-sizing-500);
+    --appui-toggle__box-width-lg: var(--appui-sizing-600);
+
+    --appui-toggle__box-height-sm: var(--appui-sizing-250);
+    --appui-toggle__box-height-md: var(--appui-sizing-300);
+    --appui-toggle__box-height-lg: var(--appui-sizing-375);
+
+    --appui-toggle__box-border-radius-sm: var(--appui-sizing-125);
+    --appui-toggle__box-border-radius-md: var(--appui-sizing-150);
+    --appui-toggle__box-border-radius-lg: var(--appui-sizing-200);
+
+    --appui-toggle__checkmark-size-sm: var(--appui-sizing-150);
+    --appui-toggle__checkmark-size-md: var(--appui-sizing-200);
+    --appui-toggle__checkmark-size-lg: var(--appui-sizing-250);
+
+    --appui-toggle__box-gap: var(--appui-spacing-50);
+}
+
+.appui-toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    cursor: var(--appui-alias-control-cursor-pointer);
+    flex-shrink: 0;
+}
+
+.appui--ltr .appui-toggle {
+    flex-direction: row;
+}
+
+.appui--rtl .appui-toggle {
+    flex-direction: row-reverse;
+}
+
+.appui-toggle__input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /*z-index: 1;*/
+    opacity: 0.0001;
+}
+
+.appui-toggle__box {
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    margin: 0;
+    background-color: var(--appui-base-100);
+    border-width: var(--appui-alias-control-border-width);
+    /*border-style: var(--appui-control-border-style);*/
+    border-color: var(--appui-base-400);
+    transition: background-color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125), border-color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125);
+    height: var(--appui-toggle__box-height-md);
+    width: var(--appui-toggle__box-width-md);
+    border-radius: var(--appui-toggle__box-border-radius-md);
+}
+
+.appui-toggle.is-hovered > .appui-toggle__box {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-base-500);
+}
+
+.appui-toggle.keyboard-focus > .appui-toggle__box {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-toggle.is-active > .appui-toggle__box {
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-base-500);
+}
+
+.appui-toggle.is-checked > .appui-toggle__box {
+    background-color: var(--appui-positive-100);
+    border-color: var(--appui-positive-100);
+}
+
+.appui-toggle:disabled > .appui-toggle__box /*.appui-toggle.is-disabled > .appui-toggle__box*/ {
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-base-200);
+}
+
+.appui-toggle.is-invalid > .appui-toggle__box {
+    background-color: var(--appui-destructive-100);
+    border-color: var(--appui-destructive-100);
+}
+
+.appui-toggle__boxpadded {
+    position: relative;
+    margin: 0 var(--appui-toggle__box-gap);
+    height: 100%;
+}
+
+.appui-toggle__checkmarkcontainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: translate var(--appui-animation-duration-125) var(--appui-animation-easing-ease-out);
+    translate: 0% 0%;
+}
+
+.appui--ltr .appui-toggle__checkmarkcontainer {
+    flex-direction: row;
+}
+
+.appui--rtl .appui-toggle__checkmarkcontainer {
+    flex-direction: row-reverse;
+}
+
+.appui-toggle__checkmark {
+    background-color: var(--appui-foregrounds-100);
+    transition: translate var(--appui-animation-duration-125) var(--appui-animation-easing-ease-out), background-color var(--appui-animation-duration-125) var(--appui-animation-easing-ease-out);
+    --unity-image-tint-color: var(--appui-foregrounds-25); /*fill: var(--appui-foregrounds-25);*/
+    translate: 0% 0%;
+    width: var(--appui-toggle__checkmark-size-md);
+    height: var(--appui-toggle__checkmark-size-md);
+    border-radius: var(--appui-toggle__checkmark-size-md);
+}
+
+.is-checked .appui-toggle__checkmark {
+    background-color: var(--appui-color-white);
+}
+
+.appui-toggle:disabled .appui-toggle__checkmark {
+    background-color: var(--appui-foregrounds-25);
+}
+
+.appui--ltr .is-checked > .appui-toggle__box .appui-toggle__checkmarkcontainer {
+    translate: 100% 0%; /*transform: translateX(100%);*/
+}
+
+.appui--ltr .is-checked > .appui-toggle__box .appui-toggle__checkmark {
+    translate: -100% 0%; /*transform: translateX(-100%);*/
+}
+
+.appui--rtl .is-checked > .appui-toggle__box .appui-toggle__checkmarkcontainer {
+    translate: -100% 0%; /*transform: translateX(-100%);*/
+}
+
+.appui--rtl .is-checked > .appui-toggle__box .appui-toggle__checkmark {
+    translate: 100% 0%; /*transform: translateX(100%);*/
+}
+
+.appui-toggle__label {
+    font-size: var(--appui-font-sizes-body-md);
+    color: var(--appui-foregrounds-100);
+}
+
+.appui--ltr .appui-toggle__label {
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+}
+
+.appui--rtl .appui-toggle__label {
+    margin-right: var(--appui-alias-control-gap-md); /*margin-inline-end: var(--appui-alias-control-gap-md);*/
+}
+
+.appui-toggle:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.appui-toggle__label:disabled /*.is-disabled .appui-toggle__label*/ {
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-toggle__checkmark:disabled /*.is-disabled .appui-toggle__checkmark*/ {
+    --unity-image-tint-color: var(--appui-foregrounds-25); /*fill: var(--appui-foregrounds-25);*/
+    background-color: var(--appui-foregrounds-25);
+}
+
+.is-invalid .appui-toggle__label {
+    color: var(--appui-destructive-100);
+}
+
+.is-invalid.appui-toggle:disabled .appui-toggle__label {
+    color: var(--appui-foregrounds-25);
+}
+
+.is-invalid.appui-toggle:disabled .appui-toggle__checkmark {
+    color: var(--appui-foregrounds-25);
+    background-color: var(--appui-foregrounds-25);
+}
+
+.is-invalid.appui-toggle:disabled .appui-toggle__box {
+    color: var(--appui-foregrounds-25);
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-base-200);
+}
+
+.is-invalid.appui-toggle .appui-toggle__checkmark {
+    --unity-image-tint-color: var(--appui-foregrounds-100); /*fill: var(--appui-foregrounds-100);*/
+    background-color: var(--appui-foregrounds-100);
+}
+
+.is-checked.is-invalid.appui-toggle .appui-toggle__checkmark {
+    --unity-image-tint-color: var(--appui-color-white); /*fill: var(--appui-color-white);*/
+    background-color: var(--appui-color-white);
+}

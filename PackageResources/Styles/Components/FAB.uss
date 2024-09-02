@@ -1,0 +1,71 @@
+/* FAB */
+.appui-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background-color: var(--appui-base-100);
+    border-width: 0;
+    cursor: var(--appui-alias-control-cursor-pointer);
+}
+
+.appui-fab--accent {
+    background-color: var(--appui-accent-100);
+    color: var(--appui-alias-actions-foreground-color-default);
+}
+
+.appui-fab.appui-fab--accent * {
+    color: var(--appui-alias-actions-foreground-color-default);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
+}
+
+.appui-fab--size-s {
+    min-width: var(--appui-sizing-400);
+    height: var(--appui-sizing-400);
+    border-radius: 1000px;
+}
+
+.appui-fab--size-m {
+    min-width: var(--appui-sizing-500);
+    height: var(--appui-sizing-500);
+    border-radius: 1000px;
+}
+
+.appui-fab--size-l {
+    min-width: var(--appui-sizing-600);
+    height: var(--appui-sizing-600);
+    border-radius: 1000px;
+}
+
+.appui-fab.is-hovered {
+    background-color: var(--appui-base-200);
+}
+
+.appui-fab--accent.is-hovered {
+    background-color: var(--appui-accent-200);
+}
+
+.appui-fab.keyboard-focus {
+    --outline-width: var(--appui-alias-control-outline-width);
+    --outline-color: var(--appui-alias-control-outline-color);
+    --outline-offset: var(--appui-alias-control-outline-offset);
+}
+
+.appui-fab.is-active,
+.appui-fab:active {
+    background-color: var(--appui-base-50);
+}
+
+.appui-fab--accent.is-active,
+.appui-fab--accent:active {
+    background-color: var(--appui-accent-50);
+}
+
+.appui-fab.is-disabled,
+.appui-fab:disabled {
+    background-color: var(--appui-base-100);
+    color: var(--appui-foregrounds-25);
+    cursor: var(--appui-alias-control-cursor-disabled);
+}

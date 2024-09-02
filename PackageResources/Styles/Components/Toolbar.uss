@@ -1,0 +1,109 @@
+/* Toolbar */
+.appui-toolbar {
+    display: flex;
+    padding: var(--appui-spacing-100);
+    background-color: var(--appui-backgrounds-100);
+    border-color: var(--appui-backgrounds-300);
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.appui-toolbar__container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    overflow: hidden;
+}
+
+.appui-toolbar--horizontal {
+    flex-direction: row;
+    max-width: 100%;
+}
+
+.appui--rtl .appui-toolbar--horizontal {
+    flex-direction: row-reverse;
+}
+
+.appui-toolbar--horizontal > .appui-toolbar__container {
+    flex-direction: row;
+}
+
+.appui--rtl .appui-toolbar--horizontal > .appui-toolbar__container {
+    flex-direction: row-reverse;
+}
+
+.appui-toolbar--vertical {
+    flex-direction: column;
+}
+
+.appui-toolbar--vertical > .appui-toolbar__container {
+    flex-direction: column;
+}
+
+.appui-toolbar--floating {
+    border-radius: var(--appui-sizing-100);
+    border-width: 1px;
+}
+
+.appui-toolbar--right {
+    border-right-width: 1px;
+}
+
+.appui-toolbar--left {
+    border-left-width: 1px;
+}
+
+.appui-toolbar--top {
+    border-top-width: 1px;
+}
+
+.appui-toolbar--bottom {
+    border-bottom-width: 1px;
+}
+
+.appui-toolbar__drag-bar {
+    display: none;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    cursor: var(--appui-alias-control-cursor-grab);
+}
+
+.appui-toolbar__drag-bar.is-active {
+    cursor: var(--appui-alias-control-cursor-grabbing);
+}
+
+.appui-toolbar__drag-bar-indicator {
+    background-color: var(--appui-foregrounds-100);
+    border-radius: var(--appui-sizing-50);
+    flex-shrink: 0;
+}
+
+.appui-toolbar--horizontal > .appui-toolbar__drag-bar {
+    margin-right: var(--appui-spacing-100);
+    margin-left: 0;
+}
+
+.appui--rtl .appui-toolbar--horizontal > .appui-toolbar__drag-bar {
+    margin-right: 0;
+    margin-left: var(--appui-spacing-100);
+}
+
+.appui-toolbar--horizontal .appui-toolbar__drag-bar-indicator {
+    height: var(--appui-sizing-200);
+    width: var(--appui-sizing-25);
+}
+
+.appui-toolbar--vertical > .appui-toolbar__drag-bar {
+    margin-bottom: var(--appui-spacing-100);
+}
+
+.appui-toolbar--vertical .appui-toolbar__drag-bar-indicator {
+    height: var(--appui-sizing-25);
+    width: var(--appui-sizing-200);
+}
+
+.appui-toolbar--draggable > .appui-toolbar__drag-bar {
+    display: flex;
+}

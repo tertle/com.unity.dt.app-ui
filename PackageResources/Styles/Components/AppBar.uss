@@ -1,0 +1,91 @@
+/* AppBar */
+.appui-appbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-shrink: 0;
+}
+
+.appui-appbar__bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: var(--appui-backgrounds-100);
+    position: relative;
+    padding: 0 var(--appui-spacing-100);
+    height: var(--appui-sizing-700);
+}
+
+.appui-appbar--compact > .appui-appbar__bar {
+    height: var(--appui-sizing-500);
+}
+
+.appui-appbar__flexible-space {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    flex-grow: 1;
+    flex-shrink: 1;
+    background-color: var(--appui-backgrounds-100);
+}
+
+.appui-appbar__bottom {
+    display: flex;
+    flex-shrink: 0;
+    background-color: var(--appui-backgrounds-100);
+}
+
+.appui-appbar__bottom-border {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-shrink: 0;
+    background-color: var(--appui-backgrounds-100);
+    border-bottom-width: var(--appui-sizing-25);
+    border-bottom-color: #2e2e2e;
+}
+
+.appui-appbar__compact-title.appui-localized-text {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    -unity-text-align: middle-center;
+    color: var(--appui-foregrounds-200);
+    -unity-font-definition: var(--appui-font-weights-200);
+    font-size: var(--appui-font-sizes-100);
+}
+
+.appui-appbar__large-title.appui-localized-text {
+    display: flex;
+    font-size: var(--appui-font-sizes-900);
+    color: var(--appui-foregrounds-200);
+    -unity-text-align: lower-left;
+    position: absolute;
+    bottom: var(--appui-spacing-300);
+    -unity-font-definition: var(--appui-font-weights-200);
+    left: var(--appui-spacing-250);
+}
+
+.appui-appbar__action-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.appui-appbar__back-button {
+    display: flex;
+}
+
+.appui-appbar__drawer-button {
+    display: flex;
+}

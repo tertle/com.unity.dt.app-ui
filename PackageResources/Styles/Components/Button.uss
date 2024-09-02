@@ -1,0 +1,271 @@
+/* Button */
+.appui-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-width: var(--appui-alias-control-border-width);
+    /* Nothing */ /* converted from : border-style: var(--appui-control-border-style); */
+    border-radius: var(--appui-alias-control-border-radius);
+    cursor: var(--appui-alias-control-cursor-pointer);
+    font-size: var(--appui-font-sizes-body-md);
+    background-color: var(--appui-alias-actions-background-color-default);
+    border-color: var(--appui-alias-actions-border-color-default);
+    color: var(--appui-foregrounds-100);
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-button {
+    flex-direction: row-reverse;
+}
+
+.appui-button__leadingcontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: var(--appui-alias-control-gap-md); /* todo remove this when gap will be supported */
+    margin-right: 0; /* todo remove this when gap will be supported */
+}
+
+.appui--rtl .appui-button__leadingcontainer {
+    flex-direction: row-reverse;
+    margin-left: 0; /* todo remove this when gap will be supported */
+    margin-right: var(--appui-alias-control-gap-md); /* todo remove this when gap will be supported */
+}
+
+.appui-button__titlecontainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    /* Nothing */ /* converted from : gap: var(--appui-control-semi-gap); */
+    margin-left: var(--appui-alias-control-gap-md); /* converted from : margin-inline-start: var(--appui-alias-control-gap-md); */
+    margin-right: var(--appui-alias-control-gap-md); /* converted from : margin-inline-end: var(--appui-alias-control-gap-md); */
+}
+
+.appui-button__trailingcontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0; /* todo remove this when gap will be supported */
+    margin-right: var(--appui-alias-control-gap-md); /* todo remove this when gap will be supported */
+}
+
+.appui--rtl .appui-button__trailingcontainer {
+    flex-direction: row-reverse;
+    margin-left: var(--appui-alias-control-gap-md); /* todo remove this when gap will be supported */
+    margin-right: 0; /* todo remove this when gap will be supported */
+}
+
+.appui-button__title {
+    -unity-font-definition: var(--appui-font-weights-200); /* converted from : font-weight: var(--appui-global-font-weight-semi-bold); */
+}
+
+.appui-button__subtitle {
+    font-size: var(--appui-font-sizes-body-sm);
+    color: var(--appui-foregrounds-50);
+}
+
+.appui-button .appui-icon {
+    --unity-image-tint-color: var(--appui-foregrounds-100); /* converted from : fill: inherit; */
+}
+
+.appui-button--size-s {
+    min-height: var(--appui-alias-control-sizing-sm-height);
+    min-width: var(--appui-alias-control-sizing-sm-height);
+    padding-top: var(--appui-spacing-25);
+    padding-bottom: var(--appui-spacing-25);
+}
+
+.appui-button--size-m {
+    min-height: var(--appui-alias-control-sizing-md-height);
+    min-width: var(--appui-alias-control-sizing-md-height);
+    padding-top: var(--appui-spacing-50);
+    padding-bottom: var(--appui-spacing-50);
+}
+
+.appui-button--size-l {
+    min-height: var(--appui-alias-control-sizing-lg-height);
+    min-width: var(--appui-alias-control-sizing-lg-height);
+    padding-top: var(--appui-spacing-100);
+    padding-bottom: var(--appui-spacing-100);
+}
+
+.appui-button--icon-only.appui-button--size-s {
+    min-height: auto;
+    min-width: auto;
+    height: var(--appui-alias-control-sizing-sm-height);
+    width: var(--appui-alias-control-sizing-sm-height);
+}
+
+.appui-button--icon-only.appui-button--size-m {
+    min-height: auto;
+    min-width: auto;
+    height: var(--appui-alias-control-sizing-md-height);
+    width: var(--appui-alias-control-sizing-md-height);
+}
+
+.appui-button--icon-only.appui-button--size-l {
+    min-height: auto;
+    min-width: auto;
+    height: var(--appui-alias-control-sizing-lg-height);
+    width: var(--appui-alias-control-sizing-lg-height);
+}
+
+.appui-button--icon-only {
+    padding: 0;
+}
+
+.appui-button--icon-only > .appui-button__leadingcontainer {
+    margin-left: 0; /* todo remove this when gap will be supported */
+    margin-right: 0; /* todo remove this when gap will be supported */
+}
+
+.appui-button--accent,
+.appui-button--primary {
+    background-color: var(--appui-accent-100);
+    border-width: 0;
+}
+
+.appui-button--destructive {
+    border-width: 0;
+    background-color: var(--appui-alias-actions-destructive-default);
+}
+
+.appui-button--quiet {
+    border-color: var(--appui-alias-actions-quiet-border-color-default);
+    background-color: var(--appui-alias-actions-quiet-background-color-default);
+}
+
+.appui-button--accent,
+.appui-button--primary,
+.appui-button--destructive {
+    color: var(--appui-alias-actions-accent-foreground-color-default);
+}
+
+.appui-button--accent.appui-button--quiet,
+.appui-button--primary.appui-button--quiet,
+.appui-button--destructive.appui-button--quiet {
+    color: var(--appui-foregrounds-100);
+}
+
+.appui-button--accent .appui-button__subtitle,
+.appui-button--primary .appui-button__subtitle,
+.appui-button--destructive .appui-button__subtitle {
+    color: var(--appui-color-transparent-white-600);
+}
+
+.appui-button--accent.appui-button--quiet .appui-button__subtitle,
+.appui-button--primary.appui-button--quiet .appui-button__subtitle,
+.appui-button--destructive.appui-button--quiet .appui-button__subtitle {
+    color: var(--appui-foregrounds-50);
+}
+
+.appui-button--accent .appui-icon,
+.appui-button--primary .appui-icon,
+.appui-button--destructive .appui-icon {
+    --unity-image-tint-color: var(--appui-alias-actions-accent-foreground-color-default); /* converted from : fill: var(--appui-alias-actions-accent-foreground-color-default); */
+}
+
+.appui-button--accent.appui-button--quiet .appui-icon,
+.appui-button--primary.appui-button--quiet .appui-icon,
+.appui-button--destructive.appui-button--quiet .appui-icon {
+    --unity-image-tint-color: var(--appui-foregrounds-100); /* converted from : fill: var(--appui-foregrounds-100); */
+}
+
+.appui-button.is-hovered {
+    background-color: var(--appui-alias-actions-background-color-hover);
+    border-color: var(--appui-alias-actions-border-color-hover);
+    color: var(--appui-foregrounds-200);
+}
+
+.appui-button--accent.is-hovered,
+.appui-button--primary.is-hovered {
+    background-color: var(--appui-accent-50);
+    color: var(--appui-alias-actions-accent-foreground-color-hover);
+}
+
+.appui-button--destructive.is-hovered {
+    background-color: var(--appui-alias-actions-destructive-hover);
+    color: var(--appui-alias-actions-accent-foreground-color-hover);
+}
+
+.appui-button.keyboard-focus {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-button.is-active {
+    background-color: var(--appui-alias-actions-background-color-active);
+    border-color: var(--appui-alias-actions-border-color-active);
+    color: var(--appui-foregrounds-200);
+}
+
+.appui-button--accent.is-active,
+.appui-button--primary.is-active {
+    background-color: var(--appui-accent-25);
+    color: var(--appui-alias-actions-accent-foreground-color-active);
+}
+
+.appui-button--destructive.is-active {
+    background-color: var(--appui-alias-actions-destructive-active);
+    color: var(--appui-alias-actions-accent-foreground-color-active);
+}
+
+.appui-button--accent.is-hovered .appui-icon,
+.appui-button--primary.is-hovered .appui-icon,
+.appui-button--destructive.is-hovered .appui-icon,
+.appui-button--accent.is-active .appui-icon,
+.appui-button--primary.is-active .appui-icon,
+.appui-button--destructive.is-active .appui-icon {
+    --unity-image-tint-color: var(--appui-alias-actions-accent-foreground-color-default); /* converted from : fill: var(--appui-alias-actions-accent-foreground-color-default); */
+}
+
+.appui-button:disabled {
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+    cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-button--accent:disabled,
+.appui-button--primary:disabled {
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+    cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-button--destructive:disabled {
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+    cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-button--quiet:disabled,
+.appui-button--quiet.unity-disabled {
+    background-color: var(--appui-alias-actions-quiet-background-color-disabled);
+    border-color: var(--appui-alias-actions-quiet-border-color-disabled);
+}
+
+.appui-button:disabled .appui-icon {
+    --unity-image-tint-color: var(--appui-foregrounds-25); /* converted from : fill: var(--appui-foregrounds-25); */
+}
+
+.appui-button--accent:disabled .appui-icon,
+.appui-button--primary:disabled .appui-icon,
+.appui-button--destructive:disabled .appui-icon {
+    --unity-image-tint-color: var(--appui-foregrounds-25); /* converted from : fill: var(--appui-foregrounds-25); */
+}
+
+.appui-button:disabled .appui-button__subtitle {
+    color: var(--appui-foregrounds-25);
+}

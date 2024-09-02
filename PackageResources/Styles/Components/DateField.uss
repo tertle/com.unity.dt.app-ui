@@ -1,0 +1,158 @@
+/* DateField */
+.appui-date-field {
+    border-width: var(--appui-alias-control-border-width);
+    /*border-style: var(--appui-control-border-style);*/
+    border-radius: var(--appui-alias-control-border-radius);
+    padding: 0 var(--appui-alias-control-gap-md);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--appui-foregrounds-100);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-date-field {
+    flex-direction: row-reverse;
+}
+
+.appui-colorfield--swatch-only {
+    padding: 0;
+}
+
+.appui-date-field {
+    background-color: var(--appui-base-100);
+    border-color: var(--appui-base-400);
+}
+
+.appui-date-field__input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.appui-date-field__input {
+    color: var(--appui-foregrounds-100);
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -unity-text-overflow-position: end;
+    font-size: var(--appui-font-sizes-body-md);
+    -unity-text-align: middle-left;
+    padding-right: var(--appui-alias-control-gap-md);
+    padding-left: 0;
+    margin: 0;
+}
+
+.appui-date-field__input > .unity-text-field__input {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.appui-date-field__input > .unity-text-field__input > .unity-text-element {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-date-field__input {
+    -unity-text-align: middle-right;
+    padding-right: 0;
+    padding-left: var(--appui-alias-control-gap-md);
+}
+
+.appui-text.appui-date-field__separator {
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding-right: var(--appui-alias-control-gap-md);
+    padding-left: 0;
+}
+
+.appui--rtl .appui-text.appui-date-field__separator {
+    padding-right: 0;
+    padding-left: var(--appui-alias-control-gap-md);
+}
+
+.appui-date-field__picker-button {
+    height: var(--appui-alias-control-sizing-sm-height);
+    width: var(--appui-alias-control-sizing-sm-height);
+    padding: var(--appui-alias-control-gap-sm);
+    border-radius: var(--appui-alias-control-border-radius);
+    cursor: var(--appui-alias-control-cursor-pointer);
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.appui-date-field__picker-button.is-hovered,
+.appui-date-field__picker-button:focus,
+.appui-date-field__picker-button:active {
+    background-color: var(--appui-alias-actions-background-color-active);
+}
+
+.appui-date-field__picker-button > .appui-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.appui-date-field__picker-button.is-hovered > .appui-icon,
+.appui-date-field__picker-button.is-focused > .appui-icon,
+.appui-date-field__picker-button.is-active > .appui-icon {
+    -unity-background-image-tint-color: var(--appui-alias-actions-foreground-color-active);
+    color: var(--appui-alias-actions-foreground-color-active);
+}
+
+.appui-date-field.is-hovered {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-base-500);
+}
+
+.appui-date-field.is-focused {
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-accent-100);
+}
+
+.appui-date-field.keyboard-focus {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-date-field.is-active {
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-base-500);
+}
+
+.appui-date-field.is-invalid {
+    border-color: var(--appui-destructive-100);
+}
+
+.appui-date-field:disabled /*.appui-colorfield.is-disabled*/ {
+    background-color: var(--appui-base-100);
+    border-color: var(--appui-base-400);
+    cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-date-field__input:disabled /*.is-disabled > .appui-colorfield__label */{
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-date-field--size-s {
+    height: var(--appui-alias-control-sizing-sm-height);
+}
+
+.appui-date-field--size-m {
+    height: var(--appui-alias-control-sizing-md-height);
+}
+
+.appui-date-field--size-l {
+    height: var(--appui-alias-control-sizing-lg-height);
+}

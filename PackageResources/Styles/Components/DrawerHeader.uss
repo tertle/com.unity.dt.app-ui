@@ -1,0 +1,24 @@
+/* DrawerHeader */
+.appui-drawer-header {
+    display: flex;
+    height: var(--appui-sizing-1250);
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    min-width: var(--appui-sizing-3000);
+}
+
+.appui-drawer-header__title {
+    -unity-font-definition: var(--appui-font-weights-200);
+    font-size: var(--appui-font-sizes-heading-md);
+    color: var(--appui-foregrounds-100);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    margin: var(--appui-spacing-100) var(--appui-spacing-200);
+}
+
+.appui-drawer-header__container {
+    flex-shrink: 0;
+}

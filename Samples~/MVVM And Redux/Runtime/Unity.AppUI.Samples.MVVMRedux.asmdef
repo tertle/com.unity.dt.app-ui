@@ -1,0 +1,19 @@
+{
+    "name": "Unity.AppUI.Samples.MVVMRedux",
+    "rootNamespace": "Unity.AppUI.Samples.MVVMRedux",
+    "references": [
+        "GUID:9c739b017e1d4fdabf06fa2d84a463c3",
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:710bb277e6ff49ed91ba164465e106ef",
+        "GUID:f7898ee836234b98a20cbddc2a6e0b08"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:engine="UnityEngine.UIElements"
+        xmlns:appui="Unity.AppUI.UI"
+        xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd">
+    <appui:Panel name="panel">
+        <engine:VisualElement name="main-root" class="dnd-main-root">
+            <appui:Text name="dnd-desc" text="Drag and drop items between the two grid views.\nThe drop zone is configured in a way that it allows to drop any item except the 'Item 0'" enable-rich-text="true" class="dnd-desc" size="S" />
+            <engine:VisualElement class="dnd-list-container">
+                <engine:VisualElement class="dnd-gridview-container">
+                    <appui:GridView name="dnd-gridview-src" class="dnd-gridview" item-height="50" />
+                </engine:VisualElement>
+                <appui:Icon icon-name="arrow-right" size="L" class="dnd-arrow" />
+                <engine:VisualElement class="dnd-gridview-container">
+                    <appui:GridView name="dnd-gridview-dst" class="dnd-gridview" item-height="50" />
+                    <appui:DropZone name="dnd-dropzone" class="dnd-dropzone">
+                        <appui:Text text="Drop here" class="dnd-dropzone-text" size="S" />
+                    </appui:DropZone>
+                </engine:VisualElement>
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </appui:Panel>
+</engine:UXML>

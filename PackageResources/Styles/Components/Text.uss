@@ -1,0 +1,57 @@
+/* Text */
+.appui-localized-text,
+.appui-text {
+  /* Nothing */ /* converted from : line-height: var(--appui-global-dimension-regular-line-height); */
+  -unity-text-align: middle-left;
+  flex-shrink: 0;
+}
+
+.appui--rtl .appui-text,
+.appui--rtl.appui-text,
+.appui--rtl .appui-localized-text,
+.appui--rtl.appui-localized-text {
+  -unity-text-align: middle-right;
+}
+
+.appui-text--size-xxs {
+  font-size: var(--appui-font-sizes-body-xxs);
+}
+
+.appui-text--size-xs {
+  font-size: var(--appui-font-sizes-body-xs);
+}
+
+.appui-text--size-s {
+  font-size: var(--appui-font-sizes-body-sm);
+}
+
+.appui-text--size-m {
+  font-size: var(--appui-font-sizes-body-md);
+}
+
+.appui-text--size-l {
+  font-size: var(--appui-font-sizes-body-lg);
+}
+
+.appui-text--size-xl {
+  font-size: var(--appui-font-sizes-body-xl);
+}
+
+.appui-text--size-xxl {
+  font-size: var(--appui-font-sizes-body-xxl);
+}
+
+.appui-text--size-xxxl {
+  font-size: var(--appui-font-sizes-body-xxxl);
+}
+
+.appui-text--primary {
+  color: var(--appui-foregrounds-100);
+}
+
+.unity-disabled.appui-text /* converted from : .is-disabled.appui-text */,
+.unity-disabled .appui-text /* converted from : .is-disabled .appui-text */,
+.unity-disabled.appui-localized-text /* converted from : .is-disabled.appui-localized-text */,
+.unity-disabled .appui-localized-text /* converted from : .is-disabled .appui-localized-text */ {
+  color: var(--appui-foregrounds-25);
+}

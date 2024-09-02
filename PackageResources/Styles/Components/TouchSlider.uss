@@ -1,0 +1,153 @@
+/* TouchSlider */
+.appui-touchslider {
+    background-color: var(--appui-alias-field-background-color-default);
+    border-color: var(--appui-alias-control-border-color-default);
+    border-radius: var(--appui-alias-control-border-radius);
+    border-width: var(--appui-alias-control-border-width);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /*border-style: var(--appui-control-border-style);*/
+    position: relative;
+    cursor: var(--appui-alias-control-cursor-ewresize); /*cursor: ew-resize;*/
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.appui-touchslider__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    border-width: 0;
+    border-radius: var(--appui-border-radius-sm);
+    padding: 0 var(--appui-alias-control-gap-md);
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.appui--rtl .appui-touchslider__container {
+    flex-direction: row-reverse;
+}
+
+.appui-touchslider--size-s {
+    height: var(--appui-alias-control-sizing-sm-height);
+}
+
+.appui-touchslider--size-m {
+    height: var(--appui-alias-control-sizing-md-height);
+}
+
+.appui-touchslider--size-l {
+    height: var(--appui-alias-control-sizing-lg-height);
+}
+
+.appui-touchslider__input {
+    display: none;
+}
+
+.appui-touchslider__progress {
+    position: absolute;
+    background-color: var(--appui-base-200);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+}
+
+.appui--rtl .appui-touchslider__progress {
+    left: auto;
+    right: 0;
+}
+
+.appui-touchslider__progress:hover {
+    background-color: var(--appui-base-500);
+}
+
+.appui-touchslider__label {
+    position: absolute;
+    -unity-text-align: middle-left;
+    left: var(--appui-alias-control-gap-md);
+    right: auto;
+    font-size: var(--appui-font-sizes-body-md);
+    color: var(--appui-foregrounds-50);
+    transition: color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-100);
+}
+
+.appui--rtl .appui-touchslider__label {
+    left: auto;
+    right: var(--appui-alias-control-gap-md);
+    -unity-text-align: middle-right;
+}
+
+.appui-touchslider__valuelabel {
+    left: auto;
+    right: var(--appui-alias-control-gap-md);
+    -unity-text-align: middle-right;
+    position: absolute;
+    font-size: var(--appui-font-sizes-body-md);
+    color: var(--appui-foregrounds-50);
+    transition: color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-100);
+}
+
+.appui--rtl .appui-touchslider__valuelabel {
+    left: var(--appui-alias-control-gap-md);
+    right: auto;
+    -unity-text-align: middle-left;
+}
+
+.appui-touchslider:hover {
+    background-color: var(--appui-alias-field-background-color-hover);
+    border-color: var(--appui-alias-control-border-color-hover);
+}
+
+.appui-touchslider.is-focused {
+    background-color: var(--appui-alias-field-background-color-focus);
+    border-color: var(--appui-accent-100);
+}
+
+.appui-touchslider.keyboard-focus {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-touchslider:active {
+    background-color: var(--appui-alias-field-background-color-active);
+    border-color: var(--appui-alias-control-border-color-active);
+}
+
+.appui-touchslider:active > .appui-touchslider__label {
+    color: var(--appui-foregrounds-100);
+}
+
+.appui-touchslider:active > .appui-touchslider__valuelabel {
+    color: var(--appui-foregrounds-100);
+}
+
+.appui-touchslider.is-invalid {
+    border-color: var(--appui-destructive-100);
+}
+
+.appui-touchslider:disabled /*.appui-touchslider.is-disabled*/ {
+    background-color: var(--appui-alias-field-background-color-disabled);
+    border-color: var(--appui-alias-control-border-color-disabled);
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.appui-touchslider__progress:disabled /*.is-disabled > .appui-touchslider__progress*/ {
+    background-color: var(--appui-base-200);
+}
+
+.appui-touchslider__label:disabled /*.is-disabled > .appui-touchslider__label*/ {
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-touchslider__valuelabel:disabled /*.is-disabled > .appui-touchslider__valuelabel*/ {
+    color: var(--appui-foregrounds-25);
+}

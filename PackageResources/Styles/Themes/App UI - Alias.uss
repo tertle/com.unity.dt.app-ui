@@ -1,0 +1,161 @@
+:root {
+  --appui-alias-actions-border-radius: var(--appui-border-radius-md);
+  --appui-alias-control-gap-xs: 2px;
+  --appui-alias-control-outline-style: solid;
+  --appui-alias-control-border-style: solid;
+  --appui-alias-control-cursor-move: url('../../Cursors/move.png') 18 18;
+  --appui-alias-control-cursor-nwseresize: url('../../Cursors/resizenorthwestsoutheast.png') 18 18;
+  --appui-alias-control-cursor-neswresize: url('../../Cursors/resizenortheastsouthwest.png') 18 18;
+  --appui-alias-control-cursor-nsresize: url('../../Cursors/resizenorthsouth.png') 18 18;
+  --appui-alias-control-cursor-ewresize: url('../../Cursors/resizeeastwest.png') 18 18;
+  --appui-alias-control-cursor-disabled: url('../../Cursors/not-allowed.png') 5 6;
+  --appui-alias-control-cursor-col-resize: url('../../Cursors/resizeleftright.png') 18 18;
+  --appui-alias-control-cursor-row-resize: url('../../Cursors/resizeupdown.png') 18 18;
+  --appui-alias-control-cursor-text: url('../../Cursors/text.png') 8 12;
+  --appui-alias-control-cursor-pointer: url('../../Cursors/pointinghand.png') 14 12;
+  --appui-alias-control-cursor-default: url('../../Cursors/pointer.png') 14 12;
+  --appui-alias-control-cursor-grab: url('../../Cursors/openhand.png') 14 12;
+  --appui-alias-control-cursor-grabbing: url('../../Cursors/closedhand.png') 14 12;
+
+  --appui-alias-semantic-informative: var(--appui-accent-100);
+  --appui-alias-semantic-warning: var(--appui-warning-100);
+  --appui-alias-semantic-destructive: var(--appui-destructive-100);
+  --appui-alias-semantic-positive: var(--appui-positive-100);
+
+  --appui-alias-icon-disabled: var(--appui-foregrounds-25);
+  --appui-alias-icon-secondary: var(--appui-foregrounds-50);
+  --appui-alias-icon-primary: var(--appui-foregrounds-100);
+  --appui-alias-icon-callout: var(--appui-foregrounds-200);
+
+  --appui-alias-field-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-field-border-color-disabled: var(--appui-base-400);
+  --appui-alias-field-border-color-focus: var(--appui-accent-100);
+  --appui-alias-field-border-color-active: var(--appui-base-500);
+  --appui-alias-field-border-color-hover: var(--appui-base-500);
+  --appui-alias-field-border-color-default: var(--appui-base-400);
+
+  --appui-alias-field-background-color-disabled: var(--appui-base-100);
+  --appui-alias-field-background-color-focus: var(--appui-base-100);
+  --appui-alias-field-background-color-active: var(--appui-base-100);
+  --appui-alias-field-background-color-hover: var(--appui-base-200);
+  --appui-alias-field-background-color-default: var(--appui-base-100);
+
+  --appui-alias-text-disabled: var(--appui-foregrounds-25);
+  --appui-alias-text-secondary: var(--appui-foregrounds-50);
+  --appui-alias-text-primary: var(--appui-foregrounds-100);
+  --appui-alias-text-callout: var(--appui-foregrounds-200);
+
+  --appui-alias-actions-padding-horizontal: var(--appui-spacing-200);
+
+  --appui-alias-actions-quiet-border-color-invalid: var(--appui-alias-actions-border-color-invalid);
+  --appui-alias-actions-quiet-border-color-disabled: var(--appui-color-transparent-black-0);
+  --appui-alias-actions-quiet-border-color-focus: var(--appui-alias-actions-border-color-focus);
+  --appui-alias-actions-quiet-border-color-active: var(--appui-alias-actions-border-color-active);
+  --appui-alias-actions-quiet-border-color-hover: var(--appui-alias-actions-border-color-hover);
+  --appui-alias-actions-quiet-border-color-default: var(--appui-color-transparent-black-0);
+
+  --appui-alias-actions-quiet-foreground-color-selected: var(--appui-alias-actions-foreground-color-selected);
+  --appui-alias-actions-quiet-foreground-color-disabled: var(--appui-alias-actions-foreground-color-disabled);
+  --appui-alias-actions-quiet-foreground-color-focus: var(--appui-alias-actions-foreground-color-focus);
+  --appui-alias-actions-quiet-foreground-color-active: var(--appui-alias-actions-foreground-color-active);
+  --appui-alias-actions-quiet-foreground-color-hover: var(--appui-alias-actions-foreground-color-hover);
+  --appui-alias-actions-quiet-foreground-color-default: var(--appui-alias-actions-foreground-color-default);
+
+  --appui-alias-actions-quiet-background-color-disabled: var(--appui-color-transparent-black-0);
+  --appui-alias-actions-quiet-background-color-selected: var(--appui-alias-actions-background-color-selected);
+  --appui-alias-actions-quiet-background-color-focus: var(--appui-base-50);
+  --appui-alias-actions-quiet-background-color-active: var(--appui-alias-actions-background-color-active);
+  --appui-alias-actions-quiet-background-color-hover: var(--appui-alias-actions-background-color-hover);
+  --appui-alias-actions-quiet-background-color-default: var(--appui-color-transparent-black-0);
+
+  --appui-alias-actions-accent-foreground-color-focus: var(--appui-color-white);
+  --appui-alias-actions-accent-foreground-color-active: var(--appui-color-white);
+  --appui-alias-actions-accent-foreground-color-hover: var(--appui-color-white);
+  --appui-alias-actions-accent-foreground-color-default: var(--appui-color-white);
+
+  --appui-alias-actions-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-actions-border-color-selected: var(--appui-base-400);
+  --appui-alias-actions-border-color-disabled: var(--appui-base-300);
+  --appui-alias-actions-border-color-focus: var(--appui-base-400);
+  --appui-alias-actions-border-color-active: var(--appui-base-400);
+  --appui-alias-actions-border-color-hover: var(--appui-base-500);
+  --appui-alias-actions-border-color-default: var(--appui-base-400);
+
+  --appui-alias-actions-foreground-color-selected: var(--appui-foregrounds-200);
+  --appui-alias-actions-foreground-color-disabled: var(--appui-foregrounds-25);
+  --appui-alias-actions-foreground-color-focus: var(--appui-foregrounds-200);
+  --appui-alias-actions-foreground-color-active: var(--appui-foregrounds-200);
+  --appui-alias-actions-foreground-color-hover: var(--appui-foregrounds-200);
+  --appui-alias-actions-foreground-color-default: var(--appui-foregrounds-100);
+
+  --appui-alias-actions-background-color-selected: var(--appui-base-300);
+  --appui-alias-actions-background-color-disabled: var(--appui-base-100);
+  --appui-alias-actions-background-color-focus: var(--appui-base-50);
+  --appui-alias-actions-background-color-active: var(--appui-base-50);
+  --appui-alias-actions-background-color-hover: var(--appui-base-200);
+  --appui-alias-actions-background-color-default: var(--appui-base-100);
+
+  --appui-alias-control-foreground-color-invalid: var(--appui-destructive-100);
+  --appui-alias-control-foreground-color-selected: var(--appui-accent-100);
+  --appui-alias-control-foreground-color-disabled: var(--appui-foregrounds-25);
+  --appui-alias-control-foreground-color-focus: var(--appui-foregrounds-200);
+  --appui-alias-control-foreground-color-active: var(--appui-foregrounds-200);
+  --appui-alias-control-foreground-color-hover: var(--appui-foregrounds-200);
+  --appui-alias-control-foreground-color-default: var(--appui-foregrounds-100);
+
+  --appui-alias-control-border-radius: var(--appui-border-radius-md);
+  --appui-alias-control-gap-xl: var(--appui-spacing-200);
+  --appui-alias-control-gap-lg: var(--appui-spacing-150);
+  --appui-alias-control-gap-md: var(--appui-spacing-100);
+  --appui-alias-control-gap-sm: var(--appui-spacing-50);
+  --appui-alias-control-outline-offset: 4;
+  --appui-alias-control-outline-width: 2;
+  --appui-alias-control-outline-color: rgba(11, 126, 224, 0.8);
+
+  --appui-alias-control-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-control-border-color-disabled: var(--appui-base-400);
+  --appui-alias-control-border-color-focus: var(--appui-base-100);
+  --appui-alias-control-border-color-active: var(--appui-base-400);
+  --appui-alias-control-border-color-hover: var(--appui-base-500);
+  --appui-alias-control-border-color-default: var(--appui-base-400);
+
+  --appui-alias-control-border-width: var(--appui-border-width-xs);
+  --appui-alias-control-sizing-icon-lg: var(--appui-sizing-400);
+  --appui-alias-control-sizing-icon-md: var(--appui-sizing-400);
+  --appui-alias-control-sizing-icon-sm: var(--appui-sizing-300);
+  --appui-alias-control-sizing-icon-xs: var(--appui-sizing-200);
+  --appui-alias-control-sizing-icon-xxs: var(--appui-sizing-150);
+  --appui-alias-control-sizing-lg-square: var(--appui-sizing-600);
+  --appui-alias-control-sizing-lg-height: var(--appui-sizing-600);
+  --appui-alias-control-sizing-md-square: var(--appui-sizing-500);
+  --appui-alias-control-sizing-md-height: var(--appui-sizing-500);
+  --appui-alias-control-sizing-sm-square: var(--appui-sizing-400);
+  --appui-alias-control-sizing-sm-height: var(--appui-sizing-400);
+
+  --appui-alias-control-background-color-disabled: var(--appui-base-50);
+  --appui-alias-control-background-color-focus: var(--appui-base-50);
+  --appui-alias-control-background-color-active: var(--appui-base-50);
+  --appui-alias-control-background-color-hover: var(--appui-base-200);
+  --appui-alias-control-background-color-default: var(--appui-base-100);
+
+  --appui-alias-actions-gap: var(--appui-alias-control-gap-lg);
+
+  --appui-alias-actions-destructive-focus: var(--appui-destructive-50);
+  --appui-alias-actions-destructive-active: var(--appui-destructive-25);
+  --appui-alias-actions-destructive-hover: var(--appui-destructive-50);
+  --appui-alias-actions-destructive-default: var(--appui-destructive-100);
+
+  --appui-alias-actions-warning-focus: var(--appui-warning-50);
+  --appui-alias-actions-warning-active: var(--appui-warning-25);
+  --appui-alias-actions-warning-hover: var(--appui-warning-200);
+  --appui-alias-actions-warning-default: var(--appui-warning-100);
+
+  --appui-alias-actions-accent-background-color-focus: var(--appui-accent-25);
+  --appui-alias-actions-accent-background-color-active: var(--appui-accent-25);
+  --appui-alias-actions-accent-background-color-hover: var(--appui-accent-50);
+  --appui-alias-actions-accent-background-color-default: var(--appui-accent-100);
+
+  --appui-alias-menu-border-color-default: var(--appui-base-300);
+
+  --appui-alias-caret-icon-default: var(--appui-icon-caret-down-regular);
+}

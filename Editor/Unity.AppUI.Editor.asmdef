@@ -1,0 +1,32 @@
+{
+    "name": "Unity.AppUI.Editor",
+    "rootNamespace": "Unity.AppUI.Editor",
+    "references": [
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2022.2.0a9",
+            "define": "UITK_SELECTED_INDICES_CHANGED"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.3.0a1",
+            "define": "ENABLE_UXML_SERIALIZED_DATA"
+        }
+    ],
+    "noEngineReferences": false
+}

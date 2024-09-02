@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+
+        <ui:VisualElement class="mvvm-redux-todo-item">
+
+            <appui:Checkbox name="checkbox" class="mvvm-redux-todo-item__checkbox" emphasized="true" />
+
+            <appui:ActionGroup class="mvvm-redux-todo-item__actiongroup" quiet="true">
+
+                <appui:ActionButton name="editButton" class="mvvm-redux-todo-item__edit" icon="pen" quiet="true" />
+
+                <appui:ActionButton name="deleteButton" class="mvvm-redux-todo-item__delete" icon="delete" quiet="true" />
+
+            </appui:ActionGroup>
+
+        </ui:VisualElement>
+
+</ui:UXML>

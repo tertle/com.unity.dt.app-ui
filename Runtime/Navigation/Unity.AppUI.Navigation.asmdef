@@ -1,0 +1,37 @@
+{
+    "name": "Unity.AppUI.Navigation",
+    "rootNamespace": "Unity.AppUI.Navigation",
+    "references": [
+        "GUID:2f101f87087d58f4ba92ca00188e763d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2023.3.0a1",
+            "define": "ENABLE_UXML_SERIALIZED_DATA"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.2",
+            "define": "ENABLE_RUNTIME_DATA_BINDINGS"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2021.3,2023.3.0a1)",
+            "define": "ENABLE_ENABLED_UXML_PROPERTY"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2021.3,2023.3.0a1)",
+            "define": "ENABLE_UXML_TRAITS"
+        }
+    ],
+    "noEngineReferences": false
+}

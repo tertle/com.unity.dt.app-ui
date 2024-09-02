@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:engine="UnityEngine.UIElements"
+        xmlns:appui="Unity.AppUI.UI"
+        xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd">
+    <appui:Panel name="panel">
+        <engine:VisualElement name="main-root" class="dnd-main-root">
+            <appui:Text
+                    name="dnd-desc"
+                    text="Drag and drop items from the Editor's Project window into the element below."
+                    class="dnd-desc"
+                    size="S" />
+            <appui:Heading text="Form" class="dnd-form__title" />
+            <engine:VisualElement class="dnd-dropzone-container">
+                <engine:VisualElement name="dnd-form" class="dnd-form">
+                <appui:Tabs name="dnd-form-tabs" class="dnd-form__tabs">
+                    <appui:TabItem label="Write" class="dnd-form__tab-item" />
+                    <appui:TabItem label="Preview" class="dnd-form__tab-item" enabled="false" />
+                </appui:Tabs>
+                <appui:TextArea
+                        name="dnd-form-text-area"
+                        placeholder="Write your message here"
+                        class="dnd-form__text-area" />
+                <engine:VisualElement class="dnd-form__attached-items-bar">
+                    <engine:VisualElement name="dnd-items-container" class="dnd-form__attached-items">
+                        <!-- This is where the dragged items will be dropped -->
+                    </engine:VisualElement>
+                    <appui:Divider direction="Vertical" class="dnd-form__divider" />
+                    <appui:ActionButton
+                            name="dnd-form-attach-files-button"
+                            icon="link-simple"
+                            label="Drop or click to attach files"
+                            class="dnd-form__attach-files-button" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+                <appui:DropZone name="dnd-dropzone" class="dnd-dropzone">
+                    <appui:Text text="Drop files here" class="dnd-dropzone__text" />
+                </appui:DropZone>
+            </engine:VisualElement>
+            <appui:Button name="dnd-form-send-button" variant="Accent" title="Send" class="dnd-form__send-button" />
+        </engine:VisualElement>
+    </appui:Panel>
+</engine:UXML>

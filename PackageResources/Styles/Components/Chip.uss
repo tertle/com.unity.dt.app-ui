@@ -1,0 +1,146 @@
+/* Chip */
+.appui-chip {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 0 var(--appui-alias-control-gap-md);
+
+    height: var(--appui-alias-control-sizing-md-height);
+    border-radius: var(--appui-alias-control-border-radius);
+    border-width: var(--appui-alias-control-border-width);
+
+    border-color: var(--appui-foregrounds-25);
+    background-color: var(--appui-backgrounds-100);
+
+    transition: background-color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-200), border-color var(--appui-animation-easing-ease-out) var(--appui-animation-duration-200);
+}
+
+.appui--rtl .appui-chip {
+    flex-direction: row-reverse;
+}
+
+.appui-chip--filled {
+    border-color: var(--appui-base-100);
+    background-color: var(--appui-base-100);
+}
+
+.appui-chip--clickable {
+    cursor: var(--appui-alias-control-cursor-pointer);
+}
+
+.appui-chip--clickable.keyboard-focus {
+    background-color: var(--appui-base-50);
+}
+
+.appui-chip--filled.appui-chip--clickable.keyboard-focus {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-base-200);
+}
+
+.appui-chip--clickable.is-hovered {
+    background-color: var(--appui-base-50);
+}
+
+.appui-chip--filled.appui-chip--clickable.is-hovered {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-base-200);
+}
+
+.appui-chip--clickable.is-active {
+    background-color: var(--appui-base-50);
+}
+
+.appui-chip--filled.appui-chip--clickable.is-active {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-base-200);
+}
+
+.appui-chip__ornament-container {
+    flex-shrink: 0;
+    width: var(--appui-sizing-300);
+    height: var(--appui-sizing-300);
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+    overflow: hidden;
+    display: none;
+}
+
+.appui--rtl .appui-chip__ornament-container {
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+}
+
+.appui-chip--with-ornament > .appui-chip__ornament-container {
+    display: flex;
+}
+
+.appui-chip__label {
+    display: flex;
+    flex-shrink: 0;
+    font-size: var(--appui-font-sizes-body-md);
+    -unity-text-align: middle-center;
+    white-space: nowrap;
+    color: var(--appui-foregrounds-100);
+}
+
+.appui-chip__delete-icon.appui-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.appui-chip__delete-button {
+    display: none;
+    width: var(--appui-sizing-400);
+    height: var(--appui-sizing-400);
+    border-radius: var(--appui-alias-control-border-radius);
+    translate: var(--appui-alias-control-gap-sm) 0;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+    cursor: var(--appui-alias-control-cursor-pointer);
+    opacity: 0.55;
+    transition: opacity var(--appui-animation-easing-ease-out) var(--appui-animation-duration-50);
+}
+
+.appui--rtl .appui-chip__delete-button {
+    translate: 0 0;
+}
+
+.appui-chip__delete-button > .appui-chip__delete-icon.appui-icon {
+    --unity-image-tint-color: var(--appui-foregrounds-100);
+}
+
+.appui-chip__delete-button.keyboard-focus {
+    opacity: 1;
+}
+
+.appui-chip__delete-button.is-hovered {
+    opacity: 1;
+}
+
+.appui-chip__delete-button.is-active {
+    opacity: 1.0;
+}
+
+.appui-chip--outlined > .appui-chip__delete-button {
+
+}
+
+.appui-chip--deletable > .appui-chip__delete-button {
+    display: flex;
+}
+
+.appui-chip--clickable:disabled,
+.appui-chip:disabled {
+    opacity: 0.4;
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.appui-chip--clickable:disabled > .appui-chip__delete-button,
+.appui-chip:disabled > .appui-chip__delete-button {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}

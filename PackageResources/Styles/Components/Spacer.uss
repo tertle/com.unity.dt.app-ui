@@ -1,0 +1,35 @@
+/* Spacer */
+.appui-spacer {
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.appui-spacer--spacing-null {
+    flex-basis: 0;
+}
+
+.appui-spacer--spacing-xs {
+    flex-basis: var(--appui-alias-control-gap-xs);
+}
+
+.appui-spacer--spacing-s {
+    flex-basis: var(--appui-alias-control-gap-sm);
+}
+
+.appui-spacer--spacing-m {
+    flex-basis: var(--appui-alias-control-gap-md);
+}
+
+.appui-spacer--spacing-l {
+    flex-basis: var(--appui-alias-control-gap-lg);
+}
+
+.appui-spacer--spacing-xl {
+    flex-basis: var(--appui-alias-control-gap-xl);
+}
+
+.appui-spacer--spacing-expand {
+    flex-basis: auto;
+    flex-grow: 1;
+}

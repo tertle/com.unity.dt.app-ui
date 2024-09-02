@@ -1,0 +1,171 @@
+/* Radio */
+:root {
+    --appui-radio__button-size-sm: var(--appui-sizing-200);
+    --appui-radio__button-size-md: var(--appui-sizing-250);
+    --appui-radio__button-size-lg: var(--appui-sizing-300);
+
+    --appui-radio__checkmark-size-sm: var(--appui-sizing-75);
+    --appui-radio__checkmark-size-md: var(--appui-sizing-100);
+    --appui-radio__checkmark-size-lg: var(--appui-sizing-150);
+}
+
+.appui-radio {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: var(--appui-alias-control-cursor-pointer);
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-radio {
+    flex-direction: row-reverse;
+}
+
+.appui-radio__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*z-index: 1;*/
+    cursor: var(--appui-alias-control-cursor-pointer);
+    opacity: 0.0001;
+}
+
+.appui-radio__label {
+    color: var(--appui-foregrounds-100);
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+    margin-right: 0;
+}
+
+.appui--rtl .appui-radio__label {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+}
+
+.appui-radio__button  {
+    background-color: var(--appui-alias-field-background-color-default);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-width: var(--appui-alias-control-border-width);
+    /*border-style: var(--appui-control-border-style);*/
+    border-color: var(--appui-alias-field-border-color-default);
+    border-radius: 100px;
+}
+
+.appui-radio.is-hovered > .appui-radio__button  {
+    background-color: var(--appui-alias-field-background-color-hover);
+    border-color: var(--appui-alias-field-border-color-hover);
+}
+
+.appui-radio.keyboard-focus > .appui-radio__button {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-radio.is-active > .appui-radio__button  {
+    background-color: var(--appui-alias-field-background-color-active);
+    border-color: var(--appui-alias-field-border-color-active);
+}
+
+.appui-radio--emphasized.is-checked > .appui-radio__button  {
+    background-color: var(--appui-accent-100);
+    border-color: var(--appui-accent-100);
+}
+
+.appui-radio.is-invalid > .appui-radio__button  {
+    background-color: var(--appui-destructive-100);
+    border-color: var(--appui-destructive-100);
+}
+
+.appui-radio.is-invalid > .appui-radio__label {
+    color: var(--appui-destructive-100);
+}
+
+.appui-radio:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.appui-radio__input:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.appui-radio:disabled > .appui-radio__button /*.appui-radio.is-disabled > .appui-radio__button*/  {
+    border-color: var(--appui-alias-field-border-color-disabled);
+    background-color: var(--appui-alias-field-background-color-disabled);
+}
+
+.appui-radio:disabled .appui-radio__checkmark /*.appui-radio.is-disabled .appui-radio__checkmark*/ {
+    background-color: var(--appui-foregrounds-25);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-radio:disabled > .appui-radio__label /*.appui-radio.is-disabled > .appui-radio__label*/ {
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-radio__checkmark {
+    opacity: 0;
+    background-color: var(--appui-foregrounds-100);
+    transition: opacity var(--appui-animation-easing-ease-out) var(--appui-animation-duration-50);
+    border-width: 0;
+    border-radius: 100px;
+}
+
+.appui-radio--emphasized .appui-radio__checkmark,
+.is-invalid .appui-radio__checkmark {
+    background-color: var(--appui-alias-actions-accent-foreground-color-default);
+}
+
+.appui-radio.is-checked > .appui-radio__button  > .appui-radio__checkmark {
+    opacity: 1;
+}
+
+.appui-radio--size-s {
+    height: var(--appui-alias-control-sizing-sm-height);
+}
+
+.appui-radio--size-m {
+    height: var(--appui-alias-control-sizing-md-height);
+}
+.appui-radio--size-l {
+    height: var(--appui-alias-control-sizing-lg-height);
+}
+
+.appui-radio--size-s > .appui-radio__button  {
+    width: var(--appui-radio__button-size-sm);
+    height: var(--appui-radio__button-size-sm);
+}
+
+.appui-radio--size-s .appui-radio__checkmark {
+    width: var(--appui-radio__checkmark-size-sm);
+    height: var(--appui-radio__checkmark-size-sm);
+}
+
+.appui-radio--size-m > .appui-radio__button  {
+    width: var(--appui-radio__button-size-md);
+    height: var(--appui-radio__button-size-md);
+}
+
+.appui-radio--size-m .appui-radio__checkmark {
+    width: var(--appui-radio__checkmark-size-md);
+    height: var(--appui-radio__checkmark-size-md);
+}
+
+.appui-radio--size-l > .appui-radio__button  {
+    width: var(--appui-radio__button-size-lg);
+    height: var(--appui-radio__button-size-lg);
+}
+
+.appui-radio--size-l .appui-radio__checkmark {
+    width: var(--appui-radio__checkmark-size-lg);
+    height: var(--appui-radio__checkmark-size-lg);
+}

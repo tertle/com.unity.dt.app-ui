@@ -1,0 +1,55 @@
+/* DatePicker */
+.appui--small {
+    --appui-date-picker-width: 210px;
+}
+
+.appui--medium {
+    --appui-date-picker-width: 290px;
+}
+
+.appui--large {
+    --appui-date-picker-width: 360px;
+}
+
+.appui-date-picker {
+    display: flex;
+    padding: var(--appui-alias-control-gap-xl);
+    flex-shrink: 0;
+    width: var(--appui-date-picker-width);
+}
+
+.appui-date-picker__year-picker {
+    flex-grow: 1;
+}
+
+.appui-date-picker__month-picker {
+    flex-grow: 1;
+}
+
+.appui-date-picker__day-picker {
+    flex-grow: 1;
+}
+
+.appui-date-picker--display-mode-days > .appui-date-picker__year-picker {
+    display: none;
+}
+
+.appui-date-picker--display-mode-days > .appui-date-picker__month-picker {
+    display: none;
+}
+
+.appui-date-picker--display-mode-years > .appui-date-picker__month-picker {
+    display: none;
+}
+
+.appui-date-picker--display-mode-years > .appui-date-picker__day-picker {
+    display: none;
+}
+
+.appui-date-picker--display-mode-months > .appui-date-picker__day-picker {
+    display: none;
+}
+
+.appui-date-picker--display-mode-months > .appui-date-picker__year-picker {
+    display: none;
+}

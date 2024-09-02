@@ -1,0 +1,92 @@
+{
+  "name": "com.unity.dt.app-ui",
+  "displayName": "App UI",
+  "version": "2.0.0-pre.8",
+  "unity": "2021.3",
+  "category": "UI",
+  "keywords": [
+    "app",
+    "ui",
+    "components",
+    "runtime",
+    "framework",
+    "navigation",
+    "dependency-injection",
+    "mvvm",
+    "undostack",
+    "redux",
+    "state-management",
+    "dark-theme",
+    "data-binding",
+    "cloud",
+    "unity",
+    "app-ui"
+  ],
+  "description": "App UI is a versatile and customizable UI library for Unity that provides essential building blocks for creating beautiful and responsive user interfaces. With support for MVVM architecture, state management, and localization, App UI simplifies app development while maintaining flexibility and extensibility. The library includes a wide range of UI components, design tokens, and symbols, all of which can be easily customized to fit your app's unique style and branding.",
+  "dependencies": {
+    "com.unity.modules.androidjni": "1.0.0",
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.modules.physics": "1.0.0",
+    "com.unity.modules.screencapture": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Drag And Drop",
+      "description": "Example of drag and drop system using App UI DropZone component and Dragger/DropTarget manipulators",
+      "path": "Samples~/Drag And Drop"
+    },
+    {
+      "displayName": "UI Kit",
+      "description": "Every component in a single page",
+      "path": "Samples~/UI Kit"
+    },
+    {
+      "displayName": "StoryBook",
+      "description": "StoryBookJS-like window in the Editor",
+      "path": "Samples~/StoryBook"
+    },
+    {
+      "displayName": "Navigation",
+      "description": "Navigation system",
+      "path": "Samples~/Navigation"
+    },
+    {
+      "displayName": "MVVM",
+      "description": "Example that showcases the MVVM pattern with dependency injection",
+      "path": "Samples~/MVVM"
+    },
+    {
+      "displayName": "Redux",
+      "description": "Example of state management with Redux",
+      "path": "Samples~/Redux"
+    },
+    {
+      "displayName": "MVVM And Redux",
+      "description": "Example that showcases the MVVM pattern with dependency injection and state management with Redux",
+      "path": "Samples~/MVVM And Redux"
+    },
+    {
+      "displayName": "UndoRedo",
+      "description": "Example of undo/redo system",
+      "path": "Samples~/UndoRedo"
+    },
+    {
+      "displayName": "Trackpad",
+      "description": "Example of Trackpad gesture recognition",
+      "path": "Samples~/Trackpad"
+    }
+  ],
+  "_upm": {
+    "changelog": "### Changed\n\n- Refactored completely the DropZone UI element. Now the DropZone doesn't embed any logic, but uses a `DropZoneController` instead. You can access this controller via `DropZone.controller` property and attaches a callback method to accept dragged objects and listens to drop events.\n- Defer checking Popup's container candidate when the Popup is about to be shown, instead of during Popup creation.\n- Refactored the styling of Chip UI element.\n- Upgraded the old Drag And Drop Sample to use the refactored DropZone and the new Drag And Drop system.\n- Changed the way MarkDirtyRepaint is scheduled on elements containing animated textures (check properly for visibility).\n- Refactored the styling of DropZone UI element.\n\n### Added\n\n- Added the `Unity.AppUI.UI.DropZoneController` Manipulator for a lower level approach to create your own \"drop zones\".\n- Added `--appui-splitview-splitter-anchor-size` design token.\n- `Added Unity.AppUI.Core.DragAndDrop` class to handle drag and drop (in-panel and/or with the Editor). The support of external drag and drop at runtime is planned for future releases.\n- Added `Unity.AppUI.UI.Chip.deletedWithEventInfo` and `Unity.AppUI.UI.Chip.clickedWithEventInfo` events.\n- Added new Story in the Drag And Drop sample.\n- Added support of `TextElement.displayTooltipWhenElided` to show elided text as a tooltip using the App UI tooltip system.\n\n### Fixed\n\n- Fixed compilation errors when the Unity project's Input Handling is set to `Both` or `New Input System` and the package `com.unity.inputsystem` is not installed.\n- Fixed IL2CPP Compilation errors on Windows Platform due to non-static MonoPInvokeCallback.\n- Fixed PInvoke delegate types on Windows platform.\n- Fixed styling of SplitView's Splitter Anchor size.\n- Fixed styling of BaseGridView when containing a single column.\n- Popovers and Modals now correctly start checking for PointerDown events in the visual tree when they become visible.\n- Removed console message when trying to add an Editor MonoBehaviour in the scene during PlayMode."
+  },
+  "upmCi": {
+    "footprint": "a278cfd1953b26fb0e84a04ee01520aec410894e"
+  },
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.dt.app-ui@2.0/manual/index.html",
+  "repository": {
+    "url": "https://github.com/Unity-Technologies/unity-app-ui.git",
+    "type": "git",
+    "revision": "48e35b9faeb73db4748905f72229384b84f415cb"
+  },
+  "_fingerprint": "092e319d0c2913009640ebacc4d9819f294f2619"
+}

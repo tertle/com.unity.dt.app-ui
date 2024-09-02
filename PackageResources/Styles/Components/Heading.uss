@@ -1,0 +1,63 @@
+/* Heading */
+.appui-heading {
+  color: var(--appui-foregrounds-50);
+  font-size: var(--appui-font-sizes-heading-md);
+  /* Nothing */ /* convert from : line-height: var(--appui-global-dimension-heading-line-height);*/
+  white-space: nowrap;
+  overflow: hidden;
+  -unity-text-align: middle-left;
+  -unity-text-overflow-position: end;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.appui--rtl .appui-heading {
+  -unity-text-align: middle-right;
+}
+
+.appui-heading--size-xxs {
+  font-size: var(--appui-font-sizes-heading-xxs);
+  padding: var(--appui-alias-control-gap-md) 0;
+}
+
+.appui-heading--size-xs {
+  font-size: var(--appui-font-sizes-heading-xs);
+  padding: var(--appui-alias-control-gap-md) 0;
+}
+
+.appui-heading--size-s {
+  font-size: var(--appui-font-sizes-heading-sm);
+  padding: var(--appui-alias-control-gap-md) 0;
+}
+
+.appui-heading--size-m {
+  font-size: var(--appui-font-sizes-heading-md);
+  padding: var(--appui-alias-control-gap-md) 0;
+}
+
+.appui-heading--size-l {
+  font-size: var(--appui-font-sizes-heading-lg);
+  padding: var(--appui-alias-control-gap-xl) 0;
+  letter-spacing: -1px;
+}
+
+.appui-heading--size-xl {
+  font-size: var(--appui-font-sizes-heading-xl);
+  padding: var(--appui-alias-control-gap-xl) 0;
+  letter-spacing: -2px;
+}
+
+.appui-heading--size-xxl {
+  font-size: var(--appui-font-sizes-heading-xxl);
+  padding: var(--appui-alias-control-gap-xl) 0;
+  letter-spacing: -4px;
+}
+
+.appui-heading--primary {
+  color: var(--appui-foregrounds-100);
+}
+
+.unity-disabled.appui-heading /* converted from : .is-disabled.appui-heading */,
+.unity-disabled .appui-heading /* converted from : .is-disabled .appui-heading */ {
+  color: var(--appui-foregrounds-25);
+}

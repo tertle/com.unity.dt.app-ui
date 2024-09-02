@@ -1,0 +1,107 @@
+:root {
+    --appui-positive-300: var(--appui-color-green-1000);
+    --appui-positive-200: var(--appui-color-green-900);
+    --appui-positive-100: var(--appui-color-green-800);
+    --appui-positive-50: var(--appui-color-green-700);
+    --appui-positive-25: var(--appui-color-green-600);
+    --appui-warning-300: var(--appui-color-orange-1000);
+    --appui-warning-200: var(--appui-color-orange-900);
+    --appui-warning-100: var(--appui-color-orange-800);
+    --appui-warning-50: var(--appui-color-orange-700);
+    --appui-warning-25: var(--appui-color-orange-600);
+    --appui-destructive-300: var(--appui-color-red-1000);
+    --appui-destructive-200: var(--appui-color-red-900);
+    --appui-destructive-100: var(--appui-color-red-800);
+    --appui-destructive-50: var(--appui-color-red-700);
+    --appui-destructive-25: var(--appui-color-red-600);
+    --appui-accent-300: var(--appui-color-blue-1000);
+    --appui-accent-200: var(--appui-color-blue-900);
+    --appui-accent-100: var(--appui-color-blue-800);
+    --appui-accent-50: var(--appui-color-blue-700);
+    --appui-accent-25: var(--appui-color-blue-600);
+    --appui-primary-1300: var(--appui-color-white);
+    --appui-primary-1200: var(--appui-color-dark-gray-1500);
+    --appui-primary-1100: var(--appui-color-dark-gray-1400);
+    --appui-primary-1000: var(--appui-color-dark-gray-1300);
+    --appui-primary-900: var(--appui-color-dark-gray-1200);
+    --appui-primary-800: var(--appui-color-dark-gray-1000);
+    --appui-primary-700: var(--appui-color-dark-gray-900);
+    --appui-primary-600: var(--appui-color-dark-gray-800);
+    --appui-primary-500: var(--appui-color-dark-gray-700);
+    --appui-primary-400: var(--appui-color-dark-gray-600);
+    --appui-primary-300: var(--appui-color-dark-gray-500);
+    --appui-primary-200: var(--appui-color-dark-gray-400);
+    --appui-primary-100: var(--appui-color-dark-gray-300);
+    --appui-primary-50: var(--appui-color-dark-gray-200);
+    --appui-primary-25: var(--appui-color-dark-gray-100);
+    --appui-primary-15: var(--appui-color-black);
+    --appui-base-500: var(--appui-primary-700);
+    --appui-base-400: var(--appui-primary-600);
+    --appui-base-300: var(--appui-primary-500);
+    --appui-base-200: var(--appui-primary-400);
+    --appui-base-100: var(--appui-primary-300);
+    --appui-base-50: var(--appui-primary-200);
+    --appui-base-25: var(--appui-primary-100);
+    --appui-foregrounds-200: var(--appui-primary-1100);
+    --appui-foregrounds-100: var(--appui-primary-1000);
+    --appui-foregrounds-50: var(--appui-primary-900);
+    --appui-foregrounds-25: var(--appui-primary-700);
+    --appui-backgrounds-300: var(--appui-primary-300);
+    --appui-backgrounds-200: var(--appui-primary-200);
+    --appui-backgrounds-100: var(--appui-primary-100);
+    --appui-backgrounds-50: var(--appui-primary-50);
+
+    --appui-color-dark-gray-1500: #e9e9e9; /* darkGray: tint */
+    --appui-color-dark-gray-1400: #eeeeee; /* darkGray: tint */
+    --appui-color-dark-gray-1300: #d2d2d2; /* darkGray: tint */
+    --appui-color-dark-gray-1200: #d2d2d2; /* darkGray: tint */
+    --appui-color-dark-gray-1100: #b4b4b4; /* darkGray: tint */
+    --appui-color-dark-gray-1000: #a2a2a2; /* darkGray: tint */
+    --appui-color-dark-gray-900: #858585; /* darkGray: tint */
+    --appui-color-dark-gray-800: #727272; /* darkGray: base */
+    --appui-color-dark-gray-700: #5d5d5d; /* darkGray: shade */
+    --appui-color-dark-gray-600: #4f4f4f; /* darkGray: shade */
+    --appui-color-dark-gray-500: #424242; /* darkGray: shade */
+    --appui-color-dark-gray-400: #383838; /* darkGray: shade */
+    --appui-color-dark-gray-300: #2A2A2A; /* darkGray: shade */
+    --appui-color-dark-gray-200: #202020; /* darkGray: shade */
+    --appui-color-dark-gray-100: #161616; /* darkGray: shade */
+    --appui-alias-menu-border-color-default: #4f4f4f;
+    --appui-alias-field-border-color-selected: #202020;
+    --appui-alias-field-border-color-disabled: rgba(32, 32, 32, 0.5);
+    --appui-alias-field-border-color-focus: #3A79BB;
+    --appui-alias-field-border-color-active: #0D0D0D;
+    --appui-alias-field-border-color-hover: #656565;
+    --appui-alias-field-border-color-default: #202020;
+    --appui-alias-field-background-color-disabled: rgba(42, 42, 42, 0.5);
+    --appui-alias-field-background-color-focus: #2A2A2A;
+    --appui-alias-field-background-color-active: #2A2A2A;
+    --appui-alias-field-background-color-hover: #2A2A2A;
+    --appui-alias-field-background-color-default: #2A2A2A;
+    --appui-alias-actions-accent-background-color-default: var(--appui-accent-100);
+    --appui-alias-actions-accent-background-color-hover: var(--appui-accent-50);
+    --appui-alias-actions-accent-background-color-active: var(--appui-accent-25);
+    --appui-alias-actions-accent-background-color-focus: var(--appui-accent-25);
+    --appui-alias-actions-border-color-selected: #303030;
+    --appui-alias-actions-border-color-disabled: #303030;
+    --appui-alias-actions-border-color-focus: #3A79BB;
+    --appui-alias-actions-border-color-active: #242424;
+    --appui-alias-actions-border-color-hover: #303030;
+    --appui-alias-actions-border-color-default: #303030;
+    --appui-alias-actions-background-color-selected: #46607C;
+    --appui-alias-actions-background-color-disabled: #585858;
+    --appui-alias-actions-background-color-focus: #6E6E6E;
+    --appui-alias-actions-background-color-active: #6E6E6E;
+    --appui-alias-actions-background-color-hover: #676767;
+    --appui-alias-actions-background-color-default: #585858;
+    --appui-alias-control-border-color-selected: #202020;
+    --appui-alias-control-border-color-disabled: rgba(32, 32, 32, 0.5);
+    --appui-alias-control-border-color-focus: #3A79BB;
+    --appui-alias-control-border-color-active: #0D0D0D;
+    --appui-alias-control-border-color-hover: #656565;
+    --appui-alias-control-border-color-default: #202020;
+    --appui-alias-field-border-color-invalid: var(--appui-destructive-100);
+    --appui-alias-actions-border-color-invalid: var(--appui-destructive-100);
+    --appui-alias-control-border-color-invalid: var(--appui-destructive-100);
+    --appui-alias-caret-icon-default: var(--appui-icon-caret-down-fill);
+}

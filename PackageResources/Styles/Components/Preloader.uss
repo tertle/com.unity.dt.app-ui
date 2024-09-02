@@ -1,0 +1,24 @@
+/* Preloader */
+.appui-preloader {
+    overflow: hidden;
+    background-color: var(--appui-color-transparent-black-900);
+    visibility: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.appui-circular-progress.appui-preloader__circular-progress {
+    width: 100px;
+    height: 100px;
+    --progress-color: var(--appui-primary-500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.appui-preloader__logo {
+    width: 50px;
+    height: 50px;
+    --unity-image: url("../../Logos/Unity-Logo-White.png");
+}

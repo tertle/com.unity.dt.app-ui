@@ -1,0 +1,20 @@
+{
+    "name": "Unity.AppUI.Navigation.Editor",
+    "rootNamespace": "Unity.AppUI.Navigation.Editor",
+    "references": [
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:30599ed272688438b8375570b417ba36",
+        "GUID:f7898ee836234b98a20cbddc2a6e0b08"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,52 @@
+/* Canvas */
+.appui-canvas {
+    position: relative;
+    overflow: hidden;
+}
+
+.appui-canvas__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+
+    --grid-background-color: var(--appui-backgrounds-50);
+    --line-color: var(--appui-base-100);
+    --thick-line-color: var(--appui-base-100);
+    --thick-lines: 0; /* Every N lines the line is thicker (use 0 to disable) */
+    --line-spacing: 12; /* 12px of spacing between each lines' center point */
+    --draw-points: 1; /* 1 to draw points, 0 to draw lines */
+    --thickness: 2; /* line or point thickness */
+    --thick-line-thickness: 0; /* line or point thickness for thicker ones */
+    --next-grid-scale-factor: 10; /* 0 to disable, N to get the next grid N times bigger than the previous one */
+}
+
+.appui-canvas__viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+}
+
+.appui-canvas__viewport-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+}
+
+.appui-canvas__horizontal-scroller {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: var(--appui-sizing-200);
+}
+
+.appui-canvas__vertical-scroller {
+    position: absolute;
+    top: 0;
+    bottom: var(--appui-sizing-200);
+    right: 0;
+}

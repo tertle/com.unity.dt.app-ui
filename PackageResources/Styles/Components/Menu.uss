@@ -1,0 +1,173 @@
+/* Menu */
+.appui-menuwrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.appui-menu {
+    margin: var(--appui-alias-control-gap-sm); /*margin-block-end: var(--appui-alias-control-gap-sm);*/
+    overflow: initial; /*overflow: auto;*/
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-shrink: 0;
+}
+
+.appui-divider.appui-menu__divider {
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+    margin-right: var(--appui-alias-control-gap-md); /*margin-inline-end: var(--appui-alias-control-gap-md);*/
+    width: auto;
+}
+
+.appui-menusection {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.appui-menusection__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.appui-menusection__title {
+    /*text-transform: uppercase;*/
+    font-size: var(--appui-font-sizes-body-md);
+    color: var(--appui-foregrounds-50);
+    padding: var(--appui-alias-control-gap-md);
+    margin-top: var(--appui-alias-control-gap-md); /*margin-block-start: var(--appui-alias-control-gap-md);*/
+    -unity-text-align: middle-center; /* text-align: center; */
+}
+
+.appui-menuitem {
+    border-radius: var(--appui-alias-control-border-radius);
+    padding: var(--appui-alias-control-gap-md);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*gap: var(--appui-control-gap);*/
+    color: var(--appui-alias-control-foreground-color-default);
+    flex-shrink: 0;
+}
+
+.appui--rtl .appui-menuitem {
+    flex-direction: row-reverse;
+}
+
+.appui-menuitem__submenu-icon {
+    display: none;
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+    width: var(--appui-sizing-400);
+    height: var(--appui-sizing-400);
+    translate: 2px 0;
+}
+
+.appui--rtl .appui-menuitem__submenu-icon {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+    translate: -2px 0;
+    scale: -1 1;
+}
+
+.appui-menuitem--submenu .appui-menuitem__submenu-icon {
+    display: flex;
+}
+
+.appui-menuitem__checkmark {
+    display: none;
+    opacity: 0;
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+    width: var(--appui-sizing-300);
+    height: var(--appui-sizing-300);
+    scale: 1.4;
+}
+
+.appui--rtl .appui-menuitem__checkmark {
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+}
+
+.appui-menu--selectable .appui-menuitem__checkmark {
+    display: flex;
+}
+
+.appui-menuitem--selectable.is-selected > .appui-menuitem__checkmark {
+    opacity: 1;
+}
+
+.appui-menuitem__label {
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+}
+
+.appui--rtl .appui-menuitem__label {
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+}
+
+.appui-menuitem__shortcut {
+    flex-shrink: 0;
+    color: var(--appui-alias-actions-foreground-color-disabled);
+    font-size: var(--appui-font-sizes-body-xs);
+}
+
+.appui-menuitem--active > .appui-menuitem__label {
+    color: var(--appui-alias-actions-foreground-color-active);
+}
+
+.appui-menuitem--selectable.appui-menuitem.is-selected {
+    background-color: var(--appui-alias-actions-background-color-selected);
+}
+
+.appui-menuitem--selectable.appui-menuitem.is-selected > .appui-menuitem__label {
+    color: var(--appui-alias-actions-foreground-color-selected);
+}
+
+.appui-menuitem__icon {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md); /* todo remove this when gap is supported */
+}
+
+.appui--rtl .appui-menuitem__icon {
+    margin-right: 0;
+    margin-left: var(--appui-alias-control-gap-md); /* todo remove this when gap is supported */
+}
+
+.appui-menuitem.is-hovered {
+    background-color: var(--appui-color-transparent-black-100);
+}
+
+.appui-menuitem.is-hovered > .appui-menuitem__label {
+    color: var(--appui-alias-actions-foreground-color-hover);
+}
+
+.appui-menuitem.keyboard-focus{
+    background-color: var(--appui-color-transparent-black-100);
+}
+
+.appui-menuitem.keyboard-focus > .appui-menuitem__label {
+    color: var(--appui-alias-actions-foreground-color-focus);
+}
+
+.appui-menuitem.is-active {
+    background-color: var(--appui-color-transparent-black-100);
+}
+
+.appui-menuitem.is-active > .appui-menuitem__label {
+    color: var(--appui-alias-actions-foreground-color-active);
+}
+
+.appui-menuitem:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+    opacity: 0.5;
+}
+
+.appui-menuitem.is-hovered:disabled {
+    background-color: var(--appui-color-transparent-black-0);
+}

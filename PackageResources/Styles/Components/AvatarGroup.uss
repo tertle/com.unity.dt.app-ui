@@ -1,0 +1,53 @@
+/* AvatarGroup */
+:root {
+    --appui-avatar-group--spacing-sm: -16px;
+    --appui-avatar-group--spacing-md: -12px;
+    --appui-avatar-group--spacing-lg: -8px;
+    --appui-avatar-group--spacing-default: 0;
+
+    --appui-avatar-group-padding-sm: 16px;
+    --appui-avatar-group-padding-md: 12px;
+    --appui-avatar-group-padding-lg: 8px;
+    --appui-avatar-group-padding-default: 0;
+}
+
+.appui-avatar-group {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.appui--rtl .appui-avatar-group {
+    flex-direction: row;
+}
+
+.appui-avatar-group {
+    padding-right: var(--appui-avatar-group-padding-default);
+}
+
+.appui-avatar-group > .appui-avatar {
+    margin-right: var(--appui-avatar-group--spacing-default);
+}
+
+.appui-avatar-group--spacing-s {
+    padding-right: var(--appui-avatar-group-padding-sm);
+}
+
+.appui-avatar-group--spacing-s > .appui-avatar {
+    margin-right: var(--appui-avatar-group--spacing-sm);
+}
+
+.appui-avatar-group--spacing-m {
+    padding-right: var(--appui-avatar-group-padding-md);
+}
+
+.appui-avatar-group--spacing-m > .appui-avatar {
+    margin-right: var(--appui-avatar-group--spacing-md);
+}
+
+.appui-avatar-group--spacing-l {
+    padding-right: var(--appui-avatar-group-padding-lg);
+}
+
+.appui-avatar-group--spacing-l > .appui-avatar {
+    margin-right: var(--appui-avatar-group--spacing-lg);
+}

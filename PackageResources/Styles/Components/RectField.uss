@@ -1,0 +1,58 @@
+/* RectField */
+.appui-rectfield {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    /*gap: var(--appui-control-semi-gap);*/
+    flex-shrink: 0;
+}
+
+.appui-rectfield__row {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--appui-alias-control-gap-md);
+    /*gap: var(--appui-control-gap);*/
+}
+
+.appui--rtl .appui-rectfield__row {
+    flex-direction: row-reverse;
+}
+
+.appui-rectfield__row > * {
+    flex-basis: 33.33%;
+    width: auto;
+}
+
+.appui--ltr .appui-text.appui-rectfield__label {
+    -unity-text-align: middle-right;
+}
+
+.appui--rtl .appui-text.appui-rectfield__label {
+    -unity-text-align: middle-left;
+}
+
+.appui--ltr .appui-rectfield__x-field,
+.appui--ltr .appui-rectfield__y-field,
+.appui--ltr .appui-rectfield__w-field,
+.appui--ltr .appui-rectfield__h-field {
+    padding-left: var(--appui-alias-control-gap-sm);
+}
+
+.appui--ltr .appui-rectfield__label {
+    padding-right: var(--appui-alias-control-gap-sm);
+}
+
+.appui--rtl .appui-rectfield__x-field,
+.appui--rtl .appui-rectfield__y-field,
+.appui--rtl .appui-rectfield__w-field,
+.appui--rtl .appui-rectfield__h-field {
+    padding-right: var(--appui-alias-control-gap-sm);
+}
+
+.appui--rtl .appui-rectfield__label {
+    padding-left: var(--appui-alias-control-gap-sm);
+}

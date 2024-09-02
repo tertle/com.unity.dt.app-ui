@@ -1,0 +1,78 @@
+/* Badge */
+.appui-badge {
+    display: flex;
+    position: relative;
+    align-self: flex-start;
+    flex-shrink: 0;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.appui-badge__badge {
+    min-width: var(--appui-sizing-300);
+    min-height: var(--appui-sizing-300);
+    border-radius: var(--appui-sizing-160);
+    background-color: var(--appui-destructive-100);
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-shrink: 0;
+    translate: -50% -50%;
+    position: absolute;
+    transition: left var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125), top var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125);
+}
+
+.appui-badge--dot > .appui-badge__badge {
+    min-width: var(--appui-sizing-150);
+    min-height: var(--appui-sizing-150);
+}
+
+.appui-badge--anchor-horizontal-right > .appui-badge__badge {
+    left: 100%;
+}
+
+.appui-badge--anchor-horizontal-left > .appui-badge__badge {
+    left: 0%;
+}
+
+.appui-badge--anchor-vertical-top > .appui-badge__badge {
+    top: 0%;
+}
+
+.appui-badge--anchor-vertical-bottom > .appui-badge__badge {
+    top: 100%;
+}
+
+.appui-badge--overlap-circular.appui-badge--anchor-horizontal-right > .appui-badge__badge {
+    left: 86%;
+}
+
+.appui-badge--overlap-circular.appui-badge--anchor-vertical-top > .appui-badge__badge {
+    top: 14%;
+}
+
+.appui-badge--overlap-circular.appui-badge--anchor-horizontal-left > .appui-badge__badge {
+    left: 14%;
+}
+
+.appui-badge--overlap-circular.appui-badge--anchor-vertical-bottom> .appui-badge__badge {
+    top: 86%;
+}
+
+.appui-badge__label.appui-text {
+    -unity-font-definition: var(--appui-font-weights-200);
+    font-size: var(--appui-font-sizes-50);
+    color: var(--appui-color-white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -unity-text-overflow-position: end;
+    -unity-text-align: middle-center;
+    padding: var(--appui-alias-control-gap-sm) var(--appui-alias-control-gap-md);
+}
+
+.appui-badge--dot .appui-badge__label.appui-text,
+.appui-badge--zero .appui-badge__label.appui-text {
+    display: none;
+}

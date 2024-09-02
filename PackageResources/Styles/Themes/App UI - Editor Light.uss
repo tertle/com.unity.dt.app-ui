@@ -1,0 +1,111 @@
+:root {
+  --appui-positive-300: var(--appui-color-green-1000);
+  --appui-positive-200: var(--appui-color-green-900);
+  --appui-positive-100: var(--appui-color-green-800);
+  --appui-positive-50: var(--appui-color-green-700);
+  --appui-positive-25: var(--appui-color-green-600);
+  --appui-warning-300: var(--appui-color-orange-1000);
+  --appui-warning-200: var(--appui-color-orange-900);
+  --appui-warning-100: var(--appui-color-orange-800);
+  --appui-warning-50: var(--appui-color-orange-700);
+  --appui-warning-25: var(--appui-color-orange-600);
+  --appui-destructive-300: #b64043;
+  --appui-destructive-200: #ce5256;
+  --appui-destructive-100: #de6d70;
+  --appui-destructive-50: #e87e81;
+  --appui-destructive-25: #f5a1a4;
+  --appui-accent-300: #649ce3;
+  --appui-accent-200: #80b3ee;
+  --appui-accent-100: #96C3FB;
+  --appui-accent-50: #a9c4ec;
+  --appui-accent-25: #bac9e0;
+  --appui-primary-1300: var(--appui-color-white);
+  --appui-primary-1200: var(--appui-color-light-gray-1500);
+  --appui-primary-1100: var(--appui-color-light-gray-1400);
+  --appui-primary-1000: var(--appui-color-light-gray-1300);
+  --appui-primary-900: var(--appui-color-light-gray-1200);
+  --appui-primary-800: var(--appui-color-light-gray-1000);
+  --appui-primary-700: var(--appui-color-light-gray-900);
+  --appui-primary-600: var(--appui-color-light-gray-800);
+  --appui-primary-500: var(--appui-color-light-gray-700);
+  --appui-primary-400: var(--appui-color-light-gray-600);
+  --appui-primary-300: var(--appui-color-light-gray-500);
+  --appui-primary-200: var(--appui-color-light-gray-400);
+  --appui-primary-100: var(--appui-color-light-gray-300);
+  --appui-primary-50: var(--appui-color-light-gray-200);
+  --appui-primary-25: var(--appui-color-light-gray-100);
+  --appui-primary-15: var(--appui-color-black);
+  --appui-base-500: var(--appui-primary-500);
+  --appui-base-400: var(--appui-primary-600);
+  --appui-base-300: var(--appui-primary-700);
+  --appui-base-200: var(--appui-primary-800);
+  --appui-base-100: var(--appui-primary-900);
+  --appui-base-50: var(--appui-primary-1000);
+  --appui-base-25: var(--appui-primary-1100);
+  --appui-foregrounds-200: var(--appui-primary-50);
+  --appui-foregrounds-100: var(--appui-primary-100);
+  --appui-foregrounds-50: var(--appui-primary-200);
+  --appui-foregrounds-25: var(--appui-primary-400);
+  --appui-backgrounds-300: var(--appui-primary-800);
+  --appui-backgrounds-200: var(--appui-primary-900);
+  --appui-backgrounds-100: var(--appui-primary-1000);
+  --appui-backgrounds-50: var(--appui-primary-1100);
+
+  --appui-color-light-gray-1500: #d9d9d9; /* lightGray: tint */
+  --appui-color-light-gray-1400: #a9a9a9; /* lightGray: tint */
+  --appui-color-light-gray-1300: #c0c0c0; /* lightGray: tint */
+  --appui-color-light-gray-1200: #cbcbcb; /* lightGray: tint */
+  --appui-color-light-gray-1100: #bdbdbd; /* lightGray: tint */
+  --appui-color-light-gray-1000: #ababab; /* lightGray: tint */
+  --appui-color-light-gray-900: #9a9a9a; /* lightGray: tint */
+  --appui-color-light-gray-800: #909090; /* lightGray: base */
+  --appui-color-light-gray-700: #868686; /* lightGray: shade */
+  --appui-color-light-gray-600: #858585; /* lightGray: shade */
+  --appui-color-light-gray-500: #595959; /* lightGray: shade */
+  --appui-color-light-gray-400: #363636; /* lightGray: shade */
+  --appui-color-light-gray-300: #1d1d1d; /* lightGray: shade */
+  --appui-color-light-gray-200: #101010; /* lightGray: shade */
+  --appui-color-light-gray-100: #040404; /* lightGray: shade */
+  --appui-alias-menu-border-color-default: #9a9a9a;
+  --appui-alias-field-border-color-selected: #B0B0B0;
+  --appui-alias-field-border-color-disabled: rgba(176, 176, 176, 0.5);
+  --appui-alias-field-border-color-focus: #1D5087;
+  --appui-alias-field-border-color-active: #A0A0A0;
+  --appui-alias-field-border-color-hover: #656565;
+  --appui-alias-field-border-color-default: #B0B0B0;
+  --appui-alias-field-background-color-disabled: rgba(240, 240, 240, 0.5);
+  --appui-alias-field-background-color-focus: #F0F0F0;
+  --appui-alias-field-background-color-active: #F0F0F0;
+  --appui-alias-field-background-color-hover: #F0F0F0;
+  --appui-alias-field-background-color-default: #F0F0F0;
+  --appui-alias-actions-accent-background-color-focus: #B0D2FC;
+  --appui-alias-actions-accent-background-color-active: #B0D2FC;
+  --appui-alias-actions-accent-background-color-hover: #B0D2FC;
+  --appui-alias-actions-accent-background-color-default: #96C3FB;
+  --appui-alias-actions-accent-foreground-color-default: var(--appui-foregrounds-200);
+  --appui-alias-actions-accent-foreground-color-hover: var(--appui-foregrounds-200);
+  --appui-alias-actions-accent-foreground-color-active: var(--appui-foregrounds-200);
+  --appui-alias-actions-accent-foreground-color-focus: var(--appui-foregrounds-200);
+  --appui-alias-actions-border-color-selected: #B0B0B0;
+  --appui-alias-actions-border-color-disabled: #B0B0B0;
+  --appui-alias-actions-border-color-focus: #1D5087;
+  --appui-alias-actions-border-color-active: #939393;
+  --appui-alias-actions-border-color-hover: #B2B2B2;
+  --appui-alias-actions-border-color-default: #B2B2B2;
+  --appui-alias-actions-background-color-selected: #96C3FB;
+  --appui-alias-actions-background-color-disabled: #E4E4E4;
+  --appui-alias-actions-background-color-focus: #BEBEBE;
+  --appui-alias-actions-background-color-active: #BEBEBE;
+  --appui-alias-actions-background-color-hover: #ECECEC;
+  --appui-alias-actions-background-color-default: #E4E4E4;
+  --appui-alias-control-border-color-selected: #B0B0B0;
+  --appui-alias-control-border-color-disabled: rgba(176, 176, 176, 0.5);
+  --appui-alias-control-border-color-focus: #1D5087;
+  --appui-alias-control-border-color-active: #A0A0A0;
+  --appui-alias-control-border-color-hover: #6C6C6C;
+  --appui-alias-control-border-color-default: #B0B0B0;
+  --appui-alias-field-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-actions-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-control-border-color-invalid: var(--appui-destructive-100);
+  --appui-alias-caret-icon-default: var(--appui-icon-caret-down-fill);
+}

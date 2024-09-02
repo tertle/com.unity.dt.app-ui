@@ -1,0 +1,10 @@
+/* Context */
+.appui {
+  -unity-font-definition: var(--appui-font-weights-100);
+  font-size: var(--appui-font-sizes-100);
+  color: var(--appui-foregrounds-100);
+  background-color: var(--appui-backgrounds-100);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}

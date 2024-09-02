@@ -1,0 +1,29 @@
+/* Vector2Field */
+.appui-vector2field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.appui-vector2field__container {
+    display: flex;
+    flex-direction: row;
+}
+
+.appui--rtl .appui-vector2field__container {
+    flex-direction: row-reverse;
+}
+
+.appui-vector2field__container > * {
+    flex-basis: 50%;
+    width: auto;
+}
+
+.appui--ltr .appui-vector2field__x-field {
+    padding-right: var(--appui-alias-control-gap-sm);
+}
+
+.appui--rtl .appui-vector2field__x-field {
+    padding-left: var(--appui-alias-control-gap-sm);
+}

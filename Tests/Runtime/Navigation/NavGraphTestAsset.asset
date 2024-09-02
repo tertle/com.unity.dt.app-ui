@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6694463724046821069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: start
+  m_EditorClassIdentifier: 
+  m_Position: {x: 35, y: -187.5}
+  m_Guid: 0c2c38948314846d4b7b760b04dcfc20
+  m_Parent: {fileID: 435015050559732834}
+  m_Actions:
+  - {fileID: 2526874940782906629}
+  m_Label: Start
+  m_Template: 
+  m_Arguments: []
+  m_ShowBottomNavBar: 1
+  m_ShowAppBar: 1
+  m_ShowBackButton: 1
+  m_ShowDrawer: 1
+  m_ShowNavigationRail: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d5b7fe0491446cbd625fd576a3105e, type: 3}
+  m_Name: NavGraphTestAsset
+  m_EditorClassIdentifier: 
+  m_Nodes:
+  - {fileID: 435015050559732834}
+  - {fileID: -6694463724046821069}
+  - {fileID: 3269881129431662573}
+  - {fileID: 2526874940782906629}
+--- !u!114 &435015050559732834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac212c624cd4a46acc6d3430ae62e14, type: 3}
+  m_Name: nav_graph
+  m_EditorClassIdentifier: 
+  m_Position: {x: 0, y: 0}
+  m_Guid: 2400e2c5-28e6-4192-a1c1-f2e231bdcdc6
+  m_Parent: {fileID: 0}
+  m_Actions: []
+  m_Label: 
+  m_StartDestination: {fileID: -6694463724046821069}
+--- !u!114 &2526874940782906629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78073c03d6154685bf631e4ad244b9b8, type: 3}
+  m_Name: start_to_other
+  m_EditorClassIdentifier: 
+  m_Position: {x: 310, y: -222.5}
+  m_Guid: 196e33c5-ba3b-44d5-8ca4-5a919589fa63
+  m_Destination: {fileID: 3269881129431662573}
+  m_Options:
+    m_PopUpToStrategy: 0
+    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToInclusive: 0
+    m_EnterAnim: 3
+    m_ExitAnim: 0
+    m_PopEnterAnim: 0
+    m_PopExitAnim: 1
+    m_PopUpToSaveState: 0
+    m_RestoreState: 0
+    m_LaunchSingleTop: 0
+  m_DefaultArguments:
+  - m_Name: username
+    m_Value: toto
+--- !u!114 &3269881129431662573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
+  m_Name: other
+  m_EditorClassIdentifier: 
+  m_Position: {x: 735.5, y: -187.5}
+  m_Guid: 8f50e163bdce145f49b222f0da9f2248
+  m_Parent: {fileID: 435015050559732834}
+  m_Actions: []
+  m_Label: Other
+  m_Template: 
+  m_Arguments: []
+  m_ShowBottomNavBar: 1
+  m_ShowAppBar: 1
+  m_ShowBackButton: 1
+  m_ShowDrawer: 1
+  m_ShowNavigationRail: 1

@@ -1,0 +1,113 @@
+.appui-dropzone {
+    min-width: var(--appui-sizing-400);
+    min-height: var(--appui-sizing-400);
+    position: relative;
+}
+
+.appui-dropzone--acceptdrag {
+    cursor: var(--appui-alias-control-cursor-grabbing);
+}
+
+.appui-dropzone__frame {
+    position: absolute;
+    top: var(--appui-sizing-100);
+    bottom: var(--appui-sizing-100);
+    left: var(--appui-sizing-100);
+    right: var(--appui-sizing-100);
+    border-radius: var(--appui-alias-actions-border-radius);
+    transition: opacity var(--appui-animation-easing-ease-out) var(--appui-animation-duration-125);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+
+    --border-style: 3; /* dashed */
+    --border-dot-factor: 8; /* 8 times bigger than --border-width */
+    --border-width: 3;
+    --border-color: var(--appui-foregrounds-25);
+    --border-speed: 0.1;
+}
+
+.appui-dropzone--visible-indicator .appui-dropzone__frame {
+    opacity: 1;
+}
+
+.appui-dropzone--acceptdrag .appui-dropzone__frame {
+    --border-color: var(--appui-accent-25);
+}
+
+.appui-dropzone--rejectdrag .appui-dropzone__frame {
+    --border-color: var(--appui-destructive-25);
+}
+
+.appui-dropzone:hover .appui-dropzone__frame,
+.appui-dropzone.is-hovered .appui-dropzone__frame {
+    --border-color: var(--appui-foregrounds-100);
+}
+
+.appui-dropzone--acceptdrag:hover .appui-dropzone__frame,
+.appui-dropzone--acceptdrag.is-hovered .appui-dropzone__frame {
+    --border-color: var(--appui-accent-100);
+}
+
+.appui-dropzone--rejectdrag:hover .appui-dropzone__frame,
+.appui-dropzone--rejectdrag.is-hovered .appui-dropzone__frame {
+    --border-color: var(--appui-destructive-50);
+}
+
+.appui-dropzone__background {
+    position: absolute;
+    top: var(--appui-sizing-100);
+    bottom: var(--appui-sizing-100);
+    left: var(--appui-sizing-100);
+    right: var(--appui-sizing-100);
+    border-radius: var(--appui-alias-actions-border-radius);
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    background-color: var(--appui-color-transparent-black-0);
+    transition-property: opacity, background-color;
+    transition-duration: var(--appui-animation-duration-125);
+    transition-timing-function: var(--appui-animation-easing-ease-out);
+}
+
+.appui-dropzone--visible-indicator .appui-dropzone__background {
+    opacity: 0.15;
+    background-color: var(--appui-backgrounds-50);
+}
+
+.appui-dropzone--visible-indicator.appui-dropzone--acceptdrag .appui-dropzone__background {
+    background-color: var(--appui-accent-25);
+}
+
+.appui-dropzone--visible-indicator.appui-dropzone--rejectdrag .appui-dropzone__background {
+    background-color: var(--appui-destructive-25);
+}
+
+.appui-dropzone--acceptdrag .unity-text-element {
+    color: var(--appui-accent-100);
+}
+
+.appui-dropzone--acceptdrag:hover .unity-text-element,
+.appui-dropzone--acceptdrag.is-hovered .unity-text-element {
+    color: var(--appui-accent-200);
+}
+
+.appui-dropzone--rejectdrag .unity-text-element {
+    color: var(--appui-destructive-100);
+}
+
+.appui-dropzone--rejectdrag:hover .unity-text-element,
+.appui-dropzone--rejectdrag.is-hovered .unity-text-element {
+    color: var(--appui-destructive-200);
+}
+
+.is-disabled .appui-dropzone,
+.appui-dropzone.is-disabled,
+.appui-dropzone:disabled,
+.appui-dropzone--rejectdrag.is-disabled,
+.appui-dropzone--rejectdrag:disabled,
+.appui-dropzone--acceptdrag.is-disabled,
+.appui-dropzone--acceptdrag:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+}

@@ -1,0 +1,155 @@
+/* ActionButton */
+.appui-actionbutton {
+    background-color: var(--appui-alias-actions-background-color-default);
+    border-width: var(--appui-alias-control-border-width);
+    border-color: var(--appui-alias-actions-border-color-default);
+    /*border-style: var(--appui-control-border-style);*/
+    border-radius: var(--appui-alias-control-border-radius);
+    cursor: var(--appui-alias-control-cursor-pointer);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 var(--appui-spacing-100);
+}
+
+.appui--rtl .appui-actionbutton {
+    flex-direction: row-reverse;
+}
+
+.appui-actionbutton--quiet {
+    border-color: var(--appui-color-transparent-black-0);
+    background-color: var(--appui-alias-actions-quiet-background-color-default);
+}
+
+.appui-actionbutton--icon-only {
+    padding: 0;
+}
+
+.appui-actionbutton__label {
+    color: var(--appui-alias-actions-foreground-color-default);
+    -unity-font-definition: var(--appui-font-weights-200); /*font-weight: var(--appui-global-font-weight-semi-bold);*/
+}
+
+.appui--ltr .appui-actionbutton--icon-and-label > .appui-actionbutton__label {
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+}
+
+.appui--rtl .appui-actionbutton--icon-and-label > .appui-actionbutton__label {
+    margin-right: var(--appui-alias-control-gap-md); /*margin-inline-end: var(--appui-alias-control-gap-md);*/
+}
+
+.appui--ltr .appui-actionbutton--with-trailing-icon > .appui-actionbutton__label {
+    margin-right: var(--appui-alias-control-gap-md); /*margin-inline-end: var(--appui-alias-control-gap-md);*/
+}
+
+.appui--rtl .appui-actionbutton--with-trailing-icon > .appui-actionbutton__label {
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+}
+
+.appui-icon.appui-actionbutton__icon,
+.appui-icon.appui-actionbutton__trailing-icon {
+    color: var(--appui-alias-actions-foreground-color-default);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
+}
+
+.appui-actionbutton.keyboard-focus {
+    /* converted from : outline-width: var(--appui-alias-control-outline-width); */
+    --outline-width: var(--appui-alias-control-outline-width);
+    /* converted from : outline-color: var(--appui-alias-control-outline-color); */
+    --outline-color: var(--appui-alias-control-outline-color);
+    /* converted from : outline-offset: var(--appui-alias-control-outline-offset); */
+    --outline-offset: var(--appui-alias-control-outline-offset);
+    /* converted from : outline-style: var(--appui-alias-control-outline-style); */
+}
+
+.appui-actionbutton.is-hovered {
+    background-color: var(--appui-alias-actions-background-color-hover);
+    border-color: var(--appui-alias-actions-border-color-hover);
+}
+
+.appui-actionbutton.is-hovered,
+.appui-actionbutton.is-hovered > .appui-actionbutton__label,
+.appui-actionbutton.is-hovered > .appui-icon {
+    color: var(--appui-alias-actions-foreground-color-hover);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-hover);
+}
+
+.appui-actionbutton.is-active {
+    background-color: var(--appui-alias-actions-background-color-active);
+    border-color: var(--appui-alias-actions-border-color-active);
+}
+
+.appui-actionbutton.is-active,
+.appui-actionbutton.is-active > .appui-actionbutton__label,
+.appui-actionbutton.is-active > .appui-icon {
+    color: var(--appui-alias-actions-foreground-color-active);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-active);
+}
+
+.is-selected.appui-actionbutton {
+    background-color: var(--appui-alias-actions-background-color-selected);
+    border-color: var(--appui-alias-actions-border-color-selected);
+}
+
+.is-selected.appui-actionbutton--accent {
+    background-color: var(--appui-alias-actions-accent-background-color-default);
+    border-color: var(--appui-alias-actions-border-color-selected);
+}
+
+.is-selected.appui-actionbutton .appui-actionbutton__label,
+.is-selected.appui-actionbutton .appui-icon {
+    color: var(--appui-alias-actions-accent-foreground-color-default);
+    --unity-image-tint-color: var(--appui-alias-actions-accent-foreground-color-default);
+}
+
+.appui-actionbutton--size-s .appui-icon{
+    height: var(--appui-sizing-300);
+    width: var(--appui-sizing-300);
+}
+
+.appui-actionbutton:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+}
+
+.is-selected.appui-actionbutton:disabled {
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+}
+
+.appui-actionbutton:disabled,
+.appui-actionbutton:disabled *,
+.is-selected.appui-actionbutton:disabled,
+.is-selected.appui-actionbutton:disabled * {
+    color: var(--appui-alias-actions-foreground-color-disabled);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-disabled);
+}
+
+.appui-actionbutton.is-hovered:disabled {
+    cursor: var(--appui-alias-control-cursor-disabled);
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+}
+
+.is-selected.appui-actionbutton.is-hovered:disabled,
+.is-selected.appui-actionbutton--quiet.is-hovered:disabled {
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
+}
+
+.appui-actionbutton--size-s {
+    height: var(--appui-alias-control-sizing-sm-height);
+    min-width: var(--appui-alias-control-sizing-sm-height);
+}
+
+.appui-actionbutton--size-m {
+    height: var(--appui-alias-control-sizing-md-height);
+    min-width: var(--appui-alias-control-sizing-md-height);
+}
+
+.appui-actionbutton--size-l {
+    height: var(--appui-alias-control-sizing-lg-height);
+    min-width: var(--appui-alias-control-sizing-lg-height);
+}

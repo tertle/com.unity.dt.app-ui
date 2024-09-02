@@ -1,0 +1,98 @@
+{
+    "name": "Unity.AppUI",
+    "rootNamespace": "Unity.AppUI",
+    "references": [
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:2e77701fe0ceda44fb763f03ee704c37",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "[2021.3.6f1,2022.1.0a1)",
+            "define": "UITK_NESTED_INTERACTION_KIND"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2022.1.7f1,2022.2.0a1)",
+            "define": "UITK_NESTED_INTERACTION_KIND"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2022.2.0a9,2023.1.0a1)",
+            "define": "UITK_NESTED_INTERACTION_KIND"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.1.0a4",
+            "define": "UITK_NESTED_INTERACTION_KIND"
+        },
+        {
+            "name": "Unity",
+            "expression": "2022.2.0a9",
+            "define": "UITK_SELECTED_INDICES_CHANGED"
+        },
+        {
+            "name": "com.unity.localization",
+            "expression": "",
+            "define": "UNITY_LOCALIZATION_PRESENT"
+        },
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "",
+            "define": "UNITY_INPUTSYSTEM_PRESENT"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.3.0a1",
+            "define": "ENABLE_UXML_SERIALIZED_DATA"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.2",
+            "define": "ENABLE_RUNTIME_DATA_BINDINGS"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2021.3,2023.3.0a1)",
+            "define": "ENABLE_ENABLED_UXML_PROPERTY"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2021.3,2023.3.0a1)",
+            "define": "ENABLE_UXML_TRAITS"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.3.0b7",
+            "define": "CONDITIONAL_WEAK_TABLE_IL2CPP"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2023.2.10f1,2023.3.0a1)",
+            "define": "CONDITIONAL_WEAK_TABLE_IL2CPP"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2022.3.20f1,2023.1.0a1)",
+            "define": "CONDITIONAL_WEAK_TABLE_IL2CPP"
+        },
+        {
+            "name": "Unity",
+            "expression": "[2021.3.36f1,2022.1.0a1)",
+            "define": "CONDITIONAL_WEAK_TABLE_IL2CPP"
+        }
+    ],
+    "noEngineReferences": false
+}

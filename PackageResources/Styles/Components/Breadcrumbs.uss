@@ -1,0 +1,41 @@
+/* Breadcrumbs */
+.appui-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+}
+
+.appui--rtl .appui-breadcrumbs {
+    flex-direction: row-reverse;
+}
+
+.appui-breadcrumb-item.appui-link {
+    color: var(--appui-foregrounds-100);
+    border-radius: var(--appui-alias-control-border-radius);
+}
+
+.appui-breadcrumb-item.appui-link.is-hovered {
+    color: var(--appui-foregrounds-200);
+}
+
+.appui-breadcrumb-item.appui-link.keyboard-focus {
+    color: var(--appui-accent-100);
+}
+
+.appui-breadcrumb-item.appui-link.is-active {
+    color: var(--appui-foregrounds-200);
+}
+
+.appui-breadcrumb-item--current.appui-link {
+    color: var(--appui-foregrounds-200);
+    -unity-font-definition: var(--appui-font-weights-200);
+}
+
+.appui-breadcrumb-separator {
+    color: var(--appui-foregrounds-100);
+    padding: 0 var(--appui-spacing-100);
+}

@@ -1,0 +1,67 @@
+Panel {
+    background-color: var(--appui-backgrounds-200);
+    margin-top: 8px;
+}
+
+.icon-browser {
+    padding: 8px;
+}
+
+.icon-entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    padding: 4px;
+    margin-bottom: 8px;
+    white-space: normal;
+}
+
+.icon-entry__element {
+    width: 100px;
+    height: 100px;
+    background-color: var(--appui-backgrounds-50);
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    border-width: 1px;
+    border-color: var(--appui-backgrounds-50);
+}
+
+.is-selected .icon-entry__element {
+    border-color: var(--appui-accent-100);
+}
+
+.icon-entry__image {
+    width: 64px;
+    height: 64px;
+    --unity-image-tint-color: var(--appui-foregrounds-100);
+}
+
+.icon-entry__label {
+    margin-top: 4px;
+    -unity-text-align: lower-center;
+    white-space: normal;
+    color: var(--appui-foregrounds-50);
+}
+
+.footer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.footer__buttons {
+    flex-direction: row;
+}
+
+.footer__button {
+    padding: 8px 12px;
+}
+
+.footer__message {
+    -unity-text-align: middle-center;
+}

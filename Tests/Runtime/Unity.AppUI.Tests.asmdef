@@ -1,0 +1,45 @@
+{
+    "name": "Unity.AppUI.Tests",
+    "rootNamespace": "Unity.AppUI.Tests",
+    "references": [
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:f7898ee836234b98a20cbddc2a6e0b08",
+        "GUID:9c739b017e1d4fdabf06fa2d84a463c3",
+        "GUID:710bb277e6ff49ed91ba164465e106ef",
+        "GUID:da2b8d7ad5bc41c99b64ba50c2e1fb8b",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2023.3.0a1",
+            "define": "ENABLE_UXML_SERIALIZED_DATA"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.2",
+            "define": "ENABLE_RUNTIME_DATA_BINDINGS"
+        },
+        {
+            "name": "com.unity.localization",
+            "expression": "",
+            "define": "UNITY_LOCALIZATION_PRESENT"
+        }
+    ],
+    "noEngineReferences": false
+}

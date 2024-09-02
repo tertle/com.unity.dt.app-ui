@@ -1,0 +1,31 @@
+/* Vector3Field */
+.appui-vector3field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.appui-vector3field__container {
+    display: flex;
+    flex-direction: row;
+}
+
+.appui--rtl .appui-vector3field__container {
+    flex-direction: row-reverse;
+}
+
+.appui-vector3field__container > * {
+    flex-basis: 33.33%;
+    width: auto;
+}
+
+.appui--ltr .appui-vector3field__x-field,
+.appui--ltr .appui-vector3field__y-field {
+    padding-right: var(--appui-alias-control-gap-sm);
+}
+
+.appui--rtl .appui-vector3field__x-field,
+.appui--rtl .appui-vector3field__y-field {
+    padding-left: var(--appui-alias-control-gap-sm);
+}

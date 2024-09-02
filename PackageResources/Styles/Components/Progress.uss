@@ -1,0 +1,56 @@
+/* Progress */
+:root {
+    --appui-linear-progress-border-radius: var(--appui-sizing-60);
+    --appui-linear-progress-height: var(--appui-sizing-125);
+}
+
+.appui-circular-progress {
+    display: flex;
+    width: var(--appui-sizing-650);
+    height: var(--appui-sizing-650);
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: stretch;
+
+    --progress-color: var(--appui-foregrounds-100);
+}
+
+.appui-progress__image {
+    display: flex;
+    position: absolute;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.appui-progress__container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.appui--rtl .appui-progress__image {
+    scale: -1 1;
+}
+
+.appui-linear-progress {
+    display: flex;
+    height: var(--appui-linear-progress-height);
+    flex-shrink: 0;
+    overflow: hidden;
+    justify-content: center;
+    align-items: stretch;
+    border-radius: 0;
+
+    --progress-color: var(--appui-foregrounds-100);
+}
+
+.appui-progress--rounded-corners.appui-linear-progress {
+    border-radius: var(--appui-linear-progress-border-radius);
+}

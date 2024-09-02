@@ -1,0 +1,271 @@
+/* Dialog */
+/*.appui-modalwrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.appui-modalwrapper.example-dialog {
+    position: relative;
+    align-self: stretch;
+    padding: 32px;
+}*/
+
+.appui-modal {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--appui-color-transparent-black-400);
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+}
+
+.appui-modal--fullscreen-takeover {
+    padding: 0;
+}
+
+.appui-modal__content {
+    background-color: var(--appui-backgrounds-200);
+    border-radius: var(--appui-border-radius-lg);
+
+    /*box-shadow: var(--appui-toast-box-shadow);*/
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+
+    --box-shadow-offset-y: 10;
+    --box-shadow-spread: 20;
+    --box-shadow-blur: 15;
+    --box-shadow-color: rgba(0,0,0,.65);
+}
+
+.appui-modal--fullscreen > .appui-modal__content,
+.appui-modal--fullscreen-takeover > .appui-modal__content {
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.appui-dialog {
+    /*outline: none;*/
+    padding: var(--appui-spacing-400);
+    max-width: 100%;
+}
+
+.appui-dialog__heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.appui--rtl .appui-dialog__heading {
+    flex-direction: row-reverse;
+}
+
+.appui-dialog__heading > .appui-header {
+    -unity-font-definition: var(--appui-font-weights-200); /* font-weight: var(--appui-global-font-weight-bold); */
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+}
+
+.appui--rtl .appui-dialog__heading > .appui-header {
+    -unity-text-align: middle-right;
+}
+
+.appui-dialog__heading > .appui-button {
+    flex-shrink: 0;
+    display: none;
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+}
+
+.appui--rtl .appui-dialog__heading > .appui-button {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+}
+
+.appui-dialog__header {
+    flex-grow: 1;
+}
+
+.appui-dialog--dismissable > .appui-dialog__heading > .appui-button {
+    display: flex;
+}
+
+.appui-dialog__divider {
+
+}
+
+.appui-dialog__content {
+    margin-top: var(--appui-spacing-400); /* margin-block-start: var(--appui-spacing-400); */
+    -unity-text-align: upper-left;
+}
+
+.appui--rtl .appui-dialog__content {
+    -unity-text-align: upper-right;
+}
+
+.appui-dialog__content .appui-text {
+    -unity-text-align: upper-left; /*text-align: justify;*/
+}
+
+.appui--rtl .appui-dialog__content .appui-text {
+    -unity-text-align: upper-right;
+}
+
+.appui-dialog__buttongroup {
+    margin-top: var(--appui-spacing-400); /*margin-block-start: var(--appui-spacing-400);*/
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.appui--rtl .appui-dialog__buttongroup {
+    flex-direction: row-reverse;
+}
+
+.appui-dialog__buttongroup > .appui-button {
+    margin-left: var(--appui-alias-control-gap-md); /*margin-inline-start: var(--appui-alias-control-gap-md);*/
+    margin-right: 0;
+}
+
+.appui--rtl .appui-dialog__buttongroup > .appui-button {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+}
+
+.appui-dialog--size-s {
+    width: 400px;
+}
+
+.appui-dialog--size-m {
+    width: 500px;
+}
+
+.appui-dialog--size-l {
+    width: 640px;
+}
+
+.appui-tray__content {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.appui-tray__content > .appui-dialog {
+    width: auto;
+}
+
+.appui-modal--fullscreen > .appui-modal__content > .appui-dialog,
+.appui-modal--fullscreen-takeover > .appui-modal__content > .appui-dialog {
+    width: auto;
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.appui-dialog--default .appui-dialog__primary-action,
+.appui-dialog--confirmation .appui-dialog__primary-action {
+    background-color: var(--appui-alias-actions-accent-background-color-default);
+    border-color: var(--appui-alias-actions-accent-background-color-default);
+    color: var(--appui-alias-actions-accent-foreground-color-default);
+}
+
+.appui-dialog--default .appui-dialog__primary-action.is-hovered,
+.appui-dialog--confirmation .appui-dialog__primary-action.is-hovered {
+    background-color: var(--appui-alias-actions-accent-background-color-hover);
+    border-color: var(--appui-alias-actions-accent-background-color-hover);
+    color: var(--appui-alias-actions-accent-foreground-color-hover);
+}
+
+.appui-dialog--default .appui-dialog__primary-action.is-active,
+.appui-dialog--confirmation .appui-dialog__primary-action.is-active {
+    background-color: var(--appui-alias-actions-accent-background-color-active);
+    border-color: var(--appui-alias-actions-accent-background-color-active);
+    color: var(--appui-alias-actions-accent-foreground-color-active);
+}
+
+.appui-dialog--destructive .appui-dialog__primary-action {
+    border-color: var(--appui-alias-actions-destructive-default);
+    background-color: var(--appui-base-100);
+    border-width: 2px;
+    color: var(--appui-alias-actions-destructive-default);
+}
+
+.appui-dialog--destructive .appui-dialog__primary-action.is-hovered,
+.appui-dialog--destructive .appui-dialog__primary-action.keyboard-focus {
+    background-color: var(--appui-base-200);
+    border-color: var(--appui-alias-actions-destructive-hover);
+    color: var(--appui-alias-actions-destructive-hover);
+}
+
+.appui-dialog--destructive .appui-dialog__primary-action.is-active {
+    background-color: var(--appui-base-50);
+    border-color: var(--appui-alias-actions-destructive-active);
+    color: var(--appui-alias-actions-destructive-active);
+}
+
+.appui-dialog--information .appui-dialog__primary-action,
+.appui-dialog--warning .appui-dialog__primary-action,
+.appui-dialog--error .appui-dialog__primary-action {
+    border-color: var(--appui-foregrounds-200);
+    background-color: var(--appui-base-100);
+    border-width: 2px;
+    color: var(--appui-foregrounds-200);
+}
+
+.appui-dialog--information .appui-dialog__primary-action.is-hovered,
+.appui-dialog--information .appui-dialog__primary-action.keyboard-focus,
+.appui-dialog--warning .appui-dialog__primary-action.is-hovered,
+.appui-dialog--warning .appui-dialog__primary-action.keyboard-focus,
+.appui-dialog--error .appui-dialog__primary-action.is-hovered,
+.appui-dialog--error .appui-dialog__primary-action.keyboard-focus {
+    background-color: var(--appui-base-200);
+}
+
+.appui-dialog--information .appui-dialog__primary-action.is-active,
+.appui-dialog--warning .appui-dialog__primary-action.is-active,
+.appui-dialog--error .appui-dialog__primary-action.is-active {
+    background-color: var(--appui-base-50);
+}
+
+.appui-dialog .appui-dialog__primary-action.is-disabled,
+.appui-dialog .appui-dialog__primary-action:disabled {
+    background-color: var(--appui-base-100);
+    border-color: var(--appui-base-300);
+    cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-foregrounds-25);
+}
+
+.appui-dialog__icon {
+    display: none;
+    margin-left: var(--appui-alias-control-gap-md);
+    margin-right: 0;
+}
+
+.appui--rtl .appui-dialog__icon {
+    margin-left: 0;
+    margin-right: var(--appui-alias-control-gap-md);
+}
+
+.appui-dialog--warning .appui-dialog__icon,
+.appui-dialog--error .appui-dialog__icon {
+    display: flex;
+}
+
+.appui-dialog--warning .appui-dialog__icon {
+    --unity-image-tint-color: var(--appui-alias-actions-warning-default);
+}
+
+.appui-dialog--error .appui-dialog__icon {
+    --unity-image-tint-color: var(--appui-alias-actions-destructive-default);
+}

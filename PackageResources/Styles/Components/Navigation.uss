@@ -1,0 +1,41 @@
+.appui-navhost {
+    display: flex;
+    flex-direction: column;
+}
+
+.appui-navhost__container {
+    position: relative;
+}
+
+.appui-navhost__container > .appui-navhost__item {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: var(--appui-backgrounds-100);
+}
+
+.appui-navigation-screen {
+    position: relative;
+    flex-grow: 1;
+}
+
+.appui-navigation-screen--with-appbar {
+    margin-top: var(--appui-sizing-700);
+}
+
+.app-navigation-screen--with-appbar--compact {
+    margin-top: var(--appui-sizing-500);
+}
+
+.appui-navhost__item > .appui-appbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.appui-navhost__item > .appui-bottom-navbar {
+    position: relative;
+}

@@ -1,0 +1,1293 @@
+.appui {
+    --appui-icon-check-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/Check.png");
+    --appui-icon-dots-three-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/DotsThree.png");
+    --appui-icon-dots-three-vertical-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/DotsThreeVertical.png");
+    --appui-icon-minus-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/Minus.png");
+    --appui-icon-caret-down-fill: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Fill/CaretDown.png");
+    --appui-icon-warning-fill: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Fill/Warning.png");
+    --appui-icon-360-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/360.png");
+    --appui-icon-ar-mode-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArMode.png");
+    --appui-icon-ar-mode-off-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArModeOff.png");
+    --appui-icon-add-layer-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/AddLayer.png");
+    --appui-icon-annotation-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Annotation.png");
+    --appui-icon-apperature-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Apperature.png");
+    --appui-icon-apperature-off-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ApperatureOff.png");
+    --appui-icon-arrow-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowClockwise.png");
+    --appui-icon-arrow-counter-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowCounterClockwise.png");
+    --appui-icon-arrow-down-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowDown.png");
+    --appui-icon-arrow-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowLeft.png");
+    --appui-icon-arrow-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowRight.png");
+    --appui-icon-arrow-square-in-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowSquareIn.png");
+    --appui-icon-arrow-square-out-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowSquareOut.png");
+    --appui-icon-arrow-u-down-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowUDownLeft.png");
+    --appui-icon-arrow-u-down-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowUDownRight.png");
+    --appui-icon-arrow-u-up-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowUUpLeft.png");
+    --appui-icon-arrow-u-up-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowUUpRight.png");
+    --appui-icon-arrow-up-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowUp.png");
+    --appui-icon-arrows-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowsClockwise.png");
+    --appui-icon-arrows-counter-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowsCounterClockwise.png");
+    --appui-icon-arrows-out-cardinal-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowsOutCardinal.png");
+    --appui-icon-arrows-u-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowsUClockwise.png");
+    --appui-icon-arrows-u-counter-clockwise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ArrowsUCounterClockwise.png");
+    --appui-icon-backplate-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Backplate.png");
+    --appui-icon-calendar-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Calendar.png");
+    --appui-icon-camera-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Camera.png");
+    --appui-icon-camera-dynamic-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraDynamic.png");
+    --appui-icon-camera-follow-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraFollow.png");
+    --appui-icon-camera-move-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraMove.png");
+    --appui-icon-camera-move-lock-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraMoveLock.png");
+    --appui-icon-camera-overhead-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraOverhead.png");
+    --appui-icon-camera-rotate-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraRotate.png");
+    --appui-icon-camera-rotate-lock-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraRotateLock.png");
+    --appui-icon-camera-scale-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraScale.png");
+    --appui-icon-camera-settings-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraSettings.png");
+    --appui-icon-camera-shake-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraShake.png");
+    --appui-icon-camera-sidelines-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraSidelines.png");
+    --appui-icon-camera-x-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraX.png");
+    --appui-icon-camera-y-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraY.png");
+    --appui-icon-camera-z-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CameraZ.png");
+    --appui-icon-car-rim-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CarRim.png");
+    --appui-icon-caret-double-down-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDoubleDown.png");
+    --appui-icon-caret-double-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDoubleLeft.png");
+    --appui-icon-caret-double-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDoubleRight.png");
+    --appui-icon-caret-double-up-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDoubleUp.png");
+    --appui-icon-caret-down-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDown.png");
+    --appui-icon-caret-down-shallow-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDownShallow.png");
+    --appui-icon-caret-down-small-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretDownSmall.png");
+    --appui-icon-caret-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretLeft.png");
+    --appui-icon-caret-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretRight.png");
+    --appui-icon-caret-up-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretUp.png");
+    --appui-icon-caret-up-shallow-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/CaretUpShallow.png");
+    --appui-icon-carpenter-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Carpenter.png");
+    --appui-icon-check-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Check.png");
+    --appui-icon-clap-board-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ClapBoard.png");
+    --appui-icon-clipping-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Clipping.png");
+    --appui-icon-clipping-x-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ClippingX.png");
+    --appui-icon-clipping-y-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ClippingY.png");
+    --appui-icon-clipping-z-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ClippingZ.png");
+    --appui-icon-cloud-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Cloud.png");
+    --appui-icon-color-picker-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ColorPicker.png");
+    --appui-icon-connection-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Connection.png");
+    --appui-icon-connection-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ConnectionSlash.png");
+    --appui-icon-damping-high-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DampingHigh.png");
+    --appui-icon-damping-low-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DampingLow.png");
+    --appui-icon-damping-medium-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DampingMedium.png");
+    --appui-icon-damping-off-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DampingOff.png");
+    --appui-icon-debug-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Debug.png");
+    --appui-icon-delete-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Delete.png");
+    --appui-icon-dof-disabled-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DofDisabled.png");
+    --appui-icon-dome-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Dome.png");
+    --appui-icon-draghandle-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Draghandle.png");
+    --appui-icon-drywall-installer-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/DrywallInstaller.png");
+    --appui-icon-electrician-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Electrician.png");
+    --appui-icon-ellipsis-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Ellipsis.png");
+    --appui-icon-equipment-operator-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/EquipmentOperator.png");
+    --appui-icon-eraser-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Eraser.png");
+    --appui-icon-export-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Export.png");
+    --appui-icon-eye-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Eye.png");
+    --appui-icon-eye-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/EyeSlash.png");
+    --appui-icon-face-mesh-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FaceMesh.png");
+    --appui-icon-fast-forward-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FastForward.png");
+    --appui-icon-file-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/File.png");
+    --appui-icon-film-roll-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FilmRoll.png");
+    --appui-icon-flag-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Flag.png");
+    --appui-icon-fly-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Fly.png");
+    --appui-icon-focal-length-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocalLength.png");
+    --appui-icon-focus-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Focus.png");
+    --appui-icon-focus-apperature-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocusApperature.png");
+    --appui-icon-focus-auto-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocusAuto.png");
+    --appui-icon-focus-manual-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocusManual.png");
+    --appui-icon-focus-mode-tracking-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocusModeTracking.png");
+    --appui-icon-focus-object-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FocusObject.png");
+    --appui-icon-folder-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Folder.png");
+    --appui-icon-forma-backplate-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FormaBackplate.png");
+    --appui-icon-forma-dome-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FormaDome.png");
+    --appui-icon-forma-scene-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FormaScene.png");
+    --appui-icon-funnel-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Funnel.png");
+    --appui-icon-funnel-simple-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/FunnelSimple.png");
+    --appui-icon-generic-cube-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/GenericCube.png");
+    --appui-icon-generic-sphere-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/GenericSphere.png");
+    --appui-icon-grid-four-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/GridFour.png");
+    --appui-icon-hare-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Hare.png");
+    --appui-icon-heart-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Heart.png");
+    --appui-icon-help-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Help.png");
+    --appui-icon-helper-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Helper.png");
+    --appui-icon-hierarchy-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Hierarchy.png");
+    --appui-icon-horizontal-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Horizontal.png");
+    --appui-icon-hotspot-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Hotspot.png");
+    --appui-icon-house-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/House.png");
+    --appui-icon-image-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Image.png");
+    --appui-icon-info-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Info.png");
+    --appui-icon-installs-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Installs.png");
+    --appui-icon-joystick-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Joystick.png");
+    --appui-icon-joystick-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/JoystickSlash.png");
+    --appui-icon-keyboard-a-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardA.png");
+    --appui-icon-keyboard-backspace-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardBackspace.png");
+    --appui-icon-keyboard-control-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardControl.png");
+    --appui-icon-keyboard-e-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardE.png");
+    --appui-icon-keyboard-esc-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardEsc.png");
+    --appui-icon-keyboard-m-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardM.png");
+    --appui-icon-keyboard-q-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardQ.png");
+    --appui-icon-keyboard-return-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardReturn.png");
+    --appui-icon-keyboard-s-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardS.png");
+    --appui-icon-keyboard-shift-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardShift.png");
+    --appui-icon-keyboard-space-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardSpace.png");
+    --appui-icon-keyboard-w-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/KeyboardW.png");
+    --appui-icon-layers-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Layers.png");
+    --appui-icon-learn-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Learn.png");
+    --appui-icon-level-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Level.png");
+    --appui-icon-level-active-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LevelActive.png");
+    --appui-icon-line-brush-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LineBrush.png");
+    --appui-icon-link-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Link.png");
+    --appui-icon-link-break-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkBreak.png");
+    --appui-icon-link-ratio-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkRatio.png");
+    --appui-icon-link-simple-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkSimple.png");
+    --appui-icon-link-simple-break-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkSimpleBreak.png");
+    --appui-icon-link-simple-horizontal-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkSimpleHorizontal.png");
+    --appui-icon-link-simple-horizontal-break-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LinkSimpleHorizontalBreak.png");
+    --appui-icon-list-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/List.png");
+    --appui-icon-local-positioning-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/LocalPositioning.png");
+    --appui-icon-lock-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Lock.png");
+    --appui-icon-magnifying-glass-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MagnifyingGlass.png");
+    --appui-icon-magnifying-glass-minus-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MagnifyingGlassMinus.png");
+    --appui-icon-magnifying-glass-plus-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MagnifyingGlassPlus.png");
+    --appui-icon-mars-corner-tool-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MarsCornerTool.png");
+    --appui-icon-mars-proxy-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MarsProxy.png");
+    --appui-icon-mars-scan-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MarsScan.png");
+    --appui-icon-mars-snapping-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MarsSnapping.png");
+    --appui-icon-mason-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Mason.png");
+    --appui-icon-measure-angle-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MeasureAngle.png");
+    --appui-icon-measure-length-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MeasureLength.png");
+    --appui-icon-menu-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Menu.png");
+    --appui-icon-microphone-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Microphone.png");
+    --appui-icon-microphone-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MicrophoneSlash.png");
+    --appui-icon-minus-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Minus.png");
+    --appui-icon-mouse-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Mouse.png");
+    --appui-icon-mouse-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MouseLeft.png");
+    --appui-icon-mouse-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/MouseRight.png");
+    --appui-icon-new-folder-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/NewFolder.png");
+    --appui-icon-no-leveling-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/NoLeveling.png");
+    --appui-icon-ok-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Ok.png");
+    --appui-icon-orbit-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Orbit.png");
+    --appui-icon-orbit-selection-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/OrbitSelection.png");
+    --appui-icon-orbit-world-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/OrbitWorld.png");
+    --appui-icon-paint-brush-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PaintBrush.png");
+    --appui-icon-paint-brush-add-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PaintBrushAdd.png");
+    --appui-icon-paint-bucket-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PaintBucket.png");
+    --appui-icon-painter-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Painter.png");
+    --appui-icon-pan-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Pan.png");
+    --appui-icon-pause-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Pause.png");
+    --appui-icon-pen-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Pen.png");
+    --appui-icon-play-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Play.png");
+    --appui-icon-plugged-in-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PluggedIn.png");
+    --appui-icon-plugged-in-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PluggedInSlash.png");
+    --appui-icon-plumb-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Plumb.png");
+    --appui-icon-plumber-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Plumber.png");
+    --appui-icon-plus-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Plus.png");
+    --appui-icon-point-cloud-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/PointCloud.png");
+    --appui-icon-profile-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Profile.png");
+    --appui-icon-qr-code-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/QrCode.png");
+    --appui-icon-rebase-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Rebase.png");
+    --appui-icon-recorder-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Recorder.png");
+    --appui-icon-reposition-camera-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/RepositionCamera.png");
+    --appui-icon-resize-handle-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ResizeHandle.png");
+    --appui-icon-review-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Review.png");
+    --appui-icon-rewind-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Rewind.png");
+    --appui-icon-roofer-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Roofer.png");
+    --appui-icon-ruler-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Ruler.png");
+    --appui-icon-scale-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Scale.png");
+    --appui-icon-scene-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Scene.png");
+    --appui-icon-scene-settings-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SceneSettings.png");
+    --appui-icon-select-object-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SelectObject.png");
+    --appui-icon-settings-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Settings.png");
+    --appui-icon-shape-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Shape.png");
+    --appui-icon-skip-back-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SkipBack.png");
+    --appui-icon-skip-next-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SkipNext.png");
+    --appui-icon-smooth-brush-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SmoothBrush.png");
+    --appui-icon-snapshot-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Snapshot.png");
+    --appui-icon-speaker-high-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SpeakerHigh.png");
+    --appui-icon-speaker-low-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SpeakerLow.png");
+    --appui-icon-speaker-none-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SpeakerNone.png");
+    --appui-icon-speaker-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SpeakerSlash.png");
+    --appui-icon-speaker-x-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SpeakerX.png");
+    --appui-icon-spline-tool-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SplineTool.png");
+    --appui-icon-squares-four-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SquaresFour.png");
+    --appui-icon-star-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Star.png");
+    --appui-icon-steady-cam-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SteadyCam.png");
+    --appui-icon-steel-worker-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SteelWorker.png");
+    --appui-icon-steering-wheel-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SteeringWheel.png");
+    --appui-icon-step-back-1-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/StepBack1.png");
+    --appui-icon-step-back-10-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/StepBack10.png");
+    --appui-icon-step-forward-1-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/StepForward1.png");
+    --appui-icon-step-forward-10-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/StepForward10.png");
+    --appui-icon-stop-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Stop.png");
+    --appui-icon-sub-menu-indicator-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SubMenuIndicator.png");
+    --appui-icon-sun-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Sun.png");
+    --appui-icon-sun-study-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SunStudy.png");
+    --appui-icon-sundial-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Sundial.png");
+    --appui-icon-tag-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Tag.png");
+    --appui-icon-target-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Target.png");
+    --appui-icon-teleport-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Teleport.png");
+    --appui-icon-tiled-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Tiled.png");
+    --appui-icon-tilt-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Tilt.png");
+    --appui-icon-tilt-device-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TiltDevice.png");
+    --appui-icon-time-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Time.png");
+    --appui-icon-timeline-play-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TimelinePlay.png");
+    --appui-icon-timeline-scrubber-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TimelineScrubber.png");
+    --appui-icon-timeline-scrubber-slash-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TimelineScrubberSlash.png");
+    --appui-icon-tortoise-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Tortoise.png");
+    --appui-icon-transparency-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Transparency.png");
+    --appui-icon-trend-down-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TrendDown.png");
+    --appui-icon-trend-up-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/TrendUp.png");
+    --appui-icon-unity-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Unity.png");
+    --appui-icon-unlock-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Unlock.png");
+    --appui-icon-users-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Users.png");
+    --appui-icon-vertical-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Vertical.png");
+    --appui-icon-view-left-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ViewLeft.png");
+    --appui-icon-view-right-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ViewRight.png");
+    --appui-icon-view-top-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ViewTop.png");
+    --appui-icon-vr-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Vr.png");
+    --appui-icon-walk-mode-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WalkMode.png");
+    --appui-icon-warning-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Warning.png");
+    --appui-icon-waypoint-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Waypoint.png");
+    --appui-icon-waypoint-add-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WaypointAdd.png");
+    --appui-icon-waypoint-custom-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WaypointCustom.png");
+    --appui-icon-waypoint-delete-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WaypointDelete.png");
+    --appui-icon-waypoint-home-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WaypointHome.png");
+    --appui-icon-world-edit-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WorldEdit.png");
+    --appui-icon-world-positioning-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/WorldPositioning.png");
+    --appui-icon-x-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/X.png");
+}
+
+.appui-icon--check--bold {
+    --unity-image: var(--appui-icon-check-bold);
+}
+
+.appui-icon--dots-three--bold {
+    --unity-image: var(--appui-icon-dots-three-bold);
+}
+
+.appui-icon--dots-three-vertical--bold {
+    --unity-image: var(--appui-icon-dots-three-vertical-bold);
+}
+
+.appui-icon--minus--bold {
+    --unity-image: var(--appui-icon-minus-bold);
+}
+
+.appui-icon--caret-down--fill {
+    --unity-image: var(--appui-icon-caret-down-fill);
+}
+
+.appui-icon--warning--fill {
+    --unity-image: var(--appui-icon-warning-fill);
+}
+
+.appui-icon--360--regular {
+    --unity-image: var(--appui-icon-360-regular);
+}
+
+.appui-icon--ar-mode--regular {
+    --unity-image: var(--appui-icon-ar-mode-regular);
+}
+
+.appui-icon--ar-mode-off--regular {
+    --unity-image: var(--appui-icon-ar-mode-off-regular);
+}
+
+.appui-icon--add-layer--regular {
+    --unity-image: var(--appui-icon-add-layer-regular);
+}
+
+.appui-icon--annotation--regular {
+    --unity-image: var(--appui-icon-annotation-regular);
+}
+
+.appui-icon--apperature--regular {
+    --unity-image: var(--appui-icon-apperature-regular);
+}
+
+.appui-icon--apperature-off--regular {
+    --unity-image: var(--appui-icon-apperature-off-regular);
+}
+
+.appui-icon--arrow-clockwise--regular {
+    --unity-image: var(--appui-icon-arrow-clockwise-regular);
+}
+
+.appui-icon--arrow-counter-clockwise--regular {
+    --unity-image: var(--appui-icon-arrow-counter-clockwise-regular);
+}
+
+.appui-icon--arrow-down--regular {
+    --unity-image: var(--appui-icon-arrow-down-regular);
+}
+
+.appui-icon--arrow-left--regular {
+    --unity-image: var(--appui-icon-arrow-left-regular);
+}
+
+.appui-icon--arrow-right--regular {
+    --unity-image: var(--appui-icon-arrow-right-regular);
+}
+
+.appui-icon--arrow-square-in--regular {
+    --unity-image: var(--appui-icon-arrow-square-in-regular);
+}
+
+.appui-icon--arrow-square-out--regular {
+    --unity-image: var(--appui-icon-arrow-square-out-regular);
+}
+
+.appui-icon--arrow-u-down-left--regular {
+    --unity-image: var(--appui-icon-arrow-u-down-left-regular);
+}
+
+.appui-icon--arrow-u-down-right--regular {
+    --unity-image: var(--appui-icon-arrow-u-down-right-regular);
+}
+
+.appui-icon--arrow-u-up-left--regular {
+    --unity-image: var(--appui-icon-arrow-u-up-left-regular);
+}
+
+.appui-icon--arrow-u-up-right--regular {
+    --unity-image: var(--appui-icon-arrow-u-up-right-regular);
+}
+
+.appui-icon--arrow-up--regular {
+    --unity-image: var(--appui-icon-arrow-up-regular);
+}
+
+.appui-icon--arrows-clockwise--regular {
+    --unity-image: var(--appui-icon-arrows-clockwise-regular);
+}
+
+.appui-icon--arrows-counter-clockwise--regular {
+    --unity-image: var(--appui-icon-arrows-counter-clockwise-regular);
+}
+
+.appui-icon--arrows-out-cardinal--regular {
+    --unity-image: var(--appui-icon-arrows-out-cardinal-regular);
+}
+
+.appui-icon--arrows-u-clockwise--regular {
+    --unity-image: var(--appui-icon-arrows-u-clockwise-regular);
+}
+
+.appui-icon--arrows-u-counter-clockwise--regular {
+    --unity-image: var(--appui-icon-arrows-u-counter-clockwise-regular);
+}
+
+.appui-icon--backplate--regular {
+    --unity-image: var(--appui-icon-backplate-regular);
+}
+
+.appui-icon--calendar--regular {
+    --unity-image: var(--appui-icon-calendar-regular);
+}
+
+.appui-icon--camera--regular {
+    --unity-image: var(--appui-icon-camera-regular);
+}
+
+.appui-icon--camera-dynamic--regular {
+    --unity-image: var(--appui-icon-camera-dynamic-regular);
+}
+
+.appui-icon--camera-follow--regular {
+    --unity-image: var(--appui-icon-camera-follow-regular);
+}
+
+.appui-icon--camera-move--regular {
+    --unity-image: var(--appui-icon-camera-move-regular);
+}
+
+.appui-icon--camera-move-lock--regular {
+    --unity-image: var(--appui-icon-camera-move-lock-regular);
+}
+
+.appui-icon--camera-overhead--regular {
+    --unity-image: var(--appui-icon-camera-overhead-regular);
+}
+
+.appui-icon--camera-rotate--regular {
+    --unity-image: var(--appui-icon-camera-rotate-regular);
+}
+
+.appui-icon--camera-rotate-lock--regular {
+    --unity-image: var(--appui-icon-camera-rotate-lock-regular);
+}
+
+.appui-icon--camera-scale--regular {
+    --unity-image: var(--appui-icon-camera-scale-regular);
+}
+
+.appui-icon--camera-settings--regular {
+    --unity-image: var(--appui-icon-camera-settings-regular);
+}
+
+.appui-icon--camera-shake--regular {
+    --unity-image: var(--appui-icon-camera-shake-regular);
+}
+
+.appui-icon--camera-sidelines--regular {
+    --unity-image: var(--appui-icon-camera-sidelines-regular);
+}
+
+.appui-icon--camera-x--regular {
+    --unity-image: var(--appui-icon-camera-x-regular);
+}
+
+.appui-icon--camera-y--regular {
+    --unity-image: var(--appui-icon-camera-y-regular);
+}
+
+.appui-icon--camera-z--regular {
+    --unity-image: var(--appui-icon-camera-z-regular);
+}
+
+.appui-icon--car-rim--regular {
+    --unity-image: var(--appui-icon-car-rim-regular);
+}
+
+.appui-icon--caret-double-down--regular {
+    --unity-image: var(--appui-icon-caret-double-down-regular);
+}
+
+.appui-icon--caret-double-left--regular {
+    --unity-image: var(--appui-icon-caret-double-left-regular);
+}
+
+.appui-icon--caret-double-right--regular {
+    --unity-image: var(--appui-icon-caret-double-right-regular);
+}
+
+.appui-icon--caret-double-up--regular {
+    --unity-image: var(--appui-icon-caret-double-up-regular);
+}
+
+.appui-icon--caret-down--regular {
+    --unity-image: var(--appui-icon-caret-down-regular);
+}
+
+.appui-icon--caret-down-shallow--regular {
+    --unity-image: var(--appui-icon-caret-down-shallow-regular);
+}
+
+.appui-icon--caret-down-small--regular {
+    --unity-image: var(--appui-icon-caret-down-small-regular);
+}
+
+.appui-icon--caret-left--regular {
+    --unity-image: var(--appui-icon-caret-left-regular);
+}
+
+.appui-icon--caret-right--regular {
+    --unity-image: var(--appui-icon-caret-right-regular);
+}
+
+.appui-icon--caret-up--regular {
+    --unity-image: var(--appui-icon-caret-up-regular);
+}
+
+.appui-icon--caret-up-shallow--regular {
+    --unity-image: var(--appui-icon-caret-up-shallow-regular);
+}
+
+.appui-icon--carpenter--regular {
+    --unity-image: var(--appui-icon-carpenter-regular);
+}
+
+.appui-icon--check--regular {
+    --unity-image: var(--appui-icon-check-regular);
+}
+
+.appui-icon--clap-board--regular {
+    --unity-image: var(--appui-icon-clap-board-regular);
+}
+
+.appui-icon--clipping--regular {
+    --unity-image: var(--appui-icon-clipping-regular);
+}
+
+.appui-icon--clipping-x--regular {
+    --unity-image: var(--appui-icon-clipping-x-regular);
+}
+
+.appui-icon--clipping-y--regular {
+    --unity-image: var(--appui-icon-clipping-y-regular);
+}
+
+.appui-icon--clipping-z--regular {
+    --unity-image: var(--appui-icon-clipping-z-regular);
+}
+
+.appui-icon--cloud--regular {
+    --unity-image: var(--appui-icon-cloud-regular);
+}
+
+.appui-icon--color-picker--regular {
+    --unity-image: var(--appui-icon-color-picker-regular);
+}
+
+.appui-icon--connection--regular {
+    --unity-image: var(--appui-icon-connection-regular);
+}
+
+.appui-icon--connection-slash--regular {
+    --unity-image: var(--appui-icon-connection-slash-regular);
+}
+
+.appui-icon--damping-high--regular {
+    --unity-image: var(--appui-icon-damping-high-regular);
+}
+
+.appui-icon--damping-low--regular {
+    --unity-image: var(--appui-icon-damping-low-regular);
+}
+
+.appui-icon--damping-medium--regular {
+    --unity-image: var(--appui-icon-damping-medium-regular);
+}
+
+.appui-icon--damping-off--regular {
+    --unity-image: var(--appui-icon-damping-off-regular);
+}
+
+.appui-icon--debug--regular {
+    --unity-image: var(--appui-icon-debug-regular);
+}
+
+.appui-icon--delete--regular {
+    --unity-image: var(--appui-icon-delete-regular);
+}
+
+.appui-icon--dof-disabled--regular {
+    --unity-image: var(--appui-icon-dof-disabled-regular);
+}
+
+.appui-icon--dome--regular {
+    --unity-image: var(--appui-icon-dome-regular);
+}
+
+.appui-icon--draghandle--regular {
+    --unity-image: var(--appui-icon-draghandle-regular);
+}
+
+.appui-icon--drywall-installer--regular {
+    --unity-image: var(--appui-icon-drywall-installer-regular);
+}
+
+.appui-icon--electrician--regular {
+    --unity-image: var(--appui-icon-electrician-regular);
+}
+
+.appui-icon--ellipsis--regular {
+    --unity-image: var(--appui-icon-ellipsis-regular);
+}
+
+.appui-icon--equipment-operator--regular {
+    --unity-image: var(--appui-icon-equipment-operator-regular);
+}
+
+.appui-icon--eraser--regular {
+    --unity-image: var(--appui-icon-eraser-regular);
+}
+
+.appui-icon--export--regular {
+    --unity-image: var(--appui-icon-export-regular);
+}
+
+.appui-icon--eye--regular {
+    --unity-image: var(--appui-icon-eye-regular);
+}
+
+.appui-icon--eye-slash--regular {
+    --unity-image: var(--appui-icon-eye-slash-regular);
+}
+
+.appui-icon--face-mesh--regular {
+    --unity-image: var(--appui-icon-face-mesh-regular);
+}
+
+.appui-icon--fast-forward--regular {
+    --unity-image: var(--appui-icon-fast-forward-regular);
+}
+
+.appui-icon--file--regular {
+    --unity-image: var(--appui-icon-file-regular);
+}
+
+.appui-icon--film-roll--regular {
+    --unity-image: var(--appui-icon-film-roll-regular);
+}
+
+.appui-icon--flag--regular {
+    --unity-image: var(--appui-icon-flag-regular);
+}
+
+.appui-icon--fly--regular {
+    --unity-image: var(--appui-icon-fly-regular);
+}
+
+.appui-icon--focal-length--regular {
+    --unity-image: var(--appui-icon-focal-length-regular);
+}
+
+.appui-icon--focus--regular {
+    --unity-image: var(--appui-icon-focus-regular);
+}
+
+.appui-icon--focus-apperature--regular {
+    --unity-image: var(--appui-icon-focus-apperature-regular);
+}
+
+.appui-icon--focus-auto--regular {
+    --unity-image: var(--appui-icon-focus-auto-regular);
+}
+
+.appui-icon--focus-manual--regular {
+    --unity-image: var(--appui-icon-focus-manual-regular);
+}
+
+.appui-icon--focus-mode-tracking--regular {
+    --unity-image: var(--appui-icon-focus-mode-tracking-regular);
+}
+
+.appui-icon--focus-object--regular {
+    --unity-image: var(--appui-icon-focus-object-regular);
+}
+
+.appui-icon--folder--regular {
+    --unity-image: var(--appui-icon-folder-regular);
+}
+
+.appui-icon--forma-backplate--regular {
+    --unity-image: var(--appui-icon-forma-backplate-regular);
+}
+
+.appui-icon--forma-dome--regular {
+    --unity-image: var(--appui-icon-forma-dome-regular);
+}
+
+.appui-icon--forma-scene--regular {
+    --unity-image: var(--appui-icon-forma-scene-regular);
+}
+
+.appui-icon--funnel--regular {
+    --unity-image: var(--appui-icon-funnel-regular);
+}
+
+.appui-icon--funnel-simple--regular {
+    --unity-image: var(--appui-icon-funnel-simple-regular);
+}
+
+.appui-icon--generic-cube--regular {
+    --unity-image: var(--appui-icon-generic-cube-regular);
+}
+
+.appui-icon--generic-sphere--regular {
+    --unity-image: var(--appui-icon-generic-sphere-regular);
+}
+
+.appui-icon--grid-four--regular {
+    --unity-image: var(--appui-icon-grid-four-regular);
+}
+
+.appui-icon--hare--regular {
+    --unity-image: var(--appui-icon-hare-regular);
+}
+
+.appui-icon--heart--regular {
+    --unity-image: var(--appui-icon-heart-regular);
+}
+
+.appui-icon--help--regular {
+    --unity-image: var(--appui-icon-help-regular);
+}
+
+.appui-icon--helper--regular {
+    --unity-image: var(--appui-icon-helper-regular);
+}
+
+.appui-icon--hierarchy--regular {
+    --unity-image: var(--appui-icon-hierarchy-regular);
+}
+
+.appui-icon--horizontal--regular {
+    --unity-image: var(--appui-icon-horizontal-regular);
+}
+
+.appui-icon--hotspot--regular {
+    --unity-image: var(--appui-icon-hotspot-regular);
+}
+
+.appui-icon--house--regular {
+    --unity-image: var(--appui-icon-house-regular);
+}
+
+.appui-icon--image--regular {
+    --unity-image: var(--appui-icon-image-regular);
+}
+
+.appui-icon--info--regular {
+    --unity-image: var(--appui-icon-info-regular);
+}
+
+.appui-icon--installs--regular {
+    --unity-image: var(--appui-icon-installs-regular);
+}
+
+.appui-icon--joystick--regular {
+    --unity-image: var(--appui-icon-joystick-regular);
+}
+
+.appui-icon--joystick-slash--regular {
+    --unity-image: var(--appui-icon-joystick-slash-regular);
+}
+
+.appui-icon--keyboard-a--regular {
+    --unity-image: var(--appui-icon-keyboard-a-regular);
+}
+
+.appui-icon--keyboard-backspace--regular {
+    --unity-image: var(--appui-icon-keyboard-backspace-regular);
+}
+
+.appui-icon--keyboard-control--regular {
+    --unity-image: var(--appui-icon-keyboard-control-regular);
+}
+
+.appui-icon--keyboard-e--regular {
+    --unity-image: var(--appui-icon-keyboard-e-regular);
+}
+
+.appui-icon--keyboard-esc--regular {
+    --unity-image: var(--appui-icon-keyboard-esc-regular);
+}
+
+.appui-icon--keyboard-m--regular {
+    --unity-image: var(--appui-icon-keyboard-m-regular);
+}
+
+.appui-icon--keyboard-q--regular {
+    --unity-image: var(--appui-icon-keyboard-q-regular);
+}
+
+.appui-icon--keyboard-return--regular {
+    --unity-image: var(--appui-icon-keyboard-return-regular);
+}
+
+.appui-icon--keyboard-s--regular {
+    --unity-image: var(--appui-icon-keyboard-s-regular);
+}
+
+.appui-icon--keyboard-shift--regular {
+    --unity-image: var(--appui-icon-keyboard-shift-regular);
+}
+
+.appui-icon--keyboard-space--regular {
+    --unity-image: var(--appui-icon-keyboard-space-regular);
+}
+
+.appui-icon--keyboard-w--regular {
+    --unity-image: var(--appui-icon-keyboard-w-regular);
+}
+
+.appui-icon--layers--regular {
+    --unity-image: var(--appui-icon-layers-regular);
+}
+
+.appui-icon--learn--regular {
+    --unity-image: var(--appui-icon-learn-regular);
+}
+
+.appui-icon--level--regular {
+    --unity-image: var(--appui-icon-level-regular);
+}
+
+.appui-icon--level-active--regular {
+    --unity-image: var(--appui-icon-level-active-regular);
+}
+
+.appui-icon--line-brush--regular {
+    --unity-image: var(--appui-icon-line-brush-regular);
+}
+
+.appui-icon--link--regular {
+    --unity-image: var(--appui-icon-link-regular);
+}
+
+.appui-icon--link-break--regular {
+    --unity-image: var(--appui-icon-link-break-regular);
+}
+
+.appui-icon--link-ratio--regular {
+    --unity-image: var(--appui-icon-link-ratio-regular);
+}
+
+.appui-icon--link-simple--regular {
+    --unity-image: var(--appui-icon-link-simple-regular);
+}
+
+.appui-icon--link-simple-break--regular {
+    --unity-image: var(--appui-icon-link-simple-break-regular);
+}
+
+.appui-icon--link-simple-horizontal--regular {
+    --unity-image: var(--appui-icon-link-simple-horizontal-regular);
+}
+
+.appui-icon--link-simple-horizontal-break--regular {
+    --unity-image: var(--appui-icon-link-simple-horizontal-break-regular);
+}
+
+.appui-icon--list--regular {
+    --unity-image: var(--appui-icon-list-regular);
+}
+
+.appui-icon--local-positioning--regular {
+    --unity-image: var(--appui-icon-local-positioning-regular);
+}
+
+.appui-icon--lock--regular {
+    --unity-image: var(--appui-icon-lock-regular);
+}
+
+.appui-icon--magnifying-glass--regular {
+    --unity-image: var(--appui-icon-magnifying-glass-regular);
+}
+
+.appui-icon--magnifying-glass-minus--regular {
+    --unity-image: var(--appui-icon-magnifying-glass-minus-regular);
+}
+
+.appui-icon--magnifying-glass-plus--regular {
+    --unity-image: var(--appui-icon-magnifying-glass-plus-regular);
+}
+
+.appui-icon--mars-corner-tool--regular {
+    --unity-image: var(--appui-icon-mars-corner-tool-regular);
+}
+
+.appui-icon--mars-proxy--regular {
+    --unity-image: var(--appui-icon-mars-proxy-regular);
+}
+
+.appui-icon--mars-scan--regular {
+    --unity-image: var(--appui-icon-mars-scan-regular);
+}
+
+.appui-icon--mars-snapping--regular {
+    --unity-image: var(--appui-icon-mars-snapping-regular);
+}
+
+.appui-icon--mason--regular {
+    --unity-image: var(--appui-icon-mason-regular);
+}
+
+.appui-icon--measure-angle--regular {
+    --unity-image: var(--appui-icon-measure-angle-regular);
+}
+
+.appui-icon--measure-length--regular {
+    --unity-image: var(--appui-icon-measure-length-regular);
+}
+
+.appui-icon--menu--regular {
+    --unity-image: var(--appui-icon-menu-regular);
+}
+
+.appui-icon--microphone--regular {
+    --unity-image: var(--appui-icon-microphone-regular);
+}
+
+.appui-icon--microphone-slash--regular {
+    --unity-image: var(--appui-icon-microphone-slash-regular);
+}
+
+.appui-icon--minus--regular {
+    --unity-image: var(--appui-icon-minus-regular);
+}
+
+.appui-icon--mouse--regular {
+    --unity-image: var(--appui-icon-mouse-regular);
+}
+
+.appui-icon--mouse-left--regular {
+    --unity-image: var(--appui-icon-mouse-left-regular);
+}
+
+.appui-icon--mouse-right--regular {
+    --unity-image: var(--appui-icon-mouse-right-regular);
+}
+
+.appui-icon--new-folder--regular {
+    --unity-image: var(--appui-icon-new-folder-regular);
+}
+
+.appui-icon--no-leveling--regular {
+    --unity-image: var(--appui-icon-no-leveling-regular);
+}
+
+.appui-icon--ok--regular {
+    --unity-image: var(--appui-icon-ok-regular);
+}
+
+.appui-icon--orbit--regular {
+    --unity-image: var(--appui-icon-orbit-regular);
+}
+
+.appui-icon--orbit-selection--regular {
+    --unity-image: var(--appui-icon-orbit-selection-regular);
+}
+
+.appui-icon--orbit-world--regular {
+    --unity-image: var(--appui-icon-orbit-world-regular);
+}
+
+.appui-icon--paint-brush--regular {
+    --unity-image: var(--appui-icon-paint-brush-regular);
+}
+
+.appui-icon--paint-brush-add--regular {
+    --unity-image: var(--appui-icon-paint-brush-add-regular);
+}
+
+.appui-icon--paint-bucket--regular {
+    --unity-image: var(--appui-icon-paint-bucket-regular);
+}
+
+.appui-icon--painter--regular {
+    --unity-image: var(--appui-icon-painter-regular);
+}
+
+.appui-icon--pan--regular {
+    --unity-image: var(--appui-icon-pan-regular);
+}
+
+.appui-icon--pause--regular {
+    --unity-image: var(--appui-icon-pause-regular);
+}
+
+.appui-icon--pen--regular {
+    --unity-image: var(--appui-icon-pen-regular);
+}
+
+.appui-icon--play--regular {
+    --unity-image: var(--appui-icon-play-regular);
+}
+
+.appui-icon--plugged-in--regular {
+    --unity-image: var(--appui-icon-plugged-in-regular);
+}
+
+.appui-icon--plugged-in-slash--regular {
+    --unity-image: var(--appui-icon-plugged-in-slash-regular);
+}
+
+.appui-icon--plumb--regular {
+    --unity-image: var(--appui-icon-plumb-regular);
+}
+
+.appui-icon--plumber--regular {
+    --unity-image: var(--appui-icon-plumber-regular);
+}
+
+.appui-icon--plus--regular {
+    --unity-image: var(--appui-icon-plus-regular);
+}
+
+.appui-icon--point-cloud--regular {
+    --unity-image: var(--appui-icon-point-cloud-regular);
+}
+
+.appui-icon--profile--regular {
+    --unity-image: var(--appui-icon-profile-regular);
+}
+
+.appui-icon--qr-code--regular {
+    --unity-image: var(--appui-icon-qr-code-regular);
+}
+
+.appui-icon--rebase--regular {
+    --unity-image: var(--appui-icon-rebase-regular);
+}
+
+.appui-icon--recorder--regular {
+    --unity-image: var(--appui-icon-recorder-regular);
+}
+
+.appui-icon--reposition-camera--regular {
+    --unity-image: var(--appui-icon-reposition-camera-regular);
+}
+
+.appui-icon--resize-handle--regular {
+    --unity-image: var(--appui-icon-resize-handle-regular);
+}
+
+.appui-icon--review--regular {
+    --unity-image: var(--appui-icon-review-regular);
+}
+
+.appui-icon--rewind--regular {
+    --unity-image: var(--appui-icon-rewind-regular);
+}
+
+.appui-icon--roofer--regular {
+    --unity-image: var(--appui-icon-roofer-regular);
+}
+
+.appui-icon--ruler--regular {
+    --unity-image: var(--appui-icon-ruler-regular);
+}
+
+.appui-icon--scale--regular {
+    --unity-image: var(--appui-icon-scale-regular);
+}
+
+.appui-icon--scene--regular {
+    --unity-image: var(--appui-icon-scene-regular);
+}
+
+.appui-icon--scene-settings--regular {
+    --unity-image: var(--appui-icon-scene-settings-regular);
+}
+
+.appui-icon--select-object--regular {
+    --unity-image: var(--appui-icon-select-object-regular);
+}
+
+.appui-icon--settings--regular {
+    --unity-image: var(--appui-icon-settings-regular);
+}
+
+.appui-icon--shape--regular {
+    --unity-image: var(--appui-icon-shape-regular);
+}
+
+.appui-icon--skip-back--regular {
+    --unity-image: var(--appui-icon-skip-back-regular);
+}
+
+.appui-icon--skip-next--regular {
+    --unity-image: var(--appui-icon-skip-next-regular);
+}
+
+.appui-icon--smooth-brush--regular {
+    --unity-image: var(--appui-icon-smooth-brush-regular);
+}
+
+.appui-icon--snapshot--regular {
+    --unity-image: var(--appui-icon-snapshot-regular);
+}
+
+.appui-icon--speaker-high--regular {
+    --unity-image: var(--appui-icon-speaker-high-regular);
+}
+
+.appui-icon--speaker-low--regular {
+    --unity-image: var(--appui-icon-speaker-low-regular);
+}
+
+.appui-icon--speaker-none--regular {
+    --unity-image: var(--appui-icon-speaker-none-regular);
+}
+
+.appui-icon--speaker-slash--regular {
+    --unity-image: var(--appui-icon-speaker-slash-regular);
+}
+
+.appui-icon--speaker-x--regular {
+    --unity-image: var(--appui-icon-speaker-x-regular);
+}
+
+.appui-icon--spline-tool--regular {
+    --unity-image: var(--appui-icon-spline-tool-regular);
+}
+
+.appui-icon--squares-four--regular {
+    --unity-image: var(--appui-icon-squares-four-regular);
+}
+
+.appui-icon--star--regular {
+    --unity-image: var(--appui-icon-star-regular);
+}
+
+.appui-icon--steady-cam--regular {
+    --unity-image: var(--appui-icon-steady-cam-regular);
+}
+
+.appui-icon--steel-worker--regular {
+    --unity-image: var(--appui-icon-steel-worker-regular);
+}
+
+.appui-icon--steering-wheel--regular {
+    --unity-image: var(--appui-icon-steering-wheel-regular);
+}
+
+.appui-icon--step-back-1--regular {
+    --unity-image: var(--appui-icon-step-back-1-regular);
+}
+
+.appui-icon--step-back-10--regular {
+    --unity-image: var(--appui-icon-step-back-10-regular);
+}
+
+.appui-icon--step-forward-1--regular {
+    --unity-image: var(--appui-icon-step-forward-1-regular);
+}
+
+.appui-icon--step-forward-10--regular {
+    --unity-image: var(--appui-icon-step-forward-10-regular);
+}
+
+.appui-icon--stop--regular {
+    --unity-image: var(--appui-icon-stop-regular);
+}
+
+.appui-icon--sub-menu-indicator--regular {
+    --unity-image: var(--appui-icon-sub-menu-indicator-regular);
+}
+
+.appui-icon--sun--regular {
+    --unity-image: var(--appui-icon-sun-regular);
+}
+
+.appui-icon--sun-study--regular {
+    --unity-image: var(--appui-icon-sun-study-regular);
+}
+
+.appui-icon--sundial--regular {
+    --unity-image: var(--appui-icon-sundial-regular);
+}
+
+.appui-icon--tag--regular {
+    --unity-image: var(--appui-icon-tag-regular);
+}
+
+.appui-icon--target--regular {
+    --unity-image: var(--appui-icon-target-regular);
+}
+
+.appui-icon--teleport--regular {
+    --unity-image: var(--appui-icon-teleport-regular);
+}
+
+.appui-icon--tiled--regular {
+    --unity-image: var(--appui-icon-tiled-regular);
+}
+
+.appui-icon--tilt--regular {
+    --unity-image: var(--appui-icon-tilt-regular);
+}
+
+.appui-icon--tilt-device--regular {
+    --unity-image: var(--appui-icon-tilt-device-regular);
+}
+
+.appui-icon--time--regular {
+    --unity-image: var(--appui-icon-time-regular);
+}
+
+.appui-icon--timeline-play--regular {
+    --unity-image: var(--appui-icon-timeline-play-regular);
+}
+
+.appui-icon--timeline-scrubber--regular {
+    --unity-image: var(--appui-icon-timeline-scrubber-regular);
+}
+
+.appui-icon--timeline-scrubber-slash--regular {
+    --unity-image: var(--appui-icon-timeline-scrubber-slash-regular);
+}
+
+.appui-icon--tortoise--regular {
+    --unity-image: var(--appui-icon-tortoise-regular);
+}
+
+.appui-icon--transparency--regular {
+    --unity-image: var(--appui-icon-transparency-regular);
+}
+
+.appui-icon--trend-down--regular {
+    --unity-image: var(--appui-icon-trend-down-regular);
+}
+
+.appui-icon--trend-up--regular {
+    --unity-image: var(--appui-icon-trend-up-regular);
+}
+
+.appui-icon--unity--regular {
+    --unity-image: var(--appui-icon-unity-regular);
+}
+
+.appui-icon--unlock--regular {
+    --unity-image: var(--appui-icon-unlock-regular);
+}
+
+.appui-icon--users--regular {
+    --unity-image: var(--appui-icon-users-regular);
+}
+
+.appui-icon--vertical--regular {
+    --unity-image: var(--appui-icon-vertical-regular);
+}
+
+.appui-icon--view-left--regular {
+    --unity-image: var(--appui-icon-view-left-regular);
+}
+
+.appui-icon--view-right--regular {
+    --unity-image: var(--appui-icon-view-right-regular);
+}
+
+.appui-icon--view-top--regular {
+    --unity-image: var(--appui-icon-view-top-regular);
+}
+
+.appui-icon--vr--regular {
+    --unity-image: var(--appui-icon-vr-regular);
+}
+
+.appui-icon--walk-mode--regular {
+    --unity-image: var(--appui-icon-walk-mode-regular);
+}
+
+.appui-icon--warning--regular {
+    --unity-image: var(--appui-icon-warning-regular);
+}
+
+.appui-icon--waypoint--regular {
+    --unity-image: var(--appui-icon-waypoint-regular);
+}
+
+.appui-icon--waypoint-add--regular {
+    --unity-image: var(--appui-icon-waypoint-add-regular);
+}
+
+.appui-icon--waypoint-custom--regular {
+    --unity-image: var(--appui-icon-waypoint-custom-regular);
+}
+
+.appui-icon--waypoint-delete--regular {
+    --unity-image: var(--appui-icon-waypoint-delete-regular);
+}
+
+.appui-icon--waypoint-home--regular {
+    --unity-image: var(--appui-icon-waypoint-home-regular);
+}
+
+.appui-icon--world-edit--regular {
+    --unity-image: var(--appui-icon-world-edit-regular);
+}
+
+.appui-icon--world-positioning--regular {
+    --unity-image: var(--appui-icon-world-positioning-regular);
+}
+
+.appui-icon--x--regular {
+    --unity-image: var(--appui-icon-x-regular);
+}
+
