@@ -215,8 +215,9 @@ namespace Unity.AppUI.Core
             var mouseLeftButtonDown = m_PointerDown;
             m_PointerDown = false;
 #endif
-            var height = Application.isPlaying ? Camera.main?.pixelHeight ??
-                UnityEngine.Device.Screen.height : UnityEngine.Device.Screen.height;
+            // var height = Application.isPlaying ? Camera.main?.pixelHeight ??
+                // UnityEngine.Device.Screen.height : UnityEngine.Device.Screen.height;
+            var height = UnityEngine.Device.Screen.height;
 
             mousePosition = new Vector2(mousePosition.x, height - mousePosition.y);
 
