@@ -142,6 +142,11 @@ namespace Unity.AppUI.Navigation
             }
         }
 
+        protected virtual NavigationScreen CreateInstance(Type screenType)
+        {
+            return (NavigationScreen)Activator.CreateInstance(screenType);
+        }
+
         VisualElement CreateItem(NavDestination destination, string template)
         {
             var item = new VisualElement { name = itemUssClassName, pickingMode = PickingMode.Ignore };
@@ -150,7 +155,7 @@ namespace Unity.AppUI.Navigation
             var screenType = (string.IsNullOrEmpty(template) || Type.GetType(template) is not {} t) ?
                 typeof(NavigationScreen) : t;
 
-            var screen = (NavigationScreen) Activator.CreateInstance(screenType!);
+            var screen = CreateInstance(screenType!);
             item.Add(screen);
 
             if (destination.showBottomNavBar)
