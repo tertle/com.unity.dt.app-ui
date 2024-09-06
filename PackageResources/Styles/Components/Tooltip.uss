@@ -4,6 +4,18 @@
     padding: 12px;
     max-width: 100%;
     max-height: 100%;
+    opacity: 0.0001;
+}
+
+.appui-tooltip.animate-in {
+    opacity: 0.0001;
+}
+
+.appui-tooltip.is-open {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: var(--appui-animation-duration-150);
+    transition-timing-function: var(--appui-animation-easing-ease-out);
 }
 
 .appui-tooltip__container {
@@ -15,6 +27,17 @@
     --box-shadow-spread: 16;
     --box-shadow-blur: 15;
     --box-shadow-color: rgba(0,0,0,.65);
+}
+
+.animate-in .appui-tooltip__container {
+    scale: 0.96;
+}
+
+.is-open .appui-tooltip__container {
+    scale: 1;
+    transition-property: scale;
+    transition-duration: var(--appui-animation-duration-150);
+    transition-timing-function: var(--appui-animation-easing-ease-out);
 }
 
 .appui-tooltip__content {

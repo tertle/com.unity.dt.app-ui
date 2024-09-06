@@ -43,6 +43,8 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId emphasizedProperty = nameof(emphasized);
 
+        internal static readonly BindingId justifiedProperty = nameof(justified);
+
         internal static readonly BindingId valueProperty = nameof(value);
 
         internal static readonly BindingId itemsProperty = nameof(items);
@@ -76,6 +78,11 @@ namespace Unity.AppUI.UI
         /// The Tabs emphasized mode styling class.
         /// </summary>
         public const string emphasizedUssClassName = ussClassName + "--emphasized";
+
+        /// <summary>
+        /// The Tabs justified mode styling class.
+        /// </summary>
+        public const string justifiedUssClassName = ussClassName + "--justified";
 
         /// <summary>
         /// The Tabs container styling class.
@@ -171,6 +178,7 @@ namespace Unity.AppUI.UI
 
             size = Size.M;
             emphasized = false;
+            justified = false;
             direction = Direction.Horizontal;
             value = 0;
 
@@ -277,6 +285,30 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
+        /// The justified mode of the Tabs.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public bool justified
+        {
+            get => ClassListContains(justifiedUssClassName);
+            set
+            {
+                var changed = justified != value;
+                EnableInClassList(justifiedUssClassName, value);
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in justifiedProperty);
+#endif
+            }
+        }
+
+        /// <summary>
         /// Method to bind the TabItem.
         /// </summary>
 #if ENABLE_RUNTIME_DATA_BINDINGS
@@ -365,6 +397,11 @@ namespace Unity.AppUI.UI
         /// <exception cref="ValueOutOfRangeException"> Throws if the value is out of range.</exception>
         public void SetValueWithoutNotify(int newValue)
         {
+            SetValueWithoutNotifyInternal(newValue);
+        }
+
+        void SetValueWithoutNotifyInternal(int newValue, bool scroll = true)
+        {
             //check the state of the target element
             if (m_Value >= 0 && m_Value < m_Items.Count && !m_Items[m_Value].enabledSelf)
                 return;
@@ -376,10 +413,10 @@ namespace Unity.AppUI.UI
             if (previousValue >= 0 && previousValue < m_Items.Count && previousValue != m_Value)
                 m_Items[previousValue].selected = false;
 
-            RefreshVisuals();
+            RefreshVisuals(scroll);
         }
 
-        void RefreshVisuals()
+        void RefreshVisuals(bool scroll = true)
         {
             if (panel == null || !paddingRect.IsValid())
                 return;
@@ -387,7 +424,8 @@ namespace Unity.AppUI.UI
             if (m_Value >= 0 && m_Value < m_Items.Count)
             {
                 m_Items[m_Value].selected = true;
-                m_ScrollView.ScrollTo(m_Items[m_Value]);
+                if (scroll)
+                    m_ScrollView.ScrollTo(m_Items[m_Value]);
                 m_ScheduledRefreshIndicator?.Pause();
                 m_ScheduledRefreshIndicator = schedule.Execute(RefreshIndicator);
             }
@@ -531,13 +569,13 @@ namespace Unity.AppUI.UI
         void OnHorizontalScrollerChanged(float offset)
         {
             if (direction == Direction.Horizontal)
-                SetValueWithoutNotify(value);
+                SetValueWithoutNotifyInternal(value, false);
         }
 
         void OnVerticalScrollerChanged(float offset)
         {
             if (direction == Direction.Vertical)
-                SetValueWithoutNotify(value);
+                SetValueWithoutNotifyInternal(value, false);
         }
 
         void PollHierarchy()
@@ -648,6 +686,12 @@ namespace Unity.AppUI.UI
                 defaultValue = false
             };
 
+            readonly UxmlBoolAttributeDescription m_Justified = new UxmlBoolAttributeDescription
+            {
+                name = "justified",
+                defaultValue = false
+            };
+
             readonly UxmlEnumAttributeDescription<Direction> m_Orientation = new UxmlEnumAttributeDescription<Direction>
             {
                 name = "direction",
@@ -674,6 +718,7 @@ namespace Unity.AppUI.UI
                 el.size = m_Size.GetValueFromBag(bag, cc);
                 el.direction = m_Orientation.GetValueFromBag(bag, cc);
                 el.emphasized = m_Emphasized.GetValueFromBag(bag, cc);
+                el.justified = m_Justified.GetValueFromBag(bag, cc);
                 el.value = m_DefaultValue.GetValueFromBag(bag, cc);
             }
         }

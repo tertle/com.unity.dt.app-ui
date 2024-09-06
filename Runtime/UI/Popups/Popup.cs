@@ -11,11 +11,6 @@ namespace Unity.AppUI.UI
     public abstract class Popup
     {
         /// <summary>
-        /// The average duration of a frame in milliseconds. Used to delay position calculations.
-        /// </summary>
-        protected const int k_NextFrameDurationMs = 16;
-
-        /// <summary>
         /// The message id used to show the popup.
         /// </summary>
         protected const int k_PopupShow = 1;
@@ -25,7 +20,22 @@ namespace Unity.AppUI.UI
         /// </summary>
         protected const int k_PopupDismiss = 2;
 
+        /// <summary>
+        /// A pre-allocated Action that calls <see cref="InvokeShownEventHandlers"/>.
+        /// </summary>
+        protected readonly Action m_InvokeShownAction;
+
         Handler m_Handler;
+
+        readonly Action m_PrepareAnimateViewInAction;
+
+        readonly Action m_OnLayoutReadyToAnimateInAction;
+
+        IVisualElementScheduledItem m_ScheduledPrepareAnimateViewIn;
+
+        IVisualElementScheduledItem m_ScheduledAnimateViewIn;
+
+        IVisualElementScheduledItem m_ScheduledLayoutReadyToAnimateIn;
 
         /// <summary>
         /// Default constructor.
@@ -43,6 +53,10 @@ namespace Unity.AppUI.UI
 
             if (contentView is IDismissInvocator invocator)
                 invocator.dismissRequested += Dismiss;
+
+            m_InvokeShownAction = new Action(InvokeShownEventHandlers);
+            m_PrepareAnimateViewInAction = new Action(PrepareAnimateViewInInternal);
+            m_OnLayoutReadyToAnimateInAction = new Action(OnLayoutReadyToAnimateInInternal);
         }
 
         /// <summary>
@@ -148,6 +162,8 @@ namespace Unity.AppUI.UI
         /// <exception cref="InvalidOperationException">Unable to find a suitable parent for the popup.</exception>
         protected virtual void ShowView()
         {
+            m_ScheduledLayoutReadyToAnimateIn?.Pause();
+
             if (view.panel == null) // not added into the visual tree yet
             {
                 // find a suitable parent for the popup
@@ -166,7 +182,7 @@ namespace Unity.AppUI.UI
 
             if (ShouldAnimate())
             {
-                AnimateViewIn();
+                m_ScheduledLayoutReadyToAnimateIn = view.schedule.Execute(m_OnLayoutReadyToAnimateInAction);
             }
             else
             {
@@ -234,12 +250,45 @@ namespace Unity.AppUI.UI
             }
         }
 
+        void OnLayoutReadyToAnimateInInternal()
+        {
+            m_ScheduledPrepareAnimateViewIn?.Pause();
+            OnLayoutReadyToAnimateIn();
+            // delay the animation preparation to the next frame in case OnLayoutReadyToAnimateIn overrides the layout
+            m_ScheduledPrepareAnimateViewIn = view.schedule.Execute(m_PrepareAnimateViewInAction);
+        }
+
+        void PrepareAnimateViewInInternal()
+        {
+            m_ScheduledAnimateViewIn?.Pause();
+            PrepareAnimateViewIn();
+            // delay the animation to the next frame in case PrepareAnimateViewIn overrides the layout
+            m_ScheduledAnimateViewIn = view.schedule.Execute(AnimateViewIn);
+        }
+
+        /// <summary>
+        /// Called when the layout is ready to be animated in.
+        /// </summary>
+        protected virtual void OnLayoutReadyToAnimateIn()
+        {
+            view.visible = true;
+        }
+
+        /// <summary>
+        /// Called a frame before <see cref="AnimateViewIn"/> to prepare the layout a final time.
+        /// </summary>
+        protected virtual void PrepareAnimateViewIn()
+        {
+            view.AddToClassList(Styles.animateInUssClassName);
+        }
+
         /// <summary>
         /// Start the animation for this popup.
         /// </summary>
         protected virtual void AnimateViewIn()
         {
-            // do nothing by default
+            view.RemoveFromClassList(Styles.animateInUssClassName);
+            view.AddToClassList(Styles.openUssClassName);
         }
 
         /// <summary>
@@ -248,6 +297,7 @@ namespace Unity.AppUI.UI
         /// <param name="reason">The reason why the popup should be dismissed.</param>
         protected virtual void HideView(DismissType reason)
         {
+            m_ScheduledPrepareAnimateViewIn?.Pause();
             view.UnregisterCallback<KeyDownEvent>(OnViewKeyDown);
 
             if (ShouldAnimate())
@@ -266,6 +316,8 @@ namespace Unity.AppUI.UI
         /// <param name="reason">The reason why the popup has been dismissed.</param>
         protected virtual void InvokeDismissedEventHandlers(DismissType reason)
         {
+            view.RemoveFromClassList(Styles.animateInUssClassName);
+            view.RemoveFromClassList(Styles.openUssClassName);
             view.UnregisterCallback<DetachFromPanelEvent>(OnDetachedFromPanel);
             view.visible = false;
         }
@@ -287,7 +339,7 @@ namespace Unity.AppUI.UI
         /// <param name="reason">The reason why the popup should be dismissed.</param>
         protected virtual void AnimateViewOut(DismissType reason)
         {
-            // do nothing
+            InvokeDismissedEventHandlers(reason);
         }
 
         /// <summary>

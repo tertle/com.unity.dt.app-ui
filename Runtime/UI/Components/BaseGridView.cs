@@ -1192,7 +1192,7 @@ namespace Unity.AppUI.UI
 
             DoSoftSelect(evt, clickCount);
 
-            if (evt.button == (int)MouseButton.RightMouse)
+            if (evt.IsContextClick())
                 DoContextClickAfterSelect(evt);
         }
 

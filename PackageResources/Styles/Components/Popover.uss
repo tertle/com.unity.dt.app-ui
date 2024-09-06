@@ -6,6 +6,18 @@
     right: 0;
     position: absolute;
     background-color: var(--appui-color-transparent-black-0);
+    opacity: 0.0001;
+}
+
+.appui-popover.animate-in {
+    opacity: 0.0001;
+}
+
+.appui-popover.is-open {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: var(--appui-animation-duration-150);
+    transition-timing-function: var(--appui-animation-easing-ease-out);
 }
 
 .appui-popover--modal-backdrop {
@@ -19,6 +31,19 @@
 
 .no-arrow > .appui-popover__popover {
     padding: 8px;
+}
+
+.animate-in .appui-popover__popover {
+    translate: 0 -12px;
+    scale: 0.96;
+}
+
+.is-open .appui-popover__popover {
+    scale: 1;
+    translate: 0 0;
+    transition-property: scale, translate;
+    transition-duration: var(--appui-animation-duration-150);
+    transition-timing-function: var(--appui-animation-easing-ease-out);
 }
 
 .appui-popover__shadow-element {

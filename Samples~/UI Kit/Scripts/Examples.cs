@@ -7,6 +7,7 @@ using Unity.AppUI.UI;
 using UnityEngine.UIElements;
 using UnityEngine.UIElements.Experimental;
 using AnimationMode = Unity.AppUI.UI.AnimationMode;
+using Avatar = Unity.AppUI.UI.Avatar;
 using Button = Unity.AppUI.UI.Button;
 using Toggle = Unity.AppUI.UI.Toggle;
 using Dropdown = Unity.AppUI.UI.Dropdown;
@@ -410,6 +411,11 @@ namespace Unity.AppUI.Samples
 
             var swipeViewD = root.Q<SwipeView>("swipeview-distance");
             swipeViewD.beingSwiped += OnBeingSwiped;
+
+            swipeViewD.Query<Avatar>().ForEach(avatar =>
+            {
+                avatar.AddManipulator(new Pressable(() => swipeViewD.GoTo(swipeViewD.IndexOf(avatar.parent))));
+            });
 
             root.Q<Chip>("filled-chip-ornament").ornament = new Image
             {

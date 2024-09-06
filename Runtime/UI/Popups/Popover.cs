@@ -1,5 +1,4 @@
 using System;
-using Unity.AppUI.Bridge;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;

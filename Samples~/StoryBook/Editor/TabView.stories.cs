@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AppUI.UI;
 using UnityEngine.UIElements;
 
@@ -28,11 +29,16 @@ namespace Unity.AppUI.Editor
                 }
             };
 
-            var tabs = new Tabs();
-            tabs.sourceItems = new string[] { "Tab 1", "Tab 2" };
-            tabs.bindItem = (tab, i) =>
+            var sourceItems = new List<string>();
+            for (var i = 0; i < 2; ++i)
             {
-                tab.label = (string)tabs.sourceItems[i];
+                sourceItems.Add($"Tab {i}");
+            }
+            var tabs = new Tabs
+            {
+                justified = true,
+                sourceItems = sourceItems,
+                bindItem = (tab, i) => tab.label = sourceItems[i]
             };
             root.Add(tabs);
 

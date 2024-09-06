@@ -58,6 +58,8 @@ namespace Unity.AppUI.UI
 
         IVisualElementScheduledItem m_DeferLongPress;
 
+        IVisualElementScheduledItem m_PostProcessDisabledState;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -102,6 +104,7 @@ namespace Unity.AppUI.UI
             clicked?.Invoke();
             clickedWithEventInfo?.Invoke(evt);
             PostProcessDisabledState();
+            m_PostProcessDisabledState?.ExecuteLater(Styles.animationRefreshDelayMs);
         }
 
         /// <summary>
@@ -111,6 +114,7 @@ namespace Unity.AppUI.UI
         {
             longClicked?.Invoke();
             PostProcessDisabledState();
+            m_PostProcessDisabledState?.ExecuteLater(Styles.animationRefreshDelayMs);
         }
 
         void PostProcessDisabledState()
@@ -163,6 +167,9 @@ namespace Unity.AppUI.UI
         /// </summary>
         protected override void RegisterCallbacksOnTarget()
         {
+            m_PostProcessDisabledState = target.schedule.Execute(PostProcessDisabledState);
+            m_PostProcessDisabledState.Pause();
+
             target.RegisterCallback<PointerEnterEvent>(OnPointerEnter);
             target.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
             target.RegisterCallback<PointerDownEvent>(OnPointerDown);
@@ -182,6 +189,9 @@ namespace Unity.AppUI.UI
         /// </summary>
         protected override void UnregisterCallbacksFromTarget()
         {
+            m_PostProcessDisabledState?.Pause();
+            m_PostProcessDisabledState = null;
+
             target.UnregisterCallback<PointerEnterEvent>(OnPointerEnter);
             target.UnregisterCallback<PointerLeaveEvent>(OnPointerLeave);
             target.UnregisterCallback<PointerDownEvent>(OnPointerDown);
@@ -347,7 +357,8 @@ namespace Unity.AppUI.UI
             if (!active)
                 return;
 
-            InvokePressed(evt);
+            if (target?.ClassListContains(Styles.hoveredUssClassName) == true)
+                InvokePressed(evt);
             Deactivate(evt.pointerId);
 
             var parent = target?.parent;

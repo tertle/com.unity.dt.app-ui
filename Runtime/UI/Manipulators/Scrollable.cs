@@ -83,6 +83,12 @@ namespace Unity.AppUI.UI
             target.RegisterCallback<PointerMoveEvent>(OnPointerMove);
             target.RegisterCallback<PointerCancelEvent>(OnPointerCancel);
             target.RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
+            target.RegisterCallback<WheelEvent>(OnWheel);
+        }
+
+        void OnWheel(WheelEvent evt)
+        {
+            evt.StopPropagation();
         }
 
         void OnPointerDown(PointerDownEvent evt)
@@ -92,13 +98,15 @@ namespace Unity.AppUI.UI
             position = evt.position;
             m_LastPos = evt.position;
             m_IsDown = true;
+            m_PointerId = PointerId.invalidPointerId;
             hasMoved = false;
             m_DownHandler?.Invoke(this);
         }
 
         void OnPointerUp(PointerUpEvent evt)
         {
-            m_UpHandler?.Invoke(this);
+            if (m_PointerId == evt.pointerId)
+                m_UpHandler?.Invoke(this);
 
             target.ReleasePointer(evt.pointerId);
             m_PointerId = PointerId.invalidPointerId;
@@ -219,6 +227,7 @@ namespace Unity.AppUI.UI
             target.UnregisterCallback<PointerMoveEvent>(OnPointerMove);
             target.UnregisterCallback<PointerCancelEvent>(OnPointerCancel);
             target.UnregisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
+            target.UnregisterCallback<WheelEvent>(OnWheel);
         }
     }
 }

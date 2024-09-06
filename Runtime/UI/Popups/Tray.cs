@@ -74,60 +74,56 @@ namespace Unity.AppUI.UI
             return true;
         }
 
+        /// <inheritdoc />
+        protected override void OnLayoutReadyToAnimateIn()
+        {
+            base.OnLayoutReadyToAnimateIn();
+            var fromValue = tray.position switch
+            {
+                TrayPosition.Left => -view.parent.resolvedStyle.width,
+                TrayPosition.Right => -view.parent.resolvedStyle.width,
+                TrayPosition.Bottom => -view.parent.resolvedStyle.height,
+                _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
+            };
+            switch (tray.position)
+            {
+                case TrayPosition.Left:
+                    tray.trayElement.style.left = fromValue;
+                    break;
+                case TrayPosition.Right:
+                    tray.trayElement.style.right = fromValue;
+                    break;
+                case TrayPosition.Bottom:
+                    tray.trayElement.style.bottom = fromValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position");
+            }
+        }
+
         /// <inheritdoc cref="Popup.AnimateViewIn"/>
         protected override void AnimateViewIn()
         {
-            view.schedule.Execute(() =>
+            var fromValue = tray.position switch
             {
-                if (view.parent != null)
-                {
-                    tray.visible = true;
-                    var fromValue = tray.position switch
-                    {
-                        TrayPosition.Left => -view.parent.resolvedStyle.width,
-                        TrayPosition.Right => -view.parent.resolvedStyle.width,
-                        TrayPosition.Bottom => -view.parent.resolvedStyle.height,
-                        _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
-                    };
-                    switch (tray.position)
-                    {
-                        case TrayPosition.Left:
-                            tray.trayElement.style.left = fromValue;
-                            break;
-                        case TrayPosition.Right:
-                            tray.trayElement.style.right = fromValue;
-                            break;
-                        case TrayPosition.Bottom:
-                            tray.trayElement.style.bottom = fromValue;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position");
-                    }
-                    tray.schedule.Execute(() =>
-                    {
-                        fromValue = tray.position switch
-                        {
-                            TrayPosition.Left => -tray.trayElement.layout.width,
-                            TrayPosition.Right => -tray.trayElement.layout.width,
-                            TrayPosition.Bottom => -tray.trayElement.layout.height,
-                            _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
-                        };
-                        const float toValue = 0f;
-                        Action<VisualElement, float> interpolation = tray.position switch
-                        {
-                            TrayPosition.Left => (element, f) => element.style.left = f,
-                            TrayPosition.Right => (element, f) => element.style.right = f,
-                            TrayPosition.Bottom => (element, f) => element.style.bottom = f,
-                            _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
-                        };
-                        tray.trayElement.experimental.animation
-                            .Start(fromValue, toValue, k_TraySlideInDurationMs, interpolation)
-                            .Ease(Easing.OutQuad)
-                            .OnCompleted(InvokeShownEventHandlers).Start();
-                        tray.draggedOff += OnTrayDraggedOff;
-                    });
-                }
-            });
+                TrayPosition.Left => -tray.trayElement.layout.width,
+                TrayPosition.Right => -tray.trayElement.layout.width,
+                TrayPosition.Bottom => -tray.trayElement.layout.height,
+                _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
+            };
+            const float toValue = 0f;
+            Action<VisualElement, float> interpolation = tray.position switch
+            {
+                TrayPosition.Left => (element, f) => element.style.left = f,
+                TrayPosition.Right => (element, f) => element.style.right = f,
+                TrayPosition.Bottom => (element, f) => element.style.bottom = f,
+                _ => throw new ArgumentOutOfRangeException(nameof(tray.position), tray.position, "Unknown Tray position")
+            };
+            tray.trayElement.experimental.animation
+                .Start(fromValue, toValue, k_TraySlideInDurationMs, interpolation)
+                .Ease(Easing.OutQuad)
+                .OnCompleted(m_InvokeShownAction).Start();
+            tray.draggedOff += OnTrayDraggedOff;
         }
 
         void OnTrayDraggedOff()

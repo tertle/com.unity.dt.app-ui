@@ -528,11 +528,8 @@ namespace Unity.AppUI.UI
         {
             if (evt.destinationPanel != null)
             {
-                if (m_TooltipManipulator == null)
-                {
-                    m_TooltipManipulator = new TooltipManipulator();
-                    this.AddManipulator(m_TooltipManipulator);
-                }
+                m_TooltipManipulator ??= new TooltipManipulator();
+                this.AddManipulator(m_TooltipManipulator);
                 m_TooltipManipulator.force = forceUseTooltipSystem;
 
                 global::Unity.AppUI.Core.AppUI.RegisterPanel(this);

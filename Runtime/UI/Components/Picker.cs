@@ -628,12 +628,18 @@ namespace Unity.AppUI.UI
             m_MenuBuilder = MenuBuilder.Build(this, BuildPickerMenu());
             AddToClassList(Styles.openUssClassName);
             m_MenuBuilder.SetCloseOnSelection(closeOnSelection);
-            m_MenuBuilder.dismissed += (_, _) =>
+            m_MenuBuilder.dismissed += OnMenuDismissed;
+            m_MenuBuilder.Show();
+        }
+
+        void OnMenuDismissed(MenuBuilder menu, DismissType reason)
+        {
+            menu.dismissed -= OnMenuDismissed;
+            if (menu == m_MenuBuilder)
             {
                 RemoveFromClassList(Styles.openUssClassName);
                 m_MenuBuilder = null;
-            };
-            m_MenuBuilder.Show();
+            }
         }
 
         /// <summary>

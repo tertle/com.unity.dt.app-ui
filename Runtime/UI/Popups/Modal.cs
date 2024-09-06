@@ -146,19 +146,16 @@ namespace Unity.AppUI.UI
         /// <inheritdoc cref="Popup.ShouldDismiss"/>
         protected override bool ShouldDismiss(DismissType reason) => outsideClickDismissEnabled || base.ShouldDismiss(reason);
 
+        /// <inheritdoc cref="Popup.ShouldAnimate"/>
+        protected override bool ShouldAnimate() => true;
+
         /// <inheritdoc cref="Popup.InvokeShownEventHandlers"/>
         protected override void InvokeShownEventHandlers()
         {
-            base.InvokeShownEventHandlers();
-            containerView?.panel?.visualTree?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-        }
-
-        /// <inheritdoc cref="Popup.ShowView"/>
-        protected override void ShowView()
-        {
-            base.ShowView();
             if (outsideClickDismissEnabled)
                 global::Unity.AppUI.Core.AppUI.RegisterPopup(containerView.panel, this);
+            base.InvokeShownEventHandlers();
+            containerView?.panel?.visualTree?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
         }
 
         /// <inheritdoc cref="Popup.HideView"/>

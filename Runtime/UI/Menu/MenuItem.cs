@@ -230,8 +230,6 @@ namespace Unity.AppUI.UI
 
         void OnLeft(PointerOutEvent evt)
         {
-            Blur();
-
             if (UnityEngine.Device.Application.isMobilePlatform)
                 return;
 

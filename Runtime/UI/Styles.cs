@@ -85,6 +85,11 @@ namespace Unity.AppUI.UI
         public const string openUssClassName = "is-open";
 
         /// <summary>
+        /// The styling class used to start animating in an element.
+        /// </summary>
+        public const string animateInUssClassName = "animate-in";
+
+        /// <summary>
         /// The styling class used to set a "selected" pseudo-state on a element.
         /// </summary>
         public const string selectedUssClassName = "is-selected";

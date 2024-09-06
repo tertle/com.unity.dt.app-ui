@@ -32,7 +32,8 @@
     --unity-image-tint-color: var(--appui-alias-actions-foreground-color-hover); /*fill: var(--appui-alias-actions-foreground-color-hover);*/
 }
 
-.appui-picker.is-active {
+.appui-picker.is-active,
+.appui-picker.is-open {
     background-color: var(--appui-alias-actions-background-color-active);
     border-color: var(--appui-alias-actions-border-color-active);
     color: var(--appui-alias-actions-foreground-color-active);
@@ -64,7 +65,8 @@
     /* converted from : outline-style: var(--appui-alias-control-outline-style); */
 }
 
-.appui-picker--emphasized.is-active {
+.appui-picker--emphasized.is-active,
+.appui-picker--emphasized.is-open {
     background-color: var(--appui-accent-50);
     border-color: var(--appui-alias-actions-accent-background-color-active);
     color: var(--appui-alias-actions-accent-foreground-color-active);

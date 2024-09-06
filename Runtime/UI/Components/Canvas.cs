@@ -3,6 +3,7 @@ using Unity.AppUI.Bridge;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UIElements.Experimental;
 #if ENABLE_RUNTIME_DATA_BINDINGS
 using Unity.Properties;
 #endif
@@ -113,6 +114,8 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId zoomProperty = nameof(zoom);
 
+        internal static readonly BindingId dampingEffectDurationProperty = nameof(dampingEffectDuration);
+
         internal static readonly BindingId frameMarginProperty = nameof(frameMargin);
 
         internal static readonly BindingId useSpaceBarProperty = nameof(useSpaceBar);
@@ -185,6 +188,16 @@ namespace Unity.AppUI.UI
         const float k_DefaultFrameMargin = 12f;
 
         const bool k_DefaultUseSpaceBar = true;
+
+        Vector2 m_Velocity;
+
+        long m_LastTimestamp;
+
+        ValueAnimation<float> m_DampingEffect;
+
+        const int k_DefaultDampingEffectDurationMs = 750;
+
+        int m_DampingEffectDurationMs = k_DefaultDampingEffectDurationMs;
 
         const ScrollDirection k_DefaultScrollDirection = ScrollDirection.Natural;
 
@@ -484,6 +497,30 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
                     NotifyPropertyChanged(in zoomProperty);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// The damping effect duration in milliseconds.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public int dampingEffectDuration
+        {
+            get => m_DampingEffectDurationMs;
+            set
+            {
+                var changed = m_DampingEffectDurationMs != value;
+                m_DampingEffectDurationMs = value;
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in dampingEffectDurationProperty);
 #endif
             }
         }
@@ -831,6 +868,9 @@ namespace Unity.AppUI.UI
 
         void OnPointerDown(PointerDownEvent evt)
         {
+            m_Velocity = Vector2.zero;
+            StopAnyDampingEffect();
+
             if (panel == null || panel.GetCapturingElement(evt.pointerId) != null)
                 return;
 
@@ -855,7 +895,6 @@ namespace Unity.AppUI.UI
             {
                 if (!this.HasPointerCapture(evt.pointerId))
                 {
-                    m_DampingEffect?.Pause();
                     this.CapturePointer(evt.pointerId);
 #if !UNITY_2023_1_OR_NEWER
                     if (evt.pointerId == PointerId.mousePointerId)
@@ -899,22 +938,36 @@ namespace Unity.AppUI.UI
                     GrabMode.Grab : GrabMode.None;
 
                 // damping the velocity
-                const float durationMs = 750f;
-                var elapsed = 0f;
-                m_DampingEffect?.Pause();
-                m_DampingEffect = schedule.Execute(evt =>
+                StopAnyDampingEffect();
+                if (m_DampingEffectDurationMs > 0)
                 {
-                    var newScrollOffset = scrollOffset;
-                    elapsed += evt.deltaTime;
-                    newScrollOffset += m_Velocity * (1.0f - (elapsed / durationMs));
-                    scrollOffset = newScrollOffset;
-                }).Every(Styles.animationRefreshDelayMs).ForDuration((long)durationMs);
+                    m_DampingEffect = experimental.animation
+                        .Start(1f, 0f, m_DampingEffectDurationMs, DampingEffect)
+                        .KeepAlive();
+                    m_DampingEffect.Start();
+                }
             }
         }
 
-        Vector2 m_Velocity;
-        long m_LastTimestamp;
-        IVisualElementScheduledItem m_DampingEffect;
+        void DampingEffect(VisualElement element, float inverseNormalizedTime)
+        {
+            if (m_Velocity == Vector2.zero)
+            {
+                StopAnyDampingEffect();
+                return;
+            }
+
+            var newScrollOffset = scrollOffset;
+            newScrollOffset += m_Velocity * inverseNormalizedTime;
+            scrollOffset = newScrollOffset;
+        }
+
+        void StopAnyDampingEffect()
+        {
+            m_DampingEffect?.Stop();
+            m_DampingEffect?.Recycle();
+            m_DampingEffect = null;
+        }
 
         void OnPointerMove(PointerMoveEvent evt)
         {
@@ -1164,6 +1217,12 @@ namespace Unity.AppUI.UI
                 defaultValue = k_DefaultPanMultiplier
             };
 
+            readonly UxmlIntAttributeDescription m_DampingEffectDuration = new UxmlIntAttributeDescription
+            {
+                name = "damping-effect-duration",
+                defaultValue = k_DefaultDampingEffectDurationMs
+            };
+
             readonly UxmlFloatAttributeDescription m_FrameMargin = new UxmlFloatAttributeDescription
             {
                 name = "frame-margin",
@@ -1215,6 +1274,10 @@ namespace Unity.AppUI.UI
 
                 if (m_PanMultiplier.TryGetValueFromBag(bag, cc, ref floatVal))
                     canvas.panMultiplier = floatVal;
+
+                var intVal = 0;
+                if (m_DampingEffectDuration.TryGetValueFromBag(bag, cc, ref intVal))
+                    canvas.dampingEffectDuration = intVal;
 
                 if (m_FrameMargin.TryGetValueFromBag(bag, cc, ref floatVal))
                     canvas.frameMargin = floatVal;

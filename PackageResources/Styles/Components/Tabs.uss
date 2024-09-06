@@ -50,6 +50,14 @@
     height: var(--appui-alias-control-sizing-md-height);
 }
 
+.appui-tabs--horizontal .appui-tabitem {
+    justify-content: center;
+}
+
+.appui-tabs--horizontal.appui-tabs--justified .appui-tabitem {
+    flex-grow: 1;
+}
+
 .appui--rtl .appui-tabitem {
     flex-direction: row-reverse;
 }

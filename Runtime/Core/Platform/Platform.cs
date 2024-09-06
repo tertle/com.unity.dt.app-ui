@@ -1,4 +1,5 @@
 // #define APPUI_PLATFORM_EDITOR_ONLY
+// #define APPUI_PLATFORM_SILENT_EXCEPTIONS
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -26,31 +27,45 @@ namespace Unity.AppUI.Core
             if (s_Impl != null)
                 return;
 
+            try
+            {
+
 #if APPUI_PLATFORM_EDITOR_ONLY
 
 #if UNITY_EDITOR_OSX
-            s_Impl = new OSXPlatformImpl();
+                s_Impl = new OSXPlatformImpl();
 #elif UNITY_EDITOR_WIN
-            s_Impl = new WindowsPlatformImpl();
+                s_Impl = new WindowsPlatformImpl();
 #else
-            s_Impl = new PlatformImpl();
+                s_Impl = new PlatformImpl();
 #endif
 
 #else // APPUI_PLATFORM_EDITOR_ONLY
 
 #if UNITY_IOS && !UNITY_EDITOR
-            s_Impl = new IOSPlatformImpl();
+                s_Impl = new IOSPlatformImpl();
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-            s_Impl = new OSXPlatformImpl();
+                s_Impl = new OSXPlatformImpl();
 #elif UNITY_ANDROID && !UNITY_EDITOR
-            s_Impl = new AndroidPlatformImpl();
+                s_Impl = new AndroidPlatformImpl();
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-            s_Impl = new WindowsPlatformImpl();
+                s_Impl = new WindowsPlatformImpl();
 #else
-            s_Impl = new PlatformImpl();
+                s_Impl = new PlatformImpl();
 #endif
 
 #endif // APPUI_PLATFORM_EDITOR_ONLY
+
+            }
+#pragma warning disable 0168
+            catch (Exception e)
+#pragma warning restore 0168
+            {
+#if !APPUI_PLATFORM_SILENT_EXCEPTIONS
+                Debug.LogException(e);
+#endif
+                s_Impl = new PlatformImpl();
+            }
         }
 
 #if UNITY_EDITOR

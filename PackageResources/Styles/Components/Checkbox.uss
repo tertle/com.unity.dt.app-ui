@@ -121,7 +121,7 @@
 .appui-checkbox--emphasized .appui-icon,
 .is-invalid .appui-checkbox .appui-icon,
 .is-invalid.appui-checkbox .appui-icon {
-    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
+    --unity-image-tint-color: var(--appui-alias-actions-accent-foreground-color-default);
 }
 
 .appui-checkbox--emphasized:disabled .appui-icon,

@@ -41,8 +41,6 @@ namespace Unity.AppUI.UI
         public SwipeViewItem()
         {
             AddToClassList(ussClassName);
-
-            usageHints = UsageHints.DynamicTransform;
         }
 
 #if ENABLE_UXML_TRAITS
@@ -137,6 +135,8 @@ namespace Unity.AppUI.UI
 
         bool m_Wrap;
 
+        float m_AnimationDirection;
+
         List<SwipeViewItem> m_StaticItems;
 
         Direction m_Direction;
@@ -155,13 +155,7 @@ namespace Unity.AppUI.UI
 
         bool m_ForceDisableWrap;
 
-        bool m_GoingPrevious;
-
-        bool m_GoingNext;
-
         readonly Scrollable m_Scrollable;
-
-        Vector2 m_PointerDistance;
 
         int m_AutoPlayDuration = noAutoPlayDuration;
 
@@ -171,7 +165,15 @@ namespace Unity.AppUI.UI
 
         Dir m_CurrentDirection;
 
-        IVisualElementScheduledItem m_ScheduledNextValue;
+        struct ScheduledNextValue
+        {
+            public bool scheduled;
+            public float newAnimationDirection;
+            public int newIndex;
+            public int previousIndex;
+        }
+
+        ScheduledNextValue m_ScheduledNextValue;
 
         /// <summary>
         /// The container of the SwipeView.
@@ -536,22 +538,25 @@ namespace Unity.AppUI.UI
         public int value
         {
             get => m_Value;
-            set
+            set => SetValue(value);
+        }
+
+        void SetValue(int newValue, bool findAnimationDirection = true)
+        {
+            if (newValue < 0 || newValue > count - 1)
+                return;
+
+            if (findAnimationDirection)
+                m_AnimationDirection = FindAnimationDirection(newValue);
+
+            var previousValue = m_Value;
+            SetValueWithoutNotify(newValue);
+            if (previousValue != m_Value)
             {
-                if (count == 0)
-                    return;
-
-                if (value < 0 || value > count - 1)
-                    return;
-
-                var previousValue = m_Value;
-                SetValueWithoutNotify(value);
-                if (previousValue != m_Value)
-                {
-                    using var evt = ChangeEvent<int>.GetPooled(previousValue, m_Value);
-                    evt.target = this;
-                    SendEvent(evt);
-                }
+                using var evt = ChangeEvent<int>.GetPooled(previousValue, m_Value);
+                evt.target = this;
+                SendEvent(evt);
+            }
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 NotifyPropertyChanged(in valueProperty);
@@ -559,7 +564,6 @@ namespace Unity.AppUI.UI
                 NotifyPropertyChanged(in canGoToPreviousProperty);
                 NotifyPropertyChanged(in currentItemProperty);
 #endif
-            }
         }
 
         const float k_DefaultResistance = 1f;
@@ -669,9 +673,13 @@ namespace Unity.AppUI.UI
             pickingMode = PickingMode.Position;
             focusable = true;
             tabIndex = 0;
-            usageHints = UsageHints.GroupTransform;
 
-            m_Container = new VisualElement { name = containerUssClassName, pickingMode = PickingMode.Ignore };
+            m_Container = new VisualElement
+            {
+                name = containerUssClassName,
+                pickingMode = PickingMode.Ignore,
+            };
+            m_Container.usageHints |= UsageHints.DynamicTransform;
             m_Container.AddToClassList(containerUssClassName);
             hierarchy.Add(m_Container);
 
@@ -712,6 +720,7 @@ namespace Unity.AppUI.UI
 
         void RefreshEverything()
         {
+            m_AnimationDirection = 0;
             SetValueWithoutNotify(value);
             InvokeSwipeEvents();
         }
@@ -746,55 +755,17 @@ namespace Unity.AppUI.UI
 
         void OnDown(Scrollable draggable)
         {
-            m_PointerDistance = draggable.position;
+            // do nothing
         }
 
         void OnUp(Scrollable draggable)
         {
             m_ForceDisableWrap = true;
-            if (draggable.hasMoved)
-            {
-                var closestIndex = GetClosestIndex();
-                if (closestIndex != value)
-                {
-                    value = closestIndex;
-                }
-                else
-                {
-                    // check the distance during the swipe to see if we should snap to the next item
-                    var distance = direction == Direction.Horizontal ? draggable.position.x - m_PointerDistance.x : draggable.position.y - m_PointerDistance.y;
-                    var threshold = direction == Direction.Horizontal ? resolvedStyle.width : resolvedStyle.height;
-                    threshold /= 4;
-                    var previousSpeed = snapAnimationSpeed;
-                    snapAnimationSpeed *= ShouldResist(Vector2.zero) ? resistance : 1;
-                    if (Mathf.Abs(distance) > threshold)
-                    {
-                        var res = distance > 0 ? GoToPrevious() : GoToNext();
-                        if (!res)
-                            value = closestIndex;
-                    }
-                    else
-                    {
-                        value = closestIndex;
-                    }
-                    snapAnimationSpeed = previousSpeed;
-                }
-            }
-            else
-            {
-                var pos = this.LocalToWorld(draggable.localPosition);
-                VisualElement hoveredChild = null;
-                foreach (var child in Children())
-                {
-                    if (child.ContainsPoint(child.WorldToLocal(pos)))
-                    {
-                        hoveredChild = child;
-                        break;
-                    }
-                }
-                if (hoveredChild != null)
-                    value = ((SwipeViewItem)hoveredChild).index;
-            }
+            var closestElement = GetClosestElement(out var d);
+            var closestIndex = closestElement?.index ?? -1;
+            m_AnimationDirection = Mathf.Approximately(0f, d) ? 0f : Mathf.Sign(-d);
+
+            SetValue(closestIndex, false);
             m_ForceDisableWrap = false;
         }
 
@@ -804,48 +775,79 @@ namespace Unity.AppUI.UI
                 m_Animation.Recycle();
 
             var multiplier = ShouldResist(drag.deltaPos) ? 1f / resistance : 1f;
+            var delta = direction == Direction.Horizontal ? drag.deltaPos.x : drag.deltaPos.y;
+
+            m_AnimationDirection = Mathf.Approximately(0, delta) ? 0 : Mathf.Sign(-delta);
+
+            var currentPos = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
+            if (shouldWrap)
+            {
+                var nbOffScreenItems = GetNbOfOffScreenItems();
+                if (nbOffScreenItems > 0 && m_AnimationDirection > 0)
+                    currentPos = SwapFirstToLast(nbOffScreenItems);
+                if (nbOffScreenItems > 0 && m_AnimationDirection < 0)
+                    currentPos = SwapLastToFirst(nbOffScreenItems);
+            }
 
             if (direction == Direction.Horizontal)
-                m_Container.style.left = m_Container.resolvedStyle.left + drag.deltaPos.x * multiplier;
+                m_Container.style.left = currentPos + drag.deltaPos.x * multiplier;
             else
-                m_Container.style.top = m_Container.resolvedStyle.top + drag.deltaPos.y * multiplier;
+                m_Container.style.top = currentPos + drag.deltaPos.y * multiplier;
         }
 
-        SwipeViewItem GetClosestElement()
+        float FindAnimationDirection(int newIndex)
         {
+            if (newIndex < 0 || newIndex >= count)
+                return 0;
+
+            var newItem = GetItem(newIndex);
+            if (newItem == null)
+                return 0;
+
+            // we use min instead of center because a container can show multiple items at the same time
+            // we should use max instead of min for RightToLeft
+            var delta = direction switch
+            {
+                Direction.Horizontal when m_CurrentDirection is Dir.Ltr => worldBound.min.x - newItem.worldBound.min.x,
+                Direction.Horizontal when m_CurrentDirection is Dir.Rtl => newItem.worldBound.max.x - worldBound.max.x,
+                Direction.Vertical when m_CurrentDirection is Dir.Ltr => worldBound.min.y - newItem.worldBound.min.y,
+                Direction.Vertical when m_CurrentDirection is Dir.Rtl => newItem.worldBound.max.y - worldBound.max.y,
+                _ => 0f
+            };
+            return Mathf.Approximately(0f, delta) ? 0f : Mathf.Sign(-delta);
+        }
+
+        SwipeViewItem GetClosestElement(out float distance)
+        {
+            distance = 0f;
             if (items == null || count <= 0)
                 return null;
 
-            var best = (SwipeViewItem)ElementAt(0);
-            var center = this.WorldToLocal(best.worldBound.min);
-            var bestDistance = Mathf.Abs(direction == Direction.Horizontal ? center.x : center.y);
+            SwipeViewItem best = null;
+            var bestDistance = 0f;
+            // we use min instead of center because a container can show multiple items at the same time
+            // we should use max instead of min for RightToLeft
+            var worldMin = direction == Direction.Horizontal
+                ? worldBound.min.x
+                : worldBound.min.y;
 
-            for (var i = 1; i < childCount; i++)
+            for (var i = 0; i < childCount; i++)
             {
                 var candidate = (SwipeViewItem)ElementAt(i);
-                center = this.WorldToLocal(candidate.worldBound.min);
-                var candidateDistance = Mathf.Abs(direction == Direction.Horizontal ? center.x : center.y);
-                if (candidateDistance < bestDistance)
+                var candidateCenter = direction == Direction.Horizontal
+                    ? candidate.worldBound.min.x
+                    : candidate.worldBound.min.y;
+                var d = worldMin - candidateCenter;
+                var candidateDistance = Mathf.Abs(d);
+                if (best == null || candidateDistance < bestDistance)
                 {
                     bestDistance = candidateDistance;
+                    distance = d;
                     best = candidate;
                 }
             }
 
             return best;
-        }
-
-        int GetClosestIndex()
-        {
-            return GetClosestElement()?.index ?? -1; ;
-        }
-
-        bool IsItemCurrentlyVisible(VisualElement c)
-        {
-            var rect = this.WorldToLocal(c.worldBound);
-            return direction == Direction.Horizontal
-                ? (rect.x >= 0 && rect.x < localBound.width) || (rect.xMax > 0 && rect.xMax <= localBound.width)
-                : (rect.y >= 0 && rect.y < localBound.height) || (rect.yMax > 0 && rect.yMax <= localBound.height);
         }
 
         /// <summary>
@@ -863,59 +865,38 @@ namespace Unity.AppUI.UI
             if (newValue < 0 || newValue > count - 1)
                 return;
 
-            m_ScheduledNextValue?.Pause();
+            if (m_ScheduledNextValue.scheduled)
+                m_Value = m_ScheduledNextValue.previousIndex;
+
+            m_ScheduledNextValue.scheduled = false;
+
+            // Recycle previous animation
+            if (m_Animation != null && !m_Animation.IsRecycled())
+                m_Animation.Recycle();
 
             RefreshItemsSize();
+            SetValueAndScheduleAnimation(newValue);
+        }
 
+        void SetValueAndScheduleAnimation(int newValue)
+        {
             if (shouldWrap)
             {
-                var currentElementIndex = IndexOf(currentItem);
-                var nextElementIndex = IndexOf(GetItem(newValue));
-                if (!m_GoingPrevious && (m_Value < newValue || m_GoingNext) && nextElementIndex < currentElementIndex)
+                var offScreenItemCount = GetNbOfOffScreenItems();
+                if (offScreenItemCount > 0)
                 {
-                    var goingNext = m_GoingNext;
-                    // the next item is placed before the current one,
-                    // move items to the end to get a more pleasant order
-                    var itemsToMove = new List<VisualElement>();
-                    var children = new List<VisualElement>(Children());
-                    var i = 0;
-                    while (i < children.Count && !IsItemCurrentlyVisible(children[i]))
+                    m_ScheduledNextValue = new ScheduledNextValue
                     {
-                        itemsToMove.Add(children[i]);
-                        i++;
-                    }
-                    m_Container.UnregisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
-                    SwapFirstToLast(itemsToMove.Count);
-                    m_ScheduledNextValue = schedule.Execute(() =>
-                    {
-                        m_GoingNext = goingNext;
-                        value = newValue;
-                        m_GoingNext = false;
-                    });
-                    return;
-                }
-
-                if (!m_GoingNext && (m_Value > newValue || m_GoingPrevious) && nextElementIndex > currentElementIndex)
-                {
-                    var goingPrevious = m_GoingPrevious;
-                    // the previous item is placed after the current one,
-                    // move items to the start to get a more pleasant order
-                    var itemsToMove = new List<VisualElement>();
-                    var children = new List<VisualElement>(Children());
-                    var i = children.Count - 1;
-                    while (i >= 0 && !IsItemCurrentlyVisible(children[i]))
-                    {
-                        itemsToMove.Add(children[i]);
-                        i--;
-                    }
-                    m_Container.UnregisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
-                    SwapLastToFirst(itemsToMove.Count);
-                    m_ScheduledNextValue = schedule.Execute(() =>
-                    {
-                        m_GoingPrevious = goingPrevious;
-                        value = newValue;
-                        m_GoingPrevious = false;
-                    });
+                        scheduled = true,
+                        newAnimationDirection = m_AnimationDirection,
+                        newIndex = newValue,
+                        previousIndex = m_Value,
+                    };
+                    if (m_AnimationDirection > 0)
+                        SwapFirstToLast(offScreenItemCount);
+                    if (m_AnimationDirection < 0)
+                        SwapLastToFirst(offScreenItemCount);
+                    PostSetValueWithoutNotify(newValue, false);
                     return;
                 }
             }
@@ -923,11 +904,15 @@ namespace Unity.AppUI.UI
             {
                 newValue = Mathf.Clamp(newValue, 0, count - m_VisibleItemCount);
             }
+            PostSetValueWithoutNotify(newValue, true);
+        }
 
+        void PostSetValueWithoutNotify(int newValue, bool animate)
+        {
             var from = m_Value >= 0 ? GetItem(m_Value) : null;
             var to = GetItem(newValue);
 
-            if (paddingRect.IsValid())
+            if (animate && paddingRect.IsValid())
                 StartSwipeAnimation(from, to);
 
             from?.RemoveFromClassList(Styles.selectedUssClassName);
@@ -955,7 +940,7 @@ namespace Unity.AppUI.UI
                 m_Animation.Recycle();
 
             // Find the best duration and distance to use in the animation
-            var duration = from == null || newElementOffset == 0
+            var duration = from == null || Mathf.Approximately(0f, newElementOffset) || Mathf.Approximately(0f, m_AnimationDirection)
                 ? 0
                 : Mathf.RoundToInt(Mathf.Abs(newElementOffset) / snapAnimationSpeed);
 
@@ -964,6 +949,26 @@ namespace Unity.AppUI.UI
             var sign = Mathf.Sign(targetContainerOffset - currentContainerOffset);
             distance = Mathf.Min(distance, skipAnimationThreshold * newElementSize);
             currentContainerOffset = targetContainerOffset - sign * distance;
+
+            var isValidAnimation =
+                Mathf.Approximately(0, m_AnimationDirection) ||
+                (m_AnimationDirection > 0 && targetContainerOffset < currentContainerOffset) ||
+                (m_AnimationDirection < 0 && targetContainerOffset > currentContainerOffset);
+
+            if (!isValidAnimation)
+            {
+                var dir = m_AnimationDirection switch
+                {
+                    0 => "0",
+                    > 0 => "positive",
+                    < 0 => "negative",
+                    _ => "unknown"
+                };
+                Debug.Assert(isValidAnimation, $"<b>[AppUI]</b>[SwipeView] Trying to animate in the wrong direction:\n" +
+                    $"- Current Direction: {dir}\n" +
+                    $"- Current Container Offset: {currentContainerOffset}\n" +
+                    $"- Target Container Offset: {targetContainerOffset}");
+            }
 
             // Start the animation
             m_Animation = experimental.animation.Start(currentContainerOffset, targetContainerOffset, duration, (_, f) =>
@@ -1017,6 +1022,7 @@ namespace Unity.AppUI.UI
             {
                 var item = (SwipeViewItem)ElementAt(i);
                 unbindItem?.Invoke(item, i);
+                item.UnregisterCallback<GeometryChangedEvent>(OnItemGeometryChanged);
             }
 
             Clear();
@@ -1042,19 +1048,31 @@ namespace Unity.AppUI.UI
             }
 
             if (childCount > 0)
-                value = 0;
+                ElementAt(0).RegisterCallback<GeometryChangedEvent>(OnItemGeometryChanged);
+
+            m_AnimationDirection = 0;
+            if (childCount > 0)
+                SetValue(0, false);
             else
                 m_Value = -1;
         }
 
-        void SwapLastToFirst() => SwapLastToFirst(1);
-
-        void SwapLastToFirst(int times)
+        float SwapLastToFirst(int times)
         {
+            var newPosition = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
+            if (times <= 0)
+                return 0;
+
             if (direction == Direction.Horizontal)
-                m_Container.style.left = m_Container.resolvedStyle.left - contentRect.width * times;
+            {
+                newPosition -= contentRect.width * times;
+                m_Container.style.left = newPosition;
+            }
             else
-                m_Container.style.top = m_Container.resolvedStyle.top - contentRect.height * times;
+            {
+                newPosition -= contentRect.height * times;
+                m_Container.style.top = newPosition;
+            }
 
             while (times > 0)
             {
@@ -1062,17 +1080,26 @@ namespace Unity.AppUI.UI
                 item.SendToBack();
                 times--;
             }
-            m_Container.RegisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
+
+            return newPosition;
         }
 
-        void SwapFirstToLast() => SwapFirstToLast(1);
-
-        void SwapFirstToLast(int times)
+        float SwapFirstToLast(int times)
         {
+            var newPosition = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
+            if (times == 0)
+                return newPosition;
+
             if (direction == Direction.Horizontal)
-                m_Container.style.left = m_Container.resolvedStyle.left + contentRect.width * times;
+            {
+                newPosition += contentRect.width * times;
+                m_Container.style.left = newPosition;
+            }
             else
-                m_Container.style.top = m_Container.resolvedStyle.top + contentRect.height * times;
+            {
+                newPosition += contentRect.height * times;
+                m_Container.style.top = newPosition;
+            }
 
             while (times > 0)
             {
@@ -1081,7 +1108,28 @@ namespace Unity.AppUI.UI
                 times--;
             }
 
-            m_Container.RegisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
+            return newPosition;
+        }
+
+        int GetNbOfOffScreenItems()
+        {
+            if (Mathf.Approximately(0, m_AnimationDirection))
+                return 0;
+
+            var containerMin = direction == Direction.Horizontal ? m_Container.layout.x : m_Container.layout.y;
+            var containerMax = direction == Direction.Horizontal ? m_Container.layout.xMax : m_Container.layout.yMax;
+
+            if (shouldWrap)
+            {
+                var nbOffScreenStart = containerMin < 0 ? Mathf.FloorToInt(-containerMin / paddingRect.width) : 0;
+                if (m_AnimationDirection > 0 && nbOffScreenStart > 0) // one or more elements are off-screen on the left
+                    return nbOffScreenStart;
+                var nbOffScreenEnd = containerMax > paddingRect.width ? Mathf.FloorToInt((containerMax - paddingRect.width) / paddingRect.width) : 0;
+                if (m_AnimationDirection < 0 && nbOffScreenEnd > 0) // one or more elements are off-screen on the right
+                    return nbOffScreenEnd;
+            }
+
+            return 0;
         }
 
         void InvokeSwipeEvents()
@@ -1098,25 +1146,21 @@ namespace Unity.AppUI.UI
             }
         }
 
+        void OnItemGeometryChanged(GeometryChangedEvent evt)
+        {
+            if (m_ScheduledNextValue.scheduled)
+            {
+                var nextValue = m_ScheduledNextValue;
+                m_ScheduledNextValue = new ScheduledNextValue();
+                m_AnimationDirection = nextValue.newAnimationDirection;
+                SetValue(nextValue.newIndex, false);
+            }
+        }
+
         void OnContainerGeometryChanged(GeometryChangedEvent evt)
         {
             if (!evt.newRect.IsValid())
                 return;
-
-            var containerMin = direction == Direction.Horizontal ? evt.newRect.x : evt.newRect.y;
-            var containerMax = direction == Direction.Horizontal ? evt.newRect.xMax : evt.newRect.yMax;
-
-            switch (shouldWrap)
-            {
-                case true when containerMin > 0:
-                    m_Container.UnregisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
-                    schedule.Execute(SwapLastToFirst).ExecuteLater(16L);
-                    break;
-                case true when containerMax < paddingRect.width:
-                    m_Container.UnregisterCallback<GeometryChangedEvent>(OnContainerGeometryChanged);
-                    schedule.Execute(SwapFirstToLast).ExecuteLater(16L);
-                    break;
-            }
 
             InvokeSwipeEvents();
         }
@@ -1147,7 +1191,7 @@ namespace Unity.AppUI.UI
             if (index < 0 || index >= childCount)
                 return false;
 
-            value = index;
+            SetValue(index);
             return true;
         }
 
@@ -1158,11 +1202,12 @@ namespace Unity.AppUI.UI
         /// <returns> True if the operation was successful, false otherwise. </returns>
         public bool SnapTo(int index)
         {
-            var skipAnimation = skipAnimationThreshold;
-            skipAnimationThreshold = 0;
-            var result = GoTo(index);
-            skipAnimationThreshold = skipAnimation;
-            return result;
+            if (index < 0 || index >= childCount)
+                return false;
+
+            m_AnimationDirection = 0;
+            SetValue(index, false);
+            return true;
         }
 
         /// <summary>
@@ -1181,9 +1226,8 @@ namespace Unity.AppUI.UI
             if (nextIndex == value)
                 return false;
 
-            m_GoingNext = true;
-            value = nextIndex;
-            m_GoingNext = false;
+            m_AnimationDirection = 1f;
+            SetValue(nextIndex, false);
 
             return true;
         }
@@ -1204,9 +1248,8 @@ namespace Unity.AppUI.UI
             if (nextIndex == value)
                 return false;
 
-            m_GoingPrevious = true;
-            value = nextIndex;
-            m_GoingPrevious = false;
+            m_AnimationDirection = -1f;
+            SetValue(nextIndex, false);
 
             return true;
         }

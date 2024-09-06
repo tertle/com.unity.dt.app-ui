@@ -85,12 +85,6 @@ namespace Unity.AppUI.UI
     /// <typeparam name="T">The sealed Notification popup class type.</typeparam>
     public abstract class PopupNotification<T> : Popup<T> where T : PopupNotification<T>
     {
-        const int k_AnimationDuration = 200;
-
-        const int k_AnimationFadeInDuration = 150;
-
-        const int k_AnimationFadeOutDuration = 75;
-
         const string k_USSClassName = "appui-popup-notification";
 
         const string k_VariantClassName = k_USSClassName + "--";
@@ -102,6 +96,12 @@ namespace Unity.AppUI.UI
         NotificationDuration m_Duration = NotificationDuration.Short;
 
         PopupNotificationPlacement m_Placement = PopupNotificationPlacement.Bottom;
+
+        DismissType m_AnimateViewOutReason;
+
+        readonly EventCallback<ITransitionEvent> m_OnInAnimationEnded;
+
+        readonly EventCallback<ITransitionEvent> m_OnOutAnimationEnded;
 
         /// <summary>
         /// Default constructor.
@@ -117,6 +117,8 @@ namespace Unity.AppUI.UI
             view.AddToClassList(k_USSClassName);
             view.AddToClassList(MemoryUtils.Concatenate(k_VariantClassName, m_Placement.ToLowerCase()));
             view.AddToClassList(MemoryUtils.Concatenate(k_VariantClassName, m_AnimationMode.ToLowerCase()));
+            m_OnInAnimationEnded = OnInAnimationEnded;
+            m_OnOutAnimationEnded = OnOutAnimationEnded;
         }
 
         /// <summary>
@@ -197,47 +199,23 @@ namespace Unity.AppUI.UI
         /// <inheritdoc cref="Popup.AnimateViewIn"/>
         protected override void AnimateViewIn()
         {
-            // delay the animation of the notification to be sure the layout has been updated with UI Toolkit.
-            view.schedule.Execute(() =>
-            {
-                if (view.parent != null) view.visible = true;
-                view.AddToClassList(Styles.openUssClassName);
-
-                switch (animationMode)
-                {
-                    case AnimationMode.Slide:
-                        StartSlideInAnimation();
-                        break;
-                    case AnimationMode.Fade:
-                        StartFadeInAnimation();
-                        break;
-                    default:
-                        throw new ValueOutOfRangeException(nameof(animationMode), animationMode);
-                }
-            }).ExecuteLater(16);
+            base.AnimateViewIn();
+            view.RegisterCallback<TransitionEndEvent>(m_OnInAnimationEnded);
+            view.RegisterCallback<TransitionCancelEvent>(m_OnInAnimationEnded);
         }
 
         /// <inheritdoc cref="Popup.AnimateViewOut"/>
         protected override void AnimateViewOut(DismissType reason)
         {
+            m_AnimateViewOutReason = reason;
             view.RemoveFromClassList(Styles.openUssClassName);
-            switch (animationMode)
-            {
-                case AnimationMode.Slide:
-                    StartSlideOutAnimation(reason);
-                    break;
-                case AnimationMode.Fade:
-                    StartFadeOutAnimation(reason);
-                    break;
-                default:
-                    throw new ValueOutOfRangeException(nameof(animationMode), animationMode);
-            }
+            view.RegisterCallback<TransitionEndEvent>(m_OnOutAnimationEnded);
+            view.RegisterCallback<TransitionCancelEvent>(m_OnOutAnimationEnded);
         }
 
         /// <inheritdoc cref="Popup{T}.InvokeShownEventHandlers"/>
         protected override void InvokeShownEventHandlers()
         {
-            view.AddToClassList(Styles.openUssClassName);
             global::Unity.AppUI.Core.AppUI.notificationManager.OnShown(m_ManagerCallback);
             base.InvokeShownEventHandlers(); // invoke callbacks if any
         }
@@ -268,24 +246,18 @@ namespace Unity.AppUI.UI
             return Panel.FindNotificationLayer(element);
         }
 
-        void StartFadeInAnimation()
+        void OnInAnimationEnded(ITransitionEvent evt)
         {
-            view.schedule.Execute(InvokeShownEventHandlers).ExecuteLater(k_AnimationFadeInDuration);
+            view.UnregisterCallback<TransitionEndEvent>(m_OnInAnimationEnded);
+            view.UnregisterCallback<TransitionCancelEvent>(OnInAnimationEnded);
+            m_InvokeShownAction();
         }
 
-        void StartSlideInAnimation()
+        void OnOutAnimationEnded(ITransitionEvent evt)
         {
-            view.schedule.Execute(InvokeShownEventHandlers).ExecuteLater(k_AnimationDuration);
-        }
-
-        void StartFadeOutAnimation(DismissType reason)
-        {
-            view.schedule.Execute(() => InvokeDismissedEventHandlers(reason)).ExecuteLater(k_AnimationFadeOutDuration);
-        }
-
-        void StartSlideOutAnimation(DismissType reason)
-        {
-            view.schedule.Execute(() => InvokeDismissedEventHandlers(reason)).ExecuteLater(k_AnimationDuration);
+            view.UnregisterCallback<TransitionEndEvent>(m_OnOutAnimationEnded);
+            view.UnregisterCallback<TransitionCancelEvent>(OnOutAnimationEnded);
+            InvokeDismissedEventHandlers(m_AnimateViewOutReason);
         }
 
         /// <summary>

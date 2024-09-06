@@ -2,7 +2,6 @@ using System;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.UIElements.Experimental;
 
 namespace Unity.AppUI.UI
 {
@@ -45,15 +44,9 @@ namespace Unity.AppUI.UI
     /// <typeparam name="T">The sealed anchor popup class type.</typeparam>
     public abstract class AnchorPopup<T> : Popup<T> where T : AnchorPopup<T>
     {
-        const long k_AnchorUpdateInterval = 12L;
-
-        const int k_AnchorPopUpFadeInDurationMs = 150;
-
         VisualElement m_Anchor;
 
         Rect m_AnchorBounds;
-
-        IVisualElementScheduledItem m_AnchorUpdate;
 
         int m_CrossOffset;
 
@@ -68,6 +61,21 @@ namespace Unity.AppUI.UI
         Rect m_ContentBounds;
 
         /// <summary>
+        /// Callback for Event triggered when the popup has been shown.
+        /// </summary>
+        protected readonly EventCallback<ITransitionEvent> m_OnAnimatedInAction;
+
+        /// <summary>
+        /// Callback for Event triggered when the content geometry has changed.
+        /// </summary>
+        protected readonly EventCallback<GeometryChangedEvent> m_OnContentGeometryChangedAction;
+
+        /// <summary>
+        /// Callback for Event triggered when the anchor geometry has changed.
+        /// </summary>
+        protected readonly EventCallback<GeometryChangedEvent> m_OnAnchorGeometryChangedAction;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="referenceView"> The visual element used as context provider for the popup.</param>
@@ -75,7 +83,11 @@ namespace Unity.AppUI.UI
         /// <param name="contentView">The content that will appear inside this popup.</param>
         protected AnchorPopup(VisualElement referenceView, VisualElement view, VisualElement contentView = null)
             : base(referenceView, view, contentView)
-        { }
+        {
+            m_OnAnimatedInAction = new EventCallback<ITransitionEvent>(OnAnimatedIn);
+            m_OnContentGeometryChangedAction = new EventCallback<GeometryChangedEvent>(OnContentGeometryChanged);
+            m_OnAnchorGeometryChangedAction = new EventCallback<GeometryChangedEvent>(OnAnchorGeometryChanged);
+        }
 
         /// <summary>
         /// The desired placement.
@@ -227,10 +239,9 @@ namespace Unity.AppUI.UI
         /// <returns>The popup.</returns>
         public T SetAnchor(VisualElement value)
         {
-            m_AnchorUpdate?.Pause();
-            m_AnchorUpdate = null;
+            m_Anchor?.UnregisterCallback(m_OnAnchorGeometryChangedAction);
             m_Anchor = value;
-            m_AnchorUpdate = m_Anchor?.schedule.Execute(AnchorUpdate).Every(k_AnchorUpdateInterval);
+            m_Anchor?.RegisterCallback(m_OnAnchorGeometryChangedAction);
             RefreshPosition();
             return (T)this;
         }
@@ -268,16 +279,12 @@ namespace Unity.AppUI.UI
             return (T)this;
         }
 
-        /// <summary>
-        /// Called when the popup's <see cref="Handler"/> has received a <see cref="Popup.k_PopupShow"/> message.
-        /// </summary>
-        /// <remarks>
-        /// In this method the view should become visible at some point (directly or via an animation).
-        /// </remarks>
-        protected override void ShowView()
+        /// <inheritdoc />
+        protected override void OnLayoutReadyToAnimateIn()
         {
-            base.ShowView();
-            global::Unity.AppUI.Core.AppUI.RegisterPopup(containerView.panel, this);
+            base.OnLayoutReadyToAnimateIn();
+            RefreshPosition();
+            contentView?.RegisterCallback(m_OnContentGeometryChangedAction);
         }
 
         /// <summary>
@@ -285,28 +292,20 @@ namespace Unity.AppUI.UI
         /// </summary>
         protected override void AnimateViewIn()
         {
-            view.style.opacity = 0.0001f;
-            view.schedule.Execute(() =>
-            {
-                if (view.parent != null)
-                {
-                    view.visible = true;
-                    RefreshPosition();
-                    contentView?.RegisterCallback<GeometryChangedEvent>(OnContentGeometryChanged);
-                    view.schedule.Execute(() =>
-                    {
-                        view.experimental.animation.Start(0, 1f, k_AnchorPopUpFadeInDurationMs, (element, f) =>
-                        {
-                            var y = Mathf.Lerp(-8f, 0f, f);
-                            var scale = Mathf.Lerp(0.98f, 1f, f);
-                            var opacity = Mathf.Lerp(0.0001f, 1f, f);
-                            element.style.translate = new Translate(0, y, 0);
-                            element.style.scale = new UnityEngine.UIElements.Scale(new Vector3(scale, scale, 1.0f));
-                            element.style.opacity = opacity;
-                        }).Ease(Easing.OutQuad).OnCompleted(InvokeShownEventHandlers);
-                    });
-                }
-            });
+            base.AnimateViewIn();
+            view.RegisterCallback<TransitionEndEvent>(m_OnAnimatedInAction);
+            view.RegisterCallback<TransitionCancelEvent>(m_OnAnimatedInAction);
+        }
+
+        /// <summary>
+        /// Called when the popup has been animated in.
+        /// </summary>
+        /// <param name="evt"> The transition event.</param>
+        protected virtual void OnAnimatedIn(ITransitionEvent evt)
+        {
+            view.UnregisterCallback<TransitionEndEvent>(m_OnAnimatedInAction);
+            view.UnregisterCallback<TransitionCancelEvent>(m_OnAnimatedInAction);
+            m_InvokeShownAction();
         }
 
         /// <summary>
@@ -328,15 +327,21 @@ namespace Unity.AppUI.UI
             base.HideView(reason);
         }
 
+        /// <inheritdoc />
+        protected override void InvokeShownEventHandlers()
+        {
+            global::Unity.AppUI.Core.AppUI.RegisterPopup(containerView.panel, this);
+            base.InvokeShownEventHandlers();
+        }
+
         /// <summary>
         /// Called when the popup has been dismissed. This method will invoke any handlers attached to the dismissed event.
         /// </summary>
         /// <param name="reason"> The reason for the dismissal.</param>
         protected override void InvokeDismissedEventHandlers(DismissType reason)
         {
+            m_Anchor?.UnregisterCallback(m_OnAnchorGeometryChangedAction);
             base.InvokeDismissedEventHandlers(reason);
-            m_AnchorUpdate?.Pause();
-            m_AnchorUpdate = null;
         }
 
         /// <summary>
@@ -355,12 +360,11 @@ namespace Unity.AppUI.UI
                 RefreshPosition();
         }
 
-        void AnchorUpdate(TimerState timerState)
+        void OnAnchorGeometryChanged(GeometryChangedEvent evt)
         {
-            if (m_Anchor == null || contentView == null)
+            if (contentView == null)
             {
-                m_AnchorUpdate?.Pause();
-                m_AnchorUpdate = null;
+                m_Anchor.UnregisterCallback(m_OnAnchorGeometryChangedAction);
                 return;
             }
 

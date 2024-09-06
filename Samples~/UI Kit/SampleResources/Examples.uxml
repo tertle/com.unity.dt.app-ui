@@ -1995,32 +1995,32 @@
                         <appui:SwipeView animation-speed="0.1" skip-animation-threshold="99" name="swipeview-distance" style="width: 50px; height: 50px; overflow: visible;" direction="Horizontal">
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="A" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="A" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="B" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="B" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="C" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="C" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="D" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="D" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="E" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="E" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
                                 <appui:Avatar>
-                                    <appui:Text text="F" style="color: #fff;" />
+                                    <appui:Text picking-mode="Ignore" text="F" style="color: #fff;" />
                                 </appui:Avatar>
                             </appui:SwipeViewItem>
                         </appui:SwipeView>
@@ -2065,6 +2065,14 @@
                     <appui:Text text="Emphasized" class="example-subtitle" />
                     <ui:VisualElement class="example-section">
                         <appui:Tabs emphasized="true">
+                            <appui:TabItem label="Tab 1" icon="info" />
+                            <appui:TabItem label="Tab 2" icon="info" enabled="false" />
+                            <appui:TabItem label="Tab 3" icon="info" />
+                        </appui:Tabs>
+                    </ui:VisualElement>
+                    <appui:Text text="Justified" class="example-subtitle" />
+                    <ui:VisualElement class="example-section">
+                        <appui:Tabs emphasized="true" justified="true">
                             <appui:TabItem label="Tab 1" icon="info" />
                             <appui:TabItem label="Tab 2" icon="info" enabled="false" />
                             <appui:TabItem label="Tab 3" icon="info" />
