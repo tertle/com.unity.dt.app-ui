@@ -10,6 +10,8 @@ using Unity.Properties;
 
 namespace Unity.AppUI.UI
 {
+    using System.Linq;
+
     /// <summary>
     /// The type of selection for a Picker.
     /// </summary>
@@ -470,6 +472,11 @@ namespace Unity.AppUI.UI
             get => m_Value.Count > 0 ? m_Value[0] : -1;
             set
             {
+                if (selectedIndex == value)
+                {
+                    return;
+                }
+
                 this.value = new[] { value };
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
