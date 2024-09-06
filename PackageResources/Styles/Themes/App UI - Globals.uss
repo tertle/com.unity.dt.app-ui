@@ -279,7 +279,7 @@
   --appui-text-decoration-line-through: line-through;
   --appui-text-decoration-none: none;
 
-  --appui-font-weights-100: url("../../Fonts/Inter-Regular.ttf");
+  --appui-font-weights-100: url("../../Fonts/Inter-Normal.ttf");
   --appui-font-weights-200: url("../../Fonts/Inter-SemiBold.ttf");
 
   --appui-elevations-offset-x-0: 0;
