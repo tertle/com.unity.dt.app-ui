@@ -49,6 +49,14 @@ namespace Unity.AppUI.UI
             new Dictionary<string, AsyncOperationHandle<StringTable>>();
 
         string m_Entry;
+
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod]
+        private static void Reset()
+        {
+            s_GetTableOps.Clear();
+        }
+#endif
 #endif
 
         /// <summary>
