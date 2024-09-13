@@ -470,6 +470,10 @@ namespace Unity.AppUI.UI
             get => m_Value.Count > 0 ? m_Value[0] : -1;
             set
             {
+                var unchanged = (m_Value.Count == 0 && value == -1) || (m_Value.Count == 1 && m_Value[0] == value);
+                if (unchanged)
+                    return;
+
                 this.value = new[] { value };
 
 #if ENABLE_RUNTIME_DATA_BINDINGS

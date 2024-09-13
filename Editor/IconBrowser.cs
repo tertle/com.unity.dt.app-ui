@@ -351,11 +351,11 @@ namespace Unity.AppUI.Editor
         void OnSelectedStyleSheetChanged(ChangeEvent<Object> evt)
         {
             styleSheetAsset = evt.newValue as StyleSheet;
-            tempContent = styleSheetAsset ? System.IO.File.ReadAllText(AssetDatabase.GetAssetPath(styleSheetAsset)) : string.Empty;
+            tempContent = styleSheetAsset ? System.IO.File.ReadAllText(GetStyleSheetPath(styleSheetAsset)) : string.Empty;
             RefreshUI();
         }
 
-        bool IsDirty => styleSheetAsset && tempContent != System.IO.File.ReadAllText(AssetDatabase.GetAssetPath(styleSheetAsset));
+        bool IsDirty => styleSheetAsset && tempContent != System.IO.File.ReadAllText(GetStyleSheetPath(styleSheetAsset));
 
         void RefreshUI()
         {
@@ -383,7 +383,7 @@ namespace Unity.AppUI.Editor
         void SaveFile()
         {
             if (IsDirty)
-                System.IO.File.WriteAllText(AssetDatabase.GetAssetPath(styleSheetAsset), tempContent);
+                System.IO.File.WriteAllText(GetStyleSheetPath(styleSheetAsset), tempContent);
 
             var saveButton = rootVisualElement.Q<Button>("save");
             saveButton.SetEnabled(false);
@@ -594,6 +594,29 @@ namespace Unity.AppUI.Editor
             }
 
             return adbPath;
+        }
+
+        static string GetStyleSheetPath(StyleSheet styleSheetAsset)
+        {
+            if (!styleSheetAsset)
+                return null;
+
+            var path = AssetDatabase.GetAssetPath(styleSheetAsset);
+            if (path.StartsWith("Packages"))
+            {
+                // resolve path using PackageManager
+                var pkgInfo = UnityEditor.PackageManager.PackageInfo.FindForAssetPath(path);
+                if (pkgInfo == null)
+                {
+                    Debug.LogError("Unable to read Stylesheet: Failed to resolve package info for " + path);
+                    return null;
+                }
+                var pkgPath = pkgInfo.resolvedPath;
+                var assetRelativePath = path[pkgInfo.assetPath.Length..];
+                path = pkgPath + assetRelativePath;
+            }
+
+            return path;
         }
 
         class IconBrowserActions : EndNameEditAction

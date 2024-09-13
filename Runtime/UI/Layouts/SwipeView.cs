@@ -1118,14 +1118,15 @@ namespace Unity.AppUI.UI
 
             var containerMin = direction == Direction.Horizontal ? m_Container.layout.x : m_Container.layout.y;
             var containerMax = direction == Direction.Horizontal ? m_Container.layout.xMax : m_Container.layout.yMax;
+            var size = direction == Direction.Horizontal ? paddingRect.width : paddingRect.height;
 
             if (shouldWrap)
             {
-                var nbOffScreenStart = containerMin < 0 ? Mathf.FloorToInt(-containerMin / paddingRect.width) : 0;
-                if (m_AnimationDirection > 0 && nbOffScreenStart > 0) // one or more elements are off-screen on the left
+                var nbOffScreenStart = containerMin < 0 ? Mathf.FloorToInt(-containerMin / size) : 0;
+                if (m_AnimationDirection > 0 && nbOffScreenStart > 0) // one or more elements are off-screen on the start
                     return nbOffScreenStart;
-                var nbOffScreenEnd = containerMax > paddingRect.width ? Mathf.FloorToInt((containerMax - paddingRect.width) / paddingRect.width) : 0;
-                if (m_AnimationDirection < 0 && nbOffScreenEnd > 0) // one or more elements are off-screen on the right
+                var nbOffScreenEnd = containerMax > size ? Mathf.FloorToInt((containerMax - size) / size) : 0;
+                if (m_AnimationDirection < 0 && nbOffScreenEnd > 0) // one or more elements are off-screen on the end
                     return nbOffScreenEnd;
             }
 

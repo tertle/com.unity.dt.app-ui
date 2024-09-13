@@ -1,16 +1,16 @@
 using UnityEngine;
 using Unity.AppUI.MVVM;
-using Unity.AppUI.UI;
 
 namespace Unity.AppUI.Samples.MVVM
 {
     public class MyApp : App
     {
-        public MyApp(MainPage mainPage)
+        public new static MyApp current => (MyApp)App.current;
+
+        public override void InitializeComponent()
         {
-            var panel = new Panel();
-            panel.Add(mainPage);
-            this.mainPage = panel;
+            base.InitializeComponent();
+            rootVisualElement.Add(services.GetRequiredService<MainPage>());
         }
 
         public override void Shutdown()

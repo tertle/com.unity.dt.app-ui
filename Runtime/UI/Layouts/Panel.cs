@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
-#if UNITY_LOCALIZATION_PRESENT
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
-#endif
 #if ENABLE_RUNTIME_DATA_BINDINGS
 using Unity.Properties;
 #endif
@@ -109,6 +104,10 @@ namespace Unity.AppUI.UI
 
         bool m_ForceUseTooltipSystem;
 
+#if UNITY_LOCALIZATION_PRESENT
+        SelectedLocaleListener m_SelectedLocaleListener;
+#endif
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -154,36 +153,6 @@ namespace Unity.AppUI.UI
             layoutDirection = defaultDir;
             preferredTooltipPlacement = Tooltip.defaultPlacement;
             tooltipDelayMs = TooltipManipulator.defaultDelayMs;
-        }
-
-        string GetLang()
-        {
-            var ret = defaultLang;
-#if UNITY_LOCALIZATION_PRESENT
-            var localizationSettings = LocalizationSettings.GetInstanceDontCreateDefault();
-            if (localizationSettings != null)
-            {
-                ret = localizationSettings.GetSelectedLocale()?.Identifier.Code ?? defaultLang;
-                localizationSettings.OnSelectedLocaleChanged += OnSelectedLocaleChanged;
-            }
-#endif
-            return ret;
-        }
-
-#if UNITY_LOCALIZATION_PRESENT
-        void OnSelectedLocaleChanged(Locale locale)
-        {
-            lang = locale ? locale.Identifier.Code ?? defaultLang : defaultLang;
-        }
-#endif
-
-        void UnregisterLocalizationCallback()
-        {
-#if UNITY_LOCALIZATION_PRESENT
-            var localizationSettings = LocalizationSettings.GetInstanceDontCreateDefault();
-            if (localizationSettings != null)
-                localizationSettings.OnSelectedLocaleChanged -= OnSelectedLocaleChanged;
-#endif
         }
 
         void OnThemeContextChanged(ContextChangedEvent<ThemeContext> evt)
@@ -478,7 +447,10 @@ namespace Unity.AppUI.UI
             {
                 if (m_TooltipManipulator != null)
                     this.RemoveManipulator(m_TooltipManipulator);
-                UnregisterLocalizationCallback();
+#if UNITY_LOCALIZATION_PRESENT
+                if (m_SelectedLocaleListener != null)
+                    this.RemoveManipulator(m_SelectedLocaleListener);
+#endif
                 global::Unity.AppUI.Core.AppUI.UnregisterPanel(evt.originPanel, this);
             }
         }
@@ -534,7 +506,13 @@ namespace Unity.AppUI.UI
 
                 global::Unity.AppUI.Core.AppUI.RegisterPanel(this);
                 CheckRootPanel();
-                lang = GetLang();
+#if UNITY_LOCALIZATION_PRESENT
+                if (isRootPanel)
+                {
+                    m_SelectedLocaleListener ??= new SelectedLocaleListener();
+                    this.AddManipulator(m_SelectedLocaleListener);
+                }
+#endif
             }
         }
 

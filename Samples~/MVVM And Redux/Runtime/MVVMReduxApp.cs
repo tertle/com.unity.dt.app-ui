@@ -5,9 +5,12 @@ namespace Unity.AppUI.Samples.MVVMRedux
 {
     public class MVVMReduxApp : App
     {
-        public MVVMReduxApp(MainPage mainPage)
+        public new static MVVMReduxApp current => (MVVMReduxApp)App.current;
+
+        public override void InitializeComponent()
         {
-            this.mainPage = mainPage;
+            base.InitializeComponent();
+            rootVisualElement.Add(services.GetRequiredService<MainPage>());
         }
     }
 }

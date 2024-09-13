@@ -52,6 +52,11 @@ namespace Unity.AppUI.Navigation
         public override VisualElement contentContainer => m_Container.contentContainer;
 
         /// <summary>
+        /// Method called to create a new instance of a <see cref="NavigationScreen"/> based on a given type.
+        /// </summary>
+        public Func<Type, NavigationScreen> makeScreen { get; set; }
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         public NavHost()
@@ -65,6 +70,8 @@ namespace Unity.AppUI.Navigation
             m_Container.AddToClassList(containerUssClassName);
             m_Container.StretchToParentSize();
             hierarchy.Add(m_Container);
+
+            makeScreen = MakeScreen;
 
             RegisterCallback<NavigationCancelEvent>(OnCancelNavigation);
         }
@@ -101,7 +108,18 @@ namespace Unity.AppUI.Navigation
                 m_RemoveAnim?.Recycle();
                 m_AddAnim?.Recycle();
 
-                var item = CreateItem(destination, content);
+                VisualElement item;
+                try
+                {
+                    item = CreateItem(destination, content);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"The template for navigation " +
+                        $"destination {destination.name} could not be created: {e.Message}");
+                    callback?.Invoke(false);
+                    return;
+                }
                 if (m_Container.childCount == 0)
                 {
                     m_Container.Add(item);
@@ -142,6 +160,13 @@ namespace Unity.AppUI.Navigation
             }
         }
 
+        /// <summary>
+        /// Create a new <see cref="VisualElement"/> item based on the provided <see cref="NavDestination"/>.
+        /// </summary>
+        /// <param name="destination"> The destination to create the item for. </param>
+        /// <param name="template"> The template to use for the item. </param>
+        /// <returns> The created <see cref="VisualElement"/> item. </returns>
+        /// <exception cref="InvalidOperationException"> Thrown when the screen type could not be created. </exception>
         VisualElement CreateItem(NavDestination destination, string template)
         {
             var item = new VisualElement { name = itemUssClassName, pickingMode = PickingMode.Ignore };
@@ -150,7 +175,10 @@ namespace Unity.AppUI.Navigation
             var screenType = (string.IsNullOrEmpty(template) || Type.GetType(template) is not {} t) ?
                 typeof(NavigationScreen) : t;
 
-            var screen = (NavigationScreen) Activator.CreateInstance(screenType!);
+            var screen = makeScreen != null ? makeScreen.Invoke(screenType) : MakeScreen(screenType);
+            if (screen == null)
+                throw new InvalidOperationException($"The screen type {screenType} could not be created.");
+
             item.Add(screen);
 
             if (destination.showBottomNavBar)
@@ -207,6 +235,17 @@ namespace Unity.AppUI.Navigation
             }
 
             return item;
+        }
+
+        /// <summary>
+        /// Default implementation of the <see cref="makeScreen"/> delegate.
+        /// </summary>
+        /// <param name="t"> The type of the <see cref="NavigationScreen"/> to create. </param>
+        /// <returns> The created <see cref="NavigationScreen"/>. </returns>
+        /// <exception cref="InvalidCastException"> Thrown when the provided type is not a <see cref="NavigationScreen"/>. </exception>
+        internal static NavigationScreen MakeScreen(Type t)
+        {
+            return (NavigationScreen)Activator.CreateInstance(t);
         }
 
         /// <summary>

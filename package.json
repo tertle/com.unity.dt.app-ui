@@ -1,7 +1,7 @@
 {
   "name": "com.unity.dt.app-ui",
   "displayName": "App UI",
-  "version": "2.0.0-pre.9",
+  "version": "2.0.0-pre.10",
   "unity": "2021.3",
   "category": "UI",
   "keywords": [
@@ -77,16 +77,16 @@
     }
   ],
   "_upm": {
-    "changelog": "### Changed\n\n- Scrollable manipulator now stops the propagation of WheelEvent. This affects only the Drawer and SwipeView elements.\n- Refactored the SwipeView element logic, without impacting the public API.\n- The Canvas now uses `Experimental.Animation` system from UI-Toolkit for its damping effect when releasing the mouse with some velocity. That replaces the previous implementation that was using the `VisualElementScheduledItem`.\n- Changed fade in animation in Tooltip to use USS transitions.\n\n### Fixed\n\n- Fixed the wrap system of the SwipeView element when swiping between elements quickly.\n- Fixed Daisy chaining window procedures on Windows platform.\n- Fixed an edge case when popovers are dismissed as OutOfBounds as soon as Show() is called.\n- Invoke click event only if Pressable is still hovered.\n- Fixed styling of emphasized checkboxes.\n- Fixed a bug where tooltips stop being shown when the window is docked/undocked.\n\n### Added\n\n- Added `justified` property on Tabs component to jusitfy tabs layout in horizontal direction.\n- Added `damping-effect-duration` property in Canvas element. The default value is 750ms.\n- Added `IsContextClick()` extension method for PointerEvent.\n- Added support of graceful fallback to lambda `Plafform` implementation if native plugins can not be loaded by the current plaftorm."
+    "changelog": "### Changed\n\n- Renamed `IUIToolkitApp.mainPage` property into `IUIToolkitApp.rootVisualElement` for more clarity.\n- Storybook stories are now sorted alphabetically.\n\n### Added\n\n- Added `IApp.services` property which returns the current `IServiceProvider` available for this instance of `IApp`. Thanks to this property you should be able to load a service from anywhere in your application by calling `App.current.services`.\n- Added `LangContext.GetLocalizedStringAsyncFunc` to delegate the localization operation to a user-defined function.\n- Added `IInitializableComponent` interface to `IApp` interface. Now when initializing a MVVM `App` object, the related `AppBuilder` will call `app.InitializeComponent` before hosting.\n- Added `SelectedLocaleListener` manipulator that reacts to Localization Package's SelectedLocale changes in order to provide a new `LangContext` in the visual tree.\n- Added `NavHost.makeScreen` property. By setting your own callback to this property, you will be able to customize the way to instantiate a `NavigationScreen` when navigating to a new destination. This can be useful when coupled to Dependency Injection so you can retreive instances of your screens from a `IServiceProvider`. By default, the property is set with the use of `System.Activator.CreateInstance`.\n- Added some warning messages (Standalone builds only) when a LocalizedTextElement value cannot be localized.\n\n### Fixed\n\n- Fixed notify property changes for Picker.selectedIndex.\n- Fixed path resolution of Stylesheets coming from Packages in Icon Browser tool.\n- Fixed a regression where components using `Pressable` manipulator will not able to be clicked more than once if the cursor doesn't leave the component's layout rect.\n- Fixed NullReferenceException thrown when fetching Localization tables.\n- Fixed Screen Height calculation. UITK does not use Camera rect but blit on the whole screen instead.\n- Fixed `InvalidOperationException` thrown by the damping effect animation of the `Canvas` component.\n- Fixed the calculation of off-screen items in SwipeView with vertical direction."
   },
   "upmCi": {
-    "footprint": "66347e84ac192c2027f98c3a6a78e2ba3cb96abc"
+    "footprint": "b346eb1a8150d90011e875e4f94e7c91baf1b459"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.dt.app-ui@2.0/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/unity-app-ui.git",
     "type": "git",
-    "revision": "742b73c69160b9fec8167b6428798a5766ba2897"
+    "revision": "a04906b91b03e35a23ebb1c80219709f15d6ca40"
   },
-  "_fingerprint": "f126c987761689112a4e4970790b2e385737996e"
+  "_fingerprint": "562079a7bdc978c15b452cd58d0c390359f4f397"
 }

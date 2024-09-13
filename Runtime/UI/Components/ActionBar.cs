@@ -76,7 +76,13 @@ namespace Unity.AppUI.UI
             m_Label = new Text
             {
                 name = labelUssClassName,
-                text = k_DefaultMessage,
+                variables = new object[]
+                {
+                    new Dictionary<string, object>
+                    {
+                        {"itemCount", 0}
+                    }
+                },
                 pickingMode = PickingMode.Ignore
             };
             m_Label.AddToClassList(labelUssClassName);
@@ -165,11 +171,11 @@ namespace Unity.AppUI.UI
             get => m_Message;
             set
             {
-                var previousValue = m_Message;
+                var changed = m_Message != value;
                 m_Message = value;
                 RefreshUI();
 #if ENABLE_RUNTIME_DATA_BINDINGS
-                if (previousValue != value)
+                if (changed)
                     NotifyPropertyChanged(messageProperty);
 #endif
             }
@@ -228,8 +234,6 @@ namespace Unity.AppUI.UI
                     : CheckboxState.Intermediate;
             }
             m_SelectAllCheckbox.SetValueWithoutNotify(checkboxValue);
-
-#if UNITY_LOCALIZATION_PRESENT
             m_Label.variables = new object[]
             {
                 new Dictionary<string, object>
@@ -237,13 +241,7 @@ namespace Unity.AppUI.UI
                     {"itemCount", selectionCount}
                 }
             };
-            m_Label.text = m_Message;
-#else
-            if (string.IsNullOrEmpty(m_Message))
-                m_Label.text = string.Format(k_DefaultMessage, selectionCount);
-            else
-                m_Label.text = string.Format(m_Message, selectionCount);
-#endif
+            m_Label.text = string.IsNullOrEmpty(m_Message) ? m_Message : string.Format(m_Message, selectionCount);
         }
 
 #if ENABLE_UXML_TRAITS

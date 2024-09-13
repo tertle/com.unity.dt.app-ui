@@ -9,7 +9,7 @@ uid: overview
 </p>
 
 > [!WARNING]
-> **THIS FRAMEWORK IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.**
+> App UI is considered as an experimental product. It is provided **"as is"** without warranty of any kind, express or implied.
 
 ## Introduction
 

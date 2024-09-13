@@ -4,9 +4,6 @@ uid: using-app-ui
 
 # Using App UI
 
-> [!WARNING]
-> **THIS FRAMEWORK IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.**
-
 Once you have installed App UI Unity Package, you can start using it in your Unity projects.
 
 App UI Unity Package consists mainly of a set of [UI Toolkit](xref:UIElements) components.

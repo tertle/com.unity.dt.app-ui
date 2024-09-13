@@ -357,7 +357,7 @@ namespace Unity.AppUI.UI
             if (!active)
                 return;
 
-            if (target?.ClassListContains(Styles.hoveredUssClassName) == true)
+            if (target.ContainsPoint(evt.localPosition))
                 InvokePressed(evt);
             Deactivate(evt.pointerId);
 

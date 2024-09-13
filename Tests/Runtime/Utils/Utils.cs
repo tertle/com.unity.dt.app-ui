@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NUnit.Framework;
 using Unity.AppUI.Navigation;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
+
+#if UNITY_LOCALIZATION_PRESENT
+using UnityEngine.Localization.Settings;
 #endif
 
 namespace Unity.AppUI.Tests
@@ -22,6 +28,8 @@ namespace Unity.AppUI.Tests
 
         static Utils()
         {
+            ConditionalIgnoreAttribute.AddConditionalIgnoreMapping("IgnoreInEditor", Application.isEditor);
+            ConditionalIgnoreAttribute.AddConditionalIgnoreMapping("IgnoreInPlayer", !Application.isEditor);
 #if UNITY_EDITOR
             Type importerType = null;
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -147,6 +155,31 @@ namespace Unity.AppUI.Tests
 
                 return s_NavGraphTestAsset;
             }
+        }
+
+        internal static IEnumerator WaitForLocalizationPreloaded()
+        {
+#if UNITY_LOCALIZATION_PRESENT
+            var localizationSettings = LocalizationSettings.GetInstanceDontCreateDefault();
+            if (localizationSettings)
+            {
+                if (localizationSettings.GetAvailableLocales() is LocalesProvider provider)
+                {
+                    while (provider.PreloadOperation.IsValid() && !provider.PreloadOperation.IsDone)
+                    {
+                        yield return null;
+                    }
+                }
+                var localeOp = localizationSettings.GetSelectedLocaleAsync();
+                while (localeOp.IsValid() && !localeOp.IsDone)
+                {
+                    yield return null;
+                }
+                Assert.IsTrue(localeOp.Result);
+            }
+#else
+            yield break;
+#endif
         }
 
         internal static UIDocument ConstructTestUI()

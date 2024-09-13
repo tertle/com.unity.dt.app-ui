@@ -152,7 +152,14 @@ namespace Unity.AppUI.Core
 
         void CleanUp()
         {
-            NativeAppUI_Uninitialize();
+            try
+            {
+                NativeAppUI_Uninitialize();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
             if (s_ConfigDataPtr != IntPtr.Zero)
                 Marshal.FreeHGlobal(s_ConfigDataPtr);
             s_Instance = null;

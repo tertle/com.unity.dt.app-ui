@@ -5,13 +5,11 @@ namespace Unity.AppUI.MVVM
     /// <summary>
     /// A builder to create an App instance with required services.
     /// </summary>
-    public class AppBuilder
+    public class AppBuilder : IAppBuilder
     {
         readonly AppUIServiceCollection m_Services = new AppUIServiceCollection();
 
-        /// <summary>
-        /// The services of the application.
-        /// </summary>
+        /// <inheritdoc />
         public IServiceCollection services => m_Services;
 
         /// <summary>

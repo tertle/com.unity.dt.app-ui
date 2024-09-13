@@ -13,7 +13,7 @@ namespace Unity.AppUI.Tests.MVVM
             {
                 var panel = new AppUI.UI.Panel();
                 panel.Add(mainPage);
-                this.mainPage = panel;
+                this.rootVisualElement = panel;
             }
         }
 

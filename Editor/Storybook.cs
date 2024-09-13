@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AppUI.Core;
 using UnityEditor;
 using UnityEditor.Toolbars;
@@ -198,8 +199,6 @@ namespace Unity.AppUI.Editor
     {
         const string k_DefaultTheme = "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss";
 
-        List<Type> m_ComponentTypes = new List<Type>();
-
         List<StoryBookPage> m_StoriesList = new List<StoryBookPage>();
 
         TwoPaneSplitView m_SplitView;
@@ -236,37 +235,14 @@ namespace Unity.AppUI.Editor
             window.Show();
         }
 
-        static IEnumerable<Type> GetComponents()
-        {
-            var types = new List<Type>();
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if ((type.Namespace?.StartsWith("Unity.AppUI.UI") ?? false)
-                        && !type.IsAbstract && type.IsClass && type.IsPublic && !type.IsGenericType)
-                    {
-                        types.Add(type);
-                    }
-                }
-            }
-
-            return types;
-        }
-
         static IEnumerable<StoryBookPage> GetStories()
         {
             var stories = new List<StoryBookPage>();
 
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            var storyBookPageType = typeof(StoryBookPage);
+            foreach (var type in TypeCache.GetTypesDerivedFrom(storyBookPageType))
             {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if (type.IsSubclassOf(typeof(StoryBookPage)))
-                    {
-                        stories.Add(Activator.CreateInstance(type) as StoryBookPage);
-                    }
-                }
+                stories.Add(Activator.CreateInstance(type) as StoryBookPage);
             }
 
             return stories;
@@ -277,8 +253,7 @@ namespace Unity.AppUI.Editor
             var root = rootVisualElement;
 
             m_SplitView = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
-            m_ComponentTypes = new List<Type>(GetComponents());
-            m_StoriesList = new List<StoryBookPage>(GetStories());
+            m_StoriesList = new List<StoryBookPage>(GetStories().OrderBy(s => s.displayName));
             var listPane = new TwoPaneSplitView(0, 100, TwoPaneSplitViewOrientation.Horizontal);
             m_ListView = new ListView(m_StoriesList, -1f, MakeListVIewItem, BindListViewItem);
             m_StoryListView = new ListView(null, -1f, MakeListVIewItem, BindStoryListViewItem);

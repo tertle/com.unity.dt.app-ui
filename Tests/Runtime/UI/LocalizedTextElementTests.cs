@@ -79,7 +79,7 @@ namespace Unity.AppUI.Tests.UI
 
             if (localizationSettings && localizationSettings.GetStringDatabase() is {} db)
             {
-                var op = db.GetTableEntryAsync(table, key, ctx.locale);
+                var op = db.GetTableEntryAsync(table, key, GetLocaleForLang(ctx.lang));
 
                 while (!op.IsDone)
                 {
@@ -92,7 +92,7 @@ namespace Unity.AppUI.Tests.UI
                 }
 
                 var frenchCtx = new LangContext(frenchLang);
-                op = db.GetTableEntryAsync(table, key, frenchCtx.locale);
+                op = db.GetTableEntryAsync(table, key, GetLocaleForLang(frenchCtx.lang));
 
                 while (!op.IsDone)
                 {
@@ -132,5 +132,29 @@ namespace Unity.AppUI.Tests.UI
             Assert.AreEqual(localizedFrenchText, localizedTextElement.localizedText,
                 "The localizedText property must return the localized text");
         }
+
+#if UNITY_LOCALIZATION_PRESENT
+        static Locale GetLocaleForLang(string lang)
+        {
+            var settings = LocalizationSettings.GetInstanceDontCreateDefault();
+            if (!settings)
+                return null;
+
+            var globalLocale = settings.GetSelectedLocaleAsync();
+            if (!globalLocale.IsDone)
+                return null;
+
+            if (string.IsNullOrEmpty(lang))
+                return globalLocale.Result;
+
+            var availableLocales = settings.GetAvailableLocales();
+            if (availableLocales is LocalesProvider localesProvider &&
+                (!localesProvider.PreloadOperation.IsValid() || !localesProvider.PreloadOperation.IsDone))
+                return null;
+
+            var scopedLocale = availableLocales.GetLocale(lang);
+            return scopedLocale ? scopedLocale : globalLocale.Result;
+        }
+#endif
     }
 }

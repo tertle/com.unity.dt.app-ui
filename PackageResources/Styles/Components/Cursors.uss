@@ -31,18 +31,15 @@
     cursor: var(--appui-alias-control-cursor-nwseresize);
 }
 
-.cursor--move,
-.cursor--move * {
+.cursor--move {
     cursor: var(--appui-alias-control-cursor-move);
 }
 
-.cursor--grab,
-.cursor--grab * {
+.cursor--grab {
     cursor: var(--appui-alias-control-cursor-grab);
 }
 
-.cursor--grabbing,
-.cursor--grabbing * {
+.cursor--grabbing {
     cursor: var(--appui-alias-control-cursor-grabbing);
 }
 

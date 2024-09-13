@@ -1,8 +1,5 @@
-#if UNITY_LOCALIZATION_PRESENT
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
-using UnityEngine.ResourceManagement.AsyncOperations;
-#endif
+using System;
+using System.Threading.Tasks;
 
 namespace Unity.AppUI.Core
 {
@@ -17,33 +14,35 @@ namespace Unity.AppUI.Core
         /// </summary>
         public string lang { get; } = lang;
 
-#if UNITY_LOCALIZATION_PRESENT
         /// <summary>
-        /// The current locale.
+        /// The delegate to get a localized string asynchronously.
         /// </summary>
-        public Locale locale => GetLocaleForLang(lang);
+        /// <param name="referenceText"> The reference text. </param>
+        /// <param name="lang"> The language. </param>
+        /// <param name="arguments"> The arguments to format the string. </param>
+        /// <returns> The localized string. </returns>
+        public delegate Task<string> GetLocalizedStringAsyncDelegate(string referenceText, string lang, params object[] arguments);
 
-        public static Locale GetLocaleForLang(string lang)
+        /// <summary>
+        /// The delegate to get a localized string.
+        /// </summary>
+        public GetLocalizedStringAsyncDelegate GetLocalizedStringAsyncFunc { get; set; }
+
+        /// <summary>
+        /// Get a localized string asynchronously.
+        /// </summary>
+        /// <param name="referenceText"> The reference text. </param>
+        /// <param name="arguments"> The arguments to format the string. </param>
+        /// <returns> The localized string. </returns>
+        internal Task<string> GetLocalizedStringAsync(string referenceText, params object[] arguments)
         {
-            var settings = LocalizationSettings.GetInstanceDontCreateDefault();
-            if (!settings)
-                return null;
-
-            var globalLocale = settings.GetSelectedLocaleAsync();
-            if (!globalLocale.IsDone)
-                return null;
-
-            if (string.IsNullOrEmpty(lang))
-                return globalLocale.Result;
-
-            var availableLocales = settings.GetAvailableLocales();
-            if (availableLocales is LocalesProvider localesProvider &&
-                (!localesProvider.PreloadOperation.IsValid() || !localesProvider.PreloadOperation.IsDone))
-                return null;
-
-            var scopedLocale = availableLocales.GetLocale(lang);
-            return scopedLocale ? scopedLocale : globalLocale.Result;
-        }
+            if (GetLocalizedStringAsyncFunc != null)
+                return GetLocalizedStringAsyncFunc.Invoke(referenceText, lang, arguments);
+#if UNITY_LOCALIZATION_PRESENT
+            return LocalizationUtils.GetLocalizedStringFromLocalizationPackage(referenceText, lang, arguments);
+#else
+            return Task.FromResult(referenceText);
 #endif
+        }
     }
 }

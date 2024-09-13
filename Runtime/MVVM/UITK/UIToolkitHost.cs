@@ -31,7 +31,7 @@ namespace Unity.AppUI.MVVM
         public void HostApplication(IUIToolkitApp app, IServiceProvider serviceProvider)
         {
             m_Document.rootVisualElement?.Clear();
-            m_Document.rootVisualElement?.Add(app.mainPage);
+            m_Document.rootVisualElement?.Add(app.rootVisualElement);
         }
 
         /// <summary>

@@ -941,9 +941,14 @@ namespace Unity.AppUI.UI
                 StopAnyDampingEffect();
                 if (m_DampingEffectDurationMs > 0)
                 {
-                    m_DampingEffect = experimental.animation
-                        .Start(1f, 0f, m_DampingEffectDurationMs, DampingEffect)
-                        .KeepAlive();
+                    if (m_DampingEffect == null || m_DampingEffect.durationMs != m_DampingEffectDurationMs)
+                    {
+                        if (m_DampingEffect != null && !m_DampingEffect.IsRecycled())
+                            m_DampingEffect.Recycle();
+                        m_DampingEffect = experimental.animation
+                            .Start(1f, 0f, m_DampingEffectDurationMs, DampingEffect)
+                            .KeepAlive();
+                    }
                     m_DampingEffect.Start();
                 }
             }
@@ -964,9 +969,8 @@ namespace Unity.AppUI.UI
 
         void StopAnyDampingEffect()
         {
-            m_DampingEffect?.Stop();
-            m_DampingEffect?.Recycle();
-            m_DampingEffect = null;
+            if (m_DampingEffect != null && !m_DampingEffect.IsRecycled())
+                m_DampingEffect.Stop();
         }
 
         void OnPointerMove(PointerMoveEvent evt)

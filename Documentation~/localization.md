@@ -29,12 +29,12 @@ public class MyComponent : BaseVisualElement
     }
 
     // This method will be called when the LangContext changes
-    void OnLangContextChanged(ContextChangedEvent<LangContext> evt)
+    async void OnLangContextChanged(ContextChangedEvent<LangContext> evt)
     {
         var ctx = evt.context;
         if (ctx != null)
         {
-            var translatedString = LocalizationSettings.Instance.GetLocalizedString("table_name", "entry_key", ctx.locale);
+            var translatedString = await ctx.GetLocalizedStringAsync("@myTable:myEntry");
         }
     }
 
@@ -45,7 +45,7 @@ public class MyComponent : BaseVisualElement
         var ctx = this.GetContext<LangContext>();
         if (ctx != null)
         {
-            var translatedString = LocalizationSettings.Instance.GetLocalizedString("table_name", "entry_key", ctx.locale);
+            var translatedString = ctx.GetLocalizedStringAsync("@myTable:myEntry");
         }
     }
 }
@@ -53,6 +53,11 @@ public class MyComponent : BaseVisualElement
 ```
 
 And if you want to provide a new language to a part of your UI, just provide a new [LangContext](xref:Unity.AppUI.Core.LangContext) to the root element of this part of the UI:
+
+Optionally, you can provide a custom translation function to the [LangContext](xref:Unity.AppUI.Core.LangContext) to customize the localization operation.
+By default, when calling [GetLocalizedStringAsync](xref:Unity.AppUI.Core.LangContext.GetLocalizedStringAsync(System.String,System.Object[])),
+the [LangContext](xref:Unity.AppUI.Core.LangContext) will use the [Unity.Localization](https://docs.unity3d.com/Packages/com.unity.localization@1.4/manual/index.html)
+package to translate the string (if the package is installed in your project).
 
 ```csharp
 
@@ -62,9 +67,18 @@ public class MyComponent : BaseVisualElement
 {
     public MyComponent()
     {
-        var newLangContext = new LangContext();
-        newLangContext.locale = "fr-FR";
-        this.AddContext(newLangContext);
+        // instantiate a new LangContext with the desired locale
+        var newLangContext = new LangContext("fr-FR");
+        // optionally provide a function to customize the localization operation
+        newLangContext.GetLocalizedStringAsyncFunc = MyCustomTranslator;
+        this.ProvideContext(newLangContext);
+    }
+
+    // This method will be called when an element request a localized string based on the newLangContext
+    static async Task<string> MyCustomTranslator(string referenceText, string lang, params object[] arguments)
+    {
+        // custom translation logic here...
+        return "translated string";
     }
 }
 

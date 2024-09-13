@@ -1,7 +1,5 @@
 # App UI
 
-> **THIS FRAMEWORK IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.**
-
 ## What is App UI?
 
 This package is the UI Toolkit implementation of the **App UI Design System**.

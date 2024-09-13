@@ -24,13 +24,13 @@
 }
 
 .unity-base-text-field__input,
-.unity-base-text-field__input * {
+.unity-base-text-field__input > .unity-text-element {
     color: var(--appui-foregrounds-100);
     cursor: var(--appui-alias-control-cursor-text);
 }
 
 .unity-base-text-field__input:disabled,
-.unity-base-text-field__input:disabled * {
+.unity-base-text-field__input:disabled > .unity-text-element {
     color: var(--appui-foregrounds-25);
     cursor: var(--appui-alias-control-cursor-disabled);
 }

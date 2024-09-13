@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.AppUI.UI;
 using UnityEngine.UIElements;
 
 namespace Unity.AppUI.MVVM
@@ -18,6 +19,8 @@ namespace Unity.AppUI.MVVM
 
         bool m_Disposed;
 
+        IServiceProvider m_Services;
+
         /// <summary>
         /// The current App instance.
         /// </summary>
@@ -32,7 +35,12 @@ namespace Unity.AppUI.MVVM
         /// <summary>
         /// The main page of the application.
         /// </summary>
-        public VisualElement mainPage { get; set; }
+        public VisualElement rootVisualElement { get; set; }
+
+        /// <summary>
+        /// The services of the application.
+        /// </summary>
+        public IServiceProvider services => m_Services;
 
         /// <summary>
         /// The hosts of the application.
@@ -65,9 +73,10 @@ namespace Unity.AppUI.MVVM
             if (uitkHost == null)
                 throw new ArgumentException($"The host must implement {nameof(IUIToolkitHost)}.", nameof(host));
 
+            m_Services = serviceProvider;
             SetCurrentApp(this);
-
             m_Hosts.Add(uitkHost);
+            InitializeComponent();
             uitkHost.HostApplication(this, serviceProvider);
         }
 
@@ -86,6 +95,12 @@ namespace Unity.AppUI.MVVM
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc />
+        public virtual void InitializeComponent()
+        {
+            rootVisualElement = new Panel();
         }
 
         /// <summary>
@@ -107,7 +122,7 @@ namespace Unity.AppUI.MVVM
                 m_Hosts.Clear();
             }
 
-            mainPage = null;
+            rootVisualElement = null;
             SetCurrentApp(null);
             m_Disposed = true;
         }

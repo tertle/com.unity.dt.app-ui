@@ -5,8 +5,13 @@ namespace Unity.AppUI.MVVM
     /// <summary>
     /// Interface for an application.
     /// </summary>
-    public interface IApp : IDisposable
+    public interface IApp : IDisposable, IInitializableComponent
     {
+        /// <summary>
+        /// The available services.
+        /// </summary>
+        public IServiceProvider services { get; }
+
         /// <summary>
         /// Called to initialize the application.
         /// </summary>

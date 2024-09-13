@@ -120,9 +120,11 @@
 }
 
 .appui-actionbutton:disabled,
-.appui-actionbutton:disabled *,
+.appui-actionbutton:disabled > .appui-actionbutton__label,
+.appui-actionbutton:disabled > .appui-actionbutton__icon,
 .is-selected.appui-actionbutton:disabled,
-.is-selected.appui-actionbutton:disabled * {
+.is-selected.appui-actionbutton:disabled > .appui-actionbutton__label,
+.is-selected.appui-actionbutton:disabled > .appui-actionbutton__icon {
     color: var(--appui-alias-actions-foreground-color-disabled);
     --unity-image-tint-color: var(--appui-alias-actions-foreground-color-disabled);
 }

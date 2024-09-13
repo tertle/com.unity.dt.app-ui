@@ -15,8 +15,7 @@ using Random = UnityEngine.Random;
 namespace Unity.AppUI.Tests.UI
 {
     [TestFixture]
-    class VisualElementTests<T>
-        where T : VisualElement, new()
+    class VisualElementTests<T> where T : VisualElement, new()
     {
         VisualElement m_VisualElement;
 
@@ -28,10 +27,7 @@ namespace Unity.AppUI.Tests.UI
 
         protected virtual IEnumerable<string> uxmlTestCases
         {
-            get
-            {
-                yield return "<" + uxmlNamespaceName + ":" + componentName + " />";
-            }
+            get { yield return "<" + uxmlNamespaceName + ":" + componentName + " />"; }
         }
 
         protected virtual string uxmlNamespaceName => "appui";
@@ -39,21 +35,20 @@ namespace Unity.AppUI.Tests.UI
         protected record StoryContext(UIDocument document, Panel panel)
         {
             public UIDocument document { get; } = document;
+
             public Panel panel { get; } = panel;
         }
 
         protected record Story(string name, Func<StoryContext, VisualElement> setup)
         {
             public string name { get; } = name;
+
             public Func<StoryContext, VisualElement> setup { get; } = setup;
         }
 
         protected virtual IEnumerable<Story> stories
         {
-            get
-            {
-                yield return new Story("Default", (ctx) => new T());
-            }
+            get { yield return new Story("Default", (ctx) => new T()); }
         }
 
         protected T element => m_VisualElement as T;
@@ -75,6 +70,7 @@ namespace Unity.AppUI.Tests.UI
                 {
                     yield return null;
                 }
+                yield return Utils.WaitForLocalizationPreloaded();
                 m_TestUI = Utils.ConstructTestUI();
                 Screen.SetResolution(1200, 600, FullScreenMode.Windowed);
                 TimeUtils.timeOverride = 1f;
@@ -110,11 +106,11 @@ namespace Unity.AppUI.Tests.UI
 
         [UnityTest]
         [Order(2)]
+        [ConditionalIgnore("IgnoreInPlayer", "UXML construction is supported only in Editor")]
         public IEnumerator UxmlConstruction_ShouldSucceed()
         {
-            if (!uxmlConstructable || !Application.isEditor)
+            if (!uxmlConstructable)
             {
-                // skip test and mark as ignored
                 Assert.Ignore("UXML construction not supported for this type");
                 yield break;
             }
@@ -142,9 +138,10 @@ namespace Unity.AppUI.Tests.UI
 
         [UnityTest]
         [Order(3)]
+        [ConditionalIgnore("IgnoreInEditor", "Snapshot generation is supported only in Standalone Player")]
         public IEnumerator CreateSnapshot()
         {
-            if (string.IsNullOrEmpty(Utils.snapshotsOutputDir) || Application.isEditor)
+            if (string.IsNullOrEmpty(Utils.snapshotsOutputDir))
                 Assert.Ignore("Snapshots are generated only in Standalone Player and when SNAPSHOTS_OUTPUT_DIR is set");
 
             if (typeof(Panel).IsAssignableFrom(typeof(T)))

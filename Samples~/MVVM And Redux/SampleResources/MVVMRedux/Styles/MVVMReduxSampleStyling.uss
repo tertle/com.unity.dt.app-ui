@@ -1,3 +1,16 @@
+:root {
+    --appui-icon-pen-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Pen.png");
+    --appui-icon-delete-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Delete.png");
+}
+
+.appui-icon--pen--regular {
+    --unity-image: var(--appui-icon-pen-regular);
+}
+
+.appui-icon--delete--regular {
+    --unity-image: var(--appui-icon-delete-regular);
+}
+
 MainPage {
     width: 100%;
     height: 100%;
