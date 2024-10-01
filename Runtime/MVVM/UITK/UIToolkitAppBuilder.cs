@@ -25,7 +25,7 @@ namespace Unity.AppUI.MVVM
                 return;
             }
 
-            var builder = AppBuilder.InstantiateWith<T>();
+            var builder = AppBuilder.InstantiateWith<T, UIToolkitHost>();
             OnConfiguringApp(builder);
 
             var host = new UIToolkitHost(uiDocument);

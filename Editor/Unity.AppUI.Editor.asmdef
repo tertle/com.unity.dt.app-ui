@@ -5,7 +5,9 @@
         "GUID:343deaaf83e0cee4ca978e7df0b80d21",
         "GUID:2bafac87e7f4b9b418d9448d219b01ab",
         "GUID:2f101f87087d58f4ba92ca00188e763d",
-        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:84651a3751eca9349aac36a66bba901b"
     ],
     "includePlatforms": [
         "Editor"
@@ -26,6 +28,11 @@
             "name": "Unity",
             "expression": "2023.3.0a1",
             "define": "ENABLE_UXML_SERIALIZED_DATA"
+        },
+        {
+            "name": "com.unity.localization",
+            "expression": "",
+            "define": "UNITY_LOCALIZATION_PRESENT"
         }
     ],
     "noEngineReferences": false

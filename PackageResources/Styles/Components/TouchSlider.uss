@@ -5,8 +5,11 @@
     border-radius: var(--appui-alias-control-border-radius);
     border-width: var(--appui-alias-control-border-width);
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+    padding: 0 var(--appui-alias-control-gap-md);
     /*border-style: var(--appui-control-border-style);*/
     position: relative;
     cursor: var(--appui-alias-control-cursor-ewresize); /*cursor: ew-resize;*/
@@ -14,20 +17,7 @@
     flex-grow: 0;
 }
 
-.appui-touchslider__container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    overflow: hidden;
-    border-width: 0;
-    border-radius: var(--appui-border-radius-sm);
-    padding: 0 var(--appui-alias-control-gap-md);
-    flex-shrink: 0;
-    flex-grow: 1;
-}
-
-.appui--rtl .appui-touchslider__container {
+.appui--rtl .appui-touchslider {
     flex-direction: row-reverse;
 }
 
@@ -59,10 +49,6 @@
 .appui--rtl .appui-touchslider__progress {
     left: auto;
     right: 0;
-}
-
-.appui-touchslider__progress:hover {
-    background-color: var(--appui-base-500);
 }
 
 .appui-touchslider__label {
@@ -102,6 +88,10 @@
     border-color: var(--appui-alias-control-border-color-hover);
 }
 
+.appui-touchslider:hover > .appui-touchslider__progress {
+    background-color: var(--appui-base-300);
+}
+
 .appui-touchslider.is-focused {
     background-color: var(--appui-alias-field-background-color-focus);
     border-color: var(--appui-accent-100);
@@ -122,6 +112,10 @@
     border-color: var(--appui-alias-control-border-color-active);
 }
 
+.appui-touchslider:active > .appui-touchslider__progress {
+    background-color: var(--appui-base-300);
+}
+
 .appui-touchslider:active > .appui-touchslider__label {
     color: var(--appui-foregrounds-100);
 }
@@ -140,7 +134,7 @@
     cursor: var(--appui-alias-control-cursor-disabled);
 }
 
-.appui-touchslider__progress:disabled /*.is-disabled > .appui-touchslider__progress*/ {
+.appui-touchslider > .appui-touchslider__progress:disabled /*.is-disabled > .appui-touchslider__progress*/ {
     background-color: var(--appui-base-200);
 }
 

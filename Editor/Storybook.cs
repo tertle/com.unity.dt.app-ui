@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Unity.AppUI.Core;
 using UnityEditor;
@@ -11,6 +12,15 @@ using UnityEngine.UIElements;
 using TextField = UnityEngine.UIElements.TextField;
 using Toggle = UnityEngine.UIElements.Toggle;
 using Toolbar = UnityEditor.UIElements.Toolbar;
+#if UNITY_LOCALIZATION_PRESENT
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
+#endif
+#if UNITY_2022_1_OR_NEWER
+using FloatField = UnityEngine.UIElements.FloatField;
+#else
+using FloatField = UnityEditor.UIElements.FloatField;
+#endif
 
 namespace Unity.AppUI.Editor
 {
@@ -23,22 +33,34 @@ namespace Unity.AppUI.Editor
         /// The name of the property.
         /// </summary>
         public string name { get; protected set; }
+
+        /// <summary>
+        /// Get the input element for the property.
+        /// </summary>
+        /// <param name="uiElement"> The UI element. </param>
+        /// <returns> The input element. </returns>
+        internal virtual VisualElement GetInputElement(VisualElement uiElement)
+        {
+            return null;
+        }
     }
 
     /// <summary>
     /// This class defines a Enum property for a StoryBookComponent.
     /// </summary>
-    public class StoryBookEnumProperty : StoryBookComponentProperty
+    /// <typeparam name="T"> The type of the Enum. </typeparam>
+    public class StoryBookEnumProperty<T> : StoryBookComponentProperty
+        where T : Enum
     {
         /// <summary>
         /// The getter of the property.
         /// </summary>
-        public Func<VisualElement, Enum> getter { get; set; }
+        public Func<VisualElement, T> getter { get; set; }
 
         /// <summary>
         /// The setter of the property.
         /// </summary>
-        public Action<VisualElement, Enum> setter { get; set; }
+        public Action<VisualElement, T> setter { get; set; }
 
         /// <summary>
         /// Constructor.
@@ -46,11 +68,58 @@ namespace Unity.AppUI.Editor
         /// <param name="name"> The name of the property. </param>
         /// <param name="getter"> The getter of the property. </param>
         /// <param name="setter"> The setter of the property. </param>
-        public StoryBookEnumProperty(string name, Func<VisualElement, Enum> getter, Action<VisualElement, Enum> setter)
+        public StoryBookEnumProperty(string name, Func<VisualElement, T> getter, Action<VisualElement, T> setter)
         {
             this.name = name;
             this.getter = getter;
             this.setter = setter;
+        }
+
+        /// <inheritdoc/>
+        internal override VisualElement GetInputElement(VisualElement uiElement)
+        {
+            var enumField = new EnumField(name, getter.Invoke(uiElement));
+            enumField.SetValueWithoutNotify(getter.Invoke(uiElement));
+            enumField.RegisterValueChangedCallback(evt => setter.Invoke(uiElement, (T)evt.newValue));
+            return enumField;
+        }
+    }
+
+    /// <summary>
+    /// This class defines a float property for a StoryBookComponent.
+    /// </summary>
+    public class StoryBookFloatProperty : StoryBookComponentProperty
+    {
+        /// <summary>
+        /// The getter of the property.
+        /// </summary>
+        public Func<VisualElement, float> getter { get; set; }
+
+        /// <summary>
+        /// The setter of the property.
+        /// </summary>
+        public Action<VisualElement, float> setter { get; set; }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="name"> The name of the property. </param>
+        /// <param name="getter"> The getter of the property. </param>
+        /// <param name="setter"> The setter of the property. </param>
+        public StoryBookFloatProperty(string name, Func<VisualElement, float> getter, Action<VisualElement, float> setter)
+        {
+            this.name = name;
+            this.getter = getter;
+            this.setter = setter;
+        }
+
+        /// <inheritdoc/>
+        internal override VisualElement GetInputElement(VisualElement uiElement)
+        {
+            var floatField = new FloatField(name);
+            floatField.SetValueWithoutNotify(getter?.Invoke(uiElement) ?? 0);
+            floatField.RegisterValueChangedCallback(evt => setter?.Invoke(uiElement, evt.newValue));
+            return floatField;
         }
     }
 
@@ -81,6 +150,15 @@ namespace Unity.AppUI.Editor
             this.getter = getter;
             this.setter = setter;
         }
+
+        /// <inheritdoc/>
+        internal override VisualElement GetInputElement(VisualElement uiElement)
+        {
+            var toggle = new Toggle(name);
+            toggle.SetValueWithoutNotify(getter?.Invoke(uiElement) ?? false);
+            toggle.RegisterValueChangedCallback(evt => setter?.Invoke(uiElement, evt.newValue));
+            return toggle;
+        }
     }
 
     /// <summary>
@@ -109,6 +187,15 @@ namespace Unity.AppUI.Editor
             this.name = name;
             this.getter = getter;
             this.setter = setter;
+        }
+
+        /// <inheritdoc/>
+        internal override VisualElement GetInputElement(VisualElement uiElement)
+        {
+            var textField = new TextField(name);
+            textField.SetValueWithoutNotify(getter?.Invoke(uiElement));
+            textField.RegisterValueChangedCallback(evt => setter?.Invoke(uiElement, evt.newValue));
+            return textField;
         }
     }
 
@@ -225,6 +312,10 @@ namespace Unity.AppUI.Editor
 
         EditorToolbarDropdown m_LayoutDirectionDropdown;
 
+        EditorToolbarDropdown m_LocaleToolbar;
+
+        string m_CurrentLocaleId = "en";
+
         /// <summary>
         /// Open the StoryBook window.
         /// </summary>
@@ -247,6 +338,15 @@ namespace Unity.AppUI.Editor
 
             return stories;
         }
+
+#pragma warning disable CS1998
+        async void OnEnable()
+        {
+#if UNITY_LOCALIZATION_PRESENT
+            await LocalizationSettings.InitializationOperation.Task;
+#endif
+        }
+#pragma warning restore CS1998
 
         void CreateGUI()
         {
@@ -330,7 +430,8 @@ namespace Unity.AppUI.Editor
             {
                 theme = m_CurrentTheme,
                 scale = m_CurrentScale,
-                layoutDirection = m_CurrentLayoutDirection
+                layoutDirection = m_CurrentLayoutDirection,
+                lang = m_CurrentLocaleId,
             };
             panel.AddToClassList("unity-editor");
             m_ThemeDropdown = new EditorToolbarDropdown("Theme", () =>
@@ -398,6 +499,27 @@ namespace Unity.AppUI.Editor
                 menu.DropDown(m_LayoutDirectionDropdown.worldBound);
             });
             toolbar.Add(m_LayoutDirectionDropdown);
+
+#if UNITY_LOCALIZATION_PRESENT
+            var locales = LocalizationSettings.AvailableLocales.Locales;
+            if (locales.Count > 0)
+            {
+                m_LocaleToolbar = new EditorToolbarDropdown("Locale", () =>
+                {
+                    var menu = new GenericMenu();
+                    foreach (var locale in locales)
+                    {
+                        menu.AddItem(new GUIContent(locale.LocaleName), m_CurrentLocaleId == locale.Identifier.Code, () =>
+                        {
+                            m_CurrentLocaleId = locale.Identifier.Code;
+                            panel.lang = m_CurrentLocaleId;
+                        });
+                    }
+                    menu.DropDown(m_LocaleToolbar.worldBound);
+                });
+                toolbar.Add(m_LocaleToolbar);
+            }
+#endif
 
             detailPage.Add(toolbar);
 
@@ -467,35 +589,9 @@ namespace Unity.AppUI.Editor
 
                 foreach (var prop in component.properties)
                 {
-                    VisualElement field = null;
-                    switch (prop)
-                    {
-                        case StoryBookBooleanProperty boolProp:
-                            var toggle = new Toggle(boolProp.name);
-                            toggle.SetValueWithoutNotify(boolProp.getter?.Invoke(uiElement) ?? false);
-                            toggle.RegisterValueChangedCallback(evt => boolProp.setter?.Invoke(uiElement, evt.newValue));
-                            field = toggle;
-                            break;
-                        case StoryBookStringProperty strProp:
-                            var textField = new TextField(strProp.name);
-                            textField.SetValueWithoutNotify(strProp.getter?.Invoke(uiElement));
-                            textField.RegisterValueChangedCallback(evt => strProp.setter?.Invoke(uiElement, evt.newValue));
-                            field = textField;
-                            break;
-                        case StoryBookEnumProperty enumProp:
-                            var enumField = new EnumField(enumProp.name, enumProp.getter?.Invoke(uiElement));
-                            enumField.SetValueWithoutNotify(enumProp.getter?.Invoke(uiElement));
-                            enumField.RegisterValueChangedCallback(evt => enumProp.setter?.Invoke(uiElement, evt.newValue));
-                            field = enumField;
-                            break;
-                        default:
-                            break;
-                    }
-
+                    var field = prop.GetInputElement(uiElement);
                     if (field != null)
-                    {
                         inspectorContainer.Add(field);
-                    }
                 }
             }
             else
@@ -508,6 +604,8 @@ namespace Unity.AppUI.Editor
             var panel = container.GetFirstAncestorOfType<Panel>();
             panel.theme = m_CurrentTheme;
             panel.scale = m_CurrentScale;
+            panel.layoutDirection = m_CurrentLayoutDirection;
+            panel.lang = m_CurrentLocaleId;
         }
 
         void BindListViewItem(VisualElement ve, int idx)

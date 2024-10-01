@@ -155,7 +155,7 @@ namespace Unity.AppUI.UI
             RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
         }
 
-        Dialog m_Dialog;
+        BaseDialog m_Dialog;
 
         /// <summary>
         /// The dialog to display.
@@ -163,7 +163,7 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
         [CreateProperty(ReadOnly = true)]
 #endif
-        public Dialog dialog
+        public BaseDialog dialog
         {
             get => m_Dialog;
             private set
@@ -598,15 +598,15 @@ namespace Unity.AppUI.UI
 
         void OnGeometryChanged(GeometryChangedEvent evt)
         {
-            Dialog dlg = null;
+            BaseDialog dlg = null;
             VisualElement ve = null;
 
             foreach (var child in Children())
             {
-                if (dlg == null && child is Dialog d)
+                if (dlg == null && child is BaseDialog d)
                     dlg = d;
 
-                if (ve == null && !(child is Dialog))
+                if (ve == null && !(child is BaseDialog))
                     ve = child;
 
                 if (dlg != null && ve != null)

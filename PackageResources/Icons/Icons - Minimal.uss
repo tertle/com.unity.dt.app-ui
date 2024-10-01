@@ -14,6 +14,7 @@
     --appui-icon-check-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/Check.png");
     --appui-icon-check-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Check.png");
     --appui-icon-color-picker-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/ColorPicker.png");
+    --appui-icon-delete-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Delete.png");
     --appui-icon-dots-three-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/DotsThree.png");
     --appui-icon-dots-three-vertical-bold: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Bold/DotsThreeVertical.png");
     --appui-icon-info-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Info.png");
@@ -28,6 +29,7 @@
     --appui-icon-sub-menu-indicator-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/SubMenuIndicator.png");
     --appui-icon-users-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Users.png");
     --appui-icon-warning-fill: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Fill/Warning.png");
+    --appui-icon-warning-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/Warning.png");
     --appui-icon-x-regular: url("project:/Packages/com.unity.dt.app-ui/PackageResources/Icons/Regular/X.png");
 /* Additional icons */
 }
@@ -74,6 +76,10 @@
 
 .appui-icon--color-picker--regular {
     --unity-image: var(--appui-icon-color-picker-regular);
+}
+
+.appui-icon--delete--regular {
+    --unity-image: var(--appui-icon-delete-regular);
 }
 
 .appui-icon--dots-three--bold {
@@ -132,7 +138,10 @@
     --unity-image: var(--appui-icon-warning-fill);
 }
 
+.appui-icon--warning--regular {
+    --unity-image: var(--appui-icon-warning-regular);
+}
+
 .appui-icon--x--regular {
     --unity-image: var(--appui-icon-x-regular);
 }
-

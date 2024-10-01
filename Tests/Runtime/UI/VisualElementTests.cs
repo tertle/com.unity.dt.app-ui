@@ -174,6 +174,7 @@ namespace Unity.AppUI.Tests.UI
                 theme = theme,
                 scale = scale,
                 layoutDirection = dir,
+                lang = "en",
             };
             m_TestUI.rootVisualElement.Clear();
             m_TestUI.rootVisualElement.styleSheets.Add(Resources.Load<ThemeStyleSheet>("Themes/App UI"));

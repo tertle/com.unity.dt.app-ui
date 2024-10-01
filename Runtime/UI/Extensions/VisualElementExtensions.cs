@@ -22,14 +22,9 @@ namespace Unity.AppUI.UI
 
         static bool TryGetValue(VisualElement key, out AdditionalData val)
         {
-            if (key is BaseVisualElement bve)
+            if (key is IAdditionalDataHolder holder)
             {
-                val = bve.additionalData;
-                return val != null;
-            }
-            if (key is BaseTextElement bte)
-            {
-                val = bte.additionalData;
+                val = holder.additionalData;
                 return val != null;
             }
             return k_AdditionalDataCache.TryGetValue(key, out val);
@@ -37,10 +32,8 @@ namespace Unity.AppUI.UI
 
         static AdditionalData GetOrCreateValue(VisualElement key)
         {
-            if (key is BaseVisualElement bve)
-                return bve.additionalData ?? (bve.additionalData = new AdditionalData());
-            if (key is BaseTextElement bte)
-                return bte.additionalData ?? (bte.additionalData = new AdditionalData());
+            if (key is IAdditionalDataHolder holder)
+                return holder.additionalData ?? (holder.additionalData = new AdditionalData());
             return k_AdditionalDataCache.GetOrCreateValue(key);
         }
 
@@ -400,7 +393,7 @@ namespace Unity.AppUI.UI
                 if (TryGetValue(el, out var data) && data.contexts.ContainsKey(typeof(T)))
                     return el;
 
-                el = el.parent;
+                el = el.hierarchy.parent;
             }
 
             return null;
@@ -648,14 +641,14 @@ namespace Unity.AppUI.UI
 
                 CallCallbacks(parent, evt);
 
-                foreach (var c in parent.Children())
+                foreach (var c in parent.hierarchy.Children())
                 {
                     SendContextChangedEventToChildren(c, evt);
                 }
             }
 
             CallCallbacks(element, evt);
-            foreach (var child in element.Children())
+            foreach (var child in element.hierarchy.Children())
             {
                 SendContextChangedEventToChildren(child, evt);
             }

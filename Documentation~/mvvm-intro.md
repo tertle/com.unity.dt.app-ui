@@ -30,9 +30,18 @@ The **View** is the part of the application that is responsible for displaying t
 It is usually composed of UI elements. The view should not contain any business logic. The logic contained in the View should be
 related to the styling of the UI elements for example.
 
-## Additional Resources
+# Using MVVM with state management
+
+App UI implements a Redux-like state management system that can be used with the MVVM pattern.
+
+<p align="center">
+ <img src="images/mvvm-redux.png" alt="MVVM with State Management">
+</p>
+
+For more information about the state management system, see [State Management](xref:state-management).
+
+# Additional Resources
 
 For more information about the MVVM pattern, you can check the following resources:
 * [MVVM Pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
 * [MVVM Pattern in WPF](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/introduction-to-wpf?view=netframeworkdesktop-4.8)
-

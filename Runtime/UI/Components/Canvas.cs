@@ -197,13 +197,9 @@ namespace Unity.AppUI.UI
 
         const int k_DefaultDampingEffectDurationMs = 750;
 
-        int m_DampingEffectDurationMs = k_DefaultDampingEffectDurationMs;
-
         const ScrollDirection k_DefaultScrollDirection = ScrollDirection.Natural;
 
         const CanvasControlScheme k_DefaultControlScheme = CanvasControlScheme.Modern;
-
-        const CanvasManipulator k_DefaultPrimaryManipulator = CanvasManipulator.None;
 
         readonly CanvasBackground m_Background;
 
@@ -217,39 +213,15 @@ namespace Unity.AppUI.UI
 
         Vector3 m_PointerPosition;
 
-        GrabMode m_GrabMode = GrabMode.None;
-
         bool m_UpdatingScrollers;
 
         Vector2 m_LastScrollersPosition;
 
-        int m_PointerId = -1;
-
-        bool m_SpaceBarPressed;
-
-        CanvasManipulator m_PrimaryManipulator = k_DefaultPrimaryManipulator;
-
         Optional<Rect> m_FrameContainer = Optional<Rect>.none;
-
-        float m_ScrollSpeed = k_DefaultScrollSpeed;
-
-        float m_MinZoom = k_DefaultMinZoom;
-
-        float m_MaxZoom = k_DefaultMaxZoom;
-
-        float m_ZoomSpeed = k_DefaultZoomSpeed;
-
-        float m_ZoomMultiplier = k_DefaultZoomMultiplier;
-
-        float m_PanMultiplier = k_DefaultPanMultiplier;
-
-        ScrollDirection m_ScrollDirection = k_DefaultScrollDirection;
 
         float m_FrameMargin = k_DefaultFrameMargin;
 
-        bool m_UseSpaceBar = k_DefaultUseSpaceBar;
-
-        CanvasControlScheme m_ControlScheme = k_DefaultControlScheme;
+        readonly PanAndZoomable m_Manipulator;
 
         /// <summary>
         /// The content container of the Canvas.
@@ -291,17 +263,8 @@ namespace Unity.AppUI.UI
 #endif
         public Vector2 scrollOffset
         {
-            get => m_Viewport.transform.position * -1;
-            set
-            {
-                SetScrollOffset(value);
-                UpdateScrollers();
-                scrollOffsetChanged?.Invoke();
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                NotifyPropertyChanged(in scrollOffsetProperty);
-#endif
-            }
+            get => m_Manipulator.scrollOffset;
+            set => m_Manipulator.scrollOffset = value;
         }
 
         /// <summary>
@@ -315,11 +278,11 @@ namespace Unity.AppUI.UI
 #endif
         public float scrollSpeed
         {
-            get => m_ScrollSpeed;
+            get => m_Manipulator.scrollSpeed;
             set
             {
-                var changed = !Mathf.Approximately(m_ScrollSpeed, value);
-                m_ScrollSpeed = value;
+                var changed = !Mathf.Approximately(m_Manipulator.scrollSpeed, value);
+                m_Manipulator.scrollSpeed = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -339,11 +302,11 @@ namespace Unity.AppUI.UI
 #endif
         public float minZoom
         {
-            get => m_MinZoom;
+            get => m_Manipulator.minZoom;
             set
             {
-                var changed = !Mathf.Approximately(m_MinZoom, value);
-                m_MinZoom = value;
+                var changed = !Mathf.Approximately(m_Manipulator.minZoom, value);
+                m_Manipulator.minZoom = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -363,11 +326,11 @@ namespace Unity.AppUI.UI
 #endif
         public float maxZoom
         {
-            get => m_MaxZoom;
+            get => m_Manipulator.maxZoom;
             set
             {
-                var changed = !Mathf.Approximately(m_MaxZoom, value);
-                m_MaxZoom = value;
+                var changed = !Mathf.Approximately(m_Manipulator.maxZoom, value);
+                m_Manipulator.maxZoom = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -387,11 +350,11 @@ namespace Unity.AppUI.UI
 #endif
         public float zoomSpeed
         {
-            get => m_ZoomSpeed;
+            get => m_Manipulator.zoomSpeed;
             set
             {
-                var changed = !Mathf.Approximately(m_ZoomSpeed, value);
-                m_ZoomSpeed = value;
+                var changed = !Mathf.Approximately(m_Manipulator.zoomSpeed, value);
+                m_Manipulator.zoomSpeed = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -411,11 +374,11 @@ namespace Unity.AppUI.UI
 #endif
         public float zoomMultiplier
         {
-            get => m_ZoomMultiplier;
+            get => m_Manipulator.zoomMultiplier;
             set
             {
-                var changed = !Mathf.Approximately(m_ZoomMultiplier, value);
-                m_ZoomMultiplier = value;
+                var changed = !Mathf.Approximately(m_Manipulator.zoomMultiplier, value);
+                m_Manipulator.zoomMultiplier = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -435,11 +398,11 @@ namespace Unity.AppUI.UI
 #endif
         public float panMultiplier
         {
-            get => m_PanMultiplier;
+            get => m_Manipulator.panMultiplier;
             set
             {
-                var changed = !Mathf.Approximately(m_PanMultiplier, value);
-                m_PanMultiplier = value;
+                var changed = !Mathf.Approximately(m_Manipulator.panMultiplier, value);
+                m_Manipulator.panMultiplier = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -459,11 +422,11 @@ namespace Unity.AppUI.UI
 #endif
         public ScrollDirection scrollDirection
         {
-            get => m_ScrollDirection;
+            get => m_Manipulator.scrollDirection;
             set
             {
-                var changed = m_ScrollDirection != value;
-                m_ScrollDirection = value;
+                var changed = m_Manipulator.scrollDirection != value;
+                m_Manipulator.scrollDirection = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -483,22 +446,8 @@ namespace Unity.AppUI.UI
 #endif
         public float zoom
         {
-            get => m_Viewport.transform.scale.x;
-            set
-            {
-                var changed = !Mathf.Approximately(m_Viewport.transform.scale.x, value);
-                m_Viewport.transform.scale = new Vector3(value, value, 1);
-                m_Background.scale = value;
-                UpdateScrollers();
-
-                if (changed)
-                    zoomChanged?.Invoke();
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in zoomProperty);
-#endif
-            }
+            get => m_Manipulator.zoom.y;
+            set => m_Manipulator.zoom = new Vector2(value, value);
         }
 
         /// <summary>
@@ -512,11 +461,11 @@ namespace Unity.AppUI.UI
 #endif
         public int dampingEffectDuration
         {
-            get => m_DampingEffectDurationMs;
+            get => m_Manipulator.dampingEffectDurationMs;
             set
             {
-                var changed = m_DampingEffectDurationMs != value;
-                m_DampingEffectDurationMs = value;
+                var changed = m_Manipulator.dampingEffectDurationMs != value;
+                m_Manipulator.dampingEffectDurationMs = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -560,11 +509,11 @@ namespace Unity.AppUI.UI
 #endif
         public bool useSpaceBar
         {
-            get => m_UseSpaceBar;
+            get => m_Manipulator.useSpaceBar;
             set
             {
-                var changed = m_UseSpaceBar != value;
-                m_UseSpaceBar = value;
+                var changed = m_Manipulator.useSpaceBar != value;
+                m_Manipulator.useSpaceBar = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -579,23 +528,7 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
         [CreateProperty(ReadOnly = true)]
 #endif
-        public GrabMode grabMode
-        {
-            get => m_GrabMode;
-            private set
-            {
-                if (m_GrabMode == value)
-                    return;
-
-                RemoveFromClassList(GetGrabModeUssClassName(m_GrabMode));
-                m_GrabMode = value;
-                AddToClassList(GetGrabModeUssClassName(m_GrabMode));
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                NotifyPropertyChanged(in grabModeProperty);
-#endif
-            }
-        }
+        public GrabMode grabMode => m_Manipulator.grabMode;
 
         /// <summary>
         /// The current control scheme of the canvas.
@@ -608,11 +541,11 @@ namespace Unity.AppUI.UI
 #endif
         public CanvasControlScheme controlScheme
         {
-            get => m_ControlScheme;
+            get => m_Manipulator.controlScheme;
             set
             {
-                var changed = m_ControlScheme != value;
-                m_ControlScheme = value;
+                var changed = m_Manipulator.controlScheme != value;
+                m_Manipulator.controlScheme = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -632,16 +565,11 @@ namespace Unity.AppUI.UI
 #endif
         public CanvasManipulator primaryManipulator
         {
-            get => m_PrimaryManipulator;
+            get => m_Manipulator.primaryManipulator;
             set
             {
-                var changed = m_PrimaryManipulator != value;
-                m_PrimaryManipulator = value;
-                grabMode = m_PrimaryManipulator switch
-                {
-                    CanvasManipulator.Pan => GrabMode.Grab,
-                    _ => GrabMode.None
-                };
+                var changed = m_Manipulator.primaryManipulator != value;
+                m_Manipulator.primaryManipulator = value;
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -703,18 +631,10 @@ namespace Unity.AppUI.UI
             m_HorizontalScroller.slider.RegisterCallback<PointerCaptureOutEvent>(OnScrollerPointerCaptureOut);
             hierarchy.Add(m_HorizontalScroller);
 
-            RegisterCallback<WheelEvent>(OnWheel);
-            RegisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
-#if !UNITY_2023_1_OR_NEWER
-            RegisterCallback<MouseDownEvent>(OnMouseDown, TrickleDown.TrickleDown);
-#endif
-            RegisterCallback<PointerUpEvent>(OnPointerUp);
-            RegisterCallback<PointerCancelEvent>(OnPointerCancel);
-            RegisterCallback<PointerCaptureOutEvent>(OnPointerCaptureOut);
-            RegisterCallback<PointerMoveEvent>(OnPointerMove);
+            m_Manipulator = new PanAndZoomable(OnZoomChanged, OnScrollOffsetChanged, OnGrabModeChanged);
+            this.AddManipulator(m_Manipulator);
+
             RegisterCallback<KeyDownEvent>(OnKeyDown);
-            RegisterCallback<KeyUpEvent>(OnKeyUp);
-            RegisterCallback<FocusOutEvent>(OnFocusOut);
             RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
         }
 
@@ -740,7 +660,7 @@ namespace Unity.AppUI.UI
             scrollOffset += centerDelta;
 
             var zoomDelta = newZoom - zoom;
-            ApplyZoom(containerCenter, zoomDelta);
+            m_Manipulator.ApplyZoom(containerCenter, new Vector2(zoomDelta, zoomDelta));
         }
 
         /// <summary>
@@ -780,257 +700,40 @@ namespace Unity.AppUI.UI
             FrameElement(m_ViewportContainer);
         }
 
-        void OnKeyUp(KeyUpEvent evt)
-        {
-            switch (evt.keyCode)
-            {
-                case KeyCode.Space:
-                {
-                    if (controlScheme != CanvasControlScheme.Editor && useSpaceBar)
-                    {
-                        m_SpaceBarPressed = false;
-                        if (m_PrimaryManipulator != CanvasManipulator.Pan)
-                            grabMode = GrabMode.None;
-                        if (m_PointerId >= 0 && this.HasPointerCapture(m_PointerId))
-                            this.ReleasePointer(m_PointerId);
-                    }
-                    break;
-                }
-            }
-        }
-
-        void OnFocusOut(FocusOutEvent evt)
-        {
-            m_SpaceBarPressed = false;
-            grabMode = m_PrimaryManipulator == CanvasManipulator.Pan ? GrabMode.Grab : GrabMode.None;
-            m_PointerId = -1;
-        }
-
         void OnKeyDown(KeyDownEvent evt)
         {
-            switch (evt.keyCode)
+            if (evt.keyCode == KeyCode.F)
             {
-                case KeyCode.F:
-                    evt.StopImmediatePropagation();
-                    FrameAll();
-                    break;
-                case KeyCode.Escape:
-                {
-                    if (m_PointerId >= 0)
-                    {
-                        evt.StopImmediatePropagation();
-                        if (this.HasPointerCapture(m_PointerId))
-                            this.ReleasePointer(m_PointerId);
-                        m_PointerId = -1;
-                    }
-                    break;
-                }
-                case KeyCode.Space:
-                    if (controlScheme != CanvasControlScheme.Editor && useSpaceBar)
-                    {
-                        evt.StopImmediatePropagation();
-                        m_SpaceBarPressed = true;
-                        grabMode = GrabMode.Grab;
-                    }
-                    break;
-                case KeyCode.Minus when evt.actionKey:
-                case KeyCode.KeypadMinus when evt.actionKey:
-                    {
-                        evt.StopImmediatePropagation();
-                        // logarithmic zoom
-                        var multiplier = evt.shiftKey ? zoomMultiplier : 1f;
-                        var zoomDelta = zoomSpeed * -1f * multiplier;
-                        zoomDelta = (zoom * Mathf.Pow(2f, zoomDelta)) - zoom;
-                        ApplyZoom(new Vector2(contentRect.width * 0.5f, contentRect.height * 0.5f), zoomDelta);
-                    }
-                    break;
-                case KeyCode.Plus when evt.actionKey:
-                case KeyCode.Equals when evt.actionKey:
-                case KeyCode.KeypadPlus when evt.actionKey:
-                    {
-                        evt.StopImmediatePropagation();
-                        // logarithmic zoom
-                        var multiplier = evt.shiftKey ? zoomMultiplier : 1f;
-                        var zoomDelta = zoomSpeed * 1f * multiplier;
-                        zoomDelta = (zoom * Mathf.Pow(2f, zoomDelta)) - zoom;
-                        ApplyZoom(new Vector2(contentRect.width * 0.5f, contentRect.height * 0.5f), zoomDelta);
-                    }
-                    break;
-                case KeyCode.Alpha0 when evt.actionKey:
-                case KeyCode.Keypad0 when evt.actionKey:
-                    {
-                        evt.StopImmediatePropagation();
-                        ApplyZoom(new Vector2(contentRect.width * 0.5f, contentRect.height * 0.5f), 1f - zoom);
-                    }
-                    break;
+                evt.StopImmediatePropagation();
+                FrameAll();
             }
         }
 
-        void OnPointerDown(PointerDownEvent evt)
+        void OnZoomChanged(Vector2 previousZoom, Vector2 newZoom)
         {
-            m_Velocity = Vector2.zero;
-            StopAnyDampingEffect();
-
-            if (panel == null || panel.GetCapturingElement(evt.pointerId) != null)
-                return;
-
-            if (Application.isPlaying && Application.isMobilePlatform && m_PointerId >= 0 && evt.pointerId != m_PointerId)
-            {
-                evt.StopPropagation();
-                if (this.HasPointerCapture(m_PointerId))
-                    this.ReleasePointer(m_PointerId);
-                return;
-            }
-
-            var hasModifierPressed = controlScheme switch
-            {
-                CanvasControlScheme.Modern => m_SpaceBarPressed,
-                CanvasControlScheme.Editor => evt.altKey,
-                _ => m_SpaceBarPressed
-            } || primaryManipulator == CanvasManipulator.Pan;
-
-            if (evt.button == (int)MouseButton.MiddleMouse ||
-                (evt.button == (int)MouseButton.LeftMouse && hasModifierPressed) ||
-                (evt.pointerId != PointerId.mousePointerId && evt.isPrimary))
-            {
-                if (!this.HasPointerCapture(evt.pointerId))
-                {
-                    this.CapturePointer(evt.pointerId);
-#if !UNITY_2023_1_OR_NEWER
-                    if (evt.pointerId == PointerId.mousePointerId)
-                        this.CaptureMouse();
+            UpdateScrollers();
+            m_Background.scale = newZoom.y;
+            zoomChanged?.Invoke();
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in zoomProperty);
 #endif
-                }
-
-                evt.StopPropagation();
-                m_PointerId = evt.pointerId;
-                m_PointerPosition = evt.localPosition;
-                m_LastTimestamp = evt.timestamp;
-                grabMode = GrabMode.Grabbing;
-            }
         }
 
-        void OnMouseDown(MouseDownEvent evt)
+        void OnScrollOffsetChanged(Vector2 previousScrollOffset, Vector2 newScrollOffset)
         {
-            if (this.HasMouseCapture())
-                evt.StopPropagation();
+            UpdateScrollers();
+            m_Background.offset = m_Viewport.transform.position;
+            scrollOffsetChanged?.Invoke();
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in scrollOffsetProperty);
+#endif
         }
 
-        void OnPointerUp(PointerUpEvent evt)
+        void OnGrabModeChanged(GrabMode previousGrabMode, GrabMode newGrabMode)
         {
-            if (this.HasPointerCapture(evt.pointerId))
-                this.ReleasePointer(evt.pointerId);
-        }
-
-        void OnPointerCancel(PointerCancelEvent evt)
-        {
-            if (this.HasPointerCapture(evt.pointerId))
-                this.ReleasePointer(evt.pointerId);
-        }
-
-        void OnPointerCaptureOut(PointerCaptureOutEvent evt)
-        {
-            if (evt.pointerId == m_PointerId)
-            {
-                m_PointerId = -1;
-                m_LastTimestamp = 0;
-                grabMode = m_SpaceBarPressed || m_PrimaryManipulator == CanvasManipulator.Pan ?
-                    GrabMode.Grab : GrabMode.None;
-
-                // damping the velocity
-                StopAnyDampingEffect();
-                if (m_DampingEffectDurationMs > 0)
-                {
-                    if (m_DampingEffect == null || m_DampingEffect.durationMs != m_DampingEffectDurationMs)
-                    {
-                        if (m_DampingEffect != null && !m_DampingEffect.IsRecycled())
-                            m_DampingEffect.Recycle();
-                        m_DampingEffect = experimental.animation
-                            .Start(1f, 0f, m_DampingEffectDurationMs, DampingEffect)
-                            .KeepAlive();
-                    }
-                    m_DampingEffect.Start();
-                }
-            }
-        }
-
-        void DampingEffect(VisualElement element, float inverseNormalizedTime)
-        {
-            if (m_Velocity == Vector2.zero)
-            {
-                StopAnyDampingEffect();
-                return;
-            }
-
-            var newScrollOffset = scrollOffset;
-            newScrollOffset += m_Velocity * inverseNormalizedTime;
-            scrollOffset = newScrollOffset;
-        }
-
-        void StopAnyDampingEffect()
-        {
-            if (m_DampingEffect != null && !m_DampingEffect.IsRecycled())
-                m_DampingEffect.Stop();
-        }
-
-        void OnPointerMove(PointerMoveEvent evt)
-        {
-            if (Application.isPlaying && Application.isMobilePlatform && evt.pointerId != m_PointerId)
-                return;
-
-            if (this.HasPointerCapture(evt.pointerId))
-            {
-                evt.SetIsHandledByDraggable(true);
-                grabMode = GrabMode.Grabbing;
-                var oldScrollOffset = scrollOffset;
-                var newScrollOffset = scrollOffset;
-                newScrollOffset += (Vector2)(evt.localPosition - m_PointerPosition) *
-                                (scrollDirection == ScrollDirection.Natural ? -1f : 1f);
-                if (m_LastTimestamp == 0)
-                    m_LastTimestamp = evt.timestamp;
-                var deltaTime = evt.timestamp - m_LastTimestamp;
-                m_LastTimestamp = evt.timestamp;
-                m_Velocity = (newScrollOffset - oldScrollOffset) / deltaTime;
-                scrollOffset = newScrollOffset;
-            }
-
-            m_PointerPosition = evt.localPosition;
-        }
-
-        void OnWheel(WheelEvent evt)
-        {
-
-            evt.StopImmediatePropagation();
-
-            if (m_PointerId >= 0 && this.HasPointerCapture(m_PointerId))
-                this.ReleasePointer(m_PointerId);
-
-            // no support of touchpad App UI events in Alternate control scheme
-            if (!Application.isMobilePlatform &&
-                controlScheme == CanvasControlScheme.Editor &&
-                evt.button == Unity.AppUI.Core.AppUI.touchPadId)
-                return;
-
-            var shouldZoom = controlScheme switch
-            {
-                CanvasControlScheme.Modern => evt.ctrlKey || evt.commandKey,
-                CanvasControlScheme.Editor => true,
-                _ => evt.ctrlKey || evt.commandKey
-            };
-
-            if (shouldZoom)
-            {
-                var multiplier = evt.shiftKey ? zoomMultiplier : 1f;
-                // logarithmic zoom
-                var zoomDelta = zoomSpeed * -evt.delta.y * multiplier;
-                zoomDelta = (zoom * Mathf.Pow(2f, zoomDelta)) - zoom;
-                ApplyZoom(m_PointerPosition, zoomDelta);
-            }
-            else
-            {
-                var multiplier = evt.shiftKey ? panMultiplier : 1f;
-                ApplyScrollOffset(evt.delta * multiplier * 2f);
-            }
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in grabModeProperty);
+#endif
         }
 
         void OnVerticalScrollValueChanged(ChangeEvent<float> evt)
@@ -1039,7 +742,8 @@ namespace Unity.AppUI.UI
                 return;
 
             var delta = evt.newValue - m_LastScrollersPosition.y;
-            SetScrollOffset(new Vector2(scrollOffset.x, scrollOffset.y + delta));
+            m_Manipulator.SetScrollOffsetWithoutNotify(new Vector2(scrollOffset.x, scrollOffset.y + delta));
+            m_Background.offset = m_Viewport.transform.position;
             m_LastScrollersPosition.y = evt.newValue;
             scrollOffsetChanged?.Invoke();
         }
@@ -1050,7 +754,8 @@ namespace Unity.AppUI.UI
                 return;
 
             var delta = evt.newValue - m_LastScrollersPosition.x;
-            SetScrollOffset(new Vector2(scrollOffset.x - delta, scrollOffset.y));
+            m_Manipulator.SetScrollOffsetWithoutNotify(new Vector2(scrollOffset.x - delta, scrollOffset.y));
+            m_Background.offset = m_Viewport.transform.position;
             m_LastScrollersPosition.x = evt.newValue;
             scrollOffsetChanged?.Invoke();
         }
@@ -1141,38 +846,6 @@ namespace Unity.AppUI.UI
             m_UpdatingScrollers = false;
         }
 
-        void ApplyScrollOffset(Vector2 delta)
-        {
-            if (delta == Vector2.zero)
-                return;
-
-            var newScrollOffset = scrollOffset;
-            newScrollOffset += (delta * scrollSpeed) * (scrollDirection == ScrollDirection.Natural ? -1f : 1f);
-            scrollOffset = newScrollOffset;
-        }
-
-        void ApplyZoom(Vector2 pivot, float delta)
-        {
-            if (delta == 0)
-                return;
-
-            var newZoom = zoom;
-            newZoom += delta;
-            newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
-            var zoomRatio = newZoom / zoom;
-            zoom = newZoom;
-
-            var newScrollOffset = scrollOffset;
-            newScrollOffset = (newScrollOffset + pivot) * zoomRatio - pivot;
-            scrollOffset = newScrollOffset;
-        }
-
-        void SetScrollOffset(Vector2 newValue)
-        {
-            m_Viewport.transform.position = new Vector3(-newValue.x, -newValue.y, 0);
-            m_Background.offset = m_Viewport.transform.position;
-        }
-
 #if ENABLE_UXML_TRAITS
 
         /// <summary>
@@ -1250,9 +923,6 @@ namespace Unity.AppUI.UI
                 name = "use-space-bar",
                 defaultValue = k_DefaultUseSpaceBar
             };
-
-
-
 
             public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
             {

@@ -34,11 +34,6 @@ namespace Unity.AppUI.UI
         public const string ussClassName = "appui-touchslider";
 
         /// <summary>
-        /// The TouchSlider container styling class.
-        /// </summary>
-        public const string containerUssClassName = ussClassName + "__container";
-
-        /// <summary>
         /// The TouchSlider progress styling class.
         /// </summary>
         public const string progressUssClassName = ussClassName + "__progress";
@@ -58,8 +53,6 @@ namespace Unity.AppUI.UI
         /// </summary>
         [EnumName("GetSizeUssClassName", typeof(Size))]
         public const string sizeUssClassName = ussClassName + "--size-";
-
-        readonly VisualElement m_ContainerElement;
 
         readonly VisualElement m_ProgressElement;
 
@@ -82,16 +75,8 @@ namespace Unity.AppUI.UI
 
             focusable = true;
             pickingMode = PickingMode.Position;
-            passMask = 0;
+            passMask = Passes.Clear;
             tabIndex = 0;
-
-            m_ContainerElement = new VisualElement
-            {
-                name = containerUssClassName,
-                pickingMode = PickingMode.Ignore,
-            };
-            m_ContainerElement.AddToClassList(containerUssClassName);
-            hierarchy.Add(m_ContainerElement);
 
             m_ProgressElement = new VisualElement
             {
@@ -100,15 +85,15 @@ namespace Unity.AppUI.UI
                 usageHints = UsageHints.DynamicTransform,
             };
             m_ProgressElement.AddToClassList(progressUssClassName);
-            m_ContainerElement.Add(m_ProgressElement);
+            hierarchy.Add(m_ProgressElement);
 
             m_LabelElement = new LocalizedTextElement { name = labelUssClassName, pickingMode = PickingMode.Ignore };
             m_LabelElement.AddToClassList(labelUssClassName);
-            m_ContainerElement.Add(m_LabelElement);
+            hierarchy.Add(m_LabelElement);
 
             m_ValueLabelElement = new LocalizedTextElement { name = valueUssClassName, pickingMode = PickingMode.Ignore };
             m_ValueLabelElement.AddToClassList(valueUssClassName);
-            m_ContainerElement.Add(m_ValueLabelElement);
+            hierarchy.Add(m_ValueLabelElement);
 
             m_InputField = new UnityEngine.UIElements.TextField { name = valueUssClassName, pickingMode = PickingMode.Position };
             m_InputField.AddManipulator(new BlinkingCursor());
@@ -116,7 +101,7 @@ namespace Unity.AppUI.UI
             m_InputField.RegisterCallback<FocusEvent>(OnInputFocusedIn);
             m_InputField.RegisterCallback<FocusOutEvent>(OnInputFocusedOut);
             m_InputField.RegisterValueChangedCallback(OnInputValueChanged);
-            m_ContainerElement.Add(m_InputField);
+            hierarchy.Add(m_InputField);
 
             HideInputField();
 
@@ -171,6 +156,9 @@ namespace Unity.AppUI.UI
             get => m_LabelElement.text;
             set => m_LabelElement.text = value;
         }
+
+        /// <inheritdoc />
+        public override VisualElement contentContainer => null;
 
         /// <summary>
         /// Set the value of the slider without notifying the value change.

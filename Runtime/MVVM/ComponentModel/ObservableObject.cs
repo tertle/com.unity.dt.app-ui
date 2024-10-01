@@ -11,7 +11,17 @@ namespace Unity.AppUI.MVVM
     /// <summary>
     /// A base class for objects of which the properties must be observable.
     /// </summary>
-    public abstract class ObservableObject : System.ComponentModel.INotifyPropertyChanged, System.ComponentModel.INotifyPropertyChanging
+    /// <remarks>
+    /// Starting Unity 6, you can implement the <see cref="UnityEngine.UIElements.IDataSourceViewHashProvider"/> interface
+    /// in your derived <see cref="ObservableObject"/> class to provide a hash for the data source view.
+    /// That will give you the ability to control the data source view's update behavior
+    /// (instead of always updating the view when the data source changes).
+    /// </remarks>
+    public abstract class ObservableObject :
+        System.ComponentModel.INotifyPropertyChanged, System.ComponentModel.INotifyPropertyChanging
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        , UnityEngine.UIElements.INotifyBindablePropertyChanged
+#endif
     {
         /// <summary>
         /// Occurs when a property value is changing.
@@ -56,6 +66,10 @@ namespace Unity.AppUI.MVVM
                 throw new ArgumentNullException(nameof(e));
 
             PropertyChanged?.Invoke(this, e);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            // a bit ugly, but we need to notify the UI Toolkit runtime binding system that a property has changed.
+            propertyChanged?.Invoke(this, new UnityEngine.UIElements.BindablePropertyChangedEventArgs(e.PropertyName));
+#endif
         }
 
         /// <summary>
@@ -183,5 +197,17 @@ namespace Unity.AppUI.MVVM
             OnPropertyChanged(propertyName);
             return true;
         }
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        // UnityEngine.UIElements.INotifyBindablePropertyChanged implementation
+
+        /// <summary>
+        /// Occurs when a property value has changed, using the <see cref="UnityEngine.UIElements.INotifyBindablePropertyChanged"/> event.
+        /// </summary>
+        /// <remarks>
+        /// This event is used to notify the UI Toolkit runtime binding system that a property has changed.
+        /// </remarks>
+        public event EventHandler<UnityEngine.UIElements.BindablePropertyChangedEventArgs>? propertyChanged;
+#endif
     }
 }

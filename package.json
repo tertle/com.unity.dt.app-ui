@@ -1,7 +1,7 @@
 {
   "name": "com.unity.dt.app-ui",
   "displayName": "App UI",
-  "version": "2.0.0-pre.10",
+  "version": "2.0.0-pre.11",
   "unity": "2021.3",
   "category": "UI",
   "keywords": [
@@ -77,16 +77,16 @@
     }
   ],
   "_upm": {
-    "changelog": "### Changed\n\n- Renamed `IUIToolkitApp.mainPage` property into `IUIToolkitApp.rootVisualElement` for more clarity.\n- Storybook stories are now sorted alphabetically.\n\n### Added\n\n- Added `IApp.services` property which returns the current `IServiceProvider` available for this instance of `IApp`. Thanks to this property you should be able to load a service from anywhere in your application by calling `App.current.services`.\n- Added `LangContext.GetLocalizedStringAsyncFunc` to delegate the localization operation to a user-defined function.\n- Added `IInitializableComponent` interface to `IApp` interface. Now when initializing a MVVM `App` object, the related `AppBuilder` will call `app.InitializeComponent` before hosting.\n- Added `SelectedLocaleListener` manipulator that reacts to Localization Package's SelectedLocale changes in order to provide a new `LangContext` in the visual tree.\n- Added `NavHost.makeScreen` property. By setting your own callback to this property, you will be able to customize the way to instantiate a `NavigationScreen` when navigating to a new destination. This can be useful when coupled to Dependency Injection so you can retreive instances of your screens from a `IServiceProvider`. By default, the property is set with the use of `System.Activator.CreateInstance`.\n- Added some warning messages (Standalone builds only) when a LocalizedTextElement value cannot be localized.\n\n### Fixed\n\n- Fixed notify property changes for Picker.selectedIndex.\n- Fixed path resolution of Stylesheets coming from Packages in Icon Browser tool.\n- Fixed a regression where components using `Pressable` manipulator will not able to be clicked more than once if the cursor doesn't leave the component's layout rect.\n- Fixed NullReferenceException thrown when fetching Localization tables.\n- Fixed Screen Height calculation. UITK does not use Camera rect but blit on the whole screen instead.\n- Fixed `InvalidOperationException` thrown by the damping effect animation of the `Canvas` component.\n- Fixed the calculation of off-screen items in SwipeView with vertical direction."
+    "changelog": "### Changed\n\n- Make Host optional when intializing an `App` implementation.\n- Changed StoryBookEnumProperty class to become a generic type. You need to specify the Enum type as typedef parameter.\n- Changed the styling of primary action buttons in AlertDialog UI element.\n- Changed the Context API to propagate contexts over _internal_ components hierarchies and not just the high-level hierarchy (via `contentContainer`).\n\n### Added\n\n- Added support of UITK Runtime DataBinding system in ObervableObject class.\n- Added PanAndZoom Manipulator\n- Added CircularProgress story in Storybook sample.\n- Added AlertDialog icon Design Tokens to customize icons directly from USS.\n- Added ActionBar story in Storybook sample.\n- Added AlertDialog examples in the UI Kit sample.\n- Added Phosphor Icons\n- Added support of Localization package in the Storybook window. You can now change the current used Locale in the window via a dropdown in the Storybook context toolbar. This dropdown will appear only if you have the Unity Localization package installed and have at least one existing Locale set up in your Localiztion settings.\n\n### Fixed\n\n- Fixed TouchSlider progress element overlapping parent's borders.\n- Fixed force mark as dirty repaint Progress UI element when swtiching its variant.\n- Fixed Localization support in the ActionBar UI element.\n- Removed force blurring the BaseSlider (SliderFloat, TouchSliderFloat, etc) when the users stops interacting with it."
   },
   "upmCi": {
-    "footprint": "b346eb1a8150d90011e875e4f94e7c91baf1b459"
+    "footprint": "277b6eff9befa060f26857108795b862c7438e32"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.dt.app-ui@2.0/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/unity-app-ui.git",
     "type": "git",
-    "revision": "a04906b91b03e35a23ebb1c80219709f15d6ca40"
+    "revision": "89151fa31db07492fd6d565db5c4f3fd49d2e83c"
   },
-  "_fingerprint": "562079a7bdc978c15b452cd58d0c390359f4f397"
+  "_fingerprint": "008026c66735bf12c48cf6acb3af2aa8bb06dde6"
 }

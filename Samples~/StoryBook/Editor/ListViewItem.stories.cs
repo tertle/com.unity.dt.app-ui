@@ -40,10 +40,10 @@ namespace Unity.AppUI.Editor
                 (item) => ((ListViewItem)item).isLoading,
                 (item, val) => ((ListViewItem)item).isLoading = val));
 
-            m_Properties.Add(new StoryBookEnumProperty(
+            m_Properties.Add(new StoryBookEnumProperty<Size>(
                 nameof(ListViewItem.size),
                 (item) => ((ListViewItem)item).size,
-                (item, val) => ((ListViewItem)item).size = (Size)val));
+                (item, val) => ((ListViewItem)item).size = val));
         }
     }
 }

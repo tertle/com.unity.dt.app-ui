@@ -55,6 +55,7 @@ public class MyAppBuilder : UIToolkitAppBuilder<MyApp>
 {
     protected override void OnConfiguringApp(AppBuilder appBuilder)
     {
+        base.OnConfiguringApp(appBuilder);
         // Register dependencies here
         // ex: appBuilder.services.AddSingleton<IMyService, MyService>();
     }
@@ -79,6 +80,7 @@ public class MyAppBuilder : UIToolkitAppBuilder<MyApp>
 {
     protected override void OnConfiguringApp(AppBuilder appBuilder)
     {
+        base.OnConfiguringApp(appBuilder);
         appBuilder.services.AddSingleton<MyService>();
     }
 }
@@ -114,6 +116,8 @@ public class MyAppBuilder : UIToolkitAppBuilder<MyApp>
 {
     protected override void OnConfiguringApp(AppBuilder appBuilder)
     {
+        base.OnConfiguringApp(appBuilder);
+
         if (IsDebugMode())
             appBuilder.services.AddSingleton<IMyService, MyDebugService>();
         else

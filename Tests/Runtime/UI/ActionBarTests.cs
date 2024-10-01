@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Unity.AppUI.UI;
+using UnityEngine;
 
 namespace Unity.AppUI.Tests.UI
 {

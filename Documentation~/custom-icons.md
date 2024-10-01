@@ -34,28 +34,31 @@ Here's an example of how to add a custom icon named `home` with the `Regular` va
 > Your USS class name must start with `appui-icon--` followed by the name of your icon
 > in order to work with the [Icon](xref:Unity.AppUI.UI.Icon) UI component.
 
-## Using Phosphor Icons
-
-Phosphor Icons is a set of over 2,000 open-source icons, designed for the modern web.
-Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility.
-
-To use Phosphor Icons, you need to add the `com.unity.replica.phosphor-icons` package to your project.
-
-Then, you can reference the icons in your USS files.
-
-Here's an example of how to use the `horse` icon:
-
-```css
-.appui-icon--horse--regular {
-    --unity-image: url("/Packages/com.unity.replica.phosphor-icons/PackageResources/Icons/regular/horse.png");
-}
-```
-
 Then you can use the `Icon` UI component to display the icon:
 
 ```xml
-<appui:Icon name="horse" variant="Regular" />
+<appui:Icon name="home" variant="Regular" />
 ```
+
+## High DPI icons
+
+To support high DPI icons, you need to add the high DPI icon with a `@2x` suffix to the name next to the original icon (in the same folder).
+
+For example, if you have a `home.png` icon, you need to add a `home@2x.png` icon to the same folder.
+
+Then when referring to the icon in your USS file, you need to use the `resource()` function instead of `url()`,
+because the `resource()` function will track assets that are part of **Resources** folder. So implicitly the high DPI icon will part of your Runtime build.
+
+Example:
+
+```css
+.appui-icon--home--regular {
+    --unity-image: resource("MyIcons/home"); /* This will load the high DPI icon on devices with a pixel ratio of 2.0 */
+    /* Note that "MyIcons" is a folder contained inside a Resources folder */
+}
+```
+
+For more information about this feature, please refer to [UI-Toolkit documentation](xref:UIE-USS-PropertyTypes).
 
 ## Icon Browser
 

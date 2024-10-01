@@ -41,16 +41,19 @@ public class MyAppBuilder : UIToolkitAppBuilder<MyApp>
 {
     protected override void OnAppInitialized(MyApp app)
     {
+        base.OnAppInitialized(app);
         // Called after the app is initialized
     }
 
     protected override void OnConfiguringApp(AppBuilder builder)
     {
+        base.OnConfiguringApp(builder);
         // Called during app configuration
     }
 
     protected override void OnAppShuttingDown(MyApp app)
     {
+        base.OnAppShuttingDown(app);
         // Called before the app is shut down
     }
 }
@@ -62,11 +65,12 @@ It's a good place to define your main UI which will construct ViewModels and Vie
 ```cs
 public class MyApp : App
 {
-    public MyApp(MainPage mainPage) // <- Constructor injection, mainPage will be provided as a service
+    public new static MyApp current => (MyApp)App.current;
+
+    public override void InitializeComponent()
     {
-        var panel = new Panel();
-        panel.Add(mainPage);
-        this.mainPage = panel;
+        base.InitializeComponent();
+        rootVisualElement.Add(services.GetRequiredService<MainPage>());
     }
 
     public override void Shutdown()

@@ -48,12 +48,20 @@ namespace Unity.AppUI.UI
     }
 
     /// <summary>
+    /// Interface for any UI element that can hold additional data. This is used internally by App UI.
+    /// </summary>
+    public interface IAdditionalDataHolder
+    {
+        internal VisualElementExtensions.AdditionalData additionalData { get; set; }
+    }
+
+    /// <summary>
     /// Base class for all non textual App UI components.
     /// </summary>
 #if ENABLE_UXML_SERIALIZED_DATA
     [UxmlElement]
 #endif
-    public abstract partial class BaseVisualElement : VisualElement, IContextOverrideElement
+    public abstract partial class BaseVisualElement : VisualElement, IContextOverrideElement, IAdditionalDataHolder
     {
 #if ENABLE_RUNTIME_DATA_BINDINGS
         internal static readonly BindingId preferredTooltipPlacementOverrideProperty = nameof(preferredTooltipPlacementOverride);
@@ -75,7 +83,7 @@ namespace Unity.AppUI.UI
         [EnumName("GetLayoutDirectionUssClassName", typeof(Dir))]
         public const string contextPrefix = Panel.contextPrefix;
 
-        internal VisualElementExtensions.AdditionalData additionalData;
+        VisualElementExtensions.AdditionalData IAdditionalDataHolder.additionalData { get; set; }
 
         /// <summary>
         /// Default constructor.

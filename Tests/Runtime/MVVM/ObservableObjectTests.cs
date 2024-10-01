@@ -74,8 +74,28 @@ namespace Unity.AppUI.Tests.MVVM
             });
         }
 
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [Test]
+        public void CanNotifyWithUIToolkitRuntimeDataBindings()
+        {
+            var obj = new Observable();
+            var changed = false;
+            obj.propertyChanged += (sender, args) => {  changed = true; };
+
+            Assert.AreEqual(0, obj.GetViewHashCode());
+            obj.V1 = 1;
+            Assert.IsTrue(changed);
+
+            Assert.AreEqual(0, obj.GetViewHashCode(), "View hash code should not change if we did not call Publish");
+            obj.Publish();
+            Assert.AreEqual(1, obj.GetViewHashCode(), "View hash code should change after calling Publish");
+        }
+#endif
 
         public class Observable : ObservableObject
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            , UnityEngine.UIElements.IDataSourceViewHashProvider
+#endif
         {
             int m_Value1;
 
@@ -159,6 +179,18 @@ namespace Unity.AppUI.Tests.MVVM
             {
                 get => m_Value4.Value;
                 set => SetProperty<int, ValueType>(m_Value4.Value, value, null, (vtype, v) => vtype.Value = v);
+            }
+
+            long m_ViewVersion = 0;
+
+            public void Publish()
+            {
+                m_ViewVersion++;
+            }
+
+            public long GetViewHashCode()
+            {
+                return m_ViewVersion;
             }
 
             public class ValueType : EqualityComparer<ValueType>

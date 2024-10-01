@@ -15,7 +15,7 @@ namespace Unity.AppUI.MVVM
         /// </summary>
         public static event Action shuttingDown;
 
-        readonly List<IUIToolkitHost> m_Hosts = new List<IUIToolkitHost>();
+        readonly List<UIToolkitHost> m_Hosts = new List<UIToolkitHost>();
 
         bool m_Disposed;
 
@@ -45,7 +45,7 @@ namespace Unity.AppUI.MVVM
         /// <summary>
         /// The hosts of the application.
         /// </summary>
-        public IEnumerable<IUIToolkitHost> hosts => m_Hosts;
+        public IEnumerable<UIToolkitHost> hosts => m_Hosts;
 
         /// <summary>
         /// Initializes the current App instance.
@@ -53,31 +53,21 @@ namespace Unity.AppUI.MVVM
         /// <param name="serviceProvider"> The service provider to use. </param>
         /// <param name="host"> The host to use. </param>
         /// <exception cref="InvalidOperationException"> Thrown when a current App instance already exists. </exception>
-        /// <exception cref="ArgumentNullException"> Thrown when one or more required arguments are null. </exception>
-        public void Initialize(IServiceProvider serviceProvider, IHost host)
+        /// <exception cref="ArgumentNullException"> Thrown when serviceProvider is null. </exception>
+        public void Initialize(IServiceProvider serviceProvider, UIToolkitHost host = null)
         {
-            var uitkHost = host as IUIToolkitHost;
-
             if (current != null)
                 throw new InvalidOperationException($"An {nameof(App)} has been already initialized.");
 
             if (m_Hosts.Count > 0)
                 throw new InvalidOperationException($"Trying to create the {nameof(App)} main window more than once.");
 
-            if (host == null)
-                throw new ArgumentNullException(nameof(host));
-
-            if (serviceProvider == null)
-                throw new ArgumentNullException(nameof(serviceProvider));
-
-            if (uitkHost == null)
-                throw new ArgumentException($"The host must implement {nameof(IUIToolkitHost)}.", nameof(host));
-
-            m_Services = serviceProvider;
+            m_Services = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             SetCurrentApp(this);
-            m_Hosts.Add(uitkHost);
+            if (host != null)
+                m_Hosts.Add(host);
             InitializeComponent();
-            uitkHost.HostApplication(this, serviceProvider);
+            host?.HostApplication(this, serviceProvider);
         }
 
         /// <summary>

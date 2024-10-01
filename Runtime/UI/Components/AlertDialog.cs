@@ -149,8 +149,8 @@ namespace Unity.AppUI.UI
             m_IconElement = new Icon
             {
                 name = iconUssClassName,
-                iconName = "warning",
-                variant = IconVariant.Fill,
+                iconName = "",
+                variant = IconVariant.Regular,
                 pickingMode = PickingMode.Ignore
             };
             m_IconElement.AddToClassList(iconUssClassName);
@@ -271,7 +271,7 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
-        /// Bind an Action as a the primary action of the Alert.
+        /// Bind an Action as the primary action of the Alert.
         /// </summary>
         /// <param name="actionId">The Action Identifier.</param>
         /// <param name="displayText">The text to display inside the action's button.</param>
@@ -285,7 +285,7 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
-        /// Bind an Action as a the secondary action of the Alert.
+        /// Bind an Action as the secondary action of the Alert.
         /// </summary>
         /// <param name="actionId">The Action Identifier.</param>
         /// <param name="displayText">The text to display inside the action's button.</param>
@@ -299,7 +299,7 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
-        /// Bind an Action as a the cancel action of the Alert.
+        /// Bind an Action as the cancel action of the Alert.
         /// </summary>
         /// <param name="actionId">The Action Identifier.</param>
         /// <param name="displayText">The text to display inside the action's button.</param>

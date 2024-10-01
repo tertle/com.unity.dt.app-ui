@@ -49,6 +49,8 @@ namespace Unity.AppUI.Core
                 && localizationSettings
                 && TryGetTableAndEntry(referenceText, out var tableReference, out var entryReference))
             {
+                await localizationSettings.GetInitializationOperation().Task;
+                await localizationSettings.GetSelectedLocaleAsync().Task;
                 var locales = localizationSettings.GetAvailableLocales();
                 if (locales is LocalesProvider localesProvider)
                 {

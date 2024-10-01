@@ -26,10 +26,10 @@ namespace Unity.AppUI.Editor
 
         public ButtonComponent()
         {
-            m_Properties.Add(new StoryBookEnumProperty(
+            m_Properties.Add(new StoryBookEnumProperty<ButtonVariant>(
                 nameof(Button.variant),
                 (btn) => ((Button)btn).variant,
-                (btn, val) => ((Button)btn).variant = (ButtonVariant)val));
+                (btn, val) => ((Button)btn).variant = val));
 
             m_Properties.Add(new StoryBookStringProperty(
                 nameof(Button.title),

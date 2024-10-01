@@ -55,7 +55,7 @@ namespace Unity.AppUI.UI
 
         BaseVerticalCollectionView m_CollectionView;
 
-        readonly Text m_Label;
+        readonly LocalizedTextElement m_Label;
 
         string m_Message;
 
@@ -73,20 +73,14 @@ namespace Unity.AppUI.UI
             hierarchy.Add(m_SelectAllCheckbox);
             m_SelectAllCheckbox.RegisterValueChangedCallback(OnCheckboxValueChanged);
 
-            m_Label = new Text
+            m_Label = m_SelectAllCheckbox.Q<LocalizedTextElement>(Checkbox.labelUssClassName);
+            m_Label.variables = new object[]
             {
-                name = labelUssClassName,
-                variables = new object[]
+                new Dictionary<string, object>
                 {
-                    new Dictionary<string, object>
-                    {
-                        {"itemCount", 0}
-                    }
-                },
-                pickingMode = PickingMode.Ignore
+                    {"itemCount", 0}
+                }
             };
-            m_Label.AddToClassList(labelUssClassName);
-            hierarchy.Add(m_Label);
 
             m_ActionGroup = new ActionGroup { name = actionGroupUssClassName };
             m_ActionGroup.AddToClassList(actionGroupUssClassName);
@@ -241,7 +235,7 @@ namespace Unity.AppUI.UI
                     {"itemCount", selectionCount}
                 }
             };
-            m_Label.text = string.IsNullOrEmpty(m_Message) ? m_Message : string.Format(m_Message, selectionCount);
+            m_SelectAllCheckbox.label = string.IsNullOrEmpty(m_Message) ? m_Message : string.Format(m_Message, selectionCount);
         }
 
 #if ENABLE_UXML_TRAITS
@@ -272,7 +266,10 @@ namespace Unity.AppUI.UI
                 m_PickingMode.defaultValue = PickingMode.Ignore;
                 base.Init(ve, bag, cc);
                 var el = (ActionBar)ve;
-                el.message = m_Message.GetValueFromBag(bag, cc);
+
+                var msg = k_DefaultMessage;
+                if (m_Message.TryGetValueFromBag(bag, cc, ref msg))
+                    el.message = msg;
             }
         }
 #endif

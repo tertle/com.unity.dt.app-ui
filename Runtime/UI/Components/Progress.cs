@@ -325,7 +325,8 @@ namespace Unity.AppUI.UI
                 RemoveFromClassList(GetVariantUssClassName(m_Variant));
                 m_Variant = value;
                 AddToClassList(GetVariantUssClassName(m_Variant));
-
+                UpdateScheduledItem();
+                MarkContentDirtyRepaint();
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
                     NotifyPropertyChanged(in variantProperty);

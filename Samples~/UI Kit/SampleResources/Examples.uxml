@@ -46,12 +46,12 @@
                     <appui:Text text="Default" class="example-subtitle" />
                     <ui:VisualElement class="example-section">
                         <ui:VisualElement class="appui-popover__popover" style="position: relative;"> <!-- Simulate the Popover container -->
-                            <appui:ExVisualElement class="appui-popover__container">
+                            <ui:VisualElement class="appui-popover__container">
                                 <appui:ActionBar>
                                     <appui:ActionButton label="Export" icon="info" quiet="true" />
                                     <appui:ActionButton label="Delete" icon="info" quiet="true" />
                                 </appui:ActionBar>
-                            </appui:ExVisualElement>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
 
@@ -928,9 +928,25 @@
 
                     <!-- Dialog -->
                     <appui:Heading text="DIALOG" class="example-title" />
-                    <appui:Text text="Alert (Modal - Not dismissable - With Actions)" class="example-subtitle" />
+                    <appui:Text text="Alert Dialog - Default" class="example-subtitle" />
                     <ui:VisualElement class="example-section example-section-fullwidth">
-                        <appui:ActionButton name="alert-trigger" label="Click here!" />
+                        <appui:ActionButton name="alert-dlg-default-btn" label="Click here!" />
+                    </ui:VisualElement>
+                    <appui:Text text="Alert Dialog - Info" class="example-subtitle" />
+                    <ui:VisualElement class="example-section example-section-fullwidth">
+                        <appui:ActionButton name="alert-dlg-info-btn" label="Click here!" />
+                    </ui:VisualElement>
+                    <appui:Text text="Alert Dialog - Warning" class="example-subtitle" />
+                    <ui:VisualElement class="example-section example-section-fullwidth">
+                        <appui:ActionButton name="alert-dlg-warning-btn" label="Click here!" />
+                    </ui:VisualElement>
+                    <appui:Text text="Alert Dialog - Error" class="example-subtitle" />
+                    <ui:VisualElement class="example-section example-section-fullwidth">
+                        <appui:ActionButton name="alert-dlg-error-btn" label="Click here!" />
+                    </ui:VisualElement>
+                    <appui:Text text="Alert Dialog - Destructive" class="example-subtitle" />
+                    <ui:VisualElement class="example-section example-section-fullwidth">
+                        <appui:ActionButton name="alert-dlg-destructive-btn" label="Click here!" />
                     </ui:VisualElement>
                     <appui:Text text="Modal - Dismissable Button" class="example-subtitle" />
                     <ui:VisualElement class="example-section example-section-fullwidth">

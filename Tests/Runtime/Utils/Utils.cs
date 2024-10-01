@@ -163,19 +163,9 @@ namespace Unity.AppUI.Tests
             var localizationSettings = LocalizationSettings.GetInstanceDontCreateDefault();
             if (localizationSettings)
             {
-                if (localizationSettings.GetAvailableLocales() is LocalesProvider provider)
-                {
-                    while (provider.PreloadOperation.IsValid() && !provider.PreloadOperation.IsDone)
-                    {
-                        yield return null;
-                    }
-                }
-                var localeOp = localizationSettings.GetSelectedLocaleAsync();
-                while (localeOp.IsValid() && !localeOp.IsDone)
-                {
-                    yield return null;
-                }
-                Assert.IsTrue(localeOp.Result);
+                yield return localizationSettings.GetInitializationOperation();
+                yield return localizationSettings.GetSelectedLocaleAsync();
+                Assert.IsTrue(localizationSettings.GetSelectedLocale());
             }
 #else
             yield break;

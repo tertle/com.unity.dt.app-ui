@@ -20,9 +20,9 @@ namespace Unity.AppUI.Samples
 
         public Texture2D avatarPicture;
 
-        const int DELETE_ACTION = 99;
-
         const int DISMISS_ACTION = 1;
+
+        const int CONFIRM_ACTION = 42;
 
         // Start is called before the first frame update
         void Start()
@@ -45,26 +45,6 @@ namespace Unity.AppUI.Samples
 
         public static void SetupDataBinding(VisualElement root, Texture2D avatarPicture = null)
         {
-            root.Q<ActionButton>("alert-trigger").clickable.clickedWithEventInfo += evt =>
-            {
-                if (evt.target is ActionButton btn)
-                {
-                    var dialog = new AlertDialog
-                    {
-                        title = "Delete 3 documents",
-                        description = "The selected documents will be deleted.",
-                        variant = AlertSemantic.Destructive
-                    };
-                    dialog.SetPrimaryAction(DELETE_ACTION, "Delete", () => Debug.Log("Deleted"));
-                    dialog.SetCancelAction(DISMISS_ACTION, "Cancel");
-                    var modal = Modal
-                        .Build(btn, dialog);
-                    modal.dismissed += (modalElement, dismissType) => Debug.Log("Dismissed Alert");
-                    modal.Show();
-                }
-
-            };
-
             var themeSwitcher = root.Q<RadioGroup>("theme-switcher");
             var scaleSwitcher = root.Q<RadioGroup>("scale-switcher");
             var dirSwitcher = root.Q<RadioGroup>("dir-switcher");
@@ -200,6 +180,21 @@ namespace Unity.AppUI.Samples
 
             root.Q<Button>("negative-slide-indef-toast-button")
                 .clickable.clickedWithEventInfo += (evt => OpenToast(NotificationStyle.Negative, NotificationDuration.Indefinite, AnimationMode.Slide, PopupNotificationPlacement.BottomRight, evt.target as VisualElement));
+
+            root.Q<ActionButton>("alert-dlg-default-btn")
+                .clickable.clickedWithEventInfo += evt => OpenAlertDialog(evt.target as VisualElement, AlertSemantic.Default);
+
+            root.Q<ActionButton>("alert-dlg-info-btn")
+                .clickable.clickedWithEventInfo += evt => OpenAlertDialog(evt.target as VisualElement, AlertSemantic.Information);
+
+            root.Q<ActionButton>("alert-dlg-warning-btn")
+                .clickable.clickedWithEventInfo += evt => OpenAlertDialog(evt.target as VisualElement, AlertSemantic.Warning);
+
+            root.Q<ActionButton>("alert-dlg-error-btn")
+                .clickable.clickedWithEventInfo += evt => OpenAlertDialog(evt.target as VisualElement, AlertSemantic.Error);
+
+            root.Q<ActionButton>("alert-dlg-destructive-btn")
+                .clickable.clickedWithEventInfo += evt => OpenAlertDialog(evt.target as VisualElement, AlertSemantic.Destructive);
 
             var dropdownSrc = new List<string>();
 
@@ -537,6 +532,22 @@ namespace Unity.AppUI.Samples
             var collapsibleSplitView = root.Q<SplitView>("collapsible-split-view");
             root.Q<Button>("sv-cs0b").clicked += () => collapsibleSplitView.CollapseSplitter(0, CollapseDirection.Backward);
             root.Q<Button>("sv-cs1f").clicked += () => collapsibleSplitView.CollapseSplitter(1, CollapseDirection.Forward);
+        }
+
+        static void OpenAlertDialog(VisualElement anchor, AlertSemantic semantic)
+        {
+            var dialog = new AlertDialog
+            {
+                title = "Alert Dialog",
+                description = "This is an alert dialog.",
+                variant = semantic
+            };
+            dialog.SetPrimaryAction(CONFIRM_ACTION, "Confirm", () => Debug.Log("Confirmed Alert"));
+            dialog.SetCancelAction(DISMISS_ACTION, "Cancel");
+            var modal = Modal
+                .Build(anchor, dialog);
+            modal.dismissed += (modalElement, dismissType) => Debug.Log("Dismissed Alert");
+            modal.Show();
         }
 
         static void OpenToast(

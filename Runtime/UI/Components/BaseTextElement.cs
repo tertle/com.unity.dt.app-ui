@@ -14,7 +14,7 @@ namespace Unity.AppUI.UI
 #if ENABLE_UXML_SERIALIZED_DATA
     [UxmlElement]
 #endif
-    public abstract partial class BaseTextElement : TextElement, IContextOverrideElement
+    public abstract partial class BaseTextElement : TextElement, IContextOverrideElement, IAdditionalDataHolder
     {
 #if ENABLE_RUNTIME_DATA_BINDINGS
         internal static readonly BindingId preferredTooltipPlacementOverrideProperty = nameof(preferredTooltipPlacementOverride);
@@ -36,7 +36,7 @@ namespace Unity.AppUI.UI
         [EnumName("GetLayoutDirectionUssClassName", typeof(Dir))]
         public const string contextPrefix = Panel.contextPrefix;
 
-        internal VisualElementExtensions.AdditionalData additionalData;
+        VisualElementExtensions.AdditionalData IAdditionalDataHolder.additionalData { get; set; }
 
         /// <summary>
         /// Default constructor.

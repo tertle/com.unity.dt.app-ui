@@ -17,6 +17,22 @@
     padding: 32px;
 }*/
 
+:root {
+    --appui-dialog__icon-default-icon: null;
+    --appui-dialog__icon-confirmation-icon: null;
+    --appui-dialog__icon-information-icon: null;
+    --appui-dialog__icon-destructive-icon: null;
+    --appui-dialog__icon-warning-icon: var(--appui-icon-warning-fill);
+    --appui-dialog__icon-error-icon: var(--appui-icon-warning-fill);
+
+    --appui-dialog__icon-default-color: var(--appui-foregrounds-100);
+    --appui-dialog__icon-confirmation-color: var(--appui-foregrounds-100);
+    --appui-dialog__icon-information-color: var(--appui-foregrounds-100);
+    --appui-dialog__icon-destructive-color: var(--appui-alias-actions-destructive-default);
+    --appui-dialog__icon-warning-color: var(--appui-alias-actions-warning-default);
+    --appui-dialog__icon-error-color: var(--appui-alias-actions-destructive-default);
+}
+
 .appui-modal {
     display: flex;
     position: absolute;
@@ -199,80 +215,62 @@
 }
 
 .appui-dialog--default .appui-dialog__primary-action,
-.appui-dialog--confirmation .appui-dialog__primary-action {
+.appui-dialog--confirmation .appui-dialog__primary-action,
+.appui-dialog--information .appui-dialog__primary-action,
+.appui-dialog--warning .appui-dialog__primary-action,
+.appui-dialog--error .appui-dialog__primary-action {
     background-color: var(--appui-alias-actions-accent-background-color-default);
     border-color: var(--appui-alias-actions-accent-background-color-default);
     color: var(--appui-alias-actions-accent-foreground-color-default);
 }
 
 .appui-dialog--default .appui-dialog__primary-action.is-hovered,
-.appui-dialog--confirmation .appui-dialog__primary-action.is-hovered {
+.appui-dialog--confirmation .appui-dialog__primary-action.is-hovered,
+.appui-dialog--information .appui-dialog__primary-action.is-hovered,
+.appui-dialog--warning .appui-dialog__primary-action.is-hovered,
+.appui-dialog--error .appui-dialog__primary-action.is-hovered {
     background-color: var(--appui-alias-actions-accent-background-color-hover);
     border-color: var(--appui-alias-actions-accent-background-color-hover);
     color: var(--appui-alias-actions-accent-foreground-color-hover);
 }
 
 .appui-dialog--default .appui-dialog__primary-action.is-active,
-.appui-dialog--confirmation .appui-dialog__primary-action.is-active {
+.appui-dialog--confirmation .appui-dialog__primary-action.is-active,
+.appui-dialog--information .appui-dialog__primary-action.is-active,
+.appui-dialog--warning .appui-dialog__primary-action.is-active,
+.appui-dialog--error .appui-dialog__primary-action.is-active {
     background-color: var(--appui-alias-actions-accent-background-color-active);
     border-color: var(--appui-alias-actions-accent-background-color-active);
     color: var(--appui-alias-actions-accent-foreground-color-active);
 }
 
 .appui-dialog--destructive .appui-dialog__primary-action {
+    background-color: var(--appui-alias-actions-destructive-default);
     border-color: var(--appui-alias-actions-destructive-default);
-    background-color: var(--appui-base-100);
-    border-width: 2px;
-    color: var(--appui-alias-actions-destructive-default);
+    color: var(--appui-alias-actions-accent-foreground-color-default);
 }
 
-.appui-dialog--destructive .appui-dialog__primary-action.is-hovered,
-.appui-dialog--destructive .appui-dialog__primary-action.keyboard-focus {
-    background-color: var(--appui-base-200);
+.appui-dialog--destructive .appui-dialog__primary-action.is-hovered {
+    background-color: var(--appui-alias-actions-destructive-hover);
     border-color: var(--appui-alias-actions-destructive-hover);
-    color: var(--appui-alias-actions-destructive-hover);
+    color: var(--appui-alias-actions-accent-foreground-color-hover);
 }
 
 .appui-dialog--destructive .appui-dialog__primary-action.is-active {
-    background-color: var(--appui-base-50);
+    background-color: var(--appui-alias-actions-destructive-active);
     border-color: var(--appui-alias-actions-destructive-active);
-    color: var(--appui-alias-actions-destructive-active);
-}
-
-.appui-dialog--information .appui-dialog__primary-action,
-.appui-dialog--warning .appui-dialog__primary-action,
-.appui-dialog--error .appui-dialog__primary-action {
-    border-color: var(--appui-foregrounds-200);
-    background-color: var(--appui-base-100);
-    border-width: 2px;
-    color: var(--appui-foregrounds-200);
-}
-
-.appui-dialog--information .appui-dialog__primary-action.is-hovered,
-.appui-dialog--information .appui-dialog__primary-action.keyboard-focus,
-.appui-dialog--warning .appui-dialog__primary-action.is-hovered,
-.appui-dialog--warning .appui-dialog__primary-action.keyboard-focus,
-.appui-dialog--error .appui-dialog__primary-action.is-hovered,
-.appui-dialog--error .appui-dialog__primary-action.keyboard-focus {
-    background-color: var(--appui-base-200);
-}
-
-.appui-dialog--information .appui-dialog__primary-action.is-active,
-.appui-dialog--warning .appui-dialog__primary-action.is-active,
-.appui-dialog--error .appui-dialog__primary-action.is-active {
-    background-color: var(--appui-base-50);
+    color: var(--appui-alias-actions-accent-foreground-color-active);
 }
 
 .appui-dialog .appui-dialog__primary-action.is-disabled,
 .appui-dialog .appui-dialog__primary-action:disabled {
-    background-color: var(--appui-base-100);
-    border-color: var(--appui-base-300);
+    background-color: var(--appui-alias-actions-background-color-disabled);
+    border-color: var(--appui-alias-actions-border-color-disabled);
     cursor: var(--appui-alias-control-cursor-disabled);
-    color: var(--appui-foregrounds-25);
+    color: var(--appui-alias-actions-foreground-color-disabled);
 }
 
 .appui-dialog__icon {
-    display: none;
     margin-left: var(--appui-alias-control-gap-md);
     margin-right: 0;
 }
@@ -282,15 +280,32 @@
     margin-right: var(--appui-alias-control-gap-md);
 }
 
-.appui-dialog--warning .appui-dialog__icon,
-.appui-dialog--error .appui-dialog__icon {
-    display: flex;
+.appui-dialog--default .appui-dialog__icon {
+    --unity-image: var(--appui-dialog__icon-default-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-default-color);
+}
+
+.appui-dialog--information .appui-dialog__icon {
+    --unity-image: var(--appui-dialog__icon-information-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-information-icon);
+}
+
+.appui-dialog--confirmation .appui-dialog__icon {
+    --unity-image: var(--appui-dialog__icon-confirmation-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-confirmation-color);
 }
 
 .appui-dialog--warning .appui-dialog__icon {
-    --unity-image-tint-color: var(--appui-alias-actions-warning-default);
+    --unity-image: var(--appui-dialog__icon-warning-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-warning-color);
 }
 
 .appui-dialog--error .appui-dialog__icon {
-    --unity-image-tint-color: var(--appui-alias-actions-destructive-default);
+    --unity-image: var(--appui-dialog__icon-error-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-error-color);
+}
+
+.appui-dialog--destructive .appui-dialog__icon {
+    --unity-image: var(--appui-dialog__icon-destructive-icon);
+    --unity-image-tint-color: var(--appui-dialog__icon-destructive-color);
 }
