@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.SVSquare" class="main">
+    <engine:Label text="SVSquare" class="title" />
+    <engine:Label
+      text="A highly interactive 2D color selector that allows users to pick colors by adjusting saturation and brightness values."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The SVSquare is a specialized color selection component that enables users to choose colors by interacting with a two-dimensional square area. The component visualizes color variations based on saturation (horizontal axis) and brightness/value (vertical axis) while maintaining a constant hue."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful in color pickers, design tools, and any interface where precise color selection is required. Users can interact with the SVSquare through mouse/touch input or keyboard controls for fine-tuned adjustments."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The SVSquare is typically used in conjunction with other color selection components like hue sliders to provide a complete color picking experience."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="brightness" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the brightness (value) component of the selected color. Ranges from 0 (black) to 1 (maximum brightness)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the brightness value programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="svSquare.brightness = 0.75f; // Set brightness to 75%"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="referenceColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label
+              text="Color.HSVToRGB(referenceHue, 1, 1)"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The reference color represents the current hue at maximum saturation and brightness. This is a read-only property that updates automatically when the referenceHue changes."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Accessing the reference color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="Color currentRef = svSquare.referenceColor; // Get the current reference color"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="referenceHue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the base hue used to display the SV square. This value ranges from 0 to 1, representing the full hue spectrum."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the reference hue"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="svSquare.referenceHue = 0.33f; // Set hue to green (approximately)"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="saturation" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the saturation component of the selected color. Ranges from 0 (grayscale) to 1 (fully saturated)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adjusting the saturation value"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="svSquare.saturation = 0.5f; // Set saturation to 50%"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="selectedColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label
+              text="Color.HSVToRGB(referenceHue, saturation, brightness)"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The currently selected color based on the combination of reference hue, saturation, and brightness values. This is a read-only property."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Retrieving the selected color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="Color pickedColor = svSquare.selectedColor; // Get the currently selected color"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Vector2" class="prop-type" />
+            <engine:Label text="Vector2.zero" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the SVSquare where x represents saturation and y represents brightness. Both components range from 0 to 1."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting both saturation and brightness at once"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="svSquare.value = new Vector2(0.5f, 0.75f); // Set saturation to 50% and brightness to 75%"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="incrementFactor" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.01" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the amount by which the values change when using keyboard navigation. A smaller value provides finer control."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Customizing keyboard navigation sensitivity"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="svSquare.incrementFactor = 0.05f; // Set larger increments for keyboard navigation"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid according to the validation function."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Checking validation state"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="bool isValid = !svSquare.invalid; // Check if the current value is valid"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here's how to create and configure an SVSquare component in UXML:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Basic UXML configuration with initial values"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SVSquare reference-hue="0.5" saturation="0.7" brightness="0.8" increment-factor="0.02" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Example of creating and handling color selection events:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating an SVSquare and handling color changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var svSquare = new SVSquare();
+svSquare.RegisterCallback&lt;ChangeEvent&lt;Vector2&gt;&gt;(evt =&gt; {
+    Color selectedColor = svSquare.selectedColor;
+    Debug.Log($"New color selected: {selectedColor}");
+});
+
+// Set initial color
+svSquare.referenceHue = 0.33f; // Green hue
+svSquare.value = new Vector2(0.8f, 0.9f); // High saturation and brightness'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Example of implementing custom validation rules:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Setting up custom validation rules"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="svSquare.validateValue = (Vector2 value) =&gt; {
+    // Only allow values with saturation &gt; 0.5
+    return value.x &gt; 0.5f;
+};
+
+// The invalid property will automatically update based on the validation function"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

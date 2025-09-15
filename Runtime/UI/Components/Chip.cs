@@ -27,6 +27,10 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId deletableProperty = nameof(deletable);
 
+        internal static readonly BindingId clickableProperty = nameof(clickable);
+
+        internal static readonly BindingId deleteProperty = nameof(delete);
+
 #endif
 
         /// <summary>
@@ -114,7 +118,7 @@ namespace Unity.AppUI.UI
 
         readonly VisualElement m_OrnamentContainer;
 
-        readonly Pressable m_Deletable;
+        Pressable m_DeleteHandler;
 
         /// <summary>
         /// The content container of the Chip. This is the ornament container.
@@ -248,54 +252,53 @@ namespace Unity.AppUI.UI
         /// <summary>
         /// Clickable Manipulator for this Chip.
         /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
         public Pressable clickable
         {
             get => m_Clickable;
             set
             {
+                var changed = m_Clickable != value;
                 if (m_Clickable != null && m_Clickable.target == this)
                     this.RemoveManipulator(m_Clickable);
+                RemoveFromClassList(clickableUssClassName);
                 m_Clickable = value;
                 if (m_Clickable == null)
                     return;
                 this.AddManipulator(m_Clickable);
+                AddToClassList(clickableUssClassName);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in clickableProperty);
+#endif
             }
         }
 
         /// <summary>
-        /// Event fired when the Chip is clicked.
+        /// Deletion Manipulator for this Chip.
         /// </summary>
-        public event Action clicked
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+        public Pressable delete
         {
-            add => m_Clickable.clicked += value;
-            remove => m_Clickable.clicked -= value;
-        }
-
-        /// <summary>
-        /// Event fired when the Chip is clicked.
-        /// </summary>
-        public event Action<EventBase> clickedWithEventInfo
-        {
-            add => m_Clickable.clickedWithEventInfo += value;
-            remove => m_Clickable.clickedWithEventInfo -= value;
-        }
-
-        /// <summary>
-        /// Event fired when the Chip is deleted.
-        /// </summary>
-        public event Action deleted
-        {
-            add => m_Deletable.clicked += value;
-            remove => m_Deletable.clicked -= value;
-        }
-
-        /// <summary>
-        /// Event fired when the Chip is deleted.
-        /// </summary>
-        public event Action<EventBase> deletedWithEventInfo
-        {
-            add => m_Deletable.clickedWithEventInfo += value;
-            remove => m_Deletable.clickedWithEventInfo -= value;
+            get => m_DeleteHandler;
+            set
+            {
+                var changed = m_DeleteHandler != value;
+                if (m_DeleteHandler != null && m_DeleteHandler.target == this)
+                    m_DeleteButton.RemoveManipulator(m_DeleteHandler);
+                m_DeleteHandler = value;
+                if (m_DeleteHandler == null)
+                    return;
+                m_DeleteButton.AddManipulator(m_DeleteHandler);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in deleteProperty);
+#endif
+            }
         }
 
         /// <summary>
@@ -319,19 +322,16 @@ namespace Unity.AppUI.UI
 
             m_DeleteButton = new VisualElement { name = deleteButtonUssClassName, pickingMode = PickingMode.Position, focusable = true };
             m_DeleteButton.AddToClassList(deleteButtonUssClassName);
-            m_Deletable = new Pressable();
-            m_DeleteButton.AddManipulator(m_Deletable);
             hierarchy.Add(m_DeleteButton);
 
             m_DeleteIcon = new Icon { name = deleteIconUssClassName, pickingMode = PickingMode.Ignore };
             m_DeleteIcon.AddToClassList(deleteIconUssClassName);
             m_DeleteButton.hierarchy.Add(m_DeleteIcon);
 
+            delete = new Pressable();
             deleteIcon = k_DefaultDeleteIconName;
             variant = Variant.Filled;
             ornament = null;
-
-            AddToClassList(clickableUssClassName);
         }
 
 #if ENABLE_UXML_TRAITS
@@ -346,9 +346,6 @@ namespace Unity.AppUI.UI
         /// </summary>
         public new class UxmlTraits : BaseVisualElement.UxmlTraits
         {
-
-
-
             readonly UxmlEnumAttributeDescription<Variant> m_Variant = new UxmlEnumAttributeDescription<Variant>
             {
                 name = "variant",

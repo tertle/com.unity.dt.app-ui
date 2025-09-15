@@ -1,8 +1,8 @@
 using System;
-using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -69,71 +69,6 @@ namespace Unity.AppUI.Core
         }
 
         /// <summary>
-        /// Register a Panel with the App UI system.
-        /// </summary>
-        /// <param name="panel">A panel</param>
-        /// <exception cref="InvalidOperationException">Thrown if the App UI system is not ready.</exception>
-        internal static void RegisterPanel(Panel panel)
-        {
-            if (s_Manager == null)
-                throw new InvalidOperationException("The App UI Manager is not ready");
-
-            s_Manager.RegisterPanel(panel);
-        }
-
-        /// <summary>
-        /// Unregister a Panel with the App UI system.
-        /// </summary>
-        /// <param name="iPanel"> The UITK panel that owns the panel.</param>
-        /// <param name="panel">A panel</param>
-        /// <exception cref="InvalidOperationException">Thrown if the App UI system is not ready.</exception>
-        internal static void UnregisterPanel(IPanel iPanel, Panel panel)
-        {
-            if (s_Manager == null)
-                throw new InvalidOperationException("The App UI Manager is not ready");
-
-            s_Manager.UnregisterPanel(iPanel, panel);
-        }
-
-        /// <summary>
-        /// Register a <see cref="Popup"/> to the list of dismissable popups.
-        /// </summary>
-        /// <param name="panel"> The panel that owns the popup.</param>
-        /// <param name="popup"> The popup to register.</param>
-        /// <exception cref="InvalidOperationException"> Thrown if the App UI system is not ready.</exception>
-        internal static void RegisterPopup(IPanel panel, Popup popup)
-        {
-            if (s_Manager == null)
-                throw new InvalidOperationException("The App UI Manager is not ready");
-
-            s_Manager.RegisterPopup(panel, popup);
-        }
-
-        /// <summary>
-        /// Unregister a <see cref="Popup"/> from the list of dismissable popups.
-        /// </summary>
-        /// <param name="panel"> The panel that owns the popup.</param>
-        /// <param name="popup"> The popup to unregister.</param>
-        /// <exception cref="InvalidOperationException"> Thrown if the App UI system is not ready.</exception>
-        internal static void UnregisterPopup(IPanel panel, Popup popup)
-        {
-            if (s_Manager == null)
-                throw new InvalidOperationException("The App UI Manager is not ready");
-
-            s_Manager.UnregisterPopup(panel, popup);
-        }
-
-        /// <summary>
-        /// Dismiss any popups that are currently open in a specific panel.
-        /// </summary>
-        /// <param name="iPanel"> The UITK panel that owns the popups.</param>
-        /// <param name="reason"> The reason for dismissing the popups.</param>
-        public static void DismissAnyPopups(IPanel iPanel, DismissType reason)
-        {
-            s_Manager?.DismissAnyPopups(iPanel, reason);
-        }
-
-        /// <summary>
         /// The main looper of the App UI system.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the App UI system is not ready.</exception>
@@ -180,6 +115,16 @@ namespace Unity.AppUI.Core
             s_Manager.Update();
         }
 
+        internal static void RegisterUpdateCallback(VisualElement updatableElement)
+        {
+            s_Manager?.RegisterUpdateCallback(updatableElement);
+        }
+
+        internal static void UnregisterUpdateCallback(VisualElement updatableElement)
+        {
+            s_Manager?.UnregisterUpdateCallback(updatableElement);
+        }
+
         /// <summary>
         /// Manage internal App UI features when the application has gained or lost focus.
         /// </summary>
@@ -203,7 +148,7 @@ namespace Unity.AppUI.Core
             Reset();
 
             var existingSystemObjects = Resources.FindObjectsOfTypeAll<AppUISystemObject>();
-            if (existingSystemObjects != null && existingSystemObjects.Length > 0)
+            if (existingSystemObjects is {Length: > 0})
             {
                 s_SystemObject = existingSystemObjects[0];
                 // here we can restore some state saved inside the system object
@@ -214,12 +159,28 @@ namespace Unity.AppUI.Core
                 s_SystemObject.hideFlags = HideFlags.HideAndDontSave;
             }
 
+            AppUISettings newSettings = null;
             if (EditorBuildSettings.TryGetConfigObject(AppUISettings.configName,
                     out AppUISettings settingsAsset))
             {
+                newSettings = settingsAsset;
+            }
+            else
+            {
+                // nothing found yet, we can try to find the asset database
+                var settingsGuids = AssetDatabase.FindAssets($"t:{nameof(AppUISettings)} a:all");
+                if (settingsGuids.Length > 0)
+                {
+                    var settingsPath = AssetDatabase.GUIDToAssetPath(settingsGuids[0]);
+                    newSettings = AssetDatabase.LoadAssetAtPath<AppUISettings>(settingsPath);
+                }
+            }
+
+            if (newSettings)
+            {
                 if (s_Manager.m_Settings.hideFlags == HideFlags.HideAndDontSave)
-                    ScriptableObject.DestroyImmediate(s_Manager.m_Settings);
-                s_Manager.m_Settings = settingsAsset;
+                    Object.DestroyImmediate(s_Manager.m_Settings);
+                s_Manager.m_Settings = newSettings;
                 // here we can apply new settings on managers
                 s_Manager.ApplySettings();
             }
@@ -227,10 +188,7 @@ namespace Unity.AppUI.Core
 
         static void Reset()
         {
-            if (s_Manager != null)
-            {
-                s_Manager.Shutdown();
-            }
+            s_Manager?.Shutdown();
 
             var newSettings = ScriptableObject.CreateInstance<AppUISettings>();
             newSettings.hideFlags = HideFlags.HideAndDontSave;
@@ -353,28 +311,8 @@ namespace Unity.AppUI.Core
         /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
         public static AppUISettings settings
         {
-            get
-            {
-                return s_Manager.settings;
-            }
-            internal set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                if (s_Manager.settings == value)
-                    return;
-
-#if UNITY_EDITOR
-                if (!string.IsNullOrEmpty(AssetDatabase.GetAssetPath(value)))
-                {
-                    EditorBuildSettings.AddConfigObject(AppUISettings.configName,
-                        value, true);
-                }
-#endif
-
-                s_Manager.settings = value;
-            }
+            get => s_Manager.settings;
+            internal set => s_Manager.settings = value;
         }
     }
 }

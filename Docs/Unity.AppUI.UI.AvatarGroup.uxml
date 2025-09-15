@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.AvatarGroup" class="main">
+    <engine:Label text="AvatarGroup" class="title" />
+    <engine:Label
+      text="Groups multiple avatars together in a horizontal layout with configurable spacing and overflow handling."
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The AvatarGroup component is used to group multiple Avatar components together. It's particularly useful for displaying a list of users, team members, or any collection of entities represented by avatars."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component automatically handles overflow by showing a configurable number of avatars and collapsing the rest into a '+N' indicator."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: For optimal visual presentation, it's recommended to keep the max property value between 4 and 6 avatars."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="max" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="5" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum number of avatars to display before showing the overflow indicator. When the total number of avatars exceeds this value, remaining avatars will be represented by a surplus element showing the count of hidden avatars."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Display only 3 avatars and show +1 for the remaining avatar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;AvatarGroup max="3"&gt;
+    &lt;Avatar src="user1.png" /&gt;
+    &lt;Avatar src="user2.png" /&gt;
+    &lt;Avatar src="user3.png" /&gt;
+    &lt;Avatar src="user4.png" /&gt;
+&lt;/AvatarGroup&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="spacing" class="prop-name" />
+            <engine:Label text="AvatarGroupSpacing" class="prop-type" />
+            <engine:Label text="AvatarGroupSpacing.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the spacing between avatars in the group. Available options are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- S: Small spacing between avatars
+- M: Medium spacing between avatars
+- L: Large spacing between avatars
+- NoOverlap: Avatars are placed next to each other without overlap"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Place avatars next to each other without overlap"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;AvatarGroup spacing="NoOverlap"&gt;
+    &lt;Avatar src="user1.png" /&gt;
+    &lt;Avatar src="user2.png" /&gt;
+&lt;/AvatarGroup&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the uniform size for all avatars in the group. This ensures consistent sizing across all avatars."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create an avatar group with large-sized avatars"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;AvatarGroup size="L"&gt;
+    &lt;Avatar src="user1.png" /&gt;
+    &lt;Avatar src="user2.png" /&gt;
+&lt;/AvatarGroup&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="AvatarVariant" class="prop-type" />
+            <engine:Label text="AvatarVariant.Circular" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the shape of all avatars in the group. Options include:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Circular: Round avatars
+- Square: Square-shaped avatars
+- Rounded: Square avatars with rounded corners"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Display square-shaped avatars in the group"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;AvatarGroup variant="Square"&gt;
+    &lt;Avatar src="user1.png" /&gt;
+    &lt;Avatar src="user2.png" /&gt;
+&lt;/AvatarGroup&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="total" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Optional custom total count that overrides the actual number of child avatars. Useful when the total number of items differs from the visible avatars."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Set a custom total count larger than the actual number of avatars"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="avatarGroup.SetCustomTotal(10); // Shows '+5' if max is set to 5"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="sourceItems" class="prop-name" />
+            <engine:Label text="IList" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A collection of items that will be used to generate avatars dynamically. Must be used in conjunction with bindItem to define how each item maps to an avatar."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Bind a list of users to generate avatars dynamically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="avatarGroup.sourceItems = usersList;
+avatarGroup.bindItem = (avatar, index) =&gt; {
+    avatar.src = usersList[index].profilePicture;
+};"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage with different variants"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Shows 5 circular avatars with medium spacing and '+1' overflow indicator"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;AvatarGroup spacing="M" max="5" variant="Circular"&gt;
+    &lt;Avatar src="user1.png" /&gt;
+    &lt;Avatar src="user2.png" /&gt;
+    &lt;Avatar src="user3.png" /&gt;
+    &lt;Avatar src="user4.png" /&gt;
+    &lt;Avatar src="user5.png" /&gt;
+    &lt;Avatar src="user6.png" /&gt;
+&lt;/AvatarGroup&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Data binding example" class="parapgraph" />
+            <engine:Label
+              text="Dynamically create avatars from a data source with custom binding logic"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var avatarGroup = new AvatarGroup();
+avatarGroup.sourceItems = usersList;
+avatarGroup.max = 4;
+avatarGroup.spacing = AvatarGroupSpacing.S;
+avatarGroup.bindItem = (avatar, index) =&gt; {
+    var user = usersList[index];
+    avatar.src = user.avatarUrl;
+    avatar.backgroundColor = user.color;
+};"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Custom surplus rendering" class="parapgraph" />
+            <engine:Label
+              text="Customize the appearance of the overflow indicator"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='avatarGroup.renderSurplus = (surplusCount) =&gt; {
+    var surplusAvatar = new Avatar();
+    surplusAvatar.backgroundColor = new Color(0.2f, 0.2f, 0.2f);
+    var label = new Text($"+{surplusCount} more");
+    label.style.color = Color.white;
+    surplusAvatar.Add(label);
+    return surplusAvatar;
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

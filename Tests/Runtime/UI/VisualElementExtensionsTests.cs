@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
 using Unity.AppUI.Core;
 using Unity.AppUI.UI;
@@ -11,6 +12,24 @@ namespace Unity.AppUI.Tests.UI
     [TestOf(typeof(VisualElementExtensions))]
     class VisualElementExtensionsTests
     {
+        [Test]
+        public void VisualElementExtensions_GetChildren_ShouldReturnChildren()
+        {
+            var v = new VisualElement();
+            var c1 = new VisualElement();
+            var c2 = new VisualElement();
+            var c3 = new VisualElement();
+            v.Add(c1);
+            v.Add(c2);
+            v.Add(c3);
+
+            var children = v.GetChildren<VisualElement>(true).ToList();
+            Assert.AreEqual(3, children.Count);
+            Assert.AreEqual(c1, children[0]);
+            Assert.AreEqual(c2, children[1]);
+            Assert.AreEqual(c3, children[2]);
+        }
+
         [Test]
         public void VisualElementExtensions_GetContext_ShouldReturnContextFromApplication()
         {

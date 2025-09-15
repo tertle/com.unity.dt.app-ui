@@ -45,6 +45,7 @@
   border-radius: var(--appui-alias-control-border-radius);
   align-self: flex-start;
   background-color: var(--appui-base-50);
+  -unity-font-style: bold;
 }
 
 .appui--rtl .example-subtitle {
@@ -157,15 +158,25 @@
 
 #swipeview-distance {
   background-color: rgba(0,0,0,0);
+  width: 50px;
+  height: 50px;
 }
 
-.appui-swipeview-item > .appui-avatar {
+#swipeview-distance .appui-text {
   cursor: var(--appui-alias-control-cursor-pointer);
+  border-width: 2px;
+  padding: var(--appui-alias-control-gap-md);
+  border-radius: var(--appui-border-radius-full);
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  -unity-text-align: middle-center;
+  -unity-font-style: bold;
 }
 
-.appui-swipeview-item.is-selected > .appui-avatar > .appui-avatar__container {
+#swipeview-distance .appui-swipeview-item.is-selected > .appui-text {
   border-color: #2369ff;
-  border-width: 2px;
 }
 
 .appui-stackview {

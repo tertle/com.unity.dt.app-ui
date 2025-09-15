@@ -14,7 +14,6 @@ using Random = UnityEngine.Random;
 
 namespace Unity.AppUI.Tests.UI
 {
-    [TestFixture]
     class VisualElementTests<T> where T : VisualElement, new()
     {
         VisualElement m_VisualElement;
@@ -138,14 +137,9 @@ namespace Unity.AppUI.Tests.UI
 
         [UnityTest]
         [Order(3)]
-        [ConditionalIgnore("IgnoreInEditor", "Snapshot generation is supported only in Standalone Player")]
         public IEnumerator CreateSnapshot()
         {
-            if (string.IsNullOrEmpty(Utils.snapshotsOutputDir))
-                Assert.Ignore("Snapshots are generated only in Standalone Player and when SNAPSHOTS_OUTPUT_DIR is set");
-
-            if (typeof(Panel).IsAssignableFrom(typeof(T)))
-                Assert.Ignore("Panel are not supported in snapshots");
+            var capture = !Application.isEditor && !string.IsNullOrEmpty(Utils.snapshotsOutputDir);
 
             foreach (var story in stories)
             {
@@ -155,20 +149,22 @@ namespace Unity.AppUI.Tests.UI
                     {
                         foreach (var dir in Enum.GetValues(typeof(Dir)))
                         {
-                            yield return CreateSnapshotInternal(story, theme, scale, (Dir)dir);
+                            yield return CreateSnapshotInternal(story, theme, scale, (Dir)dir, capture);
                         }
                     }
                 }
             }
         }
 
-        IEnumerator CreateSnapshotInternal(Story story, string theme, string scale, Dir dir)
+        IEnumerator CreateSnapshotInternal(Story story, string theme, string scale, Dir dir, bool capture)
         {
-            var outputFilePath = Path.GetFullPath(
-                Path.Combine(Utils.snapshotsOutputDir ?? Application.dataPath,
-                    $"{componentName}.{story.name}.{theme}.{dir.ToString().ToLower()}.{scale}.png"));
-
+#if !UNITY_EDITOR
             Screen.SetResolution(1200, 600, FullScreenMode.Windowed);
+            m_TestUI.rootVisualElement.styleSheets.Add(Resources.Load<ThemeStyleSheet>("Themes/App UI"));
+#else
+            m_TestUI.rootVisualElement.styleSheets.Add(UnityEditor.AssetDatabase.LoadAssetAtPath<ThemeStyleSheet>(
+                "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"));
+#endif
             var panel = new Panel
             {
                 theme = theme,
@@ -177,7 +173,7 @@ namespace Unity.AppUI.Tests.UI
                 lang = "en",
             };
             m_TestUI.rootVisualElement.Clear();
-            m_TestUI.rootVisualElement.styleSheets.Add(Resources.Load<ThemeStyleSheet>("Themes/App UI"));
+
             m_TestUI.rootVisualElement.Add(panel);
             var container = new VisualElement
             {
@@ -199,14 +195,21 @@ namespace Unity.AppUI.Tests.UI
             {
                 yield return null;
             }
-            yield return new WaitForEndOfFrame();
-            ScreenCapture.CaptureScreenshot(outputFilePath);
-            yield return null;
-            yield return new WaitUntilOrTimeOut(
-                () => Utils.FileAvailable(outputFilePath),
-                false,
-                TimeSpan.FromSeconds(3));
-            Assert.IsTrue(Utils.FileAvailable(outputFilePath));
+
+            if (capture)
+            {
+                yield return new WaitForEndOfFrame();
+                var outputFilePath = Path.GetFullPath(
+                    Path.Combine(Utils.snapshotsOutputDir ?? Application.dataPath,
+                        $"{componentName}.{story.name}.{theme}.{dir.ToString().ToLower()}.{scale}.png"));
+                ScreenCapture.CaptureScreenshot(outputFilePath);
+                yield return null;
+                yield return new WaitUntilOrTimeOut(
+                    () => Utils.FileAvailable(outputFilePath),
+                    false,
+                    TimeSpan.FromSeconds(3));
+                Assert.IsTrue(Utils.FileAvailable(outputFilePath));
+            }
         }
     }
 }

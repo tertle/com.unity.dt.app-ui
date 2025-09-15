@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 #if ENABLE_RUNTIME_DATA_BINDINGS
@@ -10,58 +10,66 @@ using Unity.Properties;
 namespace Unity.AppUI.UI
 {
     /// <summary>
+    /// A simple comparer for Vector2Int that compares the x and y values lexicographically.
+    /// </summary>
+    public class Vector2IntLexicographicalComparer : IComparer<Vector2Int>
+    {
+        /// <summary>
+        /// Compares two Vector2Int values lexicographically.
+        /// </summary>
+        /// <param name="v1"> The first Vector2Int value to compare.</param>
+        /// <param name="v2"> The second Vector2Int value to compare.</param>
+        /// <returns> A value indicating the relative order of the two Vector2Int values.</returns>
+        public int Compare(Vector2Int v1, Vector2Int v2)
+        {
+            var xComparison = v1.x.CompareTo(v2.x);
+            return xComparison != 0 ? xComparison : v1.y.CompareTo(v2.y);
+        }
+    }
+
+    /// <summary>
     /// Range Slider UI element for integer values.
     /// </summary>
 #if ENABLE_UXML_SERIALIZED_DATA
     [UxmlElement]
 #endif
-    public partial class RangeSliderInt : RangeSliderBase<Vector2Int, int>
+    public partial class RangeSliderInt : Slider<Vector2Int, int, Vector2IntField>
     {
-#if ENABLE_RUNTIME_DATA_BINDINGS
+        const int k_DefaultStep = 1;
 
-        internal static readonly BindingId incrementFactorProperty = new BindingId(nameof(incrementFactor));
-
-#endif
-
-        const int k_DefaultIncrementFactor = 1;
-
-        int m_IncrementFactor = k_DefaultIncrementFactor;
-
-        /// <summary>
-        /// The increment factor used when the slider is interacted with using the keyboard.
-        /// </summary>
-#if ENABLE_RUNTIME_DATA_BINDINGS
-        [CreateProperty]
-#endif
-#if ENABLE_UXML_SERIALIZED_DATA
-        [UxmlAttribute]
-#endif
-        public int incrementFactor
-        {
-            get => m_IncrementFactor;
-            set
-            {
-                var changed = m_IncrementFactor != value;
-                m_IncrementFactor = value;
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in incrementFactorProperty);
-#endif
-            }
-        }
+        const int k_DefaultShiftStep = 10;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         public RangeSliderInt()
         {
-            formatStringIntOverride = UINumericFieldsUtils.k_IntFieldFormatString;
-            incrementFactor = k_DefaultIncrementFactor;
+            comparer = new Vector2IntLexicographicalComparer();
+            formatString = UINumericFieldsUtils.k_IntFieldFormatString;
+            stepOverride = k_DefaultStep;
+            shiftStepOverride = k_DefaultShiftStep;
             lowValueOverride = 0;
             highValueOverride = 100;
             minValueOverride = 0;
             maxValueOverride = 100;
+        }
+
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute("step")]
+#endif
+        int stepOverride
+        {
+            get => step;
+            set => step = value;
+        }
+
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute("shift-step")]
+#endif
+        int shiftStepOverride
+        {
+            get => shiftStep;
+            set => shiftStep = value;
         }
 
 #if ENABLE_UXML_SERIALIZED_DATA
@@ -100,16 +108,28 @@ namespace Unity.AppUI.UI
             set => maxValue = value;
         }
 
-#if ENABLE_UXML_SERIALIZED_DATA
-        [UxmlAttribute("format-string")]
-#endif
-        string formatStringIntOverride
+        /// <summary>
+        /// The low part of the range value.
+        /// </summary>
+        public int minValue
         {
-            get => formatString;
-            set => formatString = value;
+            get => m_Value.x;
+            set => this.value = new Vector2Int(value, m_Value.y);
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.ParseStringToValue"/>
+        /// <summary>
+        /// The high part of the range value.
+        /// </summary>
+        public int maxValue
+        {
+            get => m_Value.y;
+            set => this.value = new Vector2Int(m_Value.x, value);
+        }
+
+        /// <inheritdoc />
+        protected override int thumbCount => 2;
+
+        /// <inheritdoc />
         protected override bool ParseStringToValue(string strValue, out Vector2Int val)
         {
             var strValues = strValue.Split(" - ");
@@ -121,82 +141,66 @@ namespace Unity.AppUI.UI
             return xRet && yRet;
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.ParseValueToString"/>
+        /// <inheritdoc />
         protected override string ParseValueToString(Vector2Int val)
         {
             if (UINumericFieldsUtils.IsPercentFormatString(formatString))
                 Debug.LogWarning("Percent format string is not supported for integer values.\n" +
                     "Please use a RangeSliderFloat instead.");
 
+            return $"[{ParseSubValueToString(val.x)} - {ParseSubValueToString(val.y)}]";
+        }
+
+        /// <inheritdoc />
+        protected override string ParseSubValueToString(int val)
+        {
+            if (formatFunction != null)
+                return formatFunction(val);
+
             return val.ToString(formatString, CultureInfo.InvariantCulture.NumberFormat);
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.SliderLerpUnclamped"/>
-        protected override Vector2Int SliderLerpUnclamped(int a, int b, float interpolant)
+        /// <inheritdoc />
+        protected override int SliderLerpUnclamped(int a, int b, float interpolant)
         {
-            throw new InvalidOperationException("Cannot lerp between two integers and return a Vector2Int.");
+            return Mathf.RoundToInt(Mathf.LerpUnclamped(a, b, interpolant));
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.SliderNormalizeValue"/>
+        /// <inheritdoc />
         protected override float SliderNormalizeValue(int currentValue, int lowerValue, int higherValue)
         {
             return Mathf.InverseLerp(lowerValue, higherValue, currentValue);
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.Increment"/>
-        protected override int Increment(int val)
+        /// <inheritdoc />
+        protected override int Mad(int m, int a, int b)
         {
-            return val + incrementFactor;
+            return m * a + b;
         }
 
-        /// <inheritdoc cref="BaseSlider{Vector2Int,Integer}.Decrement"/>
-        protected override int Decrement(int val)
+        /// <inheritdoc />
+        protected override int ClampThumb(int x, int min, int max)
         {
-            return val - incrementFactor;
+            return Mathf.Clamp(x, min, max);
         }
 
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.minValue"/>
-        public override int minValue
+        /// <inheritdoc cref="BaseSlider{TValue,TScalar}.GetValueFromScalarValues"/>
+        protected override Vector2Int GetValueFromScalarValues(Span<int> values)
         {
-            get => m_Value.x;
-            set => this.value = new Vector2Int(value, m_Value.y);
+            return new Vector2Int(values[0], values[1]);
         }
 
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.maxValue"/>
-        public override int maxValue
+        /// <inheritdoc cref="BaseSlider{TValue,TScalar}.GetScalarValuesFromValue"/>
+        protected override void GetScalarValuesFromValue(Vector2Int v, Span<int> values)
         {
-            get => m_Value.y;
-            set => this.value = new Vector2Int(m_Value.x, value);
+            values[0] = v.x;
+            values[1] = v.y;
         }
 
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.MakeRangeValue"/>
-        protected override Vector2Int MakeRangeValue(int minValue, int maxValue)
+        /// <inheritdoc />
+        protected override int GetStepCount(int stepValue)
         {
-            return new Vector2Int(minValue, maxValue);
-        }
-
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.GetMinValue"/>
-        protected override int GetMinValue(Vector2Int rangeValue)
-        {
-            return rangeValue.x;
-        }
-
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.GetMaxValue"/>
-        protected override int GetMaxValue(Vector2Int rangeValue)
-        {
-            return rangeValue.y;
-        }
-
-        /// <inheritdoc cref="M:Unity.AppUI.UI.RangeSliderBase`2.GetClampedValue(`1,`1,`1)"/>
-        protected override int GetClampedValue(int value, int lowerValue, int higherValue)
-        {
-            return Mathf.Clamp(value, lowerValue, higherValue);
-        }
-
-        /// <inheritdoc cref="RangeSliderBase{TRangeType,TValueType}.LerpUnclamped"/>
-        protected override int LerpUnclamped(int a, int b, float interpolant)
-        {
-            return Mathf.RoundToInt(Mathf.LerpUnclamped(a, b, interpolant));
+            return (highValue - lowValue) / stepValue + 1;
         }
 
 #if ENABLE_UXML_TRAITS
@@ -209,8 +213,20 @@ namespace Unity.AppUI.UI
         /// <summary>
         /// Class containing the <see cref="UxmlTraits"/> for the <see cref="RangeSliderInt"/>.
         /// </summary>
-        public new class UxmlTraits : RangeSliderBase<Vector2Int, int>.UxmlTraits
+        public new class UxmlTraits : Slider<Vector2Int,int,Vector2IntField>.UxmlTraits
         {
+            readonly UxmlIntAttributeDescription m_Step = new UxmlIntAttributeDescription
+            {
+                name = "step",
+                defaultValue = k_DefaultStep
+            };
+
+            readonly UxmlIntAttributeDescription m_ShiftStep = new UxmlIntAttributeDescription
+            {
+                name = "shift-step",
+                defaultValue = k_DefaultShiftStep
+            };
+
             readonly UxmlIntAttributeDescription m_HighValue = new UxmlIntAttributeDescription
             {
                 name = "high-value",
@@ -246,6 +262,8 @@ namespace Unity.AppUI.UI
                 base.Init(ve, bag, cc);
 
                 var el = (RangeSliderInt)ve;
+                el.step = m_Step.GetValueFromBag(bag, cc);
+                el.shiftStep = m_ShiftStep.GetValueFromBag(bag, cc);
                 el.lowValue = m_LowValue.GetValueFromBag(bag, cc);
                 el.highValue = m_HighValue.GetValueFromBag(bag, cc);
                 el.value = new Vector2Int(m_MinValue.GetValueFromBag(bag, cc), m_MaxValue.GetValueFromBag(bag, cc));

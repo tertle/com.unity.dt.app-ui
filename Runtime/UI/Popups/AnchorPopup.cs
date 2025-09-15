@@ -71,9 +71,9 @@ namespace Unity.AppUI.UI
         protected readonly EventCallback<GeometryChangedEvent> m_OnContentGeometryChangedAction;
 
         /// <summary>
-        /// Callback for Event triggered when the anchor geometry has changed.
+        /// Scheduled item used to poll the anchor bounds.
         /// </summary>
-        protected readonly EventCallback<GeometryChangedEvent> m_OnAnchorGeometryChangedAction;
+        protected IVisualElementScheduledItem m_AnchorBoundsPolling;
 
         /// <summary>
         /// Default constructor.
@@ -84,9 +84,9 @@ namespace Unity.AppUI.UI
         protected AnchorPopup(VisualElement referenceView, VisualElement view, VisualElement contentView = null)
             : base(referenceView, view, contentView)
         {
-            m_OnAnimatedInAction = new EventCallback<ITransitionEvent>(OnAnimatedIn);
-            m_OnContentGeometryChangedAction = new EventCallback<GeometryChangedEvent>(OnContentGeometryChanged);
-            m_OnAnchorGeometryChangedAction = new EventCallback<GeometryChangedEvent>(OnAnchorGeometryChanged);
+            m_OnAnimatedInAction = OnAnimatedInInternal;
+            m_OnContentGeometryChangedAction = OnContentGeometryChanged;
+            m_AnchorBoundsPolling = null;
         }
 
         /// <summary>
@@ -146,6 +146,9 @@ namespace Unity.AppUI.UI
         /// The strategy used to determine if the click is outside the popup.
         /// </summary>
         public OutsideClickStrategy outsideClickStrategy { get; protected set; } = OutsideClickStrategy.Bounds;
+
+        /// <inheritdoc />
+        internal override bool focusOutDismissable => outsideClickDismissEnabled;
 
         /// <summary>
         /// The popup's anchor.
@@ -239,10 +242,11 @@ namespace Unity.AppUI.UI
         /// <returns>The popup.</returns>
         public T SetAnchor(VisualElement value)
         {
-            m_Anchor?.UnregisterCallback(m_OnAnchorGeometryChangedAction);
+            m_AnchorBoundsPolling?.Pause();
+            m_AnchorBoundsPolling = null;
             m_Anchor = value;
-            m_Anchor?.RegisterCallback(m_OnAnchorGeometryChangedAction);
             RefreshPosition();
+            m_AnchorBoundsPolling = m_Anchor?.schedule?.Execute(PollBounds)?.Every(16L);
             return (T)this;
         }
 
@@ -287,6 +291,13 @@ namespace Unity.AppUI.UI
             contentView?.RegisterCallback(m_OnContentGeometryChangedAction);
         }
 
+        /// <inheritdoc />
+        protected override void PrepareAnimateViewIn()
+        {
+            base.PrepareAnimateViewIn();
+            RefreshPosition();
+        }
+
         /// <summary>
         /// Start the animation for this popup.
         /// </summary>
@@ -301,7 +312,7 @@ namespace Unity.AppUI.UI
         /// Called when the popup has been animated in.
         /// </summary>
         /// <param name="evt"> The transition event.</param>
-        protected virtual void OnAnimatedIn(ITransitionEvent evt)
+        void OnAnimatedInInternal(ITransitionEvent evt)
         {
             view.UnregisterCallback<TransitionEndEvent>(m_OnAnimatedInAction);
             view.UnregisterCallback<TransitionCancelEvent>(m_OnAnimatedInAction);
@@ -315,23 +326,11 @@ namespace Unity.AppUI.UI
         /// <returns> `True` if the popup should be dismissed, `False` otherwise.</returns>
         protected override bool ShouldDismiss(DismissType reason) => outsideClickDismissEnabled || base.ShouldDismiss(reason);
 
-        /// <summary>
-        /// Called when the popup's <see cref="Handler"/> has received a <see cref="Popup.k_PopupDismiss"/> message.
-        /// </summary>
-        /// <param name="reason">The reason why the popup should be dismissed.</param>
+        /// <inheritdoc />
         protected override void HideView(DismissType reason)
         {
-            if (containerView?.panel != null)
-                global::Unity.AppUI.Core.AppUI.UnregisterPopup(containerView.panel, this);
-            contentView?.UnregisterCallback<GeometryChangedEvent>(OnContentGeometryChanged);
+            contentView?.UnregisterCallback<GeometryChangedEvent>(m_OnContentGeometryChangedAction);
             base.HideView(reason);
-        }
-
-        /// <inheritdoc />
-        protected override void InvokeShownEventHandlers()
-        {
-            global::Unity.AppUI.Core.AppUI.RegisterPopup(containerView.panel, this);
-            base.InvokeShownEventHandlers();
         }
 
         /// <summary>
@@ -340,7 +339,8 @@ namespace Unity.AppUI.UI
         /// <param name="reason"> The reason for the dismissal.</param>
         protected override void InvokeDismissedEventHandlers(DismissType reason)
         {
-            m_Anchor?.UnregisterCallback(m_OnAnchorGeometryChangedAction);
+            m_AnchorBoundsPolling?.Pause();
+            m_AnchorBoundsPolling = null;
             base.InvokeDismissedEventHandlers(reason);
         }
 
@@ -350,34 +350,52 @@ namespace Unity.AppUI.UI
         /// <param name="reason"> The reason for the dismissal.</param>
         protected override void AnimateViewOut(DismissType reason)
         {
-            view.visible = false;
-            InvokeDismissedEventHandlers(reason);
+            if (view.visible)
+                view.schedule.Execute(() =>
+                {
+                    view.visible = false;
+                    InvokeDismissedEventHandlers(reason);
+                });
         }
 
         void OnContentGeometryChanged(GeometryChangedEvent evt)
         {
+            if (!ShouldRefreshPosition())
+                return;
+
             if (!Mathf.Approximately(evt.newRect.width, evt.oldRect.width) || !Mathf.Approximately(evt.newRect.height, evt.oldRect.height))
                 RefreshPosition();
         }
 
-        void OnAnchorGeometryChanged(GeometryChangedEvent evt)
+        void PollBounds()
         {
-            if (contentView == null)
+            if (m_Anchor == null)
             {
-                m_Anchor.UnregisterCallback(m_OnAnchorGeometryChangedAction);
+                m_AnchorBoundsPolling?.Pause();
+                m_AnchorBoundsPolling = null;
                 return;
             }
 
-            if (m_AnchorBounds != m_Anchor.worldBound)
+            if (!ShouldRefreshPosition())
+                return;
+
+            var newBounds = m_Anchor.worldBound;
+            if (!RectExtensions.Approximately(newBounds, m_AnchorBounds))
             {
-                m_AnchorBounds = m_Anchor.worldBound;
-                RefreshPosition();
+                m_AnchorBounds = newBounds;
+                if (m_AnchorBounds.IsValid())
+                    RefreshPosition();
             }
-            else if (contentView.worldBound != m_ContentBounds)
-            {
-                m_ContentBounds = contentView.worldBound;
-                RefreshPosition();
-            }
+        }
+
+        /// <summary>
+        /// Method to determine if the position of the popup should be refreshed every time the anchor or the popup's content
+        /// geometry changes.
+        /// </summary>
+        /// <returns> `True` if the position should be refreshed, `False` otherwise.</returns>
+        protected virtual bool ShouldRefreshPosition()
+        {
+            return true;
         }
 
         /// <summary>

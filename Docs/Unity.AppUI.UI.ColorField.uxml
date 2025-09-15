@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ColorField" class="main">
+    <engine:Label text="ColorField" class="title" />
+    <engine:Label
+      text="A field that allows users to select and display colors"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ColorField component provides an interface for users to view, select, and modify colors. It displays the current color value through a color swatch and optionally shows the color's hex value. When clicked, it opens a color picker that allows detailed color selection."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports two different color picker types: the default AppUI color picker and Unity's editor color picker. The color picker provides multiple ways to select colors including a color wheel, RGB sliders, HSV sliders, and hex input."
+            class="parapgraph"
+          />
+          <engine:Label text="Key features:" class="parapgraph list-heading" />
+          <engine:Label
+            text="- Color visualization through a swatch"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Optional text display of color value"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Support for alpha channel"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- HDR color support"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Multiple size variants"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Inline or popover color picker"
+            class="parapgraph list-item"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="colorPickerType" class="prop-name" />
+            <engine:Label text="ColorPickerType" class="prop-type" />
+            <engine:Label text="ColorPickerType.Default" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines which type of color picker to display when the ColorField is clicked. Can be either Default (AppUI's color picker) or UnityEditor (Unity's built-in color picker)."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Note: UnityEditor type is only available in Editor context."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using Unity's editor color picker in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField color-picker-type="UnityEditor" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the ColorField. Available sizes are S (Small), M (Medium), and L (Large)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large ColorField in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="swatchSize" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.S" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the color swatch displayed in the ColorField."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a medium-sized color swatch"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField swatch-size="M" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="swatchOnly" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, only displays the color swatch without any additional UI elements."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a minimal ColorField showing only the swatch"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField swatch-only="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showText" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether to display the color value as text (hex format) next to the swatch."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Hiding the hex text display"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField show-text="false" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="inlinePicker" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the color picker should be displayed inline (true) or in a popover (false)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Displaying the color picker inline with the field"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField inline-picker="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showAlpha" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether the alpha channel can be modified in the color picker."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Disabling alpha channel editing"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField show-alpha="false" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="hdr" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Enables High Dynamic Range (HDR) color support."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enabling HDR color support"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorField hdr="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.clear" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current color value of the ColorField."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the color value in code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorField.value = Color.red;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic ColorField with default settings:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a ColorField with medium size and all default settings"
+              class="scenario-description"
+            />
+            <engine:Label text="&lt;ColorField /&gt;" class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="ColorField with custom configuration:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a large ColorField with medium swatch, alpha support, HDR colors, and inline picker"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorField
+    size="L"
+    swatch-size="M"
+    show-alpha="true"
+    hdr="true"
+    inline-picker="true"
+    show-text="true" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Minimal ColorField showing only the swatch:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a minimal ColorField showing only the color swatch"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorField
+    swatch-only="true"
+    size="S"
+    show-text="false" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Code example showing how to handle color changes:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Demonstrates how to create a ColorField, register for value changes, and set its value programmatically"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var colorField = new ColorField();
+colorField.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Color changed from {evt.previousValue} to {evt.newValue}");
+});
+colorField.value = Color.blue;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

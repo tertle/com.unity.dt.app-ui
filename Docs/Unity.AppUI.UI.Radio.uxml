@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Radio" class="main">
+    <engine:Label text="Radio" class="title" />
+    <engine:Label
+      text="A toggle control that allows users to select one option from a set of mutually exclusive choices."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Radio component is a form control that allows users to select a single option from a group of related choices. Radio buttons are typically used when there are two or more mutually exclusive options, and only one option can be selected at a time."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Radio buttons should be used within a RadioGroup to manage the selection state and ensure that only one option can be selected at a time."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Radio buttons should always be used in groups of two or more options. For single boolean choices, consider using a Checkbox instead."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Radio buttons consist of a circular button and a label. When selected, the button displays a filled circle. The control can be interacted with either by clicking the button or its associated label."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the radio button. Available sizes are XS, S, M, L, and XL."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="emphasized" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, displays the radio button with emphasized styling for higher visual prominence."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="label" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text label associated with the radio button."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid. This can be used to show validation errors."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The selected state of the radio button."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="key" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A unique identifier for the radio button within its RadioGroup."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.AppBar" class="main">
+    <engine:Label text="AppBar" class="title" />
+    <engine:Label
+      text="A customizable top app bar that provides content and actions related to the current screen."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The AppBar is a flexible navigation component that displays information and actions relating to the current screen. It provides consistent navigation and helps users identify where they are in the app."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The AppBar supports both fixed and collapsible (stretching) behaviors, making it suitable for various navigation patterns. It can display a title, navigation buttons (back and drawer), and custom actions."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Key features include:"
+            class="parapgraph features-list"
+          />
+          <engine:Label
+            text="• Dynamic height adjustment with stretching behavior
+• Support for back and drawer navigation buttons
+• Customizable action buttons
+• Compact and regular size modes
+• Flexible space for custom content
+• Configurable elevation levels"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The AppBar is commonly used in conjunction with other navigation components like Drawer and NavigationRail to create a cohesive navigation experience."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="title" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text='""' class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text displayed in both the compact and large title areas of the AppBar."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the AppBar title programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='appBar.title = "My Application";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="stretch" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether the AppBar can be stretched. When enabled, the AppBar will expand and collapse based on scroll behavior."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a stretchable AppBar in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;AppBar stretch="true" expanded-height="150" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="expandedHeight" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="128" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum height of the AppBar when fully expanded. This property only takes effect when stretch is enabled."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Configuring a stretching AppBar with custom height"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="appBar.expandedHeight = 200f;
+appBar.stretch = true;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="compact" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, reduces the AppBar's height and its contained elements to a more compact size."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Switching the AppBar to compact mode"
+                  class="scenario-description"
+                />
+                <engine:Label text="appBar.compact = true;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="elevation" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The elevation level of the AppBar, affecting its shadow depth. Higher values create more prominent shadows."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the AppBar's elevation"
+                  class="scenario-description"
+                />
+                <engine:Label text="appBar.elevation = 2;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showBackButton" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visibility of the back navigation button."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Showing the back button and handling its click event"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='appBar.showBackButton = true;
+appBar.backButtonTriggered += () =&gt; Debug.Log("Back button pressed");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showDrawerButton" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visibility of the drawer menu button."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Showing the drawer button and connecting it to a drawer"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="appBar.showDrawerButton = true;
+appBar.drawerButtonTriggered += () =&gt; drawer.Toggle();"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic AppBar with title and actions:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a basic AppBar with a title and action buttons"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;AppBar title="My App"&gt;
+    &lt;ActionButton icon="settings" /&gt;
+    &lt;ActionButton icon="account" /&gt;
+&lt;/AppBar&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Collapsible AppBar with navigation:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Setting up a collapsible AppBar with navigation and actions"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;AppBar
+    stretch="true"
+    expanded-height="150"
+    show-back-button="true"
+    elevation="1"
+    title="Details Page"&gt;
+    &lt;ActionButton icon="share" /&gt;
+    &lt;ActionButton icon="more" /&gt;
+&lt;/AppBar&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Compact AppBar with drawer:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a compact AppBar with drawer button and search action programmatically"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var appBar = new AppBar();
+appBar.compact = true;
+appBar.showDrawerButton = true;
+appBar.title = "Dashboard";
+
+// Add a search action
+var searchButton = new ActionButton { icon = "search" };
+appBar.AddAction(searchButton);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

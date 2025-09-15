@@ -17,26 +17,22 @@ namespace Unity.AppUI.Tests.Navigation
         {
             public void SetupBottomNavBar(BottomNavBar bottomNavBar, NavDestination destination, NavController navController)
             {
-                if (destination.showBottomNavBar)
-                {
 
-                }
             }
 
             public void SetupAppBar(AppBar appBar, NavDestination destination, NavController navController)
             {
-                if (destination.showAppBar)
-                {
 
-                }
             }
 
             public void SetupDrawer(Drawer drawer, NavDestination destination, NavController navController)
             {
-                if (destination.showDrawer)
-                {
 
-                }
+            }
+
+            public void SetupNavigationRail(NavigationRail navigationRail, NavDestination destination, NavController navController)
+            {
+
             }
         }
 

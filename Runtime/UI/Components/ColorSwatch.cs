@@ -27,6 +27,8 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId roundProperty = nameof(round);
 
+        internal static readonly BindingId orientationProperty = nameof(orientation);
+
 #endif
 
         const int k_MaxGradientSteps = 16;
@@ -46,6 +48,12 @@ namespace Unity.AppUI.UI
         /// </summary>
         [EnumName("GetSizeUssClassName", typeof(Size))]
         public const string sizeUssClassName = ussClassName + "--size-";
+
+        /// <summary>
+        /// The ColorSwatch variant styling class.
+        /// </summary>
+        [EnumName("GetOrientationUssClassName", typeof(Direction))]
+        public const string variantUssClassName = ussClassName + "--";
 
         /// <summary>
         /// The ColorSwatch round styling class.
@@ -86,6 +94,8 @@ namespace Unity.AppUI.UI
 
         static readonly int k_IsFixed = Shader.PropertyToID("_IsFixed");
 
+        static readonly int k_Orientation = Shader.PropertyToID("_Orientation");
+
         static readonly int k_ColorCount = Shader.PropertyToID("_ColorCount");
 
         static readonly int k_AlphaCount = Shader.PropertyToID("_AlphaCount");
@@ -109,6 +119,8 @@ namespace Unity.AppUI.UI
         };
 
         Size m_Size;
+
+        Direction m_Orientation;
 
         /// <summary>
         /// The color entry list.
@@ -182,16 +194,20 @@ namespace Unity.AppUI.UI
             get => m_Size;
             set
             {
-                var changed = m_Size != value;
-                RemoveFromClassList(GetSizeUssClassName(m_Size));
-                m_Size = value;
-                AddToClassList(GetSizeUssClassName(m_Size));
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in sizeProperty);
-#endif
+                if (m_Size == value)
+                    return;
+                SetSize(value);
             }
+        }
+
+        void SetSize(Size newSize)
+        {
+            RemoveFromClassList(GetSizeUssClassName(m_Size));
+            m_Size = newSize;
+            AddToClassList(GetSizeUssClassName(m_Size));
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in sizeProperty);
+#endif
         }
 
         /// <summary>
@@ -208,14 +224,49 @@ namespace Unity.AppUI.UI
             get => ClassListContains(roundUssClassName);
             set
             {
-                var changed = ClassListContains(roundUssClassName) != value;
-                EnableInClassList(roundUssClassName, value);
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in roundProperty);
-#endif
+                if (round == value)
+                    return;
+                SetRound(value);
             }
+        }
+
+        void SetRound(bool newRound)
+        {
+            EnableInClassList(roundUssClassName, newRound);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in roundProperty);
+#endif
+        }
+
+        /// <summary>
+        /// The orientation of the <see cref="ColorSwatch"/>.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public Direction orientation
+        {
+            get => m_Orientation;
+            set
+            {
+                 if (m_Orientation == value)
+                    return;
+                 SetOrientation(value);
+            }
+        }
+
+        void SetOrientation(Direction newOrientation)
+        {
+            RemoveFromClassList(GetOrientationUssClassName(m_Orientation));
+            m_Orientation = newOrientation;
+            AddToClassList(GetOrientationUssClassName(m_Orientation));
+            Refresh();
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in orientationProperty);
+#endif
         }
 
         /// <summary>
@@ -239,8 +290,9 @@ namespace Unity.AppUI.UI
 
             SetValueWithoutNotify(null);
 
-            size = Size.M;
-            round = false;
+            SetSize(Size.M);
+            SetRound(false);
+            SetOrientation(Direction.Horizontal);
         }
 
         /// <summary>
@@ -268,10 +320,7 @@ namespace Unity.AppUI.UI
 
         void OnDetachedFromPanel(DetachFromPanelEvent evt)
         {
-            if (m_RT)
-                RenderTexture.ReleaseTemporary(m_RT);
-
-            m_RT = null;
+            ReleaseTextures();
         }
 
         void OnGeometryChanged(GeometryChangedEvent evt)
@@ -315,31 +364,34 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/ColorSwatch");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             var rect = paddingRect;
 
             if (!rect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             var dpi = Mathf.Max(Platform.scaleFactor, 1f);
             var texSize = rect.size * dpi;
 
             if (!texSize.IsValidForTextureSize())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (Mathf.Abs(m_RT.width - texSize.x) > 1 || Mathf.Abs(m_RT.height - texSize.y) > 1))
-            {
-                RenderTexture.ReleaseTemporary(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
                 m_RT = RenderTexture.GetTemporary((int)texSize.x, (int)texSize.y, 24);
-                m_RT.Create();
-            }
 
             var colorCount = Mathf.Min(m_Value?.colorKeys?.Length ?? k_DefaultColorKeys.Length, k_MaxGradientSteps);
             var alphaCount = Mathf.Min(m_Value?.alphaKeys?.Length ?? k_DefaultAlphaKeys.Length, k_MaxGradientSteps);
@@ -364,6 +416,7 @@ namespace Unity.AppUI.UI
                     0);
             }
 
+            s_Material.SetInt(k_Orientation, (int)m_Orientation);
             s_Material.SetInt(k_ColorCount, colorCount);
             s_Material.SetInt(k_AlphaCount, alphaCount);
             s_Material.SetColorArray(k_Colors, k_ColorsVector);
@@ -383,6 +436,13 @@ namespace Unity.AppUI.UI
 
             m_Image.image = null;
             m_Image.image = m_RT;
+        }
+
+        void ReleaseTextures()
+        {
+            if (m_RT)
+                RenderTexture.ReleaseTemporary(m_RT);
+            m_RT = null;
         }
 
 #if ENABLE_UXML_TRAITS
@@ -415,6 +475,12 @@ namespace Unity.AppUI.UI
                 defaultValue = false,
             };
 
+            readonly UxmlEnumAttributeDescription<Direction> m_Orientation = new UxmlEnumAttributeDescription<Direction>
+            {
+                name = "orientation",
+                defaultValue = Direction.Horizontal,
+            };
+
             /// <summary>
             /// Initializes the VisualElement from the UXML attributes.
             /// </summary>
@@ -427,6 +493,7 @@ namespace Unity.AppUI.UI
                 var element = (ColorSwatch)ve;
                 element.size = m_Size.GetValueFromBag(bag, cc);
                 element.round = m_Round.GetValueFromBag(bag, cc);
+                element.orientation = m_Orientation.GetValueFromBag(bag, cc);
 
                 var valueFromBag = m_Value.GetValueFromBag(bag, cc);
                 if (!string.IsNullOrEmpty(valueFromBag) && GradientExtensions.TryParse(valueFromBag, out var gradient))

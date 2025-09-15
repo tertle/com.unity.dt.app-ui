@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Vector2Field" class="main">
+    <engine:Label text="Vector2Field" class="title" />
+    <engine:Label
+      text="A numeric input field for editing 2D vector values with X and Y components"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="Vector2Field is a specialized input component that allows users to edit 2D vector values by providing separate numeric fields for X and Y coordinates. It's particularly useful for position, scale, or any other 2D vector properties in Unity applications."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component consists of two numeric input fields arranged horizontally - one for the X coordinate and one for the Y coordinate. Each field can be independently edited and supports numerical input with floating-point precision."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="TIP: Use Vector2Field when you need to edit 2D coordinates, sizes, or any other values that naturally come in pairs of X/Y components."
+            class="parapgraph tip"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Vector2" class="prop-type" />
+            <engine:Label text="Vector2.zero" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the Vector2Field. Contains both X and Y components as a Vector2 structure."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the X component to 100 and Y component to 50"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="vector2Field.value = new Vector2(100f, 50f);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the Vector2Field component. Available options are defined in the Size enum."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the field to large size"
+                  class="scenario-description"
+                />
+                <engine:Label text="vector2Field.size = Size.L;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the format string used to display the numeric values. Uses standard .NET numeric format strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Displaying numbers with 2 decimal places"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='vector2Field.formatString = "F2";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatFunction" class="prop-name" />
+            <engine:Label
+              text="FormatFunction&lt;float&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A custom function to format how the numeric values are displayed. Takes precedence over formatString if both are set."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Custom formatting with units"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='vector2Field.formatFunction = (value) =&gt; $"{value:0.0}u";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label text="Func&lt;Vector2, bool&gt;" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function to validate the input value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Validating that the vector magnitude doesn't exceed 100"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="vector2Field.validateValue = (v) =&gt; v.magnitude &lt;= 100f;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid according to the validation function."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Checking if the current value is invalid"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='if (vector2Field.invalid) Debug.LogWarning("Invalid vector value");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic usage in UXML:" class="parapgraph" />
+            <engine:Label
+              text="Creating a medium-sized Vector2Field with default value in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Vector2Field name="position-field" size="M" value="0,0" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Code usage with validation:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a Vector2Field with formatting, validation, and change handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var vector2Field = new Vector2Field();
+vector2Field.formatString = "F1";
+vector2Field.validateValue = (v) =&gt; v.magnitude &lt;= 100f;
+vector2Field.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"New value: {evt.newValue}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Using with data binding:" class="parapgraph" />
+            <engine:Label
+              text="Binding the Vector2Field to a Transform's position"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="vector2Field.value = transform.position;
+vector2Field.RegisterValueChangedCallback(evt =&gt; {
+    transform.position = evt.newValue;
+});"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

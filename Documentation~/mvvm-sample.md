@@ -97,7 +97,8 @@ The **MainViewModel** class is a [ObservableObject](xref:Unity.AppUI.MVVM.Observ
 constructed by the Dependency Injection system. It is defined as a **ViewModel** in the MVVM pattern.
 
 ```cs
-public class MainViewModel : ObservableObject
+[ObservableObject]
+public partial class MainViewModel
 {
     public MainViewModel()
     {
@@ -107,3 +108,109 @@ public class MainViewModel : ObservableObject
     // Define properties and commands
 }
 ```
+
+## Accessing the Service Provider
+
+To access other services registered in the dependency injection container, you can use the `services` property available in your [App](xref:Unity.AppUI.MVVM.App) class or inject an `IServiceProvider` directly into your ViewModels and Views.
+
+### From the App Class
+
+```cs
+public class MyApp : App
+{
+    public override void InitializeComponent()
+    {
+        base.InitializeComponent();
+
+        // Access services directly from the app
+        var myService = services.GetRequiredService<IMyService>();
+        var anotherPage = services.GetRequiredService<AnotherPage>();
+
+        rootVisualElement.Add(services.GetRequiredService<MainPage>());
+    }
+}
+```
+
+### From ViewModels
+
+```cs
+[ObservableObject]
+public partial class MainViewModel
+{
+    readonly IServiceProvider m_ServiceProvider;
+
+    public MainViewModel(IServiceProvider serviceProvider)
+    {
+        m_ServiceProvider = serviceProvider;
+    }
+
+    [RelayCommand]
+    void NavigateToAnotherPage()
+    {
+        // Get another page registered as Transient
+        var anotherPage = m_ServiceProvider.GetRequiredService<AnotherPage>();
+
+        // Switch to the new page (replace current content)
+        var app = MyApp.current;
+        app.rootVisualElement.Clear();
+        app.rootVisualElement.Add(anotherPage);
+    }
+}
+```
+
+### From Views
+
+```cs
+public class MainPage : VisualElement
+{
+    readonly IServiceProvider m_ServiceProvider;
+
+    public MainPage(MainViewModel viewModel, IServiceProvider serviceProvider)
+    {
+        m_ServiceProvider = serviceProvider;
+        // ... rest of constructor
+    }
+
+    void SwitchToAnotherPage()
+    {
+        // Access services when needed
+        var anotherPage = m_ServiceProvider.GetRequiredService<AnotherPage>();
+
+        // Replace current page
+        var app = MyApp.current;
+        app.rootVisualElement.Clear();
+        app.rootVisualElement.Add(anotherPage);
+    }
+}
+```
+
+## Registering Transient Pages
+
+To register pages as Transient services (created each time they're requested), configure them in your `AppBuilder`:
+
+```cs
+public class MyAppBuilder : UIToolkitAppBuilder<MyApp>
+{
+    protected override void OnConfiguringApp(AppBuilder builder)
+    {
+        base.OnConfiguringApp(builder);
+
+        // Register pages as Transient services
+        builder.services.AddTransient<MainPage>();
+        builder.services.AddTransient<AnotherPage>();
+        builder.services.AddTransient<SettingsPage>();
+
+        // Register ViewModels
+        builder.services.AddTransient<MainViewModel>();
+        builder.services.AddTransient<AnotherViewModel>();
+
+        // Register other services
+        builder.services.AddSingleton<IMyService, MyService>();
+    }
+}
+```
+
+> [!TIP]
+> For more advanced navigation patterns between pages, consider using the [Navigation system](xref:navigation) which provides structured navigation with back stack management, animations, and parameter passing.
+
+For detailed information about dependency injection, service lifetimes, and advanced patterns, see the [Dependency Injection documentation](xref:mvvm-di).

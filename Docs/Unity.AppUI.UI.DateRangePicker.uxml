@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.DateRangePicker" class="main">
+    <engine:Label text="DateRangePicker" class="title" />
+    <engine:Label
+      text="A customizable component for selecting a range of dates"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The DateRangePicker component allows users to select a range of dates through an intuitive calendar interface. It's particularly useful when users need to specify date ranges for filtering, scheduling, or booking scenarios."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component provides a calendar view with the following features:"
+            class="parapgraph feature-list"
+          />
+          <engine:Label
+            text="• Visual selection of start and end dates
+• Navigation between months and years
+• Support for different display modes (days, months, years)
+• Localization support for month names and weekdays
+• Customizable first day of the week"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The date range selection is done in two steps: first click selects the start date, second click selects the end date. The dates in between are automatically highlighted to show the selected range."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="DateRange" class="prop-type" />
+            <engine:Label
+              text="new DateRange(DateTime.Now, DateTime.Now.AddDays(1))"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Gets or sets the currently selected date range. The value consists of a start date and an end date."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the date range in code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangePicker.value = new DateRange(
+    new Date(2024, 1, 1), // Start date
+    new Date(2024, 1, 15) // End date
+);"
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the date range in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ui:DateRangePicker value="2024-01-01,2024-01-15" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="displayMode" class="prop-name" />
+            <engine:Label text="DisplayMode" class="prop-type" />
+            <engine:Label text="DisplayMode.Days" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the current view of the date picker. Can be one of: Years, Months, or Days."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Switching to year selection view"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangePicker.displayMode = DatePicker.DisplayMode.Years;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="firstDayOfWeek" class="prop-name" />
+            <engine:Label text="DayOfWeek" class="prop-type" />
+            <engine:Label text="DayOfWeek.Sunday" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines which day is considered the first day of the week in the calendar view."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting Monday as the first day of the week"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangePicker.firstDayOfWeek = DayOfWeek.Monday;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage example showing how to create a DateRangePicker and handle value changes:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='var dateRangePicker = new DateRangePicker();
+
+// Register to value change events
+dateRangePicker.RegisterValueChangedCallback(evt =&gt; {
+    var startDate = evt.newValue.start;
+    var endDate = evt.newValue.end;
+    Debug.Log($"Selected date range: {startDate} to {endDate}");
+});
+
+// Add to the visual tree
+rootElement.Add(dateRangePicker);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="UXML definition with custom configuration:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='&lt;ui:UXML xmlns:ui="UnityEngine.UIElements"&gt;
+    &lt;ui:DateRangePicker
+        name="booking-dates"
+        value="2024-01-01,2024-01-15"
+        first-day-of-week="Monday"
+        display-mode="Days"
+    /&gt;
+&lt;/ui:UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Integration with a booking system example:"
+              class="parapgraph example-title"
+            />
+            <engine:Label
+              text='public class BookingWidget : VisualElement
+{
+    DateRangePicker m_DateRangePicker;
+    Button m_ConfirmButton;
+
+    public BookingWidget()
+    {
+        // Create and configure the date range picker
+        m_DateRangePicker = new DateRangePicker();
+        m_DateRangePicker.value = new DateRange(
+            DateTime.Now,
+            DateTime.Now.AddDays(1)
+        );
+
+        // Create confirm button
+        m_ConfirmButton = new Button(OnConfirmBooking);
+        m_ConfirmButton.text = "Confirm Booking";
+
+        // Add to the visual hierarchy
+        Add(m_DateRangePicker);
+        Add(m_ConfirmButton);
+    }
+
+    void OnConfirmBooking()
+    {
+        var booking = new Booking
+        {
+            CheckIn = m_DateRangePicker.value.start,
+            CheckOut = m_DateRangePicker.value.end
+        };
+        BookingSystem.Reserve(booking);
+    }
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

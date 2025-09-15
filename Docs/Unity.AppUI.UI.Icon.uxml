@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Icon" class="main">
+    <engine:Label text="Icon" class="title" />
+    <engine:Label
+      text="A versatile icon component that displays graphical symbols with customizable styles and sizes"
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Icon component is a fundamental UI element that represents graphical symbols or pictograms in your application. It extends the Image component and provides additional functionality for displaying icons with various styles, sizes, and variants."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Icons are essential for creating intuitive user interfaces, helping users quickly identify actions, states, or categories within your application. The Icon component supports different variants (Regular, Bold, DuoTone, Light, Fill, and Thin) and sizes (XXS to L) to accommodate various design needs."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="By default, Icons are non-focusable and ignore picking mode, making them ideal for decorative purposes while maintaining optimal performance."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="iconName" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="info" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the name of the icon to display. This property determines which icon from the icon set will be rendered."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="primary" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines if the icon should use the primary variant styling. When enabled, the icon will use the primary color scheme defined in your application's theme."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="IconSize" class="prop-type" />
+            <engine:Label text="IconSize.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the icon. Available sizes are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="• XXS - Extra extra small
+• XS - Extra small
+• S - Small
+• M - Medium
+• L - Large"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="IconVariant" class="prop-type" />
+            <engine:Label text="IconVariant.Regular" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the visual style variant of the icon. Available variants are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="• Regular - Standard weight and style
+• Bold - Heavier weight
+• DuoTone - Two-tone effect
+• Light - Lighter weight
+• Fill - Solid fill style
+• Thin - Extra light weight"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

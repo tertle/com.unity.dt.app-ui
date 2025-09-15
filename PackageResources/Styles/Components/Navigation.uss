@@ -10,32 +10,92 @@
 .appui-navhost__container > .appui-navhost__item {
     position: absolute;
     display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
     background-color: var(--appui-backgrounds-100);
 }
 
+.appui-navhost__item > .appui-navhost__item__container {
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
 .appui-navigation-screen {
     position: relative;
     flex-grow: 1;
+    flex-direction: row;
 }
 
-.appui-navigation-screen--with-appbar {
-    margin-top: var(--appui-sizing-700);
+.appui-navigation-screen__container {
+    flex-grow: 1;
 }
 
-.app-navigation-screen--with-appbar--compact {
-    margin-top: var(--appui-sizing-500);
+.appui-navigation-screen__left-container {
+    flex-shrink: 0;
 }
 
-.appui-navhost__item > .appui-appbar {
+.appui-navigation-screen__right-container {
+    flex-grow: 1;
+}
+
+.appui-navigation-screen__navigation-rail.appui-navigation-rail {
+    display: none;
+}
+
+.appui-navigation-screen--rail--start > .appui-navigation-screen__left-container > .appui-navigation-screen__navigation-rail.appui-navigation-rail,
+.appui-navigation-screen--rail--end > .appui-navigation-screen__left-container > .appui-navigation-screen__navigation-rail.appui-navigation-rail {
+    display: flex;
+}
+
+.appui--ltr .appui-navhost__item--with-rail--start,
+.appui--rtl .appui-navhost__item--with-rail--end {
+    flex-direction: row;
+}
+
+.appui--ltr .appui-navhost__item--with-rail--end,
+.appui--rtl .appui-navhost__item--with-rail--start {
+    flex-direction: row-reverse;
+}
+
+.appui-navigation-screen__app-bar.appui-appbar {
+    position: absolute;
+    width: 100%;
+    display: none;
+}
+
+.appui-navigation-screen--with-appbar > .appui-navigation-screen__right-container > .appui-navigation-screen__app-bar.appui-appbar {
+    display: flex;
+}
+
+/*.appui-navigation-screen--with-appbar > .appui-navigation-screen__right-container {*/
+/*    margin-top: var(--appui-appbar-height-default);*/
+/*}*/
+
+/*.app-navigation-screen--with-appbar--compact {*/
+/*    margin-top: var(--appui-appbar-height-compact);*/
+/*}*/
+
+.appui-navhost__item__container > .appui-appbar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
 }
 
-.appui-navhost__item > .appui-bottom-navbar {
-    position: relative;
+.appui-navigation-screen__bottom-nav-bar {
+    display: none;
+}
+
+.appui-navigation-screen--with-bottom-nav-bar > .appui-navigation-screen__right-container > .appui-navigation-screen__bottom-nav-bar {
+    display: flex;
+}
+
+.appui-navigation-screen__drawer {
+    display: none;
+}
+
+.appui-navigation-screen--with-drawer--left > .appui-navigation-screen__right-container > .appui-navigation-screen__drawer,
+.appui-navigation-screen--with-drawer--right > .appui-navigation-screen__right-container > .appui-navigation-screen__drawer {
+    display: flex;
 }

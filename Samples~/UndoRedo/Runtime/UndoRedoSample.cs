@@ -14,15 +14,11 @@ namespace Unity.AppUI.Samples.UndoRedo
     {
         const string k_AppStateSlice = "app";
 
-        const string k_SetColorAction = "app/SetColor";
+        static readonly ActionCreator<Color> setColor = "app/SetColor";
 
-        const string k_SetTextAction = "app/SetText";
+        static readonly ActionCreator<string> setText = "app/SetText";
 
-        static readonly ActionCreator<Color> setColorAction = Store.CreateAction<Color>(k_SetColorAction);
-
-        static readonly ActionCreator<string> setTextAction = Store.CreateAction<string>(k_SetTextAction);
-
-        Unsubscriber m_Unsubscriber;
+        IDisposableSubscription m_Subscriber;
 
         void Start()
         {
@@ -39,29 +35,32 @@ namespace Unity.AppUI.Samples.UndoRedo
 
             colorInput.SetValueWithoutNotify(Color.white);
 
-            var store = new Store();
             var undoStack = new UndoStack();
             var initialState = new AppState
             {
                 color = Color.white,
                 text = "Result"
             };
-            store.CreateSlice(k_AppStateSlice, initialState, builder =>
+            var appSlice = StoreFactory.CreateSlice(k_AppStateSlice, initialState, builder =>
             {
-                builder.Add<Color>(k_SetColorAction, (state, action) =>
+                builder.AddCase(setColor, (state, action) =>
                 {
-                    state = state with { color = action.payload };
+                    state = state with {color = action.payload};
                     return state;
                 });
 
-                builder.Add<string>(k_SetTextAction, (state, action) =>
+                builder.AddCase(setText, (state, action) =>
                 {
-                    state = state with { text = action.payload };
+                    state = state with {text = action.payload};
                     return state;
                 });
             });
+            var store = StoreFactory.CreateStore(new[]
+            {
+                appSlice
+            });
 
-            m_Unsubscriber = store.Subscribe<AppState>(k_AppStateSlice, state =>
+            m_Subscriber = store.Subscribe(s => s.Get<AppState>(k_AppStateSlice), state =>
             {
                 result.style.color = state.color;
                 result.text = state.text;
@@ -77,7 +76,7 @@ namespace Unity.AppUI.Samples.UndoRedo
 
             colorInput.RegisterValueChangingCallback(evt =>
             {
-                store.Dispatch(setColorAction.Invoke(evt.newValue));
+                store.Dispatch(setColor.Invoke(evt.newValue));
             });
 
             colorInput.RegisterValueChangedCallback(evt =>
@@ -88,7 +87,7 @@ namespace Unity.AppUI.Samples.UndoRedo
 
             textInput.RegisterValueChangingCallback(evt =>
             {
-                store.Dispatch(setTextAction.Invoke(evt.newValue));
+                store.Dispatch(setText.Invoke(evt.newValue));
             });
 
             textInput.RegisterValueChangedCallback(evt =>
@@ -151,8 +150,8 @@ namespace Unity.AppUI.Samples.UndoRedo
 
         void OnDestroy()
         {
-            m_Unsubscriber?.Invoke();
-            m_Unsubscriber = null;
+            m_Subscriber?.Dispose();
+            m_Subscriber = null;
         }
 
         public record AppState
@@ -168,9 +167,9 @@ namespace Unity.AppUI.Samples.UndoRedo
 
             public Color newColor { get; private set; }
 
-            public Store store { get; private set; }
+            public IStore<PartitionedState> store { get; private set; }
 
-            public SetColorCommand(string name, Color previousColor, Color newColor, Store store)
+            public SetColorCommand(string name, Color previousColor, Color newColor, IStore<PartitionedState> store)
                 : base(name)
             {
                 this.previousColor = previousColor;
@@ -178,18 +177,18 @@ namespace Unity.AppUI.Samples.UndoRedo
                 this.store = store;
             }
 
-            public override string id => k_SetColorAction;
+            public override string id => setColor.type;
 
             public override ulong memorySize => 16;
 
             public override void Undo()
             {
-                store.Dispatch(setColorAction.Invoke(previousColor));
+                store.Dispatch(setColor.Invoke(previousColor));
             }
 
             public override void Redo()
             {
-                store.Dispatch(setColorAction.Invoke(newColor));
+                store.Dispatch(setColor.Invoke(newColor));
             }
 
             public override bool MergeWith(UndoCommand command)
@@ -215,9 +214,9 @@ namespace Unity.AppUI.Samples.UndoRedo
 
             public string newText { get; private set; }
 
-            public Store store { get; private set; }
+            public IStore<PartitionedState> store { get; private set; }
 
-            public SetTextCommand(string name, string previousText, string newText, Store store)
+            public SetTextCommand(string name, string previousText, string newText, IStore<PartitionedState> store)
                 : base(name)
             {
                 this.previousText = previousText;
@@ -225,18 +224,18 @@ namespace Unity.AppUI.Samples.UndoRedo
                 this.store = store;
             }
 
-            public override string id => k_SetTextAction;
+            public override string id => setText.type;
 
             public override ulong memorySize => 16;
 
             public override void Undo()
             {
-                store.Dispatch(setTextAction.Invoke(previousText));
+                store.Dispatch(setText.Invoke(previousText));
             }
 
             public override void Redo()
             {
-                store.Dispatch(setTextAction.Invoke(newText));
+                store.Dispatch(setText.Invoke(newText));
             }
 
             public override bool MergeWith(UndoCommand command)

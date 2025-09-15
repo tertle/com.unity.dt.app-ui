@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Heading" class="main">
+    <engine:Label text="Heading" class="title" />
+    <engine:Label
+      text="Display headings with various size options for content hierarchy"
+      class="subtitle"
+    />
+    <engine:Label text="typography" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Heading component is used to create hierarchical text elements in your UI. It supports different size variations to establish visual hierarchy and improve content organization. Headings are essential for creating scannable content and maintaining a clear document structure."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Headings come with seven different size options, from XXS to XXL, allowing for flexible typography hierarchy. By default, headings use the primary text color and medium (M) size."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: Headings should be used in a hierarchical order to maintain proper document structure and accessibility. Don't skip heading levels, and use them to create meaningful content sections."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="text" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="string.Empty" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content to be displayed in the heading. This property supports both plain text and localized text through the Unity Localization system."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting heading text in code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var heading = new Heading("Welcome to My App");'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting heading text in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Heading text="Welcome to My App" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="primary" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines if the heading should use the primary text color variant. When true, the heading uses the primary text color; when false, it uses the secondary text color."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a secondary heading"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var heading = new Heading("Secondary Title") { primary = false };'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting primary variant in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Heading text="Secondary Title" primary="false" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="HeadingSize" class="prop-type" />
+            <engine:Label text="HeadingSize.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the size of the heading. Available sizes are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- XXS: Double Extra-small
+- XS: Extra-small
+- S: Small
+- M: Medium (default)
+- L: Large
+- XL: Extra-large
+- XXL: Double Extra-large"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating headings with different sizes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var mainTitle = new Heading("Main Title") { size = HeadingSize.XXL };
+var subTitle = new Heading("Subtitle") { size = HeadingSize.L };
+var sectionTitle = new Heading("Section Title") { size = HeadingSize.M };'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting different heading sizes in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Heading text="Main Title" size="XXL" /&gt;
+&lt;Heading text="Subtitle" size="L" /&gt;
+&lt;Heading text="Section Title" size="M" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here's an example of creating a typical page hierarchy using different heading sizes:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a page hierarchy with headings"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML&gt;
+  &lt;Heading text="Welcome to Our App" size="XXL" /&gt;
+  &lt;Heading text="Getting Started" size="XL" /&gt;
+  &lt;Heading text="Quick Setup" size="L" primary="false" /&gt;
+  &lt;Heading text="Prerequisites" size="M" /&gt;
+  &lt;Heading text="Additional Notes" size="S" primary="false" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating headings programmatically:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating and customizing headings in C#"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var container = new VisualElement();
+
+// Create main title
+var mainTitle = new Heading("Documentation") {
+    size = HeadingSize.XXL
+};
+
+// Create section title
+var sectionTitle = new Heading("API Reference") {
+    size = HeadingSize.L,
+    primary = false
+};
+
+container.Add(mainTitle);
+container.Add(sectionTitle);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

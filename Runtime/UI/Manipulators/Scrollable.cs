@@ -100,6 +100,20 @@ namespace Unity.AppUI.UI
             m_IsDown = true;
             m_PointerId = PointerId.invalidPointerId;
             hasMoved = false;
+
+            if (Mathf.Approximately(threshold, 0))
+            {
+                m_PointerId = evt.pointerId;
+                m_LastPos = evt.position;
+                target.CapturePointer(evt.pointerId);
+#if !UNITY_2023_1_OR_NEWER
+                if (evt.pointerId == PointerId.mousePointerId)
+                    target.CaptureMouse();
+#endif
+                var pseudoStates = target.GetPseudoStates();
+                target.SetPseudoStates(pseudoStates | PseudoStates.Active);
+            }
+
             m_DownHandler?.Invoke(this);
         }
 

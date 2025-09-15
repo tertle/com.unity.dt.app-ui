@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Checkbox" class="main">
+    <engine:Label text="Checkbox" class="title" />
+    <engine:Label
+      text="A control that lets users make a binary choice between two mutually exclusive options"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Checkbox component is a fundamental user interface control that allows users to select or deselect an option. It's particularly useful in forms, settings panels, and anywhere users need to make binary choices."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Checkboxes can exist in three states: checked, unchecked, and intermediate. The intermediate state is useful when representing a collection of sub-items where only some are selected."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The intermediate state cannot be directly toggled by user interaction - it can only be set programmatically. Users can only toggle between checked and unchecked states."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Users need to select one or more options from a list
+- Users need to toggle a single option on or off
+- Multiple independent choices need to be presented"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="CheckboxState" class="prop-type" />
+            <engine:Label text="CheckboxState.Unchecked" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current state of the checkbox. Can be Unchecked, Intermediate, or Checked."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="emphasized" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, displays the checkbox in an emphasized visual style to draw more attention."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="label" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text label associated with the checkbox. The label helps users understand the purpose of the checkbox."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the checkbox's current state is invalid. This is useful for form validation."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label
+              text="Func&lt;CheckboxState, bool&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function that validates the checkbox's value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="clickable" class="prop-name" />
+            <engine:Label text="Pressable" class="prop-type" />
+            <engine:Label text="new Pressable(OnClicked)" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The Pressable manipulator that handles click/touch interactions with the checkbox."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

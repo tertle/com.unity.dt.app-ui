@@ -801,7 +801,7 @@
                     <appui:Heading text="COLOR SLIDER" class="example-title" />
                     <appui:Text text="Default" class="example-subtitle" />
                     <ui:VisualElement class="example-section">
-                        <appui:ColorSlider value="0.5" from="#FF000000" to="#FF0000FF"/>
+                        <appui:ColorSlider value="0.5" from="#FF000000" to="#FF0000FF" orientation="Vertical" style="height:200px;"/>
                     </ui:VisualElement>
                     <appui:Text text="Sizing" class="example-subtitle" />
                     <ui:VisualElement class="example-section">
@@ -1273,6 +1273,13 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
 
+                    <!-- EnumField -->
+                    <appui:Heading text="ENUMFIELD" class="example-title" />
+                    <appui:Text text="enum-type='Unity.AppUI.UI.Direction, Unity.AppUI'" class="example-subtitle" />
+                    <ui:VisualElement class="example-section">
+                        <appui:EnumField enum-type="Unity.AppUI.UI.Direction, Unity.AppUI" enum-value="Horizontal" />
+                    </ui:VisualElement>
+
                     <!-- Numerical Field -->
                     <appui:Heading text="NUMERICALFIELD" class="example-title" />
                     <appui:Text text="Sizing" class="example-subtitle" />
@@ -1566,6 +1573,13 @@
                         </appui:ContextProvider>
                     </ui:VisualElement>
 
+                    <!-- MaskField -->
+                    <appui:Heading text="MASKFIELD" class="example-title" />
+                    <appui:Text text="Default" class="example-subtitle" />
+                    <ui:VisualElement class="example-section">
+                        <appui:MaskField name="mask-field" />
+                    </ui:VisualElement>
+
                     <!-- Menu -->
                     <appui:Heading text="MENU" class="example-title" />
                     <ui:VisualElement class="example-section">
@@ -1819,25 +1833,82 @@
                     <appui:Heading text="RANGE SLIDER" class="example-title" />
                     <appui:Text text="Sizing" class="example-subtitle" />
                     <ui:VisualElement class="example-section">
-                        <appui:Text text="S" class="example-subtitle" />
-                        <appui:RangeSliderFloat size="S" filled="true" label="Small RangeSlider" />
-                        <appui:Text text="M" class="example-subtitle" />
-                        <appui:RangeSliderFloat name="rsfm" size="M" filled="true" label="Medium RangeSlider" />
-                        <appui:Text text="L" class="example-subtitle" />
-                        <appui:RangeSliderFloat size="L" filled="true" label="Large RangeSlider" />
+                        <appui:Text text="Horizontal" class="example-subtitle" />
+                        <appui:RangeSliderFloat
+                                filled="true"
+                                low-value="-100"
+                                high-value="100"
+                                step="50"
+                                track="On"
+                                show-marks="true"
+                                swap-thumbs="true"
+                                min-value="26"
+                                max-value="88" />
+                        <appui:Text text="Vertical" class="example-subtitle" />
+                        <ui:VisualElement class="example-row center">
+                            <ui:VisualElement class="example-item" style="width: 25%">
+                                <appui:RangeSliderFloat
+                                    name="rsfm"
+                                    style="height: 200px;"
+                                    filled="true"
+                                    low-value="-100"
+                                    high-value="100"
+                                    step="50"
+                                    display-value-label="Auto"
+                                    min-value="26"
+                                    max-value="88"
+                                    track="Inverted"
+                                    format-string="##.00"
+                                    orientation="Vertical"
+                                    show-marks="true"
+                                    show-marks-label="true" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="example-item" style="width: 25%">
+                                <appui:RangeSliderFloat
+                                    style="height: 200px;"
+                                    filled="true"
+                                    low-value="-100"
+                                    high-value="100"
+                                    step="50"
+                                    min-value="26"
+                                    max-value="88"
+                                    track="On"
+                                    format-string="##.00"
+                                    orientation="Vertical"
+                                    show-marks="true"
+                                    show-marks-label="true" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="example-item" style="width: 25%">
+                                <appui:SliderFloat
+                                    style="height: 200px;"
+                                    filled="true"
+                                    low-value="-100"
+                                    high-value="100"
+                                    step="50"
+                                    track="Inverted"
+                                    format-string="##.00"
+                                    orientation="Vertical"
+                                    show-marks="true"
+                                    show-marks-label="true" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="example-item" style="width: 25%">
+                                <appui:SliderFloat
+                                    style="height: 200px;"
+                                    filled="true"
+                                    low-value="-100"
+                                    high-value="100"
+                                    step="50"
+                                    track="On"
+                                    format-string="##.00"
+                                    orientation="Vertical"
+                                    show-marks="true"
+                                    show-marks-label="true" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
 
                     <!-- Slider -->
                     <appui:Heading text="SLIDER" class="example-title" />
-                    <appui:Text text="Sizing" class="example-subtitle" />
-                    <ui:VisualElement class="example-section">
-                        <appui:Text text="S" class="example-subtitle" />
-                        <appui:SliderFloat size="S" inline-value="End" />
-                        <appui:Text text="M" class="example-subtitle" />
-                        <appui:SliderFloat name="sfm" size="M" inline-value="End" />
-                        <appui:Text text="L" class="example-subtitle" />
-                        <appui:SliderFloat size="L" inline-value="End" />
-                    </ui:VisualElement>
                     <ui:VisualElement class="example-section">
                         <appui:Text text="Default" class="example-subtitle" />
                         <appui:SliderFloat low-value="0" high-value="100" value="50" />
@@ -1848,26 +1919,28 @@
                         <appui:Text text="Invalid" class="example-subtitle" />
                         <appui:SliderFloat low-value="0" high-value="100" value="50" class="is-invalid" />
                         <ui:VisualElement style="height: 8px;" />
-                        <appui:Text text="Filled" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="50" filled="true" />
+                        <appui:Text text="Track: On" class="example-subtitle" />
+                        <appui:SliderFloat low-value="0" high-value="100" value="50" track="On" />
                         <ui:VisualElement style="height: 8px;" />
-                        <appui:Text text="Filled with offset" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="75" filled="true" fill-offset="0.5" />
+                        <appui:Text text="Track: Inverted" class="example-subtitle" />
+                        <appui:SliderFloat low-value="-100" high-value="100" value="75" track="Inverted" />
                         <ui:VisualElement style="height: 8px;" />
-                        <appui:Text text="With labels" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="75" filled="true" fill-offset="0.5" label="A label" />
+                        <appui:Text text="With input field" class="example-subtitle" />
+                        <appui:SliderFloat low-value="-100" high-value="100" value="75" track="On" step="25" show-input-field="true" format-string="#.00" />
+                        <appui:Text text="With marks" class="example-subtitle" />
+                        <appui:SliderFloat low-value="-100" high-value="100" value="75" track="On" show-marks="true" step="25" />
                         <ui:VisualElement style="height: 8px;" />
-                        <appui:Text text="With ticks" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="75" filled="true" fill-offset="0.5" label="A label" tick-count="11" />
-                        <ui:VisualElement style="height: 8px;" />
-                        <appui:Text text="With tick labels" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="75" filled="true" fill-offset="0.5" label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." tick-count="11" tick-label="true" />
-                        <appui:Text text="Inline Value - Start" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="50" inline-value="Start" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="50" inline-value="Start" label="A label" style="margin-top: 16px;" />
-                        <appui:Text text="Inline Value - End" class="example-subtitle" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="50" inline-value="End" />
-                        <appui:SliderFloat low-value="0" high-value="100" value="50" inline-value="End" label="A label" style="margin-top: 16px;" />
+                        <appui:Text text="With marks and labels - Restricted Values On Step With Ctrl Key" class="example-subtitle" />
+                        <appui:SliderFloat low-value="-100" high-value="100" value="75" track="On" show-marks="true" step="25" show-marks-label="true" restricted-values="CtrlStep" />
+                        <appui:Text text="Restricted Values on Step" class="example-subtitle" />
+                        <appui:SliderFloat low-value="-100" high-value="100" value="10" step="25" track="On" show-marks="true" show-marks-label="true" restricted-values="Step" />
+                        <appui:Text text="Restricted Values on Custom Marks" class="example-subtitle" />
+                        <appui:SliderFloat name="restricted-slider" low-value="0" high-value="1" value="0" track="On" show-marks="true" show-marks-label="true" restricted-values="CustomMarks" />
+                        <appui:Text text="Restricted Values on Step with Custom Marks" class="example-subtitle" />
+                        <appui:SliderFloat name="restricted-step-slider" low-value="0" high-value="1" value="0" track="On" step="0.1" show-marks="true" show-marks-label="true" restricted-values="Step" />
+                        <appui:Text text="Non-linear scale" class="example-subtitle" />
+                        <appui:Text name="scaled-slider-text" text="Storage Size: 0" />
+                        <appui:SliderInt name="scaled-slider" low-value="5" high-value="30" value="5" track="On" display-value-label="Auto"/>
                     </ui:VisualElement>
 
                     <!-- SplitView -->
@@ -2008,36 +2081,24 @@
                     </ui:VisualElement>
                     <appui:Text text="Styling based on distance" class="example-subtitle" />
                     <ui:VisualElement class="example-section" style="align-items: center; justify-content: center;overflow: hidden;">
-                        <appui:SwipeView animation-speed="0.1" skip-animation-threshold="99" name="swipeview-distance" style="width: 50px; height: 50px; overflow: visible;" direction="Horizontal">
+                        <appui:SwipeView animation-speed="0.1" resistance="2" skip-animation-threshold="10" name="swipeview-distance" style="overflow: visible;" direction="Horizontal">
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="A" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="A" style="color: #fff;" />
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="B" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="B" style="color: #fff;" />
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="C" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="C" style="color: #fff;" />
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="D" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="D" style="color: #fff;" />
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="E" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="E" style="color: #fff;" />
                             </appui:SwipeViewItem>
                             <appui:SwipeViewItem>
-                                <appui:Avatar>
-                                    <appui:Text picking-mode="Ignore" text="F" style="color: #fff;" />
-                                </appui:Avatar>
+                                <appui:Text text="F" style="color: #fff;" />
                             </appui:SwipeViewItem>
                         </appui:SwipeView>
                     </ui:VisualElement>
@@ -2333,19 +2394,25 @@
                     <appui:Heading text="TOUCHSLIDER" class="example-title" />
                     <ui:VisualElement class="example-section">
                         <appui:Text text="Default" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" format-string="#0.0°C"/>
                         <appui:Text text="Disabled" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" enabled="false" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" enabled="false" format-string="#0.0°C"/>
                         <appui:Text text="Invalid" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" class="is-invalid" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" class="is-invalid" format-string="#0.0°C"/>
                         <appui:Text text="Invalid And Disabled" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" class="is-invalid" enabled="false" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" class="is-invalid" enabled="false" format-string="#0.0°C"/>
                         <appui:Text text="Small" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="S" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="S" format-string="#0.0°C"/>
                         <appui:Text text="Medium" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="M" lazy-mode="true" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="M" format-string="#0.0°C"/>
                         <appui:Text text="Large" class="example-subtitle" />
-                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="L" />
+                        <appui:TouchSliderFloat label="TEMPERATURE" low-value="-100" high-value="100" value="0" size="L" format-string="#0.0°C"/>
+                        <appui:Text text="Vertical" class="example-subtitle" />
+                        <ui:VisualElement class="example-row">
+                            <ui:VisualElement class="example-item">
+                                <appui:TouchSliderFloat style="height: 200px;" label="TEMPERATURE" low-value="-100" high-value="100" value="0" orientation="Vertical" format-string="#0.0°C" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
 
 

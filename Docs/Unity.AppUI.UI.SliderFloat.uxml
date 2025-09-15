@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.SliderFloat" class="main">
+    <engine:Label text="SliderFloat" class="title" />
+    <engine:Label
+      text="A control that allows users to select a value from a continuous range."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The SliderFloat component is a user interface control that allows users to select a floating-point value from a continuous range by dragging a thumb along a track. It provides visual feedback through its track and thumb elements, making it intuitive for users to adjust values."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The slider supports both horizontal and vertical orientations, and can be customized with step values, marks, value labels, and input field integration. It's particularly useful for scenarios where users need to adjust values like volume, opacity, size, or any other continuous numeric parameter."
+            class="parapgraph"
+          />
+          <engine:Label text="Features:" class="parapgraph heading" />
+          <engine:Label
+            text="- Continuous value selection with floating-point precision"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Customizable value range with minimum and maximum bounds"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Optional step values for discrete increments"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Support for custom marks and labels"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Value display modes (always on, auto, or off)"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Track display customization"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Optional input field integration"
+            class="parapgraph list-item"
+          />
+          <engine:Label text="Best Practices:" class="parapgraph heading" />
+          <engine:Label
+            text="- Use appropriate step values that make sense for your use case"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Provide meaningful labels when using marks"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="- Consider using value labels for better user feedback"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="NOTE: The slider supports keyboard navigation using arrow keys, and the shift key can be used for larger step increments."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the slider. This value is always clamped between lowValue and highValue."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting an initial value in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat value="50" low-value="0" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum value that the slider can have."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a slider with a custom range in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat low-value="-100" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="100f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum value that the slider can have."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the maximum value in code"
+                  class="scenario-description"
+                />
+                <engine:Label text="slider.highValue = 1000f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="step" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value for the slider when using keyboard navigation or when restrictedValues is set to Step."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a slider with custom step value and visible marks"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat step="0.5" show-marks="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="shiftStep" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when holding the shift key during keyboard navigation."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a larger step value for shift+arrow key navigation"
+                  class="scenario-description"
+                />
+                <engine:Label text="slider.shiftStep = 5f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showMarks" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Whether to show marks on the slider track. Marks are generated based on the step value or custom marks if provided."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a slider with visible marks and labels"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat show-marks="true" show-marks-label="true" step="10" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="displayValueLabel" class="prop-name" />
+            <engine:Label text="ValueDisplayMode" class="prop-type" />
+            <engine:Label text="ValueDisplayMode.Off" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how the current value is displayed next to the thumb."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Available modes:"
+                class="parapgraph heading"
+              />
+              <engine:Label
+                text="- Off: Value is not displayed"
+                class="parapgraph list-item"
+              />
+              <engine:Label
+                text="- On: Value is always displayed"
+                class="parapgraph list-item"
+              />
+              <engine:Label
+                text="- Auto: Value is displayed only during interaction"
+                class="parapgraph list-item"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a slider with always visible value label"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat display-value-label="On" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="track" class="prop-name" />
+            <engine:Label text="TrackDisplayType" class="prop-type" />
+            <engine:Label text="TrackDisplayType.Off" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how the track is displayed."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Available types:"
+                class="parapgraph heading"
+              />
+              <engine:Label
+                text="- Off: No track is displayed"
+                class="parapgraph list-item"
+              />
+              <engine:Label
+                text="- On: Track is displayed from start to thumb"
+                class="parapgraph list-item"
+              />
+              <engine:Label
+                text="- Inverted: Track is displayed from thumb to end"
+                class="parapgraph list-item"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a slider with visible track"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SliderFloat track="On" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic slider with default settings"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a basic horizontal slider with default range (0-100)"
+              class="scenario-description"
+            />
+            <engine:Label text="&lt;SliderFloat /&gt;" class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customized slider with marks and labels"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a slider for decimal values (0-1) with marks, labels, and visible track"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SliderFloat
+    low-value="0"
+    high-value="1"
+    step="0.1"
+    show-marks="true"
+    show-marks-label="true"
+    display-value-label="On"
+    track="On"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Slider with custom scaling and formatting"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a slider that uses exponential scaling (2^n) and formats values with KB units"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var slider = new SliderFloat {
+    scale = v =&gt; Mathf.Pow(2, v),
+    formatFunction = v =&gt; $"{v:F0} KB",
+    lowValue = 0,
+    highValue = 10,
+    step = 1
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vertical slider with custom marks"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a vertical slider with custom marks and labels at specific positions"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var slider = new SliderFloat {
+    orientation = Direction.Vertical,
+    customMarks = new List&lt;SliderMark&lt;float&gt;&gt; {
+        new() { value = 0, label = "Min" },
+        new() { value = 50, label = "Mid" },
+        new() { value = 100, label = "Max" }
+    },
+    showMarks = true,
+    showMarksLabel = true
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -5,7 +5,7 @@ namespace Unity.AppUI.Navigation
     /// <summary>
     /// Interface for a navigation visual controller. A navigation visual controller is responsible for
     /// setting up the visual elements of a navigation graph. This includes the bottom navigation bar,
-    /// the app bar and the drawer.
+    /// the app bar, the drawer and the navigation rail.
     /// </summary>
     public interface INavVisualController
     {
@@ -32,5 +32,13 @@ namespace Unity.AppUI.Navigation
         /// <param name="destination"> The destination to setup the drawer for. </param>
         /// <param name="navController"> The navigation controller. </param>
         void SetupDrawer(Drawer drawer, NavDestination destination, NavController navController);
+
+        /// <summary>
+        /// Setup the navigation rail.
+        /// </summary>
+        /// <param name="navigationRail"> The navigation rail to setup. </param>
+        /// <param name="destination"> The destination to setup the navigation rail for. </param>
+        /// <param name="navController"> The navigation controller. </param>
+        void SetupNavigationRail(NavigationRail navigationRail, NavDestination destination, NavController navController);
     }
 }

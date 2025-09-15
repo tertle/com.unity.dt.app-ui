@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.DateRangeField" class="main">
+    <engine:Label text="DateRangeField" class="title" />
+    <engine:Label
+      text="A form input component that allows users to select a date range with a visual calendar picker."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="DateRangeField is a specialized input component designed for selecting a range of dates. It combines two text inputs for direct date entry with a calendar picker interface for visual date selection."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component provides two ways to input dates:"
+            class="parapgraph feature-list"
+          />
+          <engine:Label
+            text="1. Direct text input: Users can type dates directly into the start and end date fields"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="2. Calendar picker: Clicking the calendar icon opens a popover with a visual date range picker"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The field supports keyboard navigation, validation, and various date formatting options to ensure proper date entry."
+            class="parapgraph tip"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="DateRange" class="prop-type" />
+            <engine:Label
+              text="new DateRange(Date.now, new Date(DateTime.Now.AddDays(1)))"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Gets or sets the currently selected date range. The value contains both start and end dates."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a date range programmatically:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Sets the date range to span the first week of January 2023"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangeField.value = new DateRange(new Date(2023, 1, 1), new Date(2023, 1, 7));"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the date range field. Available options are defined in the Size enum (XS, S, M, L, XL)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a large date range field in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;DateRangeField size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="yyyy-MM-dd" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the format string used to display and parse dates. Uses standard DateTime format strings."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Common format patterns include:"
+                class="parapgraph note"
+              />
+              <engine:Label
+                text='- "yyyy-MM-dd" (2023-12-31)
+- "MM/dd/yyyy" (12/31/2023)
+- "dd-MMM-yyyy" (31-Dec-2023)'
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Sets the date format to show dates like '31-Dec-2023'"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dateRangeField.formatString = "dd-MMM-yyyy";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid. This can be set manually or through the validateValue function."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Marks the field as invalid if the start date is after the end date"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangeField.invalid = startDate &gt; endDate;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label
+              text="Func&lt;DateRange, bool&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function that validates the selected date range. Returns true if the range is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Validates that the range is properly ordered and doesn't extend into the future"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dateRangeField.validateValue = range =&gt; {
+    return range.start &lt;= range.end &amp;&amp; range.end &lt;= Date.now;
+};"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic usage in UXML:" class="parapgraph" />
+            <engine:Label
+              text="Creates a medium-sized date range field with MM/dd/yyyy format and initial date range"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;DateRangeField name="bookingDates"
+             size="M"
+             format-string="MM/dd/yyyy"
+             value="2023-12-25,2023-12-31" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Complete C# example with validation and change handling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a date range field that validates the selection is between 2 and 14 days and logs changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var dateRangeField = new DateRangeField {
+    size = Size.M,
+    formatString = "MM/dd/yyyy",
+    validateValue = range =&gt; {
+        var minStay = 2;
+        var maxStay = 14;
+        var days = (range.end - range.start).Days;
+        return days &gt;= minStay &amp;&amp; days &lt;= maxStay;
+    }
+};
+
+dateRangeField.RegisterValueChangedCallback(evt =&gt; {
+    var range = evt.newValue;
+    Debug.Log($"Selected range: {range.start} to {range.end}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

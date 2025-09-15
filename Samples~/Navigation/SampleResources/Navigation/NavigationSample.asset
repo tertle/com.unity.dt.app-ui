@@ -71,14 +71,22 @@ MonoBehaviour:
   m_Parent: {fileID: -5972414818343984710}
   m_Actions: []
   m_Label: '@UI:ItemDetails'
-  m_Template: Unity.AppUI.Samples.Navigation.ItemDetailScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007368
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007368
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.ItemDetailScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-7977548450297166600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,14 +104,22 @@ MonoBehaviour:
   m_Parent: {fileID: -292077038807905323}
   m_Actions: []
   m_Label: '@UI:Home'
-  m_Template: Unity.AppUI.Samples.Navigation.HomeScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007366
   m_Arguments: []
-  m_ShowBottomNavBar: 1
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 1
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007366
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.HomeScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 1
+        m_ShowAppBar: 1
+        m_ShowBackButton: 0
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-7705125689437715372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,14 +138,22 @@ MonoBehaviour:
   m_Actions:
   - {fileID: -2821836994351088311}
   m_Label: '@UI:Items'
-  m_Template: Unity.AppUI.Samples.Navigation.ItemsScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007367
   m_Arguments: []
-  m_ShowBottomNavBar: 1
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 1
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007367
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.ItemsScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 1
+        m_ShowAppBar: 1
+        m_ShowBackButton: 0
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-7696130718974872040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,14 +172,22 @@ MonoBehaviour:
   m_Actions:
   - {fileID: 1982092278574380023}
   m_Label: '@UI:Profile'
-  m_Template: Unity.AppUI.Samples.Navigation.ProfileScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007369
   m_Arguments: []
-  m_ShowBottomNavBar: 1
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 1
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007369
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.ProfileScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 1
+        m_ShowAppBar: 1
+        m_ShowBackButton: 0
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-7065040197925367118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,14 +223,22 @@ MonoBehaviour:
   m_Parent: {fileID: -7065040197925367118}
   m_Actions: []
   m_Label: '@UI:ThemeSetting'
-  m_Template: Unity.AppUI.Samples.Navigation.ThemeSettingScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007371
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007371
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.ThemeSettingScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-5972414818343984710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,14 +275,22 @@ MonoBehaviour:
   m_Actions:
   - {fileID: 1008478377226470355}
   m_Label: '@UI:ForgotPassword'
-  m_Template: Unity.AppUI.Samples.Navigation.ForgotPasswordScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007364
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 0
-  m_ShowBackButton: 0
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007364
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.ForgotPasswordScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
 --- !u!114 &-5069340082652505212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +357,7 @@ MonoBehaviour:
   m_Destination: {fileID: -7065040197925367118}
   m_Options:
     m_PopUpToStrategy: 2
-    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToRoute: {fileID: -7977548450297166600}
     m_PopUpToInclusive: 1
     m_EnterAnim: 0
     m_ExitAnim: 0
@@ -337,14 +385,22 @@ MonoBehaviour:
   m_Actions:
   - {fileID: 4361079467730119982}
   m_Label: '@UI:Settings'
-  m_Template: Unity.AppUI.Samples.Navigation.SettingsScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007370
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007370
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.SettingsScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 0
 --- !u!114 &-2821836994351088311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,14 +447,22 @@ MonoBehaviour:
   - {fileID: -2542469425199634123}
   - {fileID: -5069340082652505212}
   m_Label: '@UI:SplashScreen'
-  m_Template: Unity.AppUI.Samples.Navigation.SplashScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007361
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 0
-  m_ShowBackButton: 0
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007361
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.SplashScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
 --- !u!114 &-2625030994800049459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +480,7 @@ MonoBehaviour:
   m_Destination: {fileID: -5972414818343984710}
   m_Options:
     m_PopUpToStrategy: 2
-    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToRoute: {fileID: -7977548450297166600}
     m_PopUpToInclusive: 1
     m_EnterAnim: 0
     m_ExitAnim: 0
@@ -497,14 +561,22 @@ MonoBehaviour:
   m_Parent: {fileID: 332884780376400844}
   m_Actions: []
   m_Label: '@UI:ConfirmCode'
-  m_Template: Unity.AppUI.Samples.Navigation.CodeConfirmScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007365
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 0
-  m_ShowBackButton: 0
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007365
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.CodeConfirmScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
 --- !u!114 &-292077038807905323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,14 +727,22 @@ MonoBehaviour:
   m_Parent: {fileID: 332884780376400844}
   m_Actions: []
   m_Label: '@UI:SignUp'
-  m_Template: Unity.AppUI.Samples.Navigation.SignupScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007363
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 0
-  m_ShowBackButton: 0
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007363
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.SignupScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
 --- !u!114 &4361079467730119982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,14 +789,22 @@ MonoBehaviour:
   - {fileID: 7687235773060265655}
   - {fileID: -8222687815120031254}
   m_Label: '@UI:Login'
-  m_Template: Unity.AppUI.Samples.Navigation.LoginScreen, Unity.AppUI.Samples.Navigation,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_TemplateSettings:
+    rid: 8101548258462007362
   m_Arguments: []
-  m_ShowBottomNavBar: 0
-  m_ShowAppBar: 0
-  m_ShowBackButton: 0
-  m_ShowDrawer: 0
-  m_ShowNavigationRail: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548258462007362
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Samples.Navigation.LoginScreen, Unity.AppUI.Samples.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 0
+        m_ShowAppBar: 0
+        m_ShowBackButton: 0
+        m_ShowDrawer: 0
+        m_ShowNavigationRail: 0
 --- !u!114 &7687235773060265655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,7 +849,7 @@ MonoBehaviour:
   m_Destination: {fileID: -292077038807905323}
   m_Options:
     m_PopUpToStrategy: 2
-    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToRoute: {fileID: 4838759246690638305}
     m_PopUpToInclusive: 1
     m_EnterAnim: 0
     m_ExitAnim: 0
@@ -788,7 +876,7 @@ MonoBehaviour:
   m_Destination: {fileID: 332884780376400844}
   m_Options:
     m_PopUpToStrategy: 2
-    m_PopUpToRoute: {fileID: 0}
+    m_PopUpToRoute: {fileID: -7696130718974872040}
     m_PopUpToInclusive: 1
     m_EnterAnim: 2
     m_ExitAnim: 0

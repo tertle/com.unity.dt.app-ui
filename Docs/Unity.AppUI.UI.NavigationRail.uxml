@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.NavigationRail" class="main">
+    <engine:Label text="Navigation Rail" class="title" />
+    <engine:Label
+      text="A side navigation component that supports side-rail navigation patterns"
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Navigation Rail is a responsive alternative to the bottom navigation bar, designed for larger screen sizes. It provides easy access to top-level destinations in your app when using tablet and desktop screens."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The rail is typically displayed on the left or right edge of the screen, containing navigation destinations represented by icons and labels. It can also include leading and trailing containers for additional UI elements like logos or settings buttons."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Navigation Rails are recommended for apps with 3-7 top-level destinations. Using more destinations can create cluttered navigation that is difficult to scan."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Leading container: Optional area at the top for branding, profile, or global actions
+- Main container: Houses the navigation destinations
+- Trailing container: Optional area at the bottom for secondary actions"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="anchor" class="prop-name" />
+            <engine:Label text="NavigationRailAnchor" class="prop-type" />
+            <engine:Label
+              text="NavigationRailAnchor.Start"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines which side of the screen the Navigation Rail is anchored to. Can be set to Start (left) or End (right)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Anchoring the rail to the right side of the screen"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;NavigationRail anchor="End" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="labelType" class="prop-name" />
+            <engine:Label text="LabelType" class="prop-type" />
+            <engine:Label text="LabelType.All" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how labels are displayed for navigation items. Options include None (icons only), All (all labels visible), or Selected (only selected item's label is visible)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Only showing labels for selected items"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;NavigationRail labelType="Selected" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="groupAlignment" class="prop-name" />
+            <engine:Label text="GroupAlignment" class="prop-type" />
+            <engine:Label text="GroupAlignment.Start" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the vertical alignment of the navigation items within the rail. Can be Start, Center, or End."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Centering the navigation items vertically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;NavigationRail groupAlignment="Center" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic Navigation Rail with items"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="A simple navigation rail with three destinations"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;NavigationRail&gt;
+    &lt;NavigationRailItem icon="home" label="Home" selected="true" /&gt;
+    &lt;NavigationRailItem icon="favorite" label="Favorites" /&gt;
+    &lt;NavigationRailItem icon="settings" label="Settings" /&gt;
+&lt;/NavigationRail&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Navigation Rail with custom containers"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Navigation rail with custom leading and trailing content"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;NavigationRail&gt;
+    &lt;Template name="leadingContainer"&gt;
+        &lt;Image class="logo" /&gt;
+    &lt;/Template&gt;
+    &lt;NavigationRailItem icon="dashboard" label="Dashboard" /&gt;
+    &lt;NavigationRailItem icon="person" label="Profile" /&gt;
+    &lt;Template name="trailingContainer"&gt;
+        &lt;Button text="Logout" /&gt;
+    &lt;/Template&gt;
+&lt;/NavigationRail&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Right-aligned Navigation Rail with selected-only labels"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="A right-aligned navigation rail showing labels only for selected items"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;NavigationRail anchor="End" labelType="Selected" groupAlignment="Center"&gt;
+    &lt;NavigationRailItem icon="mail" label="Mail" /&gt;
+    &lt;NavigationRailItem icon="chat" label="Chat" selected="true" /&gt;
+    &lt;NavigationRailItem icon="calendar" label="Calendar" /&gt;
+&lt;/NavigationRail&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

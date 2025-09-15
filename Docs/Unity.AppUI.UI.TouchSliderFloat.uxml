@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.TouchSliderFloat" class="main">
+    <engine:Label text="TouchSliderFloat" class="title" />
+    <engine:Label
+      text="A touch-optimized slider component for selecting floating-point values with support for step increments and custom formatting."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="TouchSliderFloat is a touch-optimized slider component that allows users to select a floating-point value from a defined range. It supports both touch and keyboard interactions, making it suitable for touch devices while maintaining accessibility."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component features a visual track with a progress indicator, customizable step increments, shift-key modifier for larger steps, and support for value formatting. It can be oriented horizontally or vertically and adapts to RTL (Right-to-Left) layouts automatically."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="For optimal touch interaction, the slider defaults to a medium size that provides an adequately sized touch target. You can adjust the size using the size property to match your UI requirements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The slider supports both UXML definition and runtime instantiation, making it flexible for various UI development workflows."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the slider. The value is always clamped between lowValue and highValue."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the value in UXML:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Creates a slider with initial value of 0.5 in a 0-1 range"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat value="0.5" low-value="0" high-value="1" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum value that can be selected with the slider."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a slider with a range from -100 to 100"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat low-value="-100" high-value="100" value="0" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum value that can be selected with the slider."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a slider with a range from 0 to 10 with 0.5 step increments"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat low-value="0" high-value="10" step="0.5" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="step" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when adjusting the slider with keyboard arrows or touch interactions."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a slider with 0.25 normal steps and 1.0 steps when shift is pressed"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat step="0.25" shift-step="1.0" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="shiftStep" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when adjusting the slider with keyboard arrows while holding the Shift key."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Sets a larger step increment for shift+arrow key interactions"
+                  class="scenario-description"
+                />
+                <engine:Label text="slider.shiftStep = 5f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="orientation" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the slider is oriented horizontally or vertically. In vertical orientation, the slider operates from bottom to top."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a vertical slider"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat orientation="Vertical" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the size variant of the slider, affecting its touch target size and visual appearance."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a large-sized slider for better touch interactions"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A format string used to format the displayed value. Uses standard .NET numeric format strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a slider that displays values with 2 decimal places"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TouchSliderFloat format-string="F2" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic slider with default settings:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a basic horizontal slider with default range (0-1) and initial value of 0.5"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TouchSliderFloat value="0.5" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customized slider with specific range and step values:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a large slider with a range from -10 to 10, 0.5 step increments, 2.0 shift-step, and one decimal place formatting"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TouchSliderFloat
+    low-value="-10"
+    high-value="10"
+    value="0"
+    step="0.5"
+    shift-step="2.0"
+    format-string="F1"
+    size="L"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vertical slider with custom styling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a vertical slider with a range from 0 to 100 and custom styling class"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TouchSliderFloat
+    orientation="Vertical"
+    low-value="0"
+    high-value="100"
+    value="50"
+    class="custom-slider"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Runtime instantiation and event handling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a slider in code, configures it to display values as percentages, and handles value changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var slider = new TouchSliderFloat();
+slider.lowValue = 0f;
+slider.highValue = 1f;
+slider.value = 0.5f;
+slider.formatString = "P0";
+slider.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"New value: {evt.newValue}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

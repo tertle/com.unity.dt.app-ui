@@ -55,7 +55,7 @@ namespace Unity.AppUI.Tests.Bridge
 
             Assert.DoesNotThrow(() =>
             {
-                controller.FocusNextInDirectionEx(VisualElementFocusChangeDirection.right);
+                controller.FocusNextInDirectionEx(focusable1, VisualElementFocusChangeDirection.right);
             });
 
             yield return null;

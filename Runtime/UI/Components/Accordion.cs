@@ -51,6 +51,8 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId valueProperty = nameof(value);
 
         internal static readonly BindingId trailingContentTemplateProperty = nameof(trailingContentTemplate);
+
+        internal static readonly BindingId leadingContentTemplateProperty = nameof(leadingContentTemplate);
 #endif
 
         const string k_IndicatorIconName = "caret-down";
@@ -79,6 +81,11 @@ namespace Unity.AppUI.UI
         /// The AccordionItem headertext styling class.
         /// </summary>
         public const string headerTextUssClassName = ussClassName + "__headertext";
+
+        /// <summary>
+        /// The AccordionItem leading container styling class.
+        /// </summary>
+        public const string leadingContainerUssClassName = ussClassName + "__leading-container";
 
         /// <summary>
         /// The AccordionItem trailing container styling class.
@@ -115,6 +122,8 @@ namespace Unity.AppUI.UI
 
         VisualTreeAsset m_TrailingContentTemplate;
 
+        VisualTreeAsset m_LeadingContentTemplate;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -127,6 +136,9 @@ namespace Unity.AppUI.UI
 
             m_HeaderTextElement = new LocalizedTextElement { name = headerTextUssClassName, pickingMode = PickingMode.Ignore };
             m_HeaderTextElement.AddToClassList(headerTextUssClassName);
+
+            leadingContainer = new VisualElement { name = leadingContainerUssClassName, pickingMode = PickingMode.Ignore };
+            leadingContainer.AddToClassList(leadingContainerUssClassName);
 
             trailingContainer = new VisualElement { name = trailingContainerUssClassName, pickingMode = PickingMode.Ignore };
             trailingContainer.AddToClassList(trailingContainerUssClassName);
@@ -145,6 +157,7 @@ namespace Unity.AppUI.UI
             m_Clickable = new Pressable(OnClicked);
             m_HeaderElement.AddManipulator(m_Clickable);
             m_HeaderElement.AddManipulator(new KeyboardFocusController(OnKeyboardFocus, OnFocus));
+            m_HeaderElement.hierarchy.Add(leadingContainer);
             m_HeaderElement.hierarchy.Add(m_HeaderTextElement);
             m_HeaderElement.hierarchy.Add(trailingContainer);
             m_HeaderElement.hierarchy.Add(m_HeaderIndicatorElement);
@@ -174,6 +187,11 @@ namespace Unity.AppUI.UI
 
             AddToClassList(GetIndicatorPosUssClassName(FlexPosition.End));
             SetValueWithoutNotify(false);
+
+            title = "Header";
+            indicatorPosition = FlexPosition.End;
+            leadingContentTemplate = null;
+            trailingContentTemplate = null;
         }
 
         void OnContentGeometryChanged(GeometryChangedEvent evt)
@@ -207,6 +225,37 @@ namespace Unity.AppUI.UI
         public VisualElement trailingContainer { get; }
 
         /// <summary>
+        /// The header's leading container of the AccordionItem.
+        /// </summary>
+        public VisualElement leadingContainer { get; }
+
+        /// <summary>
+        /// The header's leading container template of the AccordionItem.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public VisualTreeAsset leadingContentTemplate
+        {
+            get => m_LeadingContentTemplate;
+            set
+            {
+                var changed = m_LeadingContentTemplate != value;
+                m_LeadingContentTemplate = value;
+                leadingContainer.Clear();
+                if (m_LeadingContentTemplate)
+                    m_LeadingContentTemplate.CloneTree(leadingContainer);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in leadingContentTemplateProperty);
+#endif
+            }
+        }
+
+        /// <summary>
         /// The header's trailing container template of the AccordionItem.
         /// </summary>
 #if ENABLE_RUNTIME_DATA_BINDINGS
@@ -214,7 +263,6 @@ namespace Unity.AppUI.UI
 #endif
 #if ENABLE_UXML_SERIALIZED_DATA
         [UxmlAttribute]
-        [Header("Accordion Item")]
 #endif
         public VisualTreeAsset trailingContentTemplate
         {

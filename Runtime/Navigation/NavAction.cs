@@ -53,5 +53,26 @@ namespace Unity.AppUI.Navigation
             get => m_DefaultArguments;
             set => m_DefaultArguments = value;
         }
+
+        /// <summary>
+        /// Merge the default arguments with the provided arguments.
+        /// </summary>
+        /// <param name="arguments"> The arguments to merge with the default arguments.</param>
+        /// <returns> The merged arguments.</returns>
+        public Argument[] MergeArguments(params Argument[] arguments)
+        {
+            var mergedArguments = defaultArguments != null ? new List<Argument>(defaultArguments) : new List<Argument>();
+            foreach (var arg in arguments)
+            {
+                if (arg == null)
+                    continue;
+                var existingArgIdx = mergedArguments.FindIndex(a => a.name == arg.name);
+                if (existingArgIdx >= 0)
+                    mergedArguments[existingArgIdx] = arg;
+                else
+                    mergedArguments.Add(arg);
+            }
+            return mergedArguments.ToArray();
+        }
     }
 }

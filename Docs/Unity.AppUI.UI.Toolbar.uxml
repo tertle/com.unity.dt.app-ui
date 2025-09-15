@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Toolbar" class="main">
+    <engine:Label text="Toolbar" class="title" />
+    <engine:Label
+      text="A versatile container for organizing command buttons and tools in a horizontal or vertical layout"
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Toolbar component provides a container for organizing and displaying a collection of controls, buttons, or tools in a structured manner. It can be positioned at various locations in your application and supports both horizontal and vertical orientations."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Toolbars help maintain a consistent and accessible interface by grouping related actions together. They can be either fixed in position or made draggable to allow users to customize their workspace layout."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="NOTE: The Toolbar's appearance and behavior can be customized using USS (Unity Style Sheets) classes, making it adaptable to different visual themes and design requirements."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="dockMode" class="prop-name" />
+            <engine:Label text="ToolbarDockMode" class="prop-type" />
+            <engine:Label text="ToolbarDockMode.Floating" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines how the toolbar is positioned within its parent container. The available modes are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Floating: The toolbar can be positioned freely"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Top: Docks the toolbar at the top edge"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Bottom: Docks the toolbar at the bottom edge"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Left: Docks the toolbar at the left edge"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- Right: Docks the toolbar at the right edge"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a top-docked toolbar in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Toolbar dock-mode="Top"&gt;
+    &lt;!-- Toolbar content --&gt;
+&lt;/Toolbar&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the dock mode via code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var toolbar = new Toolbar();
+toolbar.dockMode = ToolbarDockMode.Left;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="draggable" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Enables or disables drag functionality for the toolbar. When enabled, users can click and drag the toolbar's drag bar to reposition it."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="TIP: Enable this property when you want to give users the flexibility to customize their workspace layout."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a draggable toolbar in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Toolbar draggable="true"&gt;
+    &lt;!-- Toolbar content --&gt;
+&lt;/Toolbar&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the layout direction of the toolbar's content. The toolbar can arrange its items either horizontally or vertically."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="This property is particularly useful when creating toolbars for different screen orientations or UI layouts."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical toolbar docked to the left"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Toolbar direction="Vertical" dock-mode="Left"&gt;
+    &lt;!-- Toolbar content --&gt;
+&lt;/Toolbar&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical toolbar programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var toolbar = new Toolbar();
+toolbar.direction = Direction.Vertical;
+toolbar.dockMode = ToolbarDockMode.Right;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Toolbar Example" class="parapgraph" />
+            <engine:Label
+              text="A basic horizontal toolbar with common file operations"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Toolbar dock-mode="Top" direction="Horizontal"&gt;
+    &lt;Button text="New" /&gt;
+    &lt;Button text="Open" /&gt;
+    &lt;Button text="Save" /&gt;
+    &lt;Separator /&gt;
+    &lt;Button text="Settings" /&gt;
+&lt;/Toolbar&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vertical Toolbar with Tool Options"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="A vertical toolbar commonly used in design applications"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Toolbar dock-mode="Left" direction="Vertical" draggable="true"&gt;
+    &lt;Button icon="brush" tooltip="Paint Tool" /&gt;
+    &lt;Button icon="eraser" tooltip="Eraser Tool" /&gt;
+    &lt;Button icon="select" tooltip="Selection Tool" /&gt;
+    &lt;Separator /&gt;
+    &lt;Button icon="settings" tooltip="Tool Settings" /&gt;
+&lt;/Toolbar&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Programmatic Toolbar Creation"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating and configuring a toolbar with buttons programmatically"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var toolbar = new Toolbar();
+toolbar.dockMode = ToolbarDockMode.Top;
+toolbar.direction = Direction.Horizontal;
+toolbar.draggable = true;
+
+var newButton = new Button { text = "New" };
+var openButton = new Button { text = "Open" };
+var saveButton = new Button { text = "Save" };
+
+toolbar.Add(newButton);
+toolbar.Add(openButton);
+toolbar.Add(saveButton);
+
+parentElement.Add(toolbar);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

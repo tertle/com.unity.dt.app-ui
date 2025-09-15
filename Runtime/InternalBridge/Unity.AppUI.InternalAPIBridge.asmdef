@@ -8,7 +8,15 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": [],
-    "versionDefines": [],
+    "defineConstraints": [
+        "UNITY_EDITOR || !APP_UI_EDITOR_ONLY"
+    ],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "7000.0.0a1",
+            "define": "FOCUSABLE_AS_VISUALELEMENT"
+        }
+    ],
     "noEngineReferences": false
 }

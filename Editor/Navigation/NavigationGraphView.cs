@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Unity.AppUI.Navigation.Editor
 {
@@ -254,8 +255,8 @@ namespace Unity.AppUI.Navigation.Editor
             return node;
         }
 
-        static readonly Dictionary<string, string> k_Templates = TypeCache
-            .GetTypesDerivedFrom<NavigationScreen>()
+        static readonly Dictionary<string, string> k_DestinationTemplates = TypeCache
+            .GetTypesDerivedFrom<NavDestinationTemplate>()
             .ToDictionary(t => t.AssemblyQualifiedName, t => t.Name + " (" + t.Namespace + ")");
 
         internal static VisualElement GenerateDestinationInspector(SerializedObject obj)
@@ -272,35 +273,61 @@ namespace Unity.AppUI.Navigation.Editor
             labelField.bindingPath = "m_Label";
 
             var templateField = new PopupField<string>(
-                "Template",
-                k_Templates.Keys.ToList(),
+                "Destination Template",
+                k_DestinationTemplates.Keys.ToList(),
                 0,
-                s => string.IsNullOrEmpty(s) ? "None" : k_Templates[s],
-                s => k_Templates[s]);
+                s => string.IsNullOrEmpty(s) ? "None" : k_DestinationTemplates[s],
+                s => k_DestinationTemplates[s]);
             container.Add(templateField);
-            templateField.bindingPath = "m_Template";
 
-            var showBottomNavBar = new Toggle("Show Bottom Nav Bar");
-            container.Add(showBottomNavBar);
-            showBottomNavBar.bindingPath = "m_ShowBottomNavBar";
+            var templateContainer = new VisualElement();
+            templateContainer.AddToClassList("template-container");
+            var templateInspector = new PropertyField(obj.FindProperty("m_TemplateSettings"));
+            templateContainer.Add(templateInspector);
 
-            var showAppBar = new Toggle("Show App Bar");
-            container.Add(showAppBar);
-            showAppBar.bindingPath = "m_ShowAppBar";
+            container.Add(templateContainer);
 
-            var showBackButton = new Toggle("Show Back Button");
-            container.Add(showBackButton);
-            showBackButton.bindingPath = "m_ShowBackButton";
+            var args = new PropertyField(obj.FindProperty("m_Arguments"));
+            container.Add(args);
 
-            var showDrawer = new Toggle("Show Drawer");
-            container.Add(showDrawer);
-            showDrawer.bindingPath = "m_ShowDrawer";
-
-            var showNavigationRail = new Toggle("Show Navigation Rail");
-            container.Add(showNavigationRail);
-            showNavigationRail.bindingPath = "m_ShowNavigationRail";
+            templateField.RegisterValueChangedCallback(evt => SetTemplate(evt.newValue));
+            var templates = k_DestinationTemplates.Keys.ToList();
+            var currentRefValue = obj.FindProperty("m_TemplateSettings").managedReferenceValue?.GetType().AssemblyQualifiedName;
+            var currentTemplateIndex = templates.FindIndex(s => s == currentRefValue);
+            var currentTemplateName = currentTemplateIndex >= 0 ? templates[currentTemplateIndex] : null;
+            templateField.index = currentTemplateIndex;
+            SetTemplate(currentTemplateName);
 
             return container;
+
+            void SetTemplate(string templateTypeName)
+            {
+                var template = obj.FindProperty("m_TemplateSettings");
+
+                if (string.IsNullOrEmpty(templateTypeName) || templateTypeName == "None")
+                {
+                    template.managedReferenceValue = null;
+                }
+                else
+                {
+                    var type = Type.GetType(templateTypeName);
+                    if (type != null && type.IsSubclassOf(typeof(NavDestinationTemplate)))
+                    {
+                        if (template.managedReferenceValue is NavDestinationTemplate templateInstance && templateInstance.GetType() == type)
+                            return; // Already the correct type
+
+                        // Create new instance
+                        templateInstance = (NavDestinationTemplate)Activator.CreateInstance(type);
+                        template.managedReferenceValue = templateInstance;
+                    }
+                    else
+                    {
+                        Debug.LogError($"Could not find NavDestinationTemplate type: {templateTypeName}");
+                    }
+                }
+
+                template.serializedObject.ApplyModifiedProperties();
+            }
         }
 
         static VisualElement GenerateDescription(string description)

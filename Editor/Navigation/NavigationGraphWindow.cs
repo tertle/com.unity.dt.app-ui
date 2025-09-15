@@ -23,7 +23,7 @@ namespace Unity.AppUI.Navigation.Editor
         /// <summary>
         /// Initializes the window.
         /// </summary>
-        [MenuItem("Window/App UI/Navigation Graph")]
+        [MenuItem("Window/App UI/Navigation Graph", priority = 2150)]
         static void Init()
         {
             if (s_Instance == null)
@@ -131,21 +131,32 @@ namespace Unity.AppUI.Navigation.Editor
         /// <param name="line"> The line number where the asset is being opened. </param>
         /// <returns> True if the asset was opened, false otherwise. </returns>
         [OnOpenAsset(1, OnOpenAssetAttributeMode.Execute)]
+#if ENABLE_INSTANCE_ID
+        static bool OnOpenAsset(InstanceID instanceID, int line)
+        {
+            var asset = EditorUtility.InstanceIDToObject(instanceID) as NavGraphViewAsset;
+            return OnOpenAsset(asset);
+        }
+#else
         static bool OnOpenAsset(int instanceID, int line)
         {
             var asset = EditorUtility.InstanceIDToObject(instanceID) as NavGraphViewAsset;
-            if (asset != null)
-            {
-                Init();
-                var graphView = s_Instance.rootVisualElement.Q<NavigationGraphView>();
-                graphView.SetGraphAsset(asset);
-                s_Instance.m_GraphViewPane.SetEnabled(true);
-                s_Instance.m_LastGraphAsset = asset;
-                graphView.FrameAll();
-                return true;
-            }
+            return OnOpenAsset(asset);
+        }
+#endif
 
-            return false;
+        static bool OnOpenAsset(NavGraphViewAsset asset)
+        {
+            if (!asset)
+                return false;
+
+            Init();
+            var graphView = s_Instance.rootVisualElement.Q<NavigationGraphView>();
+            graphView.SetGraphAsset(asset);
+            s_Instance.m_GraphViewPane.SetEnabled(true);
+            s_Instance.m_LastGraphAsset = asset;
+            graphView.FrameAll();
+            return true;
         }
     }
 }

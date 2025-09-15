@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.TextField" class="main">
+    <engine:Label text="TextField" class="title" />
+    <engine:Label
+      text="A text input component that allows users to enter and edit text"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="TextField is a fundamental input component that enables users to enter and edit text content. It provides a versatile interface for capturing user input in various formats like plain text, passwords, and validated content."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports different sizes, placeholder text, leading and trailing icons, and various customization options to fit different use cases and design requirements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="When using TextField for sensitive information like passwords, make sure to enable the isPassword property to mask the input appropriately."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content of the TextField. This represents the current input value that users can modify."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic text input with initial value"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField value="Initial text" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="placeholder" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Placeholder text displayed when the TextField is empty. Use it to provide hints or examples of the expected input."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with placeholder text"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField placeholder="Enter your email address" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the TextField. Available options are S (Small), M (Medium), and L (Large)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with different sizes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField size="Size.S" placeholder="Small input" /&gt;
+&lt;TextField size="Size.M" placeholder="Medium input" /&gt;
+&lt;TextField size="Size.L" placeholder="Large input" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="isPassword" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, masks the input text for password entry. Works in conjunction with maskChar to determine the masking character."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Password input field"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField isPassword="true" placeholder="Enter password" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="isReadOnly" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, makes the TextField read-only, preventing user input modifications."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Read-only text field"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField isReadOnly="true" value="This text cannot be modified" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="maxLength" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="-1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Maximum number of characters allowed in the TextField. Set to -1 for unlimited length."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with character limit"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField maxLength="50" placeholder="Maximum 50 characters" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="leadingIconName" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Name of the icon to display at the start of the TextField."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with leading search icon"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField leadingIconName="search" placeholder="Search..." /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="trailingIconName" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Name of the icon to display at the end of the TextField."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with trailing clear icon"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextField trailingIconName="clear" placeholder="Type to search" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label text="Func&lt;string, bool&gt;" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function to validate the input value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="TextField with email validation"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='textField.validateValue = (value) =&gt; {
+    return value.Contains("@") &amp;&amp; value.Contains(".");
+};'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic TextField Example" class="parapgraph" />
+            <engine:Label
+              text="Simple text input with placeholder"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TextField placeholder="Enter your name" size="Size.M" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Password Field Example" class="parapgraph" />
+            <engine:Label
+              text="Secure password input with validation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TextField
+    isPassword="true"
+    maskChar="*"
+    placeholder="Enter password"
+    maxLength="20"
+    leadingIconName="lock"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Search Field Example" class="parapgraph" />
+            <engine:Label
+              text="Search input with icons"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TextField
+    leadingIconName="search"
+    trailingIconName="clear"
+    placeholder="Search..."
+    size="Size.L"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Validated Input Example" class="parapgraph" />
+            <engine:Label
+              text="Email input with validation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var textField = new TextField();
+textField.placeholder = "Enter email";
+textField.validateValue = (value) =&gt; {
+    return value.Contains("@") &amp;&amp; value.Contains(".");
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

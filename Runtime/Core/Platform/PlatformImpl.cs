@@ -306,7 +306,7 @@ namespace Unity.AppUI.Core
         /// <summary>
         /// The current touches on the trackpad.
         /// </summary>
-        public virtual AppUITouch[] touches => null;
+        public virtual ReadOnlySpan<AppUITouch> touches => null;
 
         public virtual void RunNativeHapticFeedback(HapticFeedbackType feedbackType)
         {
@@ -320,6 +320,12 @@ namespace Unity.AppUI.Core
         public virtual void OnEnteredPlayMode() { }
 
         public virtual Color GetSystemColor(SystemColorType colorType) => Color.clear;
+
+        public virtual bool HasPasteboardData(PasteboardType type) => false;
+
+        public virtual byte[] GetPasteboardData(PasteboardType type) => Array.Empty<byte>();
+
+        public virtual void SetPasteboardData(PasteboardType type, byte[] data) { }
 
         public virtual int layoutDirection => m_LastLayoutDirection;
 

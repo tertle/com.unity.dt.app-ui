@@ -63,15 +63,17 @@ namespace Unity.AppUI.Samples
 
 #if UNITY_EDITOR
                 root.RegisterCallback<DragUpdatedEvent>(_ => UpdateView(true));
+                root.RegisterCallback<DragLeaveEvent>(_ => UpdateView(false, true));
                 root.RegisterCallback<DragExitedEvent>(_ => UpdateView());
 #endif
-
                 UpdateView();
             }
 
-            void UpdateView(bool forceShowDropZone = false)
+            void UpdateView(bool forceShowDropZone = false, bool forceHideDropZone = false)
             {
                 m_Dropzone.visibleIndicator = forceShowDropZone || m_DstList.itemsSource == null || m_DstList.itemsSource.Count == 0;
+                if (forceHideDropZone)
+                    m_Dropzone.visibleIndicator = false;
             }
 
             void BindDstItem(VisualElement el, int idx)

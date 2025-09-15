@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Spacer" class="main">
+    <engine:Label text="Spacer" class="title" />
+    <engine:Label
+      text="A layout component that creates consistent spacing between elements"
+      class="subtitle"
+    />
+    <engine:Label text="layout" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Spacer component is a versatile layout utility that helps create whitespace and manage spacing between elements in your UI. It provides predefined spacing options and can also expand to fill available space, making it essential for creating consistent and responsive layouts."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Spacers are non-interactive elements (they ignore pointer events) and can be used both vertically and horizontally depending on the parent container's layout direction."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Spacer component automatically handles its styling through USS classes, making it easy to maintain consistent spacing across your application."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="spacing" class="prop-name" />
+            <engine:Label text="SpacerSpacing" class="prop-type" />
+            <engine:Label text="SpacerSpacing.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the amount of space the component creates. Available options are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="• Null - No spacing
+• XS - Extra small spacing
+• S - Small spacing
+• M - Medium spacing (default)
+• L - Large spacing
+• XL - Extra large spacing
+• Expand - Fills remaining space using flex-grow"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting different spacing values:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Creating spacers with different spacing values in code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="// Create spacers with different sizes
+var smallSpacer = new Spacer { spacing = SpacerSpacing.S };
+var mediumSpacer = new Spacer(); // Uses default M spacing
+var expandSpacer = new Spacer { spacing = SpacerSpacing.Expand };"
+                  class="code"
+                />
+                <engine:Label
+                  text="Using spacers with different sizes in UXML to create a layout with varying spaces between buttons"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Spacer spacing="XS" /&gt;
+&lt;Button text="First Button" /&gt;
+&lt;Spacer spacing="L" /&gt;
+&lt;Button text="Second Button" /&gt;
+&lt;Spacer spacing="Expand" /&gt;
+&lt;Button text="Third Button" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage in a horizontal layout:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating equal spacing between buttons in a horizontal layout"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Box style="flex-direction: row;"&gt;
+    &lt;Button text="Left" /&gt;
+    &lt;Spacer spacing="M" /&gt;
+    &lt;Button text="Center" /&gt;
+    &lt;Spacer spacing="M" /&gt;
+    &lt;Button text="Right" /&gt;
+&lt;/Box&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using Spacer to push elements apart:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Using an expanding spacer to push elements to opposite ends of a container"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Box style="flex-direction: row;"&gt;
+    &lt;Button text="Left-aligned" /&gt;
+    &lt;Spacer spacing="Expand" /&gt;
+    &lt;Button text="Right-aligned" /&gt;
+&lt;/Box&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vertical spacing in a column layout:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating different spaces between form elements in a vertical layout"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Box style="flex-direction: column;"&gt;
+    &lt;Label text="Header" /&gt;
+    &lt;Spacer spacing="S" /&gt;
+    &lt;TextField /&gt;
+    &lt;Spacer spacing="L" /&gt;
+    &lt;Button text="Submit" /&gt;
+&lt;/Box&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

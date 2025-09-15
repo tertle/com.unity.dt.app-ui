@@ -16,7 +16,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "UNITY_EDITOR || !APP_UI_EDITOR_ONLY"
+    ],
     "versionDefines": [
         {
             "name": "Unity",
@@ -92,6 +94,16 @@
             "name": "Unity",
             "expression": "[2021.3.36f1,2022.1.0a1)",
             "define": "CONDITIONAL_WEAK_TABLE_IL2CPP"
+        },
+        {
+            "name": "Unity",
+            "expression": "7000.0.0a1",
+            "define": "FOCUSABLE_AS_VISUALELEMENT"
+        },
+        {
+            "name": "Unity",
+            "expression": "2023.1.0a1",
+            "define": "ENABLE_UITK_TEXT_SELECTION"
         }
     ],
     "noEngineReferences": false

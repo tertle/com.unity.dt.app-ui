@@ -13,7 +13,7 @@ namespace Unity.AppUI.UI
 #if ENABLE_UXML_SERIALIZED_DATA
     [UxmlElement]
 #endif
-    public partial class Vector3Field : BaseVisualElement, IInputElement<Vector3>, ISizeableElement, INotifyValueChanging<Vector3>
+    public partial class Vector3Field : BaseVisualElement, IInputElement<Vector3>, ISizeableElement, INotifyValueChanging<Vector3>, IFormattable<float>
     {
 #if ENABLE_RUNTIME_DATA_BINDINGS
 
@@ -24,6 +24,10 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId sizeProperty = new BindingId(nameof(size));
 
         internal static readonly BindingId validateValueProperty = new BindingId(nameof(validateValue));
+
+        internal static readonly BindingId formatStringProperty = new BindingId(nameof(formatString));
+
+        internal static readonly BindingId formatFunctionProperty = new BindingId(nameof(formatFunction));
 
 #endif
 
@@ -71,6 +75,10 @@ namespace Unity.AppUI.UI
         Vector3 m_LastValue;
 
         Func<Vector3, bool> m_ValidateValue;
+
+        string m_FormatString;
+
+        FormatFunction<float> m_FormatFunction;
 
         /// <summary>
         /// Default constructor.
@@ -220,6 +228,59 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
                     NotifyPropertyChanged(in validateValueProperty);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// The format string of the element.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public string formatString
+        {
+            get => m_FormatString;
+            set
+            {
+                var changed = m_FormatString != value;
+                m_FormatString = value;
+                m_XField.formatString = m_FormatString;
+                m_YField.formatString = m_FormatString;
+                m_ZField.formatString = m_FormatString;
+                SetValueWithoutNotify(this.value);
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in formatStringProperty);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// The format function of the element.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+        public FormatFunction<float> formatFunction
+        {
+            get => m_FormatFunction;
+            set
+            {
+                var changed = m_FormatFunction != value;
+                m_FormatFunction = value;
+                m_XField.formatFunction = m_FormatFunction;
+                m_YField.formatFunction = m_FormatFunction;
+                m_ZField.formatFunction = m_FormatFunction;
+                SetValueWithoutNotify(this.value);
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in formatStringProperty);
 #endif
             }
         }

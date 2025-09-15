@@ -1,4 +1,5 @@
 using System;
+using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -82,6 +83,12 @@ namespace Unity.AppUI.UI
             return true;
         }
 
+        /// <inheritdoc />
+        protected override void AnimateViewOut(DismissType reason)
+        {
+            InvokeDismissedEventHandlers(reason);
+        }
+
         /// <inheritdoc cref="Popup.FindSuitableParent"/>
         protected override VisualElement FindSuitableParent(VisualElement element)
         {
@@ -143,14 +150,15 @@ namespace Unity.AppUI.UI
             public TooltipVisualElement()
             {
                 AddToClassList(ussClassName);
+                pickingMode = PickingMode.Ignore;
 
                 m_Container = new ExVisualElement
                 {
                     name = containerUssClassName,
-                    usageHints = UsageHints.DynamicTransform,
                     pickingMode = PickingMode.Ignore,
                     passMask = ExVisualElement.Passes.Clear | ExVisualElement.Passes.OutsetShadows
                 };
+                m_Container.EnableDynamicTransform(true);
                 m_Container.AddToClassList(containerUssClassName);
                 hierarchy.Add(m_Container);
 

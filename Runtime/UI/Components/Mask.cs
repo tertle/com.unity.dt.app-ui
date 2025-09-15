@@ -282,10 +282,7 @@ namespace Unity.AppUI.UI
 
         void OnDetachedFromPanel(DetachFromPanelEvent evt)
         {
-            if (m_RT)
-                RenderTexture.ReleaseTemporary(m_RT);
-
-            m_RT = null;
+            ReleaseTextures();
         }
 
         void GenerateTextures()
@@ -294,31 +291,34 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/Mask");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             var rect = paddingRect;
 
             if (!rect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             var dpi = Mathf.Max(Platform.scaleFactor, 1f);
             var texSize = rect.size * dpi;
 
             if (!texSize.IsValidForTextureSize())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (Mathf.Abs(m_RT.width - texSize.x) > 1 || Mathf.Abs(m_RT.height - texSize.y) > 1))
-            {
-                RenderTexture.ReleaseTemporary(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
                 m_RT = RenderTexture.GetTemporary((int)texSize.x, (int)texSize.y, 24);
-                m_RT.Create();
-            }
 
             s_Material.SetColor(k_InnerMaskColor, innerMaskColor);
             s_Material.SetColor(k_OuterMaskColor, outerMaskColor);
@@ -339,6 +339,15 @@ namespace Unity.AppUI.UI
 
             if (image != m_RT)
                 image = m_RT;
+        }
+
+        void ReleaseTextures()
+        {
+            if (m_RT)
+            {
+                RenderTexture.ReleaseTemporary(m_RT);
+                m_RT = null;
+            }
         }
 
 #if ENABLE_UXML_TRAITS

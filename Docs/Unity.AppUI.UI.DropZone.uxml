@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.DropZone" class="main">
+    <engine:Label text="DropZone" class="title" />
+    <engine:Label
+      text="A container that accepts drag and drop operations for content placement"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The DropZone component provides a designated area where users can drag and drop content. It's particularly useful for file uploads, content organization, and any interface that requires drag-and-drop functionality."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component visualizes different states during drag operations, providing clear feedback to users about whether the content being dragged can be dropped in the zone."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: The drag and drop functionality is currently only available in the Unity Editor environment."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="controller" class="prop-name" />
+            <engine:Label text="DropZoneController" class="prop-type" />
+            <engine:Label text="new DropZoneController()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The controller that manages drag and drop operations. It handles the drag enter, leave, and drop events, and provides methods to customize drop acceptance criteria."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Configuring a DropZone to accept specific file types"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dropZone.controller.acceptDrag = (objects) =&gt; {
+    return objects.Any(obj =&gt; obj is TextAsset);
+};
+
+dropZone.controller.dropped += (objects) =&gt; {
+    foreach (var obj in objects)
+    {
+        if (obj is TextAsset textAsset)
+        {
+            Debug.Log($"Received text asset: {textAsset.name}");
+        }
+    }
+};'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="state" class="prop-name" />
+            <engine:Label text="DragAndDropState" class="prop-type" />
+            <engine:Label text="DragAndDropState.Default" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Represents the current state of the DropZone. Can be Default, AcceptDrag, or RejectDrag. The visual appearance of the DropZone changes based on this state."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Monitoring the DropZone state"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dropZone.RegisterValueChangedCallback&lt;DragAndDropState&gt;(evt =&gt; {
+    switch (evt.newValue)
+    {
+        case DragAndDropState.AcceptDrag:
+            Debug.Log("Ready to accept drop");
+            break;
+        case DragAndDropState.RejectDrag:
+            Debug.Log("Cannot accept this content");
+            break;
+        case DragAndDropState.Default:
+            Debug.Log("No drag operation in progress");
+            break;
+    }
+});'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="visibleIndicator" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether the DropZone should display a visual indicator. When true, the DropZone will show a visual cue even in its default state."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Making the DropZone always visible"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="dropZone.visibleIndicator = true;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic DropZone Setup" class="parapgraph" />
+            <engine:Label
+              text="Creating a simple file drop zone"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var dropZone = new DropZone();
+dropZone.style.width = new StyleLength(200);
+dropZone.style.height = new StyleLength(200);
+
+dropZone.controller.acceptDrag = (objects) =&gt; true; // Accept all drops
+dropZone.controller.dropped += (objects) =&gt; {
+    Debug.Log($"Received {objects.Count()} items");
+};
+
+rootElement.Add(dropZone);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="UXML Definition" class="parapgraph" />
+            <engine:Label
+              text="Defining a DropZone in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:DropZone name="file-drop-zone"
+                    style="width: 200px; height: 200px;"
+                    visible-indicator="true" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Custom Styling" class="parapgraph" />
+            <engine:Label
+              text="Applying custom styles to DropZone states"
+              class="scenario-description"
+            />
+            <engine:Label
+              text=".appui-dropzone {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.appui-dropzone--accept-drag {
+    background-color: rgba(0, 255, 0, 0.1);
+    border-color: green;
+}
+
+.appui-dropzone--reject-drag {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-color: red;
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

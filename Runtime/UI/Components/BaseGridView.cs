@@ -1171,7 +1171,7 @@ namespace Unity.AppUI.UI
             if (!HasValidDataAndBindings())
                 return;
 
-            if (!evt.isPrimary)
+            if ((evt.pointerType == UnityEngine.UIElements.PointerType.mouse && evt.pointerId != PointerId.mousePointerId || evt.pointerType == UnityEngine.UIElements.PointerType.touch) && !evt.isPrimary)
                 return;
 
             var capturingElement = panel?.GetCapturingElement(evt.pointerId);
@@ -1201,7 +1201,7 @@ namespace Unity.AppUI.UI
             if (!HasValidDataAndBindings())
                 return;
 
-            if (!evt.isPrimary)
+            if ((evt.pointerType == UnityEngine.UIElements.PointerType.mouse && evt.pointerId != PointerId.mousePointerId || evt.pointerType == UnityEngine.UIElements.PointerType.touch) && !evt.isPrimary)
                 return;
 
             // if (shouldCancelSoftSelection)

@@ -13,23 +13,34 @@ namespace Unity.AppUI.Tests.Redux
         [Test]
         public void CreateAsyncThunk_WhenDelegateIsNull_ThrowsArgumentNullException()
         {
-            AsyncThunkActionCreator<string,string>.PayloadCreator asyncThunkDelegate = null;
-            Assert.Throws<ArgumentNullException>(() => new AsyncThunkActionCreator<string,string>("myAsyncThunk", asyncThunkDelegate));
-            Assert.Throws<ArgumentNullException>(() => Store.CreateAsyncThunk("myAsyncThunk", asyncThunkDelegate));
+            AsyncThunk<string,string> asyncThunkDelegate = null;
+            Assert.Throws<ArgumentNullException>(() => new AsyncThunkCreator<string,string>("myAsyncThunk", asyncThunkDelegate));
+        }
+
+        [Test]
+        public void CreateAsyncThunkAction()
+        {
+            var creator = new AsyncThunkCreator<int>("fetchThings", async _ => await Task.FromResult(42));
+            var action = new AsyncThunkAction<int>(creator);
+            Assert.AreEqual("fetchThings", action.type);
+            Assert.AreEqual(creator, action.creator);
+            Assert.IsTrue(action.payload);
         }
 
         [Test]
         public void CreateAsyncThunk_WhenTypeIsNull_ThrowsArgumentNullException()
         {
-            AsyncThunkActionCreator<string,string>.PayloadCreator asyncThunkDelegate = (_, _, _) => Task.FromResult("result");
-            Assert.Throws<ArgumentNullException>(() => new AsyncThunkActionCreator<string,string>(null, asyncThunkDelegate));
+            AsyncThunk<string,string> asyncThunkDelegate = _ => Task.FromResult("result");
+            Assert.Throws<ArgumentNullException>(() => new AsyncThunkCreator<string,string>(null, asyncThunkDelegate));
         }
 
+#if TEST_FRAMEWORK_1_4_0_OR_NEWER
         [Test]
         public void DispatchAsyncThunk_WhenStoreIsNull_ThrowsArgumentNullException()
         {
-            AsyncThunkActionCreator<string,string>.PayloadCreator asyncThunkDelegate = (_, _, _) => Task.FromResult("result");
-            var asyncThunk = new AsyncThunkActionCreator<string,string>("myAsyncThunk", asyncThunkDelegate);
+
+            AsyncThunk<string,string> asyncThunkDelegate = _ => Task.FromResult("result");
+            var asyncThunk = new AsyncThunkCreator<string,string>("myAsyncThunk", asyncThunkDelegate);
             Assert.ThrowsAsync<ArgumentNullException>(async () =>
                 await StoreExtensions.DispatchAsyncThunk(null, asyncThunk.Invoke("arg")));
         }
@@ -37,62 +48,66 @@ namespace Unity.AppUI.Tests.Redux
         [Test]
         public void DispatchAsyncThunk_WhenAsyncThunkIsNull_ThrowsArgumentNullException()
         {
-            var store = new Store();
+            var store = StoreFactory.CreateStore((state, _) => state, new PartitionedState());
             Assert.ThrowsAsync<ArgumentNullException>(async () =>
                 await StoreExtensions.DispatchAsyncThunk<string,string>(store, null));
         }
+#endif
 
         [Test]
         public void DispatchAsyncThunkCoroutine_WhenStoreIsNull_ThrowsArgumentNullException()
         {
-            AsyncThunkActionCreator<string,string>.PayloadCreator asyncThunkDelegate = (_, _, _) => Task.FromResult("result");
-            var asyncThunk = new AsyncThunkActionCreator<string,string>("myAsyncThunk", asyncThunkDelegate);
+            AsyncThunk<string,string> asyncThunkDelegate = _ => Task.FromResult("result");
+            var asyncThunk = new AsyncThunkCreator<string,string>("myAsyncThunk", asyncThunkDelegate);
             Assert.Throws<ArgumentNullException>(() => StoreExtensions.DispatchAsyncThunkCoroutine(null, asyncThunk.Invoke("arg")));
         }
 
         [Test]
         public void DispatchAsyncThunkCoroutine_WhenAsyncThunkIsNull_ThrowsArgumentNullException()
         {
-            var store = new Store();
+            var store = StoreFactory.CreateStore((state, _) => state, new PartitionedState());
             Assert.Throws<ArgumentNullException>(() => StoreExtensions.DispatchAsyncThunkCoroutine<string,string>(store, null));
         }
 
         [Test]
         public void ThunkAPI_Constructor_WhenStoreIsNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ThunkAPI<string,string>(null));
+            Assert.Throws<ArgumentNullException>(() => new ThunkAPI<string,string>(null, null));
         }
 
+#if TEST_FRAMEWORK_1_4_0_OR_NEWER
         [Test]
         public void ThunkAPI_DispatchThunk_WhenAsyncThunkIsNull_ThrowsArgumentNullException()
         {
-            var store = new Store();
-            var api = new ThunkAPI<string,string>(store);
-            Assert.ThrowsAsync<ArgumentNullException>(async () => await api.DispatchThunk(null));
+            var store = StoreFactory.CreateStore((state, _) => state, new PartitionedState());
+            var api = new ThunkAPI<string,string>(store, new AsyncThunkCreator<string,string>(
+                "dummy/action", _ => Task.FromResult("result")).Invoke("arg"));
+            Assert.DoesNotThrowAsync(async () => await api.DispatchThunk());
         }
+#endif
 
         [Test]
         public void Store_CreateAsyncThunk_ShouldCreateAsyncThunk()
         {
-            AsyncThunkActionCreator<string, string> asyncThunkActionCreator = null;
+            AsyncThunkCreator<string, string> AsyncThunkCreator = null;
             Assert.DoesNotThrow(() =>
-                asyncThunkActionCreator = Store.CreateAsyncThunk<string, string>(
-                    "myAsyncThunk", (_, _, _) => Task.FromResult("result")));
-            Assert.IsNotNull(asyncThunkActionCreator);
-            Assert.AreEqual("myAsyncThunk", asyncThunkActionCreator.type);
+                AsyncThunkCreator = new AsyncThunkCreator<string, string>(
+                    "myAsyncThunk", _ => Task.FromResult("result")));
+            Assert.IsNotNull(AsyncThunkCreator);
+            Assert.AreEqual("myAsyncThunk", AsyncThunkCreator.type);
 
-            Assert.IsNotNull(asyncThunkActionCreator.pending);
-            Assert.AreEqual("myAsyncThunk/pending", asyncThunkActionCreator.pending.type);
-            Assert.IsNotNull(asyncThunkActionCreator.fulfilled);
-            Assert.AreEqual("myAsyncThunk/fulfilled", asyncThunkActionCreator.fulfilled.type);
-            Assert.IsNotNull(asyncThunkActionCreator.rejected);
-            Assert.AreEqual("myAsyncThunk/rejected", asyncThunkActionCreator.rejected.type);
+            Assert.IsNotNull(AsyncThunkCreator.pending);
+            Assert.AreEqual("myAsyncThunk/pending", AsyncThunkCreator.pending.type);
+            Assert.IsNotNull(AsyncThunkCreator.fulfilled);
+            Assert.AreEqual("myAsyncThunk/fulfilled", AsyncThunkCreator.fulfilled.type);
+            Assert.IsNotNull(AsyncThunkCreator.rejected);
+            Assert.AreEqual("myAsyncThunk/rejected", AsyncThunkCreator.rejected.type);
 
-            asyncThunkActionCreator = null;
+            AsyncThunkCreator = null;
             Assert.DoesNotThrow(() =>
-                asyncThunkActionCreator = new AsyncThunkActionCreator<string, string>(
-                    "myAsyncThunk", (_, _, _) => Task.FromResult("result")));
-            Assert.IsNotNull(asyncThunkActionCreator);
+                AsyncThunkCreator = new AsyncThunkCreator<string, string>(
+                    "myAsyncThunk", _ => Task.FromResult("result")));
+            Assert.IsNotNull(AsyncThunkCreator);
         }
 
         [Test]
@@ -194,13 +209,15 @@ namespace Unity.AppUI.Tests.Redux
         [Test]
         public async Task Store_DispatchAsyncThunk_ShouldDispatchAsyncThunk()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, _, _) => await Task.FromResult("result"));
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async _ => await Task.FromResult("result"));
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new[]
             {
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action.payload });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action.payload });
+                })
             });
 
             await store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
@@ -210,13 +227,15 @@ namespace Unity.AppUI.Tests.Redux
         [UnityTest]
         public IEnumerator Store_DispatchAsyncThunkCoroutine_ShouldDispatchAsyncThunk()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, _, _) => await Task.FromResult("result"));
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async _ => await Task.FromResult("result"));
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new []
             {
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action.payload });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action.payload });
+                })
             });
 
             yield return store.DispatchAsyncThunkCoroutine(asyncThunk.Invoke("arg"));
@@ -230,7 +249,6 @@ namespace Unity.AppUI.Tests.Redux
         [TestCase(true, false)]
         public async Task Store_DispatchAsyncThunk_WithCondition_ShouldAbort(bool shouldReject, bool asyncCondition)
         {
-            var store = new Store();
             var options = new AsyncThunkOptions<string>
             {
                 dispatchConditionRejection = shouldReject
@@ -240,15 +258,18 @@ namespace Unity.AppUI.Tests.Redux
             else
                 options.condition = (arg, _) => arg != "abort";
 
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, _, _) => await Task.FromResult("result"),
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async _ => await Task.FromResult("result"),
                 options);
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new[]
             {
-                builder.AddCase(asyncThunk.pending, (state, _) => state with { value = "pending" });
-                builder.AddCase(asyncThunk.fulfilled, (state, _) => state with { value = "fulfilled" });
-                builder.AddCase(asyncThunk.rejected, (state, _) => state with { value = "rejected" });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.pending, (state, _) => state with { value = "pending" });
+                    builder.AddCase(asyncThunk.fulfilled, (state, _) => state with { value = "fulfilled" });
+                    builder.AddCase(asyncThunk.rejected, (state, _) => state with { value = "rejected" });
+                })
             });
 
             await store.DispatchAsyncThunk(asyncThunk.Invoke("abort"));
@@ -258,26 +279,28 @@ namespace Unity.AppUI.Tests.Redux
         [UnityTest]
         public IEnumerator Store_DispatchAsyncThunk_CanBeAbortedExternally()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, _, token) =>
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async api =>
                 {
-                    await Task.Delay(1000, token);
+                    await Task.Delay(1000, api.cancellationToken);
                     return "result";
                 });
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new []
             {
-                builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                })
             });
 
             // dispatch will already set the thunk status as pending, so we need to Cancel the token before dispatching
             using var cancellationTokenSource = new System.Threading.CancellationTokenSource();
             cancellationTokenSource.Cancel();
 
-            store.DispatchAsyncThunk(asyncThunk.Invoke("arg"), cancellationTokenSource.Token);
+            _ = store.DispatchAsyncThunk(asyncThunk.Invoke("arg"), cancellationTokenSource.Token);
 
             var rejectedAction = store.GetState<MyState>("mySlice").value as RejectedAction<string, string>;
             Assert.IsNotNull(rejectedAction);
@@ -286,11 +309,10 @@ namespace Unity.AppUI.Tests.Redux
             Assert.IsNull(rejectedAction.meta.reason);
             var cancelException = rejectedAction.meta.exception as OperationCanceledException;
             Assert.IsNotNull(cancelException);
-            Assert.AreEqual("The operation has been canceled externally.", cancelException.Message);
 
             // now we will dispatch the thunk again and cancel it after a while
             using var cancellationTokenSource2 = new System.Threading.CancellationTokenSource();
-            store.DispatchAsyncThunk(asyncThunk.Invoke("arg"), cancellationTokenSource2.Token);
+            _ = store.DispatchAsyncThunk(asyncThunk.Invoke("arg"), cancellationTokenSource2.Token);
             Assert.AreEqual(ThunkStatus.Pending,
                 (store.GetState<MyState>("mySlice").value as PendingAction<string,string>)?.meta.thunkStatus);
             yield return new UnityEngine.WaitForSeconds(0.1f);
@@ -308,32 +330,33 @@ namespace Unity.AppUI.Tests.Redux
             Assert.IsNull(rejectedAction.meta.reason);
             cancelException = rejectedAction.meta.exception as OperationCanceledException;
             Assert.IsNotNull(cancelException);
-            Assert.AreEqual("The operation has been canceled externally.", cancelException.Message);
         }
 
         [UnityTest]
         public IEnumerator Store_DispatchAsyncThunk_CanBeAbortedInternally()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, api, token) =>
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async api =>
                 {
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     api.Abort("reason");
 
                     // the operation should be canceled before this line
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     return "result";
                 });
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new []
             {
-                builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                })
             });
 
-            store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
+            _ = store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
 
             yield return new WaitUntilOrTimeOut(
                 () => store.GetState<MyState>("mySlice").value is RejectedAction<string, string>,
@@ -346,33 +369,35 @@ namespace Unity.AppUI.Tests.Redux
             Assert.IsTrue(rejectedAction.meta.aborted,
                 "Aborted property should be true when the thunk is rejected via a call to Abort method.");
             Assert.AreEqual("reason", rejectedAction.meta.reason);
-            var taskCanceledException = rejectedAction.meta.exception as TaskCanceledException;
+            var taskCanceledException = rejectedAction.meta.exception as OperationCanceledException;
             Assert.IsNotNull(taskCanceledException);
         }
 
         [UnityTest]
         public IEnumerator Store_DispatchAsyncThunk_CanBeRejectedWithValue()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, api, token) =>
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async api =>
                 {
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     api.RejectWithValue("error");
 
                     // the operation should be canceled before this line
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     return "result";
                 });
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new[]
             {
-                builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                })
             });
 
-            store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
+            _ = store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
 
             yield return new WaitUntilOrTimeOut(
                 () => store.GetState<MyState>("mySlice").value is RejectedAction<string, string>,
@@ -386,33 +411,36 @@ namespace Unity.AppUI.Tests.Redux
                 "Aborted property should be false when the thunk is rejected via a call to RejectWithValue method.");
             Assert.AreEqual(null, rejectedAction.meta.reason);
             Assert.AreEqual("error", rejectedAction.payload);
-            var taskCanceledException = rejectedAction.meta.exception as TaskCanceledException;
+            var taskCanceledException = rejectedAction.meta.exception as RejectedWithValueException<string>;
             Assert.IsNotNull(taskCanceledException);
         }
 
         [UnityTest]
         public IEnumerator Store_DispatchAsyncThunk_CanBeFulfilledPrematurelyWithValue()
         {
-            var store = new Store();
-            var asyncThunk = Store.CreateAsyncThunk<string, string>(
-                "myAsyncThunk", async (_, api, token) =>
+            var asyncThunk = new AsyncThunkCreator<string, string>(
+                "myAsyncThunk", async api =>
                 {
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     api.FulFillWithValue("premature result");
 
                     // the operation should be canceled before this line
-                    await Task.Delay(100, token);
+                    await Task.Delay(100, api.cancellationToken);
                     return "result";
                 });
 
-            store.CreateSlice("mySlice", new MyState(), null, builder =>
+            var store = StoreFactory.CreateStore(new[]
             {
-                builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
-                builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                StoreFactory.CreateSlice("mySlice", new MyState(), null, builder =>
+                {
+                    builder.AddCase(asyncThunk.pending, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.fulfilled, (state, action) => state with { value = action });
+                    builder.AddCase(asyncThunk.rejected, (state, action) => state with { value = action });
+                })
             });
 
-            store.DispatchAsyncThunk(asyncThunk.Invoke("arg"));
+            // Should be handled by the Thunk middleware
+            store.Dispatch(asyncThunk.Invoke("arg"));
 
             yield return new WaitUntilOrTimeOut(
                 () => store.GetState<MyState>("mySlice").value is FulfilledAction<string, string>,

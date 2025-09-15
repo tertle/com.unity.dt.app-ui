@@ -10,8 +10,29 @@ namespace Unity.AppUI.Editor
 {
     class AppUISettingsProvider : SettingsProvider, IDisposable
     {
-        public const string kEditorBuildSettingsConfigKey = "com.unity.dt.app-ui";
         public const string kSettingsPath = "Project/App UI";
+
+        class Styles
+        {
+            public static readonly GUIContent editorOnlyContent = new GUIContent("Editor Only", "Enable this options to prevent the App UI system from running in the player builds.");
+            public static readonly GUIContent autoScaleUIContent = new GUIContent("Auto Scale UI", "Enable this options to correct the scale of UIDocuments, depending on the target platform and screen dpi.");
+            public static readonly GUIContent useCustomEditorUpdateFrequencyContent = new GUIContent("Use Custom Loop Frequency", "Enable this option to override the default update loop frequency (the default frequency is the one used by the Editor loop).");
+            public static readonly GUIContent editorUpdateFrequencyContent = new GUIContent("Update Loop Frequency", "Configure how frequently you want to run the main App UI process loop (to handle queued messages for examples). Default is 60Hz.");
+            public static readonly GUIContent autoOverrideAndroidManifestContent = new GUIContent("Auto Override Android Manifest", "");
+            public static readonly GUIContent enableMacOSGestureRecognitionContent = new GUIContent("Enable Gesture Recognition", "");
+            public static readonly GUIContent includeShadersInPlayerBuildContent = new GUIContent("Include Shaders in Player Build", "");
+
+            public static readonly GUIContent createSettingsAssetContent = new GUIContent("Create Settings Asset", "Create a new App UI settings asset in the project.");
+            public static readonly GUIContent settingsAssetFieldContent = new GUIContent("Settings Asset", "The App UI settings asset to use for this project. If not set, a default one will be created.");
+
+            public static readonly GUIContent editorGroup = new GUIContent("Editor");
+            public static readonly GUIContent runtimeGroup = new GUIContent("Runtime");
+            public static readonly GUIContent androidGroup = new GUIContent("Android");
+            public static readonly GUIContent macOSGroup = new GUIContent("MacOS");
+
+            public static readonly GUIContent androidManifestOverrideWarning = new GUIContent("In order to get all features working properly on Android, you need to override the default Android manifest file with the one provided by App UI.");
+            public static readonly GUIContent macOSGestureRecognitionWarning = new GUIContent("Enabling gesture recognition on MacOS will allow you to use gestures such as pinch, pan, and rotate. However, some gestures are synthesized as mouse events and can't be avoided, such as the Pan gesture.");
+        }
 
         public static void Open()
         {
@@ -28,6 +49,7 @@ namespace Unity.AppUI.Editor
             : base(path, scopes)
         {
             label = "App UI";
+            keywords = GetSearchKeywordsFromGUIContentProperties<Styles>();
             s_Instance = this;
         }
 
@@ -36,92 +58,131 @@ namespace Unity.AppUI.Editor
             m_SettingsObject?.Dispose();
         }
 
-        public override void OnTitleBarGUI()
+        static bool IsInReadOnlyPackage(AppUISettings settings)
         {
-            if (EditorGUILayout.DropdownButton(EditorGUIUtility.IconContent("_Popup"), FocusType.Passive, EditorStyles.label))
+            if (!settings)
+                return false;
+
+            var path = AssetDatabase.GetAssetPath(settings);
+            if (string.IsNullOrEmpty(path))
+                return false;
+
+            // Check if the asset is in a read-only package.
+            var packageInfo = UnityEditor.PackageManager.PackageInfo.FindForAssetPath(path);
+            return packageInfo is
             {
-                var menu = new GenericMenu();
-                menu.AddDisabledItem(new GUIContent("Available Settings Assets:"));
-                menu.AddSeparator("");
-                for (var i = 0; i < m_AvailableSettingsAssetsOptions.Length; i++)
-                    menu.AddItem(new GUIContent(m_AvailableSettingsAssetsOptions[i]), m_CurrentSelectedInputSettingsAsset == i, (path) => {
-                        Core.AppUI.settings = AssetDatabase.LoadAssetAtPath<AppUISettings>((string)path);
-                    }, m_AvailableInputSettingsAssets[i]);
-                menu.AddSeparator("");
-                menu.AddItem(new GUIContent("New Settings Asset…"), false, CreateNewSettingsAsset);
-                menu.ShowAsContext();
-                Event.current.Use();
-            }
+                source: UnityEditor.PackageManager.PackageSource.BuiltIn
+                or UnityEditor.PackageManager.PackageSource.Embedded
+            };
+        }
+
+        static bool IsEditableSettings(AppUISettings settings)
+        {
+            return settings && EditorUtility.IsPersistent(settings) && !IsInReadOnlyPackage(settings);
         }
 
         public override void OnGUI(string searchContext)
         {
-            InitializeWithCurrentSettingsIfNecessary();
+            var currentSettingsAsset = m_Settings && EditorUtility.IsPersistent(m_Settings) ? m_Settings : null;
+            var newSettingsAsset = EditorGUILayout.ObjectField(
+                Styles.settingsAssetFieldContent,
+                currentSettingsAsset,
+                typeof(AppUISettings),
+                false) as AppUISettings;
+
+            var removed = !newSettingsAsset && currentSettingsAsset;
+            if (newSettingsAsset != currentSettingsAsset)
+                Core.AppUI.settings = newSettingsAsset ? newSettingsAsset : ScriptableObject.CreateInstance<AppUISettings>();
+
+            InitializeWithCurrentSettingsIfNecessary(removed);
+
+            Debug.Assert(m_Settings);
 
             EditorGUIUtility.labelWidth = 200;
 
-            if (m_AvailableInputSettingsAssets.Count == 0)
+            if (m_AvailableAppUISettingsAssets.Count == 0 || !EditorUtility.IsPersistent(m_Settings))
             {
+                var notPersistentMessage = EditorUtility.IsPersistent(m_Settings) ? "" : "You have not selected one yet. Please pick one from the field above or create a new one.";
                 EditorGUILayout.HelpBox(
-                    "Settings for App UI are stored in an asset. Click the button below to create a settings asset you can edit.",
+                    $"Settings for App UI are stored in an asset. {notPersistentMessage}\n\nClick the button below to create a settings asset you can edit.",
                     MessageType.Info);
-                if (GUILayout.Button("Create settings asset", GUILayout.Height(30)))
+                if (GUILayout.Button(Styles.createSettingsAssetContent, GUILayout.Height(30)))
                     CreateNewSettingsAsset();
                 GUILayout.Space(20);
             }
 
-            using (new EditorGUI.DisabledScope(m_AvailableInputSettingsAssets.Count == 0))
+            if (m_Settings && EditorUtility.IsPersistent(m_Settings) && IsInReadOnlyPackage(m_Settings))
+            {
+                EditorGUILayout.HelpBox(
+                    $"The App UI settings asset is stored in a read-only package. If you want to edit it, please create a new App UI settings asset in your project.\n\nClick the button below to create a new settings asset you can edit.",
+                    MessageType.Warning);
+                if (GUILayout.Button(Styles.createSettingsAssetContent, GUILayout.Height(30)))
+                    CreateNewSettingsAsset();
+                GUILayout.Space(20);
+            }
+
+            using (new EditorGUI.DisabledScope(!IsEditableSettings(m_Settings)))
             {
                 EditorGUILayout.Space();
                 EditorGUILayout.Separator();
                 EditorGUILayout.Space();
 
-                Debug.Assert(m_Settings != null);
-
                 EditorGUI.BeginChangeCheck();
 
-                EditorGUILayout.Space();
-
-                EditorGUILayout.PropertyField(m_AutoScaleUI, m_AutoScaleUIContent);
-
-                EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(Styles.editorGroup, EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.PropertyField(m_UseCustomEditorUpdateFrequency, m_UseCustomEditorUpdateFrequencyContent);
+                EditorGUILayout.PropertyField(m_EditorOnly, Styles.editorOnlyContent);
+
+                EditorGUILayout.PropertyField(m_UseCustomEditorUpdateFrequency, Styles.useCustomEditorUpdateFrequencyContent);
 
                 using (new EditorGUI.DisabledScope(!m_UseCustomEditorUpdateFrequency.boolValue))
                 {
-                    EditorGUILayout.PropertyField(m_EditorUpdateFrequency, m_EditorUpdateFrequencyContent);
+                    EditorGUILayout.PropertyField(m_EditorUpdateFrequency, Styles.editorUpdateFrequencyContent);
                 }
 
                 EditorGUI.indentLevel--;
 
                 EditorGUILayout.Space();
 
-                EditorGUILayout.LabelField("Android", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(Styles.runtimeGroup, EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("In order to get all features working properly on Android, " +
-                    "you need to override the default Android manifest file with the one provided by App UI.",
-                    MessageType.Warning);
+                EditorGUILayout.PropertyField(m_AutoScaleUI, Styles.autoScaleUIContent);
 
-                EditorGUILayout.PropertyField(m_AutoOverrideAndroidManifest, m_AutoOverrideAndroidManifestContent);
+                using (new EditorGUI.DisabledScope(m_EditorOnly.boolValue))
+                {
+                    EditorGUILayout.PropertyField(m_IncludeShadersInPlayerBuild, Styles.includeShadersInPlayerBuildContent);
+                }
 
                 EditorGUI.indentLevel--;
 
                 EditorGUILayout.Space();
 
-                EditorGUILayout.LabelField("MacOS", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(Styles.androidGroup, EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.PropertyField(m_EnableMacOSGestureRecognition, m_EnableMacOSGestureRecognitionContent);
+                EditorGUILayout.HelpBox(Styles.androidManifestOverrideWarning.text, MessageType.Warning);
 
-                EditorGUILayout.HelpBox("Some gestures are synthesized as mouse events on MacOS and can't be avoided, " +
-                    "such as the Pan gesture.",
-                    MessageType.Info);
+                using (new EditorGUI.DisabledScope(m_EditorOnly.boolValue))
+                {
+                    EditorGUILayout.PropertyField(m_AutoOverrideAndroidManifest, Styles.autoOverrideAndroidManifestContent);
+                }
+
+                EditorGUI.indentLevel--;
+
+                EditorGUILayout.Space();
+
+                EditorGUILayout.LabelField(Styles.macOSGroup, EditorStyles.boldLabel);
+
+                EditorGUI.indentLevel++;
+
+                EditorGUILayout.PropertyField(m_EnableMacOSGestureRecognition, Styles.enableMacOSGestureRecognitionContent);
+
+                EditorGUILayout.HelpBox(Styles.macOSGestureRecognitionWarning.text, MessageType.Info);
 
                 EditorGUI.indentLevel--;
 
@@ -174,81 +235,44 @@ namespace Unity.AppUI.Editor
             CreateNewSettingsAsset(relativePath);
         }
 
-        void InitializeWithCurrentSettingsIfNecessary()
+        void InitializeWithCurrentSettingsIfNecessary(bool removed)
         {
-            if (Core.AppUI.settings == m_Settings && m_Settings != null && m_SettingsDirtyCount == EditorUtility.GetDirtyCount(m_Settings))
+            if (Core.AppUI.settings == m_Settings && m_Settings && m_SettingsDirtyCount == EditorUtility.GetDirtyCount(m_Settings))
                 return;
 
-            InitializeWithCurrentSettings();
+            InitializeWithCurrentSettings(removed);
         }
 
         /// <summary>
         /// Grab <see cref="AppUISettings"/> and set it up for editing.
         /// </summary>
-        void InitializeWithCurrentSettings()
+        void InitializeWithCurrentSettings(bool removed)
         {
             // Find the set of available assets in the project.
-            m_AvailableInputSettingsAssets = new List<string>(FindInputSettingsInProject());
+            m_AvailableAppUISettingsAssets = new List<string>(FindAppUISettingsInProject());
 
             // See which is the active one.
             m_Settings = Core.AppUI.settings;
             m_SettingsDirtyCount = EditorUtility.GetDirtyCount(m_Settings);
-            var currentSettingsPath = AssetDatabase.GetAssetPath(m_Settings);
-            if (string.IsNullOrEmpty(currentSettingsPath))
+            if (!EditorUtility.IsPersistent(m_Settings))
             {
-                if (m_AvailableInputSettingsAssets.Count != 0)
+                if (m_AvailableAppUISettingsAssets.Count != 0 && !removed)
                 {
-                    m_CurrentSelectedInputSettingsAsset = 0;
-                    m_Settings = AssetDatabase.LoadAssetAtPath<AppUISettings>(m_AvailableInputSettingsAssets[0]);
+                    m_Settings = AssetDatabase.LoadAssetAtPath<AppUISettings>(m_AvailableAppUISettingsAssets[0]);
                     Core.AppUI.settings = m_Settings;
                 }
-            }
-            else
-            {
-                m_CurrentSelectedInputSettingsAsset = m_AvailableInputSettingsAssets.IndexOf(currentSettingsPath);
-                if (m_CurrentSelectedInputSettingsAsset == -1)
-                {
-                    m_AvailableInputSettingsAssets.Add(currentSettingsPath);
-                    m_CurrentSelectedInputSettingsAsset = m_AvailableInputSettingsAssets.IndexOf(currentSettingsPath);
-                }
-
-                ////REVIEW: should we store this by platform?
-                EditorBuildSettings.AddConfigObject(kEditorBuildSettingsConfigKey, m_Settings, true);
-            }
-
-            // Refresh the list of assets we display in the UI.
-            m_AvailableSettingsAssetsOptions = new GUIContent[m_AvailableInputSettingsAssets.Count];
-            for (var i = 0; i < m_AvailableInputSettingsAssets.Count; ++i)
-            {
-                var name = m_AvailableInputSettingsAssets[i];
-                if (name.StartsWith("Assets/"))
-                    name = name.Substring("Assets/".Length);
-                if (name.EndsWith(".asset"))
-                    name = name.Substring(0, name.Length - ".asset".Length);
-
-                // Ugly hack: GenericMenu interprets "/" as a submenu path. But luckily, "/" is not the only slash we have in Unicode.
-                m_AvailableSettingsAssetsOptions[i] = new GUIContent(name.Replace("/", "\u29f8"));
             }
 
             // Look up properties.
             m_SettingsObject = new SerializedObject(m_Settings);
+
+            m_EditorOnly = m_SettingsObject.FindProperty("m_EditorOnly");
             m_AutoScaleUI = m_SettingsObject.FindProperty("m_AutoCorrectUiScale");
-            m_AutoScaleUIContent = new GUIContent("Auto Scale UI",
-                "Enable this options to correct the scale of UIDocuments, depending on the target platform and screen dpi.");
-
             m_UseCustomEditorUpdateFrequency = m_SettingsObject.FindProperty("m_UseCustomEditorUpdateFrequency");
-            m_UseCustomEditorUpdateFrequencyContent = new GUIContent("Use Custom Loop Frequency",
-                "Enable this option to override the default update loop frequency (the default frequency is the one used by the Editor loop).");
-
             m_EditorUpdateFrequency = m_SettingsObject.FindProperty("m_EditorUpdateFrequency");
-            m_EditorUpdateFrequencyContent = new GUIContent("Update Loop Frequency",
-                "Configure how frequently you want to run the main App UI process loop (to handle queued messages for examples). Default is 60Hz.");
-
             m_AutoOverrideAndroidManifest = m_SettingsObject.FindProperty("m_AutoOverrideAndroidManifest");
-            m_AutoOverrideAndroidManifestContent = new GUIContent("Auto Override Android Manifest", "");
-
             m_EnableMacOSGestureRecognition = m_SettingsObject.FindProperty("m_EnableMacOSGestureRecognition");
-            m_EnableMacOSGestureRecognitionContent = new GUIContent("Enable Gesture Recognition", "");
+            m_IncludeShadersInPlayerBuild = m_SettingsObject.FindProperty("m_IncludeShadersInPlayerBuild");
         }
 
         void Apply()
@@ -256,7 +280,7 @@ namespace Unity.AppUI.Editor
             if (!m_Settings)
                 return;
 
-            m_SettingsObject.ApplyModifiedProperties();
+            m_SettingsObject.ApplyModifiedPropertiesWithoutUndo();
             m_SettingsObject.Update();
             m_Settings.OnChange();
         }
@@ -264,10 +288,10 @@ namespace Unity.AppUI.Editor
         /// <summary>
         /// Find all <see cref="AppUISettings"/> stored in assets in the current project.
         /// </summary>
-        /// <returns>List of input settings in project.</returns>
-        static IEnumerable<string> FindInputSettingsInProject()
+        /// <returns>List of AppUI settings in project.</returns>
+        static IEnumerable<string> FindAppUISettingsInProject()
         {
-            var guids = AssetDatabase.FindAssets("t:AppUISettings");
+            var guids = AssetDatabase.FindAssets($"t:{nameof(AppUISettings)} a:all");
 
             var paths = new List<string>();
 
@@ -281,27 +305,18 @@ namespace Unity.AppUI.Editor
         }
 
         [SerializeField] AppUISettings m_Settings;
-        [SerializeField] bool m_SettingsIsNotAnAsset;
 
         [NonSerialized] int m_SettingsDirtyCount;
         [NonSerialized] SerializedObject m_SettingsObject;
+        [NonSerialized] SerializedProperty m_EditorOnly;
         [NonSerialized] SerializedProperty m_AutoScaleUI;
         [NonSerialized] SerializedProperty m_UseCustomEditorUpdateFrequency;
         [NonSerialized] SerializedProperty m_EditorUpdateFrequency;
         [NonSerialized] SerializedProperty m_AutoOverrideAndroidManifest;
         [NonSerialized] SerializedProperty m_EnableMacOSGestureRecognition;
+        [NonSerialized] SerializedProperty m_IncludeShadersInPlayerBuild;
 
-        [NonSerialized] List<string> m_AvailableInputSettingsAssets;
-        [NonSerialized] GUIContent[] m_AvailableSettingsAssetsOptions;
-        [NonSerialized] int m_CurrentSelectedInputSettingsAsset;
-
-        [NonSerialized] GUIStyle m_NewAssetButtonStyle;
-
-        GUIContent m_AutoScaleUIContent;
-        GUIContent m_UseCustomEditorUpdateFrequencyContent;
-        GUIContent m_EditorUpdateFrequencyContent;
-        GUIContent m_AutoOverrideAndroidManifestContent;
-        GUIContent m_EnableMacOSGestureRecognitionContent;
+        [NonSerialized] List<string> m_AvailableAppUISettingsAssets;
 
         static AppUISettingsProvider s_Instance;
 

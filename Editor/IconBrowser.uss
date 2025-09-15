@@ -1,10 +1,19 @@
-Panel {
-    background-color: var(--appui-backgrounds-200);
+.appui {
+    background-color: var(--appui-color-transparent-black-0);
     margin-top: 8px;
 }
 
 .icon-browser {
     padding: 8px;
+    align-items: stretch;
+}
+
+.grid-view {
+    margin: 0 2px;
+}
+
+.grid-view:disabled {
+    opacity: 0.5;
 }
 
 .icon-entry {
@@ -18,6 +27,12 @@ Panel {
     padding: 4px;
     margin-bottom: 8px;
     white-space: normal;
+}
+
+.search {
+    margin-top: 8px;
+    margin-bottom: 0;
+    height: 20px;
 }
 
 .icon-entry__element {
@@ -56,6 +71,10 @@ Panel {
 
 .footer__buttons {
     flex-direction: row;
+}
+
+.footer__checkbox > .unity-label {
+    -unity-text-align: middle-right;
 }
 
 .footer__button {

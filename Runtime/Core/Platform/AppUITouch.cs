@@ -52,5 +52,14 @@ namespace Unity.AppUI.Core
             this.deltaTime = deltaTime;
             this.phase = phase;
         }
+
+        /// <summary>
+        /// Returns a string representation of the touch.
+        /// </summary>
+        /// <returns> A string representation of the touch.</returns>
+        public override string ToString()
+        {
+            return $"AppUITouch: {fingerId} {position} {deltaPos} {deltaTime} {phase}";
+        }
     }
 }

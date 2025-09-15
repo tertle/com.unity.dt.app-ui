@@ -4,6 +4,8 @@ using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
+using Unity.AppUI.Bridge;
+using UnityEngine.Rendering;
 
 namespace Unity.AppUI.UI
 {
@@ -41,8 +43,8 @@ namespace Unity.AppUI.UI
         /// Check if a <see cref="VisualElement"/> is invisible.
         /// </summary>
         /// <remarks>
-        /// An element is considered invisible if it's not attached to a panel, its visibility attribute is set to <see cref="Visibility.Hidden"/>,
-        /// has an opacity lower than 0.001 or has a display style set to <see cref="DisplayStyle.None"/>.
+        /// An element is considered invisible if it's not attached to a panel, its visibility attribute or the one from its ancestors is set to <see cref="Visibility.Hidden"/>,
+        /// has a computed opacity value lower than 0.001 or has a display style (itself or ancestors) set to <see cref="DisplayStyle.None"/>.
         /// </remarks>
         /// <param name="element"> The <see cref="VisualElement"/> object.</param>
         /// <returns> True if the element is invisible, false otherwise.</returns>
@@ -52,7 +54,55 @@ namespace Unity.AppUI.UI
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            return element.panel == null || !element.visible || element.resolvedStyle.opacity < 0.001f || element.resolvedStyle.display == DisplayStyle.None;
+            if (element.panel == null || !element.visible || element.resolvedStyle.opacity < 0.001f || element.resolvedStyle.display == DisplayStyle.None)
+                return true;
+
+            // check ancestors
+            var parent = element.parent;
+            while (parent != null)
+            {
+                if (!parent.visible || parent.resolvedStyle.opacity < 0.001f || parent.resolvedStyle.display == DisplayStyle.None)
+                    return true;
+
+                parent = parent.parent;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if a <see cref="VisualElement"/> is on screen.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <returns> True if the element is on screen, false otherwise.</returns>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static bool IsOnScreen(this VisualElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var panel = element.panel;
+            if (panel == null)
+                return false;
+
+            var rect = element.GetWorldBoundingBox();
+            if (!rect.IsValid())
+                return false;
+
+            return rect.xMax > 0 && rect.xMin < panel.visualTree.layout.width && rect.yMax > 0 && rect.yMin < panel.visualTree.layout.height;
+        }
+
+        /// <summary>
+        /// Set UsageHint on a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="enabled"> True to set the UsageHint to Dynamic, false to set it to Static.</param>
+        public static void EnableDynamicTransform(this VisualElement element, bool enabled)
+        {
+            if (enabled)
+                element.usageHints |= UsageHints.DynamicTransform;
+            else
+                element.usageHints &= ~UsageHints.DynamicTransform;
         }
 
         /// <summary>
@@ -96,6 +146,89 @@ namespace Unity.AppUI.UI
             }
 
             return res;
+        }
+
+        /// <summary>
+        /// Retrieve the root element of a <see cref="VisualElement"/> in the current visual tree that is exclusive to this tree.
+        /// In Runtime panel context, this is the root of the panel's visual tree directly.
+        /// In Editor context, tabbed Editor windows share the same root container, so this method will return the child
+        /// of the root container that is exclusive to this tree and will exclude any <see cref="IMGUIContainer"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <returns> The root element of the visual tree.</returns>
+        public static VisualElement GetExclusiveRootElement(this VisualElement element)
+        {
+            var panel = element?.panel;
+            if (panel == null)
+                return null;
+
+            if (panel.contextType == ContextType.Player)
+                return panel.visualTree;
+
+            var root = element.panel.visualTree;
+            for (var i = 0; i < root.childCount; i++)
+            {
+                var child = root[i];
+                if (child is not IMGUIContainer)
+                    return child;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Get the last ancestor of a given type.
+        /// </summary>
+        /// <param name="view"> The <see cref="VisualElement"/> object.</param>
+        /// <typeparam name="T"> The type of the ancestor to search for.</typeparam>
+        /// <returns> The last ancestor of the given type.</returns>
+        public static T GetLastAncestorOfType<T>(this VisualElement view) where T : VisualElement
+        {
+            if (view == null)
+                return null;
+
+            T lastFound = null;
+            var current = view;
+
+            while (current != null)
+            {
+                if (current is T match)
+                    lastFound = match;
+                current = current.parent;
+            }
+
+            return lastFound;
+        }
+
+        /// <summary>
+        /// Check if a <see cref="VisualElement"/> has multiple ancestors of a given type.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <typeparam name="T"> The type of the ancestor to search for.</typeparam>
+        /// <returns> True if the element has multiple ancestors of the given type, false otherwise.</returns>
+        /// <remarks>
+        /// This will not include the element itself in the search.
+        /// </remarks>
+        public static bool HasAncestorsOfType<T>(this VisualElement element) where T : VisualElement
+        {
+            if (element == null)
+                return false;
+
+            var foundOne = false;
+            var current = element.parent;
+
+            while (current != null)
+            {
+                if (current is T)
+                {
+                    if (foundOne)
+                        return true;
+                    foundOne = true;
+                }
+                current = current.parent;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -300,29 +433,29 @@ namespace Unity.AppUI.UI
             /// <summary>
             /// Callbacks to invoke when the element is attached to a panel to send the context changed event.
             /// </summary>
-            internal Dictionary<Type, EventCallback<AttachToPanelEvent>>
+            internal Dictionary<string, EventCallback<AttachToPanelEvent>>
                 sendContextChangedOnAttachedToPanelCallbacksPerType { get; }  = new();
 
             /// <summary>
             /// Callbacks to invoke when the context changes.
             /// </summary>
-            internal Dictionary<Type, List<object>> contextChangedCallbacksPerType { get; } = new ();
+            internal Dictionary<string, List<object>> contextChangedCallbacksPerType { get; } = new ();
 
             /// <summary>
             /// Callbacks to invoke when the element is attached to a panel to change the context.
             /// </summary>
-            internal Dictionary<Type, List<EventCallback<AttachToPanelEvent>>>
+            internal Dictionary<string, List<EventCallback<AttachToPanelEvent>>>
                 contextChangedOnAttachedToPanelCallbacksPerType { get; } = new ();
 
             /// <summary>
             /// The Contexts collection.
             /// </summary>
-            internal Dictionary<Type, IContext> contexts { get; } = new ();
+            internal Dictionary<string, IContext> contexts { get; } = new ();
 
             /// <summary>
             /// The previous Contexts collection.
             /// </summary>
-            internal Dictionary<Type, IContext> previousContexts { get; } = new ();
+            internal Dictionary<string, IContext> previousContexts { get; } = new ();
 
             /// <summary>
             /// The preferred placement for a tooltip.
@@ -373,6 +506,8 @@ namespace Unity.AppUI.UI
             public event Action tooltipTemplateChanged;
         }
 
+        static string GetDefaultContextKey<T>() => typeof(T).FullName;
+
         /// <summary>
         /// Find the closest context provider in the hierarchy of a <see cref="VisualElement"/>.
         /// </summary>
@@ -383,14 +518,31 @@ namespace Unity.AppUI.UI
         public static VisualElement GetContextProvider<T>(this VisualElement element)
             where T : IContext
         {
+            return GetContextProvider<T>(element, GetDefaultContextKey<T>());
+        }
+
+        /// <summary>
+        /// Find the closest context provider in the hierarchy of a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key to identify the context.</param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <returns> The context provider.</returns>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static VisualElement GetContextProvider<T>(this VisualElement element, string key)
+            where T : IContext
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             var el = element;
 
             while (el != null)
             {
-                if (TryGetValue(el, out var data) && data.contexts.ContainsKey(typeof(T)))
+                if (TryGetValue(el, out var data) && data.contexts.ContainsKey(key))
                     return el;
 
                 el = el.hierarchy.parent;
@@ -413,13 +565,34 @@ namespace Unity.AppUI.UI
         public static T GetContext<T>(this VisualElement element)
             where T : IContext
         {
+            return GetContext<T>(element, GetDefaultContextKey<T>());
+        }
+
+        /// <summary>
+        /// Get the context of a given type in a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <remarks>
+        /// This method will look for the context in the current element and its parents without checking
+        /// if the element is part of the visual tree.
+        /// </remarks>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key to identify the context.</param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <returns> The context.</returns>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static T GetContext<T>(this VisualElement element, string key)
+            where T : IContext
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            if (element.GetContextProvider<T>() is { } provider)
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
+
+            if (GetContextProvider<T>(element, key) is { } provider)
             {
                 TryGetValue(provider, out var data);
-                return (T)data.contexts[typeof(T)];
+                return (T)data.contexts[key];
             }
 
             return default;
@@ -434,11 +607,27 @@ namespace Unity.AppUI.UI
         /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
         public static T GetSelfContext<T>(this VisualElement element)
         {
+            return GetSelfContext<T>(element, GetDefaultContextKey<T>());
+        }
+
+        /// <summary>
+        /// Get the context of a given type in a <see cref="VisualElement"/> if this element is provider of this context.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key used to identify the context. </param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <returns> The context if the element is provider of this context, null otherwise.</returns>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static T GetSelfContext<T>(this VisualElement element, string key)
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            if (TryGetValue(element, out var data) && data.contexts.ContainsKey(typeof(T)))
-                return (T)data.contexts[typeof(T)];
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
+
+            if (TryGetValue(element, out var data) && data.contexts.TryGetValue(key, out var ctx))
+                return (T)ctx;
 
             return default;
         }
@@ -453,40 +642,55 @@ namespace Unity.AppUI.UI
         public static void ProvideContext<T>(this VisualElement element, T context)
             where T : IContext
         {
+            ProvideContext(element, GetDefaultContextKey<T>(), context);
+        }
+
+        /// <summary>
+        /// Make the element provide a context of a given type in a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key to identify the context.</param>
+        /// <param name="context"> The context.</param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static void ProvideContext<T>(this VisualElement element, string key, T context)
+            where T : IContext
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             var data = GetOrCreateValue(element);
 
             void OnAttached(AttachToPanelEvent evt)
             {
                 if (evt.destinationPanel != null)
-                    element.SendContextChangedEvent<T>();
+                    element.SendContextChangedEvent<T>(key);
             }
 
-            if (context == null)
+            if (context is null)
             {
-                if (data.contexts.ContainsKey(typeof(T)))
+                if (data.contexts.Remove(key))
                 {
-                    data.contexts.Remove(typeof(T));
-                    element.SendContextChangedEvent<T>();
+                    element.SendContextChangedEvent<T>(key);
                 }
-                if (data.sendContextChangedOnAttachedToPanelCallbacksPerType.TryGetValue(typeof(T), out var callback))
+                if (data.sendContextChangedOnAttachedToPanelCallbacksPerType.Remove(key, out var callback))
                 {
-                    data.sendContextChangedOnAttachedToPanelCallbacksPerType.Remove(typeof(T));
                     element.UnregisterCallback(callback);
                 }
             }
             else
             {
-                data.contexts[typeof(T)] = context;
-                if (!data.sendContextChangedOnAttachedToPanelCallbacksPerType.ContainsKey(typeof(T)))
+                data.contexts[key] = context;
+                if (!data.sendContextChangedOnAttachedToPanelCallbacksPerType.ContainsKey(key))
                 {
                     var callback = new EventCallback<AttachToPanelEvent>(OnAttached);
-                    data.sendContextChangedOnAttachedToPanelCallbacksPerType[typeof(T)] = callback;
+                    data.sendContextChangedOnAttachedToPanelCallbacksPerType[key] = callback;
                     element.RegisterCallback(callback);
                 }
-                element.SendContextChangedEvent<T>();
+                element.SendContextChangedEvent<T>(key);
             }
         }
 
@@ -500,10 +704,27 @@ namespace Unity.AppUI.UI
         public static bool IsContextProvider<T>(this VisualElement element)
             where T : IContext
         {
+            return IsContextProvider<T>(element, GetDefaultContextKey<T>());
+        }
+
+        /// <summary>
+        /// Check if a <see cref="VisualElement"/> provides a context of a given type.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key used to identify the context. </param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <returns> True if the element provides the context, false otherwise.</returns>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object can't be null.</exception>
+        public static bool IsContextProvider<T>(this VisualElement element, string key)
+            where T : IContext
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            return TryGetValue(element, out var data) && data.contexts.ContainsKey(typeof(T));
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
+
+            return TryGetValue(element, out var data) && data.contexts.ContainsKey(key);
         }
 
         /// <summary>
@@ -513,11 +734,31 @@ namespace Unity.AppUI.UI
         /// <param name="callback"> The callback.</param>
         /// <typeparam name="T"> The type of the context.</typeparam>
         /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object and the callback can't be null.</exception>
-        public static void RegisterContextChangedCallback<T>(this VisualElement element, EventCallback<ContextChangedEvent<T>> callback)
+        public static void RegisterContextChangedCallback<T>(this VisualElement element,
+            EventCallback<ContextChangedEvent<T>> callback) where T : IContext
+        {
+            RegisterContextChangedCallback(element, GetDefaultContextKey<T>(), callback);
+        }
+
+        /// <summary>
+        /// Register a callback to be invoked when the context of a given type changes in a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key used to identify the context. </param>
+        /// <param name="callback"> The callback.</param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object and the callback can't be null.</exception>
+        public static void RegisterContextChangedCallback<T>(
+            this VisualElement element,
+            string key,
+            EventCallback<ContextChangedEvent<T>> callback)
             where T : IContext
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
@@ -526,9 +767,8 @@ namespace Unity.AppUI.UI
             {
                 var context = element.GetContext<T>();
 
-                if (TryGetValue(element, out var data) && data.previousContexts.ContainsKey(typeof(T)))
+                if (TryGetValue(element, out var data) && data.previousContexts.TryGetValue(key, out var previousContext))
                 {
-                    var previousContext = data.previousContexts[typeof(T)];
                     if (previousContext != null && previousContext.Equals(context))
                         return;
                 }
@@ -545,13 +785,13 @@ namespace Unity.AppUI.UI
             }
 
             var data = GetOrCreateValue(element);
-            if (data.contextChangedCallbacksPerType.TryGetValue(typeof(T), out var callbacks))
+            if (data.contextChangedCallbacksPerType.TryGetValue(key, out var callbacks))
             {
                 if (!callbacks.Contains(callback))
                 {
                     callbacks.Add(callback);
                     var attachCallback = new EventCallback<AttachToPanelEvent>(OnAttached);
-                    data.contextChangedOnAttachedToPanelCallbacksPerType[typeof(T)].Add(attachCallback);
+                    data.contextChangedOnAttachedToPanelCallbacksPerType[key].Add(attachCallback);
                     element.RegisterCallback(attachCallback);
                     if (element.panel != null)
                         SendContextChangedEventLocal();
@@ -560,9 +800,9 @@ namespace Unity.AppUI.UI
             else
             {
                 callbacks = new List<object> { callback };
-                data.contextChangedCallbacksPerType[typeof(T)] = callbacks;
+                data.contextChangedCallbacksPerType[key] = callbacks;
                 var attachCallback = new EventCallback<AttachToPanelEvent>(OnAttached);
-                data.contextChangedOnAttachedToPanelCallbacksPerType[typeof(T)] = new List<EventCallback<AttachToPanelEvent>> { attachCallback };
+                data.contextChangedOnAttachedToPanelCallbacksPerType[key] = new List<EventCallback<AttachToPanelEvent>> { attachCallback };
                 element.RegisterCallback(attachCallback);
                 if (element.panel != null)
                     SendContextChangedEventLocal();
@@ -579,32 +819,55 @@ namespace Unity.AppUI.UI
         public static void UnregisterContextChangedCallback<T>(this VisualElement element, EventCallback<ContextChangedEvent<T>> callback)
             where T : IContext
         {
+            UnregisterContextChangedCallback(element, GetDefaultContextKey<T>(), callback);
+        }
+
+        /// <summary>
+        /// Unregister a callback to be invoked when the context of a given type changes in a <see cref="VisualElement"/>.
+        /// </summary>
+        /// <param name="element"> The <see cref="VisualElement"/> object.</param>
+        /// <param name="key"> The key used to identify the context. </param>
+        /// <param name="callback"> The callback.</param>
+        /// <typeparam name="T"> The type of the context.</typeparam>
+        /// <exception cref="ArgumentNullException"> The <see cref="VisualElement"/> object and the callback can't be null.</exception>
+        public static void UnregisterContextChangedCallback<T>(
+            this VisualElement element,
+            string key,
+            EventCallback<ContextChangedEvent<T>> callback)
+            where T : IContext
+        {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
             if (TryGetValue(element, out var data) &&
-                data.contextChangedCallbacksPerType.TryGetValue(typeof(T), out var callbacks))
+                data.contextChangedCallbacksPerType.TryGetValue(key, out var callbacks))
             {
                 var index = callbacks.IndexOf(callback);
 
                 if (index >= 0)
                 {
                     callbacks.RemoveAt(index);
-                    var attachCallback = data.contextChangedOnAttachedToPanelCallbacksPerType[typeof(T)][index];
-                    data.contextChangedOnAttachedToPanelCallbacksPerType[typeof(T)].RemoveAt(index);
+                    var attachCallback = data.contextChangedOnAttachedToPanelCallbacksPerType[key][index];
+                    data.contextChangedOnAttachedToPanelCallbacksPerType[key].RemoveAt(index);
                     element.UnregisterCallback(attachCallback);
                 }
             }
         }
 
-        internal static void SendContextChangedEvent<T>(this VisualElement element)
+        internal static void SendContextChangedEvent<T>(this VisualElement element, string key)
             where T : IContext
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             var context = element.GetContext<T>();
 
@@ -615,16 +878,15 @@ namespace Unity.AppUI.UI
             {
                 if (TryGetValue(el, out var data))
                 {
-                    if (data.previousContexts.ContainsKey(typeof(T)))
+                    if (data.previousContexts.TryGetValue(key, out var previousContext))
                     {
-                        var previousContext = data.previousContexts[typeof(T)];
                         if (previousContext != null && previousContext.Equals(evt.context))
                             return;
                     }
 
-                    data.previousContexts[typeof(T)] = evt.context;
+                    data.previousContexts[key] = evt.context;
 
-                    if (data.contextChangedCallbacksPerType.TryGetValue(typeof(T), out var callbacks))
+                    if (data.contextChangedCallbacksPerType.TryGetValue(key, out var callbacks))
                     {
                         foreach (var cb in callbacks)
                         {
@@ -636,7 +898,7 @@ namespace Unity.AppUI.UI
 
             void SendContextChangedEventToChildren(VisualElement parent, ContextChangedEvent<T> evt)
             {
-                if (parent.IsContextProvider<T>())
+                if (parent.IsContextProvider<T>(key))
                     return;
 
                 CallCallbacks(parent, evt);

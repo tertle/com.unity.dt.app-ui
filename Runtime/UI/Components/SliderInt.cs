@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Unity.AppUI.Core;
 using UnityEngine;
@@ -15,42 +16,15 @@ namespace Unity.AppUI.UI
 #if ENABLE_UXML_SERIALIZED_DATA
     [UxmlElement]
 #endif
-    public partial class SliderInt : SliderBase<int>
+    public partial class SliderInt : Slider<int,int,IntField>
     {
 #if ENABLE_RUNTIME_DATA_BINDINGS
 
-        internal static readonly BindingId incrementFactorProperty = new BindingId(nameof(incrementFactor));
-
 #endif
 
-        const int k_DefaultIncrement = 1;
+        const int k_DefaultStep = 1;
 
-        int m_IncrementFactor = k_DefaultIncrement;
-
-        /// <summary>
-        /// The increment factor used when the slider is interacted with using the keyboard.
-        /// </summary>
-#if ENABLE_RUNTIME_DATA_BINDINGS
-        [CreateProperty]
-#endif
-#if ENABLE_UXML_SERIALIZED_DATA
-        [UxmlAttribute]
-        [Min(1)]
-#endif
-        public int incrementFactor
-        {
-            get => m_IncrementFactor;
-            set
-            {
-                var changed = m_IncrementFactor != value;
-                m_IncrementFactor = Mathf.Max(1, value);
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in incrementFactorProperty);
-#endif
-            }
-        }
+        const int k_DefaultShiftStep = 10;
 
         /// <summary>
         /// Default constructor.
@@ -58,10 +32,29 @@ namespace Unity.AppUI.UI
         public SliderInt()
         {
             formatStringOverride = UINumericFieldsUtils.k_IntFieldFormatString;
-            incrementFactor = k_DefaultIncrement;
+            stepOverride = k_DefaultStep;
+            shiftStepOverride = k_DefaultShiftStep;
             lowValueOverride = 0;
             highValueOverride = 100;
             valueOverride = 0;
+        }
+
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute("step")]
+#endif
+        int stepOverride
+        {
+            get => step;
+            set => step = value;
+        }
+
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute("shift-step")]
+#endif
+        int shiftStepOverride
+        {
+            get => shiftStep;
+            set => shiftStep = value;
         }
 
 #if ENABLE_UXML_SERIALIZED_DATA
@@ -100,7 +93,10 @@ namespace Unity.AppUI.UI
             set => formatString = value;
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType}.ParseStringToValue"/>
+        /// <inheritdoc />
+        protected override int thumbCount => 1;
+
+        /// <inheritdoc />
         protected override bool ParseStringToValue(string strValue, out int v)
         {
             var ret = int.TryParse(strValue, out var val);
@@ -108,9 +104,12 @@ namespace Unity.AppUI.UI
             return ret;
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType,TValueType}.ParseValueToString"/>
+        /// <inheritdoc />
         protected override string ParseValueToString(int val)
         {
+            if (formatFunction != null)
+                return formatFunction(val);
+
             if (UINumericFieldsUtils.IsPercentFormatString(formatString))
                 Debug.LogWarning("Percent format string is not supported for integer values.\n" +
                     "Please use a SliderFloat instead.");
@@ -118,28 +117,49 @@ namespace Unity.AppUI.UI
             return val.ToString(formatString, CultureInfo.InvariantCulture.NumberFormat);
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType}.SliderLerpUnclamped"/>
+        /// <inheritdoc />
+        protected override string ParseSubValueToString(int val) => ParseValueToString(val);
+
+        /// <inheritdoc />
         protected override int SliderLerpUnclamped(int a, int b, float interpolant)
         {
             return Mathf.RoundToInt(Mathf.LerpUnclamped(a, b, interpolant));
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType}.SliderNormalizeValue"/>
+        /// <inheritdoc />
         protected override float SliderNormalizeValue(int currentValue, int lowerValue, int higherValue)
         {
             return Mathf.InverseLerp(lowerValue, higherValue, currentValue);
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType,TValueType}.Increment"/>
-        protected override int Increment(int val)
+        /// <inheritdoc />
+        protected override int Mad(int m, int a, int b)
         {
-            return val + incrementFactor;
+            return m * a + b;
         }
 
-        /// <inheritdoc cref="BaseSlider{TValueType,TValueType}.Decrement"/>
-        protected override int Decrement(int val)
+        /// <inheritdoc />
+        protected override int GetStepCount(int stepValue)
         {
-            return val - incrementFactor;
+            return (highValue - lowValue) / stepValue + 1;
+        }
+
+        /// <inheritdoc />
+        protected override int GetValueFromScalarValues(Span<int> values)
+        {
+            return values[0];
+        }
+
+        /// <inheritdoc />
+        protected override int ClampThumb(int x, int min, int max)
+        {
+            return Mathf.Clamp(x, min, max);
+        }
+
+        /// <inheritdoc />
+        protected override void GetScalarValuesFromValue(int v, Span<int> values)
+        {
+            values[0] = v;
         }
 
 #if ENABLE_UXML_TRAITS
@@ -152,8 +172,21 @@ namespace Unity.AppUI.UI
         /// <summary>
         /// Class containing the <see cref="UxmlTraits"/> for the <see cref="SliderInt"/>.
         /// </summary>
-        public new class UxmlTraits : SliderBase<int>.UxmlTraits
+        public new class UxmlTraits : Slider<int,int,IntField>.UxmlTraits
         {
+
+            readonly UxmlIntAttributeDescription m_Step = new UxmlIntAttributeDescription
+            {
+                name = "step",
+                defaultValue = k_DefaultStep
+            };
+
+            readonly UxmlIntAttributeDescription m_ShiftStep = new UxmlIntAttributeDescription
+            {
+                name = "shift-step",
+                defaultValue = k_DefaultShiftStep
+            };
+
             readonly UxmlIntAttributeDescription m_HighValue = new UxmlIntAttributeDescription
             {
                 name = "high-value",
@@ -183,6 +216,8 @@ namespace Unity.AppUI.UI
                 base.Init(ve, bag, cc);
 
                 var el = (SliderInt)ve;
+                el.step = m_Step.GetValueFromBag(bag, cc);
+                el.shiftStep = m_ShiftStep.GetValueFromBag(bag, cc);
                 el.lowValue = m_LowValue.GetValueFromBag(bag, cc);
                 el.highValue = m_HighValue.GetValueFromBag(bag, cc);
                 el.value = m_Value.GetValueFromBag(bag, cc);

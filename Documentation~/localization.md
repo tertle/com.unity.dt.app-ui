@@ -13,9 +13,11 @@ Unity package from UPM.
 
 Thanks to the [Context feature](xref:contexts), App UI provides a way to translate your UI into different languages.
 
-By default, the root [Panel](xref:Unity.AppUI.UI.Panel) element will provide an initial [LangContext](xref:Unity.AppUI.Core.LangContext) context to its children.
+By default, the root [Panel](xref:Unity.AppUI.UI.Panel) element will provide an initial
+[LangContext](xref:Unity.AppUI.Core.LangContext) context to its children.
 
-Here is an example of how to get a the localized string of a given entry using the locale defined inside the [LangContext](xref:Unity.AppUI.Core.LangContext):
+Here is an example of how to get a the localized string of a given entry using the locale defined inside the
+[LangContext](xref:Unity.AppUI.Core.LangContext):
 
 ```csharp
 

@@ -99,6 +99,11 @@ namespace Unity.AppUI.UI
         /// </summary>
         public const string indicatorUssClassName = ussClassName + "__indicator";
 
+        /// <summary>
+        /// The Tabs animated indicator styling class.
+        /// </summary>
+        public const string animatedIndicatorUssClassName = indicatorUssClassName + "--animated";
+
         readonly VisualElement m_Indicator;
 
         readonly List<TabItem> m_Items = new List<TabItem>();
@@ -128,6 +133,8 @@ namespace Unity.AppUI.UI
         IVisualElementScheduledItem m_PollHierarchyItem;
 
         List<TabItem> m_StaticItems;
+
+        readonly EventCallback<ITransitionEvent> m_TransitionEndAction;
 
         /// <summary>
         /// Default constructor.
@@ -162,7 +169,6 @@ namespace Unity.AppUI.UI
             {
                 name = indicatorUssClassName,
                 pickingMode = PickingMode.Ignore,
-                usageHints = UsageHints.DynamicTransform,
             };
             m_Indicator.AddToClassList(indicatorUssClassName);
 
@@ -180,14 +186,27 @@ namespace Unity.AppUI.UI
             emphasized = false;
             justified = false;
             direction = Direction.Horizontal;
-            value = 0;
+            value = -1;
 
             RegisterCallback<KeyDownEvent>(OnKeyDown);
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             this.RegisterContextChangedCallback<DirContext>(OnDirectionChanged);
             m_PollHierarchyItem = schedule.Execute(PollHierarchy).Every(50L);
             m_ScrollView.verticalScroller.valueChanged += OnVerticalScrollerChanged;
             m_ScrollView.horizontalScroller.valueChanged += OnHorizontalScrollerChanged;
             RegisterCallback<ActionTriggeredEvent>(OnItemClicked);
+            m_TransitionEndAction = OnIndicatorTransitionEnd;
+        }
+
+        void OnIndicatorTransitionEnd(ITransitionEvent evt)
+        {
+            m_Indicator.UnregisterCallback<TransitionEndEvent>(m_TransitionEndAction);
+            m_Indicator.UnregisterCallback<TransitionCancelEvent>(m_TransitionEndAction);
+            m_Indicator.RemoveFromClassList(animatedIndicatorUssClassName);
+
+            // make sure the indicator is in the right position,
+            // that would happen if the geometry has changed just after clicking on a tab
+            RefreshIndicator();
         }
 
         void OnDirectionChanged(ContextChangedEvent<DirContext> evt)
@@ -244,6 +263,7 @@ namespace Unity.AppUI.UI
                     Direction.Vertical => ScrollViewMode.Vertical,
                     _ => ScrollViewMode.Horizontal
                 };
+                SetValueWithoutNotify(m_Value);
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -400,23 +420,19 @@ namespace Unity.AppUI.UI
             SetValueWithoutNotifyInternal(newValue);
         }
 
-        void SetValueWithoutNotifyInternal(int newValue, bool scroll = true)
+        void SetValueWithoutNotifyInternal(int newValue, bool scroll = true, bool animateIndicator = false)
         {
-            //check the state of the target element
-            if (m_Value >= 0 && m_Value < m_Items.Count && !m_Items[m_Value].enabledSelf)
-                return;
-
             var previousValue = m_Value;
-            m_Value = newValue;
+            m_Value = IsValid(newValue) ? newValue : previousValue;
 
             // refresh selection visually
             if (previousValue >= 0 && previousValue < m_Items.Count && previousValue != m_Value)
                 m_Items[previousValue].selected = false;
 
-            RefreshVisuals(scroll);
+            RefreshVisuals(scroll, animateIndicator);
         }
 
-        void RefreshVisuals(bool scroll = true)
+        void RefreshVisuals(bool scroll = true, bool animateIndicator = false)
         {
             if (panel == null || !paddingRect.IsValid())
                 return;
@@ -427,55 +443,52 @@ namespace Unity.AppUI.UI
                 if (scroll)
                     m_ScrollView.ScrollTo(m_Items[m_Value]);
                 m_ScheduledRefreshIndicator?.Pause();
+                m_Indicator.EnableInClassList(animatedIndicatorUssClassName, animateIndicator);
+                m_Indicator.RegisterCallback<TransitionEndEvent>(m_TransitionEndAction);
+                m_Indicator.RegisterCallback<TransitionCancelEvent>(m_TransitionEndAction);
                 m_ScheduledRefreshIndicator = schedule.Execute(RefreshIndicator);
             }
             else
             {
-                switch (direction)
+                m_Indicator.RemoveFromClassList(animatedIndicatorUssClassName);
+                if (direction == Direction.Horizontal)
                 {
-                    case Direction.Horizontal:
-                        m_Indicator.style.width = 0;
-                        m_Indicator.style.left = 0;
-                        m_Indicator.style.top = StyleKeyword.Null;
-                        m_Indicator.style.height = StyleKeyword.Null;
-                        break;
-                    case Direction.Vertical:
-                        m_Indicator.style.height = 0;
-                        m_Indicator.style.top = 0;
-                        m_Indicator.style.width = StyleKeyword.Null;
-                        m_Indicator.style.left = StyleKeyword.Null;
-                        break;
-                    default:
-                        throw new ValueOutOfRangeException(nameof(direction), direction);
+                    m_Indicator.style.left = 0;
+                    m_Indicator.style.width = 0;
+                    m_Indicator.style.top = StyleKeyword.Null;
+                    m_Indicator.style.height = StyleKeyword.Null;
+                }
+                else
+                {
+                    m_Indicator.style.top = 0;
+                    m_Indicator.style.height = 0;
+                    m_Indicator.style.left = StyleKeyword.Null;
+                    m_Indicator.style.width = StyleKeyword.Null;
                 }
             }
         }
 
         void RefreshIndicator()
         {
-            var dirContext = this.GetContext<DirContext>();
             switch (direction)
             {
                 case Direction.Horizontal:
-                    m_Indicator.style.width = m_Items[m_Value].worldBound.width;
-                    m_Indicator.style.left = m_Items[m_Value].localBound.x - m_ScrollView.scrollOffset.x;
-                    m_Indicator.style.top = StyleKeyword.Null;
+                    var x = m_Items[m_Value].layout.x - m_ScrollView.scrollOffset.x;
+                    if (!Mathf.Approximately(x, m_Indicator.resolvedStyle.left))
+                        m_Indicator.style.left = x;
+                    if (!Mathf.Approximately(m_Items[m_Value].layout.width, m_Indicator.resolvedStyle.width))
+                        m_Indicator.style.width = m_Items[m_Value].layout.width;
                     m_Indicator.style.height = StyleKeyword.Null;
-                    m_Indicator.style.right = StyleKeyword.Null;
+                    m_Indicator.style.top = StyleKeyword.Null;
                     break;
-                case Direction.Vertical when dirContext.dir == Dir.Ltr:
-                    m_Indicator.style.height = m_Items[m_Value].worldBound.height;
-                    m_Indicator.style.top = m_Items[m_Value].localBound.y - m_ScrollView.scrollOffset.y;
-                    m_Indicator.style.width = StyleKeyword.Null;
-                    m_Indicator.style.left = 0;
-                    m_Indicator.style.right = StyleKeyword.Null;
-                    break;
-                case Direction.Vertical when dirContext.dir == Dir.Rtl:
-                    m_Indicator.style.height = m_Items[m_Value].worldBound.height;
-                    m_Indicator.style.top = m_Items[m_Value].localBound.y - m_ScrollView.scrollOffset.y;
-                    m_Indicator.style.width = StyleKeyword.Null;
+                case Direction.Vertical:
+                    var y = m_Items[m_Value].layout.y - m_ScrollView.scrollOffset.y;
+                    if (!Mathf.Approximately(y, m_Indicator.resolvedStyle.top))
+                        m_Indicator.style.top = y;
+                    if (!Mathf.Approximately(m_Items[m_Value].layout.height, m_Indicator.resolvedStyle.scale.value.y))
+                        m_Indicator.style.height = m_Items[m_Value].layout.height;
                     m_Indicator.style.left = StyleKeyword.Null;
-                    m_Indicator.style.right = 0;
+                    m_Indicator.style.width = StyleKeyword.Null;
                     break;
                 default:
                     throw new ValueOutOfRangeException(nameof(direction), direction);
@@ -496,22 +509,27 @@ namespace Unity.AppUI.UI
             get => m_Value;
             set
             {
-                if (value == m_Value)
+                if (value == m_Value || !IsValid(value))
                     return;
 
                 var previousValue = m_Value;
-                SetValueWithoutNotify(value);
-                if (previousValue != m_Value)
-                {
-                    using var evt = ChangeEvent<int>.GetPooled(previousValue, m_Value);
-                    evt.target = this;
-                    SendEvent(evt);
-                }
+                SetValueWithoutNotifyInternal(value, true, true);
+
+                using var evt = ChangeEvent<int>.GetPooled(previousValue, value);
+                evt.target = this;
+                SendEvent(evt);
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 NotifyPropertyChanged(in valueProperty);
 #endif
             }
+        }
+
+        bool IsValid(int v)
+        {
+            if (v == -1)
+                return true;
+            return v >= 0 && v < m_Items.Count && m_Items[v].enabledSelf;
         }
 
         void OnKeyDown(KeyDownEvent evt)
@@ -623,9 +641,8 @@ namespace Unity.AppUI.UI
             }
             else if (m_StaticItems != null)
             {
-                for (var i = 0; i < m_StaticItems.Count; i++)
+                foreach (var item in m_StaticItems)
                 {
-                    var item = m_StaticItems[i];
                     item.RegisterCallback<GeometryChangedEvent>(OnItemGeometryChanged);
                     itemContainer.Add(item);
                     m_Items.Add(item);
@@ -633,22 +650,45 @@ namespace Unity.AppUI.UI
             }
 
             if (itemContainer.childCount > 0)
-                SetValueWithoutNotify(Mathf.Clamp(m_Value, 0, itemContainer.childCount - 1));
+            {
+                // find the next valid item
+                var newValue = 0;
+                while (m_Items[newValue].enabledSelf == false && newValue < m_Items.Count)
+                    newValue++;
+                if (newValue < m_Items.Count)
+                    SetValueWithoutNotifyInternal(newValue);
+                else
+                    SetValueWithoutNotifyInternal(-1);
+            }
             else
-                value = -1;
+            {
+                SetValueWithoutNotifyInternal(-1);
+            }
         }
 
         void OnItemGeometryChanged(GeometryChangedEvent evt)
         {
+            if (m_Indicator.ClassListContains(animatedIndicatorUssClassName))
+                return;
+
             if (evt.target is TabItem { selected: true })
                 SetValueWithoutNotify(m_Value);
+        }
+
+        void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            SetValueWithoutNotify(m_Value);
         }
 
         void OnItemClicked(ActionTriggeredEvent evt)
         {
             if (evt.target is TabItem item)
             {
-                value = item.parent.IndexOf(item);
+                var newValue = item.parent.IndexOf(item);
+                if (value != newValue)
+                    value = item.parent.IndexOf(item);
+                else
+                    RefreshVisuals(true, true);
                 evt.StopPropagation();
             }
         }

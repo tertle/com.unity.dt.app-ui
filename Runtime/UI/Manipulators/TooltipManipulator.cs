@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
+using PointerType = UnityEngine.UIElements.PointerType;
 
 namespace Unity.AppUI.UI
 {
@@ -28,28 +29,87 @@ namespace Unity.AppUI.UI
         /// </remarks>
         public bool force { get; set; }
 
+        VisualElement rootElement => target.GetExclusiveRootElement();
+
+        int tooltipDelayMs => m_AnchorElement?.GetContext<TooltipDelayContext>()?.tooltipDelayMs ?? defaultDelayMs;
+
         protected override void RegisterCallbacksOnTarget()
         {
             m_Tooltip = Tooltip.Build(target);
             m_ScheduledItem = target.schedule.Execute(StartFadeIn);
             m_ScheduledItem.Pause();
-            target.RegisterCallback<PointerMoveEvent>(OnPointerMoved);
-            target.panel.visualTree.RegisterCallback<PointerDownEvent>(OnClick, TrickleDown.TrickleDown);
+
+            rootElement?.RegisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+            target?.RegisterCallback<PointerMoveEvent>(OnPointerMoved);
+            rootElement?.RegisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
+            rootElement?.RegisterCallback<PointerCancelEvent>(OnPointerCanceled, TrickleDown.TrickleDown);
+            rootElement?.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
         }
 
         protected override void UnregisterCallbacksFromTarget()
         {
-            target.UnregisterCallback<PointerMoveEvent>(OnPointerMoved);
-            target.panel?.visualTree.UnregisterCallback<PointerDownEvent>(OnClick, TrickleDown.TrickleDown);
+            rootElement?.UnregisterCallback<PointerDownEvent>(OnPointerDown, TrickleDown.TrickleDown);
+            target?.UnregisterCallback<PointerMoveEvent>(OnPointerMoved);
+            rootElement?.UnregisterCallback<PointerUpEvent>(OnPointerUp, TrickleDown.TrickleDown);
+            rootElement?.UnregisterCallback<PointerCancelEvent>(OnPointerCanceled, TrickleDown.TrickleDown);
+            rootElement?.UnregisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
         }
 
-        void OnClick(PointerDownEvent evt)
+        void OnKeyDown(KeyDownEvent evt)
         {
             HideTooltip();
         }
 
+        void OnPointerDown(PointerDownEvent evt)
+        {
+            HideTooltip();
+            if (evt.pointerType == PointerType.touch)
+            {
+                var pickedElement = target.panel?.Pick(evt.position);
+                if (pickedElement == null)
+                    return;
+                var tooltipElement = GetTooltipElement(pickedElement);
+                if (m_AnchorElement == tooltipElement)
+                    return;
+                m_AnchorElement = tooltipElement;
+                var hasTooltip = false;
+                m_Tooltip.SetContent(null);
+                m_Tooltip.SetText(null);
+                if (m_AnchorElement?.GetTooltipTemplate() is { } template)
+                {
+                    m_Tooltip.SetContent(template);
+                    m_AnchorElement.RegisterTooltipTemplateChangedCallback(OnTooltipTemplateOrContentChanged);
+                    m_AnchorElement.RegisterTooltipContentChangedCallback(OnTooltipTemplateOrContentChanged);
+                    OnTooltipTemplateOrContentChanged();
+                    hasTooltip = true;
+                }
+                else if (CanDisplayTooltipInCurrentContext(m_AnchorElement) && GetTooltipText(m_AnchorElement) is {} text)
+                {
+                    m_Tooltip.SetText(text);
+                    hasTooltip = true;
+                }
+                if (hasTooltip)
+                    ShowTooltip(tooltipDelayMs);
+            }
+        }
+
+        void OnPointerUp(PointerUpEvent evt)
+        {
+            if (evt.pointerType == PointerType.touch && m_ScheduledItem is {isActive: true})
+                HideTooltip();
+        }
+
+        void OnPointerCanceled(PointerCancelEvent evt)
+        {
+            if (evt.pointerType == PointerType.touch && m_ScheduledItem is {isActive: true})
+                HideTooltip();
+        }
+
         void OnPointerMoved(PointerMoveEvent evt)
         {
+            if (evt.pointerType == PointerType.touch)
+                return;
+
             // 0 - If the pointer has been captured, nothing to do
             if (target.panel?.GetCapturingElement(evt.pointerId) != null)
             {
@@ -93,7 +153,7 @@ namespace Unity.AppUI.UI
 
             // 4 - If the tne new tooltip is not null, start delay
             if (hasTooltip)
-                ShowTooltip(m_AnchorElement?.GetContext<TooltipDelayContext>()?.tooltipDelayMs ?? defaultDelayMs);
+                ShowTooltip(tooltipDelayMs);
         }
 
         void OnTooltipTemplateOrContentChanged()
@@ -117,6 +177,8 @@ namespace Unity.AppUI.UI
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool CanDisplayTooltipInCurrentContext(VisualElement refElement)
         {
+            if (target?.panel == null)
+                return false;
             return force || target.panel.contextType == ContextType.Player;
         }
 
@@ -127,6 +189,11 @@ namespace Unity.AppUI.UI
 
         void StartFadeIn()
         {
+            if (m_AnchorElement == null || m_AnchorElement.IsInvisible())
+            {
+                HideTooltip();
+                return;
+            }
             m_Tooltip?.SetAnchor(m_AnchorElement);
             m_Tooltip?.SetPlacement(m_AnchorElement.GetPreferredTooltipPlacement());
             m_Tooltip?.Show();

@@ -1,5 +1,4 @@
 using System;
-using Unity.AppUI.Bridge;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,6 +47,11 @@ namespace Unity.AppUI.UI
     public sealed class Modal : Popup<Modal>
     {
         /// <summary>
+        /// Callback for Event triggered when the popup has been shown.
+        /// </summary>
+        readonly EventCallback<ITransitionEvent> m_OnAnimatedInAction;
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="referenceView">The view used as context provider for the Modal.</param>
@@ -55,7 +59,9 @@ namespace Unity.AppUI.UI
         /// <param name="content">The content that will appear inside this popup.</param>
         Modal(VisualElement referenceView, ModalVisualElement modalView, VisualElement content)
             : base(referenceView, modalView, content)
-        { }
+        {
+            m_OnAnimatedInAction = OnAnimatedInInternal;
+        }
 
         ModalVisualElement modal => (ModalVisualElement)view;
 
@@ -80,6 +86,9 @@ namespace Unity.AppUI.UI
         /// The strategy used to determine if the click is outside the Modal.
         /// </summary>
         public OutsideClickStrategy outsideClickStrategy { get; set; } = OutsideClickStrategy.Bounds;
+
+        /// <inheritdoc />
+        internal override bool focusOutDismissable => outsideClickDismissEnabled;
 
         /// <summary>
         /// Set a new value for <see cref="fullscreenMode"/> property.
@@ -143,26 +152,42 @@ namespace Unity.AppUI.UI
             Dismiss(DismissType.OutOfBounds);
         }
 
-        /// <inheritdoc cref="Popup.ShouldDismiss"/>
+        /// <inheritdoc />
         protected override bool ShouldDismiss(DismissType reason) => outsideClickDismissEnabled || base.ShouldDismiss(reason);
 
-        /// <inheritdoc cref="Popup.ShouldAnimate"/>
+        /// <inheritdoc />
         protected override bool ShouldAnimate() => true;
 
-        /// <inheritdoc cref="Popup.InvokeShownEventHandlers"/>
-        protected override void InvokeShownEventHandlers()
+        /// <inheritdoc />
+        protected override void AnimateViewIn()
         {
-            if (outsideClickDismissEnabled)
-                global::Unity.AppUI.Core.AppUI.RegisterPopup(containerView.panel, this);
-            base.InvokeShownEventHandlers();
-            containerView?.panel?.visualTree?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            base.AnimateViewIn();
+            view.RegisterCallback<TransitionEndEvent>(m_OnAnimatedInAction);
+            view.RegisterCallback<TransitionCancelEvent>(m_OnAnimatedInAction);
         }
 
-        /// <inheritdoc cref="Popup.HideView"/>
+        /// <summary>
+        /// Called when the popup has been animated in.
+        /// </summary>
+        /// <param name="evt"> The transition event.</param>
+        void OnAnimatedInInternal(ITransitionEvent evt)
+        {
+            view.UnregisterCallback<TransitionEndEvent>(m_OnAnimatedInAction);
+            view.UnregisterCallback<TransitionCancelEvent>(m_OnAnimatedInAction);
+            m_InvokeShownAction();
+        }
+
+        /// <inheritdoc />
+        protected override void InvokeShownEventHandlers()
+        {
+            base.InvokeShownEventHandlers();
+            rootView?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+        }
+
+        /// <inheritdoc />
         protected override void HideView(DismissType reason)
         {
-            containerView.panel?.visualTree?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-            global::Unity.AppUI.Core.AppUI.UnregisterPopup(containerView.panel, this);
+            rootView?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
             base.HideView(reason);
         }
 
@@ -224,9 +249,6 @@ namespace Unity.AppUI.UI
                 pickingMode = PickingMode.Position;
 
                 m_ContentContainer = new ExVisualElement { name = contentContainerUssClassName, pickingMode = PickingMode.Position, focusable = true, passMask = ExVisualElement.Passes.Clear | ExVisualElement.Passes.OutsetShadows };
-                m_ContentContainer.SetIsCompositeRoot(true);
-                m_ContentContainer.SetExcludeFromFocusRing(true);
-                m_ContentContainer.delegatesFocus = true;
 
                 m_ContentContainer.AddToClassList(contentContainerUssClassName);
 

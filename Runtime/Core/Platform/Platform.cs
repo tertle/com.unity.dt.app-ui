@@ -1,5 +1,4 @@
-// #define APPUI_PLATFORM_EDITOR_ONLY
-// #define APPUI_PLATFORM_SILENT_EXCEPTIONS
+// #define APPUI_PLATFORM_DISABLED
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -26,26 +25,17 @@ namespace Unity.AppUI.Core
         {
             if (s_Impl != null)
                 return;
-
+#if APPUI_PLATFORM_DISABLED
+            s_Impl = new PlatformImpl();
+#else // APPUI_PLATFORM_DISABLED
             try
             {
-
-#if APPUI_PLATFORM_EDITOR_ONLY
-
-#if UNITY_EDITOR_OSX
-                s_Impl = new OSXPlatformImpl();
-#elif UNITY_EDITOR_WIN
-                s_Impl = new WindowsPlatformImpl();
-#else
-                s_Impl = new PlatformImpl();
-#endif
-
-#else // APPUI_PLATFORM_EDITOR_ONLY
-
 #if UNITY_IOS && !UNITY_EDITOR
                 s_Impl = new IOSPlatformImpl();
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
                 s_Impl = new OSXPlatformImpl();
+#elif UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+                s_Impl = new LinuxPlatformImpl();
 #elif UNITY_ANDROID && !UNITY_EDITOR
                 s_Impl = new AndroidPlatformImpl();
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
@@ -53,19 +43,15 @@ namespace Unity.AppUI.Core
 #else
                 s_Impl = new PlatformImpl();
 #endif
-
-#endif // APPUI_PLATFORM_EDITOR_ONLY
-
             }
 #pragma warning disable 0168
             catch (Exception e)
 #pragma warning restore 0168
             {
-#if !APPUI_PLATFORM_SILENT_EXCEPTIONS
                 Debug.LogException(e);
-#endif
                 s_Impl = new PlatformImpl();
             }
+#endif // APPUI_PLATFORM_DISABLED
         }
 
 #if UNITY_EDITOR
@@ -150,7 +136,7 @@ namespace Unity.AppUI.Core
         /// <see cref="UnityEngine.UIElements.PanelSettings.referenceDpi"/>.
         /// </para>
         /// <para>
-        /// This value is the value of <see cref="Screen.dpi"/> divided by the main screen scale factor.
+        /// This value is computed differently depending on the platform.
         /// </para>
         /// </summary>
         public static float referenceDpi => s_Impl.referenceDpi;
@@ -205,7 +191,7 @@ namespace Unity.AppUI.Core
         /// This can be either coming from the Old or New Input System, but also from custom the App UI Input System for
         /// trackpad/touchpad support.
         /// </remarks>
-        public static AppUITouch[] touches => s_Impl.touches;
+        public static ReadOnlySpan<AppUITouch> touches => s_Impl.touches;
 
         /// <summary>
         /// Run a haptic feedback on the current platform.
@@ -227,6 +213,27 @@ namespace Unity.AppUI.Core
         /// <param name="colorType"> The type of system color to get.</param>
         /// <returns> The system color for the given color type if any, otherwise Color.clear.</returns>
         public static Color GetSystemColor(SystemColorType colorType) => s_Impl.GetSystemColor(colorType);
+
+        /// <summary>
+        /// Whether the current platform's pasteboard has data for the given type.
+        /// </summary>
+        /// <param name="type"> The type of data to check for.</param>
+        /// <returns> True if the pasteboard has data for the given type, otherwise false.</returns>
+        public static bool HasPasteboardData(PasteboardType type) => s_Impl.HasPasteboardData(type);
+
+        /// <summary>
+        /// Get the pasteboard data.
+        /// </summary>
+        /// <param name="type"> The type of data to get.</param>
+        /// <returns> The pasteboard data.</returns>
+        public static byte[] GetPasteboardData(PasteboardType type) => s_Impl.GetPasteboardData(type);
+
+        /// <summary>
+        /// Set the pasteboard data.
+        /// </summary>
+        /// <param name="type"> The type of data to set.</param>
+        /// <param name="data"> The data to set.</param>
+        public static void SetPasteboardData(PasteboardType type, byte[] data) => s_Impl.SetPasteboardData(type, data);
 
         /// <summary>
         /// Handle an native message coming from a native App UI plugin.

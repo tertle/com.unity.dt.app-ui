@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Text" class="main">
+    <engine:Label text="Text" class="title" />
+    <engine:Label
+      text="A versatile text component that displays text content with customizable size and styling options."
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Text component is a fundamental UI element used to display text content in your application. It provides a range of size options and styling variants to help maintain consistency and hierarchy in your text presentation."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Text components come with eight predefined sizes (from XXS to XXXL) and support primary/secondary variants to establish visual hierarchy. The component is also localization-ready, inheriting from LocalizedTextElement."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Text component supports both UXML attributes and runtime property modification, making it flexible for both declarative and programmatic UI development."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="text" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="string.Empty" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content to be displayed by the component. This property is inherited from LocalizedTextElement and supports both plain text and localized strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic usage in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Text text="Hello, World!" /&gt;'
+                  class="code"
+                />
+                <engine:Label
+                  text="Setting text content via code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var text = new Text("Hello, World!");
+// or
+text.text = "Updated text";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="primary" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether the text should use the primary or secondary text style. Primary text (true) is typically used for main content, while secondary text (false) is used for supporting information."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using primary and secondary text variants in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Text text="Primary Text" primary="true" /&gt;
+&lt;Text text="Secondary Text" primary="false" /&gt;'
+                  class="code"
+                />
+                <engine:Label
+                  text="Creating secondary text via code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var text = new Text("Secondary Text") { primary = false };'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="TextSize" class="prop-type" />
+            <engine:Label text="TextSize.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the size of the text. Available sizes range from XXS (extra-extra-small) to XXXL (triple extra-large), allowing for clear visual hierarchy in your UI."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- XXS: Extra-extra-small
+- XS: Extra-small
+- S: Small
+- M: Medium (default)
+- L: Large
+- XL: Extra-large
+- XXL: Double extra-large
+- XXXL: Triple extra-large"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting different text sizes in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Text text="Small Text" size="S" /&gt;
+&lt;Text text="Large Text" size="L" /&gt;'
+                  class="code"
+                />
+                <engine:Label
+                  text="Creating a text hierarchy via code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var heading = new Text("Heading") { size = TextSize.XXL };
+var body = new Text("Body text") { size = TextSize.M };
+var caption = new Text("Caption") { size = TextSize.XS };'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here's an example of creating a typical text hierarchy using different sizes and variants:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a text hierarchy in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns="UnityEngine.UIElements"&gt;
+    &lt;Text text="Main Heading" size="XXL" /&gt;
+    &lt;Text text="Subheading" size="XL" primary="false" /&gt;
+    &lt;Text text="Body text goes here with a medium size." size="M" /&gt;
+    &lt;Text text="Small caption text" size="XS" primary="false" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="For runtime text manipulation:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating and managing text elements via code"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='// Create text elements
+var container = new VisualElement();
+
+// Add a title
+var title = new Text("Welcome!") {
+    size = TextSize.XXL,
+    primary = true
+};
+container.Add(title);
+
+// Add a subtitle
+var subtitle = new Text("Please read the following instructions") {
+    size = TextSize.L,
+    primary = false
+};
+container.Add(subtitle);
+
+// Add body text
+var body = new Text("Detailed instructions go here...") {
+    size = TextSize.M
+};
+container.Add(body);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

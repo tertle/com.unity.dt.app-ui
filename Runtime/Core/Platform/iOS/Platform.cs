@@ -121,13 +121,24 @@ namespace Unity.AppUI.Core
         [DllImport("__Internal")]
         static extern UnityEngine.Color NativeAppUI_GetSystemColor(SystemColorType colorType);
 
+        [DllImport("__Internal")]
+        static extern UIntPtr NativeAppUI_GetPasteBoardDataLength(PasteboardType type);
+
+        [DllImport("__Internal")]
+        static extern void NativeAppUI_GetPasteBoardData(PasteboardType type, UIntPtr size, IntPtr data);
+
+        [DllImport("__Internal")]
+        static extern void NativeAppUI_SetPasteBoardData(PasteboardType type, UIntPtr size, IntPtr data);
+
+        PluginConfigData m_ConfigData;
+
         public IOSPlatformImpl() => Setup();
 
         void Setup()
         {
             CleanUp();
 
-            var configData = new PluginConfigData
+            m_ConfigData = new PluginConfigData
             {
                 isEditor = Application.isEditor,
                 DebugLogCSharpHandler = DebugLogProxy,
@@ -141,7 +152,7 @@ namespace Unity.AppUI.Core
                 RotateGestureEventCSharpHandler = InvokeRotateGestureEventProxy,
                 SmartMagnifyEventCSharpHandler = InvokeSmartMagnifyEventProxy,
             };
-            NativeAppUI_Initialize(ref configData);
+            NativeAppUI_Initialize(ref m_ConfigData);
             s_Instance = this;
         }
 
@@ -169,12 +180,54 @@ namespace Unity.AppUI.Core
 
         public override Color GetSystemColor(SystemColorType colorType) => NativeAppUI_GetSystemColor(colorType);
 
+        public override bool HasPasteboardData(PasteboardType type) => NativeAppUI_GetPasteBoardDataLength(type).ToUInt64() > 0;
+
+        public override byte[] GetPasteboardData(PasteboardType type)
+        {
+            var length = NativeAppUI_GetPasteBoardDataLength(type);
+            var size = length.ToUInt64();
+            if (size <= 0)
+                return Array.Empty<byte>();
+
+            var dataBuffer = new byte[size];
+            var handle = GCHandle.Alloc(dataBuffer, GCHandleType.Pinned);
+            try
+            {
+                var dataPtr = handle.AddrOfPinnedObject();
+                NativeAppUI_GetPasteBoardData(type, length, dataPtr);
+            }
+            finally
+            {
+                handle.Free();
+            }
+
+            return dataBuffer;
+        }
+
+        public override void SetPasteboardData(PasteboardType type, byte[] data)
+        {
+            if (data == null || data.Length == 0)
+                return;
+
+            var size = new UIntPtr((ulong)data.Length);
+            var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            try
+            {
+                var dataPtr = handle.AddrOfPinnedObject();
+                NativeAppUI_SetPasteBoardData(type, size, dataPtr);
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
+
         protected override void HighFrequencyUpdate()
         {
             NativeAppUI_Update();
         }
 
-        public override AppUITouch[] touches => AppUIInput.GetCurrentInputSystemTouches();
+        public override ReadOnlySpan<AppUITouch> touches => AppUIInput.GetCurrentInputSystemTouches();
 
         public override void RunNativeHapticFeedback(HapticFeedbackType feedbackType)
         {

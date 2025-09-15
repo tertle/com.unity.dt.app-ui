@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ActionBar" class="main">
+    <engine:Label text="ActionBar" class="title" />
+    <engine:Label
+      text="A contextual action bar that appears when items are selected in a collection view."
+      class="subtitle"
+    />
+    <engine:Label text="action" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ActionBar is a UI component that provides contextual actions for selected items in a collection view. It appears when one or more items are selected and offers a way to perform bulk operations on the selected items."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component consists of three main parts:"
+            class="parapgraph note"
+          />
+          <engine:Label
+            text="1. A checkbox for selecting/deselecting all items
+2. A message indicating the number of selected items
+3. An action group containing buttons for operations on selected items"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The ActionBar integrates seamlessly with Unity's CollectionView components and automatically updates its state based on selection changes."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="collectionView" class="prop-name" />
+            <engine:Label text="BaseVerticalCollectionView" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The collection view attached to this ActionBar. The collection view is used to get the selected indices and the items source."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Connecting an ActionBar to a ListView"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="actionBar.collectionView = myListView;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="message" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="{0} Selected item(s)" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Text used for item selection message. The message supports smart string formatting to adjust based on the number of selected items."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using smart string formatting for different selection states"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='actionBar.message = "{itemCount:plural:Nothing selected|One selected item|{} selected items}";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="selectedIndices" class="prop-name" />
+            <engine:Label text="IEnumerable&lt;int&gt;" class="prop-type" />
+            <engine:Label text="empty list" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A read-only property that provides access to the currently selected indices from the collection view."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Iterating through selected indices"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='foreach(var index in actionBar.selectedIndices) {
+    Debug.Log($"Item at index {index} is selected");
+}'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="itemsSource" class="prop-name" />
+            <engine:Label text="IList" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A read-only property that provides access to the items source from the collection view."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Getting the total number of items"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var totalItems = actionBar.itemsSource.Count;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage with ListView:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Connecting an ActionBar with a ListView and adding action buttons"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;ActionBar name="my-action-bar"&gt;
+    &lt;ActionButton icon="edit" label="Edit" /&gt;
+    &lt;ActionButton icon="delete" label="Delete" /&gt;
+&lt;/ActionBar&gt;
+
+&lt;ListView name="my-list-view" selection-type="Multiple" /&gt;
+
+&lt;Script&gt;
+var actionBar = root.Q&lt;ActionBar&gt;("my-action-bar");
+var listView = root.Q&lt;ListView&gt;("my-list-view");
+actionBar.collectionView = listView;
+&lt;/Script&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customizing the selection message:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Different ways to customize the selection message"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='actionBar.message = "{itemCount} items selected - Choose an action below";
+
+// Using smart string for different counts
+actionBar.message = "{itemCount:plural:Select items|One item selected|{} items selected}";'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Handling action button clicks:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Adding an action button with click handling for selected items"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var deleteButton = new ActionButton("delete", () =&gt; {
+    var selectedItems = actionBar.selectedIndices.ToList();
+    // Handle deletion of selected items
+});
+actionBar.Add(deleteButton);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

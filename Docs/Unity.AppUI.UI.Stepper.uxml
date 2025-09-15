@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Stepper" class="main">
+    <engine:Label text="Stepper" class="title" />
+    <engine:Label
+      text="A control that lets users incrementally adjust a value by pressing the plus or minus buttons."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Stepper component provides a simple way to increment or decrement numeric values through button interactions. It consists of two buttons: one for increasing and one for decreasing the value."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Steppers are particularly useful when users need to make small adjustments to a value, such as changing quantity, adjusting volume, or modifying numeric settings."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports both mouse/touch interaction and keyboard navigation. Users can interact with the stepper using:"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="• Plus/Minus buttons
+• Left/Right arrow keys
+• Keyboard Plus/Minus keys"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: The stepper's value is represented as -1 for decrement and 1 for increment, making it ideal for relative value adjustments rather than absolute values."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visual size of the stepper component. Available sizes are defined in the Size enum."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a small-sized stepper in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label text='&lt;Stepper size="S" /&gt;' class="code" />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the stepper size through code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var stepper = new Stepper();
+stepper.size = Size.L;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Represents the stepper's current action value. Returns 1 for increment and -1 for decrement actions."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="It's recommended to use RegisterValueChangedCallback to track value changes instead of accessing this property directly."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Tracking stepper value changes to update a numeric value"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="stepper.RegisterValueChangedCallback(evt =&gt; {
+    if (evt.newValue == 1)
+        currentValue++;
+    else if (evt.newValue == -1)
+        currentValue--;
+});"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Stepper Usage" class="parapgraph" />
+            <engine:Label
+              text="Creating a basic stepper to manage a counter value"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var stepper = new Stepper();
+var count = 0;
+
+stepper.RegisterValueChangedCallback(evt =&gt; {
+    count += evt.newValue;
+    Debug.Log($"Current count: {count}");
+});
+
+container.Add(stepper);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customized Stepper with Size"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a large stepper with custom styling in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:ui="Unity.AppUI.UI"&gt;
+    &lt;ui:Stepper size="L" class="custom-stepper" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Stepper with Value Change Handling"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Implementing a volume control using a stepper with clamped values"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='public class VolumeControl : VisualElement
+{
+    private float volume = 50f;
+    private const float STEP = 5f;
+
+    public VolumeControl()
+    {
+        var stepper = new Stepper();
+        stepper.RegisterValueChangedCallback(evt =&gt; {
+            volume = Mathf.Clamp(volume + (STEP * evt.newValue), 0f, 100f);
+            Debug.Log($"Volume adjusted to: {volume}%");
+        });
+        Add(stepper);
+    }
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

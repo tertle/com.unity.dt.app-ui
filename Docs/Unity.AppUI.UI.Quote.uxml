@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Quote" class="main">
+    <engine:Label text="Quote" class="title" />
+    <engine:Label
+      text="A visual element that helps highlight and distinguish quoted or featured content from regular text"
+      class="subtitle"
+    />
+    <engine:Label text="misc" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Quote component is a specialized visual container that creates a distinctive block for showcasing quoted content, testimonials, or any text that needs to be visually separated from the surrounding content. It uses a vertical border line that can be customized in color to create visual hierarchy and improve content readability."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component follows a minimalist design approach, using subtle visual cues rather than heavy quotation marks or backgrounds, making it suitable for both formal and casual user interfaces."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Quote component is particularly useful in documentation, testimonials, blog posts, or any context where you need to highlight specific content while maintaining the overall flow of the interface."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="color" class="prop-name" />
+            <engine:Label text="Optional&lt;Color&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;Color&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the color of the quote's vertical border lines. When set, it applies the color to both the left and right borders of the quote container."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="If no color is specified (Optional&lt;Color&gt;.none), the component will use the default styling from the theme."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a custom border color in C#:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Sets the quote's border color to a custom blue color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="quote.color = new Color(0.2f, 0.6f, 1f, 1f);"
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using the quote component in UXML with a specific color:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Creates a quote with pink borders"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ui:Quote color="#FF4081"&gt;
+    &lt;ui:Label text="This is an important quote with a custom color."/&gt;
+&lt;/ui:Quote&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage of the Quote component:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="A simple quote with attribution"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:Quote&gt;
+    &lt;ui:Label text="The best way to predict the future is to invent it."/&gt;
+    &lt;ui:Label text="- Alan Kay" class="quote-attribution"/&gt;
+&lt;/ui:Quote&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating a Quote programmatically with custom content:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a quote with custom styling and nested elements"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var quote = new Quote();
+quote.color = Color.blue;
+
+var content = new Label();
+content.text = "Innovation distinguishes between a leader and a follower.";
+quote.Add(content);
+
+var attribution = new Label();
+attribution.text = "- Steve Jobs";
+attribution.AddToClassList("quote-attribution");
+quote.Add(attribution);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using Quote in a complex layout:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Integrating a quote within a larger content structure"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:VerticalLayout&gt;
+    &lt;ui:Label text="Key Insights:" class="heading"/&gt;
+    &lt;ui:Quote color="#4CAF50"&gt;
+        &lt;ui:VerticalLayout spacing="8"&gt;
+            &lt;ui:Label text="First, solve the problem. Then, write the code." /&gt;
+            &lt;ui:Label text="- John Johnson" class="quote-attribution"/&gt;
+        &lt;/ui:VerticalLayout&gt;
+    &lt;/ui:Quote&gt;
+&lt;/ui:VerticalLayout&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

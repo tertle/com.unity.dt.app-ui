@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.DoubleField" class="main">
+    <engine:Label text="Double Field" class="title" />
+    <engine:Label
+      text="A field component that allows users to input and edit double precision floating-point numbers"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Double Field component is a specialized input field designed for handling double precision floating-point numbers. It provides a clean, user-friendly interface for entering and manipulating numerical values with decimal points."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component extends the NumericalField base class and includes features such as value validation, formatting options, and unit display. It's particularly useful in scenarios where precise decimal input is required, such as scientific applications, financial calculations, or detailed parameter configurations."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Double Fields should be used when decimal precision is crucial. For simpler whole number inputs, consider using IntegerField instead."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="• Decimal number input with high precision
+• Optional minimum and maximum value constraints
+• Customizable value formatting
+• Unit display support
+• Keyboard navigation and input
+• Value validation"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="double" class="prop-type" />
+            <engine:Label text="0.0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current numerical value of the field. This property represents the actual double value stored in the field."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="G" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A format string that determines how the numerical value is displayed. Uses standard .NET numeric format strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="unit" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Optional unit label displayed after the input field. Useful for indicating measurement units."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="Optional&lt;double&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;double&gt;.Unset"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum allowed value. When set, the field will not accept values below this threshold."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="Optional&lt;double&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;double&gt;.Unset"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum allowed value. When set, the field will not accept values above this threshold."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The size variant of the field. Available options are XS, S, M, L, XL."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example"></engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+          <engine:VisualElement class="example"></engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

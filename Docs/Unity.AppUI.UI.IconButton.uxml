@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.IconButton" class="main">
+    <engine:Label text="IconButton" class="title" />
+    <engine:Label
+      text="A button component that displays only an icon, ideal for compact UI actions."
+      class="subtitle"
+    />
+    <engine:Label text="action" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="IconButton is a specialized button component that displays an icon without text. It's commonly used for toolbar actions, navigation items, or any UI element where space is limited and the icon clearly communicates the action."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports different sizes, variants, and states to accommodate various design requirements and user interactions."
+            class="parapgraph note"
+          />
+          <engine:Label
+            text="IconButtons can be styled with primary and quiet variants, making them versatile for different visual hierarchies in your interface."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="For accessibility, IconButtons are keyboard focusable and support keyboard navigation with a tabIndex of 0 by default."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="icon" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The name of the icon to be displayed in the button. The icon name should correspond to a valid icon in your icon system."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic icon button with a settings icon"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;IconButton icon="settings" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="primary" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When set to true, applies the primary variant styling to the button, making it more prominent in the interface."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Primary variant of an icon button for important actions"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;IconButton icon="add" primary="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="quiet" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Enables a more subtle appearance for the button by removing the background and other decorative elements."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Quiet variant for less prominent actions"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;IconButton icon="close" quiet="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the button. Available options are S (Small), M (Medium), and L (Large)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Small icon button for compact layouts"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;IconButton icon="search" size="Size.S" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="IconVariant" class="prop-type" />
+            <engine:Label text="IconVariant.Regular" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the visual variant of the icon. This affects the icon's visual weight and detail level."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Icon button with regular icon variant"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;IconButton icon="favorite" variant="IconVariant.Regular" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="clicked" class="prop-name" />
+            <engine:Label text="event Action" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Event triggered when the button is clicked. Use this to handle user interactions."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a click event handler to the button"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var button = new IconButton("save");
+button.clicked += () =&gt; Debug.Log("Button clicked!");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic IconButton Usage"
+              class="parapgraph example-title"
+            />
+            <engine:Label
+              text="Different variations of IconButton usage in C#"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='// Create a simple icon button
+var deleteButton = new IconButton("delete");
+deleteButton.clicked += () =&gt; HandleDelete();
+
+// Create a primary action button
+var addButton = new IconButton("add") { primary = true, size = Size.L };
+
+// Create a quiet variant for secondary actions
+var menuButton = new IconButton("menu") { quiet = true };'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="UXML Integration"
+              class="parapgraph example-title"
+            />
+            <engine:Label
+              text="Using IconButton in UXML markup"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:IconButton icon="settings"
+                     size="M"
+                     primary="false"
+                     quiet="false"
+                     variant="Regular" /&gt;
+&lt;/ui:UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Toolbar Example"
+              class="parapgraph example-title"
+            />
+            <engine:Label
+              text="Creating a toolbar with multiple IconButtons"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;ui:VisualElement class="toolbar"&gt;
+        &lt;appui:IconButton icon="undo" quiet="true" size="S" /&gt;
+        &lt;appui:IconButton icon="redo" quiet="true" size="S" /&gt;
+        &lt;appui:IconButton icon="save" primary="true" size="S" /&gt;
+        &lt;appui:IconButton icon="delete" size="S" /&gt;
+    &lt;/ui:VisualElement&gt;
+&lt;/ui:UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

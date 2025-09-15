@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.SliderInt" class="main">
+    <engine:Label text="SliderInt" class="title" />
+    <engine:Label
+      text="A slider component for selecting an integer value from a range."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The SliderInt component lets users select a value by moving a thumb control along a horizontal or vertical track. It's ideal for adjusting settings that have a fixed numerical range and where users benefit from visual feedback."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports various features like:"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Customizable range with minimum and maximum values
+- Optional step values for incremental changes
+- Value display modes (always visible, on interaction, or hidden)
+- Customizable track appearance
+- Optional marks and labels along the track
+- Keyboard navigation and accessibility support
+- RTL (Right-to-Left) layout support"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The SliderInt only works with integer values. For decimal values, use SliderFloat instead."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the slider. This value is always clamped between lowValue and highValue."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic slider with initial value set to 50"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider value="50" high-value="100" low-value="0" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum value that the slider can take."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with negative to positive range"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider low-value="-100" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="100" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum value that the slider can take."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with large maximum value"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider high-value="1000" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="step" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value for the slider. The value will snap to steps when moving the thumb."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with 5-unit steps"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider step="5" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="shiftStep" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="10" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when holding Shift while using keyboard arrows."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with larger shift-step for faster value changes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider shift-step="20" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="orientation" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The orientation of the slider. Can be either Horizontal or Vertical."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Vertical slider"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider orientation="Vertical" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="displayValueLabel" class="prop-name" />
+            <engine:Label text="ValueDisplayMode" class="prop-type" />
+            <engine:Label text="Off" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how the current value is displayed next to the thumb. Can be Off, On, or Auto."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with always visible value label"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider display-value-label="On" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="track" class="prop-name" />
+            <engine:Label text="TrackDisplayType" class="prop-type" />
+            <engine:Label text="Off" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how the track is displayed. Can be Off, On, or Inverted."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with visible track"
+                  class="scenario-description"
+                />
+                <engine:Label text='&lt;Slider track="On" /&gt;' class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showMarks" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Whether to show step marks on the track."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Slider with visible step marks every 10 units"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Slider show-marks="true" step="10" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic slider with default settings"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a basic horizontal slider with range 0-100 and initial value 50"
+              class="scenario-description"
+            />
+            <engine:Label text='&lt;Slider value="50" /&gt;' class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Slider with custom range and step"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a slider with range -50 to 50, step size 5, and visible marks"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Slider low-value="-50" high-value="50" step="5" value="0" show-marks="true" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vertical slider with value label"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a vertical slider with always visible value label and track"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Slider orientation="Vertical" display-value-label="On" track="On" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Advanced slider with custom formatting"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a slider for selecting memory sizes with custom value formatting"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var slider = new SliderInt {
+    value = 1024,
+    lowValue = 0,
+    highValue = 8192,
+    step = 1024,
+    showMarks = true,
+    displayValueLabel = ValueDisplayMode.On,
+    formatFunction = (v) =&gt; $"{v / 1024}MB"
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

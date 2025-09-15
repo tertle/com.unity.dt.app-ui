@@ -13,6 +13,8 @@ namespace Unity.AppUI.Core
 
         static PinchGestureRecognizer s_PinchGestureRecognizer;
 
+        static readonly AppUITouch[] k_TouchPool = new AppUITouch[512];
+
         /// <summary>
         /// Initializes AppUI input management.
         /// </summary>
@@ -35,6 +37,8 @@ namespace Unity.AppUI.Core
         /// </summary>
         internal static void PollEvents()
         {
+            pinchGestureChangedThisFrame = false;
+            pinchGesture = default;
             Recognize(Platform.touches);
         }
 
@@ -50,40 +54,38 @@ namespace Unity.AppUI.Core
         /// </remarks>
         /// </summary>
         /// <returns> An array of AppUITouch objects representing the current touches. </returns>
-        internal static AppUITouch[] GetCurrentInputSystemTouches()
+        internal static ReadOnlySpan<AppUITouch> GetCurrentInputSystemTouches()
         {
+            var count = 0;
 #if ENABLE_INPUT_SYSTEM
 #if UNITY_INPUTSYSTEM_PRESENT
-            var appUITouches = new List<AppUITouch>();
-
             if (UnityEngine.InputSystem.EnhancedTouch.EnhancedTouchSupport.enabled)
             {
                 foreach (var touch in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
                 {
-                    appUITouches.Add(touch.ToAppUITouch());
+                    k_TouchPool[count++] = touch.ToAppUITouch();
                 }
-                return appUITouches.ToArray();
+                return k_TouchPool.AsSpan(0, count);
             }
 
             if (UnityEngine.InputSystem.Touchscreen.current != null)
             {
                 foreach (var touch in UnityEngine.InputSystem.Touchscreen.current.touches)
                 {
-                    appUITouches.Add(touch.ToAppUITouch());
+                    k_TouchPool[count++] = touch.ToAppUITouch();
                 }
-                return appUITouches.ToArray();
+                return k_TouchPool.AsSpan(0, count);
             }
 #endif
 #elif ENABLE_LEGACY_INPUT_MANAGER
 
             if (Input.touchSupported)
             {
-                var appUITouches = new List<AppUITouch>();
                 foreach (var touch in Input.touches)
                 {
-                    appUITouches.Add(touch.ToAppUITouch());
+                    k_TouchPool[count++] = touch.ToAppUITouch();
                 }
-                return appUITouches.ToArray();
+                return k_TouchPool.AsSpan(0, count);
             }
 
 #endif
@@ -91,7 +93,7 @@ namespace Unity.AppUI.Core
             return null;
         }
 
-        static void Recognize(AppUITouch[] appuiTouches)
+        static void Recognize(ReadOnlySpan<AppUITouch> appuiTouches)
         {
             if (appuiTouches == null)
                 return;
@@ -138,21 +140,21 @@ namespace Unity.AppUI.Core
         /// <summary>
         /// Registers a gesture recognizer to be used by AppUI.
         /// </summary>
-        /// <typeparam name="TRecognizerType"> The type of the gesture recognizer to register. </typeparam>
-        public static void RegisterGestureRecognizer<TRecognizerType>()
-            where TRecognizerType : IGestureRecognizer, new()
+        /// <typeparam name="TRecognizer"> The type of the gesture recognizer to register. </typeparam>
+        public static void RegisterGestureRecognizer<TRecognizer>()
+            where TRecognizer : IGestureRecognizer, new()
         {
-            k_Recognizers.Add(typeof(TRecognizerType), Activator.CreateInstance<TRecognizerType>());
+            k_Recognizers.Add(typeof(TRecognizer), Activator.CreateInstance<TRecognizer>());
         }
 
         /// <summary>
         /// Unregisters a gesture recognizer from AppUI.
         /// </summary>
-        /// <typeparam name="TRecognizerType"> The type of the gesture recognizer to unregister. </typeparam>
-        public static void UnregisterGestureRecognizer<TRecognizerType>()
-            where TRecognizerType : IGestureRecognizer
+        /// <typeparam name="TRecognizer"> The type of the gesture recognizer to unregister. </typeparam>
+        public static void UnregisterGestureRecognizer<TRecognizer>()
+            where TRecognizer : IGestureRecognizer
         {
-            k_Recognizers.Remove(typeof(TRecognizerType));
+            k_Recognizers.Remove(typeof(TRecognizer));
         }
     }
 }

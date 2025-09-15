@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Unity.AppUI.Editor
 {
@@ -12,14 +11,7 @@ namespace Unity.AppUI.Editor
     {
         static AppUISetup()
         {
-            var graphicsSettingsObj = AssetDatabase.LoadAssetAtPath<GraphicsSettings>("ProjectSettings/GraphicsSettings.asset");
-            var serializedObject = new SerializedObject(graphicsSettingsObj);
-            var preloadedShadersProperty = serializedObject.FindProperty("m_PreloadedShaders");
-            var collection = AssetDatabase.LoadAssetAtPath<ShaderVariantCollection>("Packages/com.unity.dt.app-ui/PackageResources/Shaders/App UI Shaders.shadervariants");
-
-            Utils.AddItemInArray(preloadedShadersProperty, collection);
-            serializedObject.ApplyModifiedProperties();
-            AssetDatabase.SaveAssets();
+            // nothing for now
         }
     }
 }

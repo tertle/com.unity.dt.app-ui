@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.DatePicker" class="main">
+    <engine:Label text="DatePicker" class="title" />
+    <engine:Label
+      text="A component for selecting dates with an intuitive calendar interface."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The DatePicker component provides an intuitive way to select dates through a calendar interface. It supports various display modes including days, months, and years views, making it flexible for different date selection needs."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component follows common date picker patterns found in modern applications, with navigation controls for moving between months and years, and a clear visual hierarchy for date selection."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Key features include:"
+            class="parapgraph features-list"
+          />
+          <engine:Label
+            text="• Three display modes: days, months, and years views
+• Navigation between months and years
+• Configurable first day of the week
+• Localization support
+• Keyboard navigation support
+• Full UXML support"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="NOTE: The DatePicker supports both programmatic and user interface-based date selection."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Date" class="prop-type" />
+            <engine:Label text="Date.now" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The currently selected date in the date picker."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the date programmatically:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Set the date picker to February 15, 2024"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="datePicker.value = new Date(2024, 1, 15);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="displayMode" class="prop-name" />
+            <engine:Label text="DisplayMode" class="prop-type" />
+            <engine:Label text="DisplayMode.Days" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the current view mode of the date picker. Can be Days, Months, or Years."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Switching to the months view:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Show the months view instead of the default days view"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="datePicker.displayMode = DatePicker.DisplayMode.Months;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="firstDayOfWeek" class="prop-name" />
+            <engine:Label text="DayOfWeek" class="prop-type" />
+            <engine:Label text="DayOfWeek.Sunday" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines which day is considered the start of the week in the calendar view."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting Monday as the first day of the week:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Configure the calendar to start weeks on Monday"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="datePicker.firstDayOfWeek = DayOfWeek.Monday;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic usage in UXML:" class="parapgraph" />
+            <engine:Label
+              text="Create a simple date picker with default settings"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:DatePicker name="date-picker" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating a pre-configured date picker in UXML:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Create a date picker with custom initial date, first day of week, and display mode"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:DatePicker
+        name="custom-date-picker"
+        value="2024-01-01"
+        first-day-of-week="Monday"
+        display-mode="Months" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating and configuring a date picker in C#:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Create a date picker, set its initial value, configure it, and handle value changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var datePicker = new DatePicker();
+datePicker.value = new Date(2024, 1, 1);
+datePicker.firstDayOfWeek = DayOfWeek.Monday;
+
+// Register for value changes
+datePicker.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Selected date: {evt.newValue}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

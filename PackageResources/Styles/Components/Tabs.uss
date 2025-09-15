@@ -1,4 +1,9 @@
 /* Tabs */
+:root {
+    --appui-tabitem-indicator-emphasized-color: var(--appui-alias-highlight-background-color-default);
+    --appui-tabitem-label-font-weight: bold;
+}
+
 .appui-tabs {
     display: flex;
     align-items: stretch;
@@ -64,7 +69,7 @@
 
 .appui-tabitem__label {
     color:var(--appui-foregrounds-50);
-    -unity-font-definition: var(--appui-font-weights-200); /*font-weight: 700;*/
+    -unity-font-style: var(--appui-tabitem-label-font-weight);
     font-size: var(--appui-font-sizes-body-md);
     flex-shrink: 0;
 }
@@ -108,7 +113,10 @@
 .appui-tabs__indicator {
     position: absolute;
     background-color: var(--appui-foregrounds-200);
-    transition-property: left, top, width, height;
+}
+
+.appui-tabs__indicator--animated {
+    transition-property: width, left, height, top;
     transition-duration: var(--appui-animation-duration-100);
     transition-timing-function: var(--appui-animation-easing-ease-out);
 }
@@ -122,24 +130,22 @@
 }
 
 .appui-tabs--emphasized > .appui-tabs__indicator {
-    background-color: var(--appui-accent-100);
-}
-
-.appui-tabs--emphasized .appui-tabitem.is-selected > .appui-tabitem__label {
-    color: var(--appui-accent-100);
-}
-
-.appui-tabs--emphasized .appui-tabitem.is-selected > .appui-icon {
-    --unity-image-tint-color: var(--appui-accent-100); /*fill: var(--appui-accent-100);*/
+    background-color: var(--appui-tabitem-indicator-emphasized-color);
 }
 
 .appui-tabs--horizontal > .appui-tabs__indicator {
     height: 2px;
+    width: 0;
     bottom: 0;
 }
 
 .appui-tabs--vertical > .appui-tabs__indicator {
     width: 2px;
+    height: 0;
+}
+
+.appui--rtl .appui-tabs--vertical > .appui-tabs__indicator {
+    right: 0;
 }
 
 .appui-tabs--horizontal .appui-tabs__container {

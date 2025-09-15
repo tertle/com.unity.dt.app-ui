@@ -100,7 +100,7 @@ namespace Unity.AppUI.UI
         /// <param name="iconName"> The icon of the menu item. </param>
         /// <param name="callback"> The callback to invoke when the menu item is clicked. </param>
         /// <returns> The MenuBuilder instance. </returns>
-        public MenuBuilder AddAction(int actionId, string labelStr, string iconName, EventCallback<ClickEvent> callback)
+        public MenuBuilder AddAction(int actionId, string labelStr, string iconName, Action<EventBase> callback)
         {
             var item = new MenuItem
             {
@@ -108,7 +108,7 @@ namespace Unity.AppUI.UI
                 icon = iconName,
                 userData = actionId,
             };
-            item.RegisterCallback(callback);
+            item.clickable.clickedWithEventInfo += callback;
             currentMenu.Add(item);
             return this;
         }
@@ -122,7 +122,7 @@ namespace Unity.AppUI.UI
         /// <param name="shortcut"> The shortcut of the menu item. </param>
         /// <param name="callback"> The callback to invoke when the menu item is clicked. </param>
         /// <returns> The MenuBuilder instance. </returns>
-        public MenuBuilder AddAction(int actionId, string labelStr, string iconName, string shortcut, EventCallback<ClickEvent> callback)
+        public MenuBuilder AddAction(int actionId, string labelStr, string iconName, string shortcut, Action<EventBase> callback)
         {
             var item = new MenuItem
             {
@@ -131,7 +131,7 @@ namespace Unity.AppUI.UI
                 shortcut = shortcut,
                 userData = actionId,
             };
-            item.RegisterCallback(callback);
+            item.clickable.clickedWithEventInfo += callback;
             currentMenu.Add(item);
             return this;
         }
@@ -209,6 +209,7 @@ namespace Unity.AppUI.UI
                 userData = actionId,
                 subMenu = subMenu,
             };
+            subMenu.parentItem = item;
             if (subMenuOpenedCallback != null)
                 item.subMenuOpened += subMenuOpenedCallback;
             currentMenu.Add(item);
@@ -282,16 +283,16 @@ namespace Unity.AppUI.UI
         protected override void InvokeShownEventHandlers()
         {
             base.InvokeShownEventHandlers();
-            containerView?.panel?.visualTree?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-            containerView?.panel?.visualTree?.RegisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
+            rootView?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView?.RegisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
             popover.RegisterCallback<ActionTriggeredEvent>(OnActionTriggered);
         }
 
         /// <inheritdoc />
         protected override void HideView(DismissType reason)
         {
-            containerView?.panel?.visualTree?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-            containerView?.panel?.visualTree?.UnregisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
+            rootView?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView?.UnregisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
             popover.UnregisterCallback<ActionTriggeredEvent>(OnActionTriggered);
             base.HideView(reason);
         }

@@ -79,6 +79,9 @@ namespace Unity.AppUI.UI
         /// <returns> True if the string formatting code is a percent format, False otherwise.</returns>
         public static bool IsPercentFormatString(string formatString)
         {
+            if (string.IsNullOrEmpty(formatString))
+                return false;
+
             if (formatString.ToUpperInvariant().StartsWith("P"))
                 return !formatString.Contains(".");
 

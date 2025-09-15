@@ -2,6 +2,9 @@ using System;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if FOCUSABLE_AS_VISUALELEMENT
+using Focusable = UnityEngine.UIElements.VisualElement;
+#endif
 
 namespace Unity.AppUI.UI
 {
@@ -10,16 +13,6 @@ namespace Unity.AppUI.UI
     /// </summary>
     public abstract class Popup
     {
-        /// <summary>
-        /// The message id used to show the popup.
-        /// </summary>
-        protected const int k_PopupShow = 1;
-
-        /// <summary>
-        /// The message id used to dismiss the popup.
-        /// </summary>
-        protected const int k_PopupDismiss = 2;
-
         /// <summary>
         /// A pre-allocated Action that calls <see cref="InvokeShownEventHandlers"/>.
         /// </summary>
@@ -54,36 +47,11 @@ namespace Unity.AppUI.UI
             if (contentView is IDismissInvocator invocator)
                 invocator.dismissRequested += Dismiss;
 
-            m_InvokeShownAction = new Action(InvokeShownEventHandlers);
+            m_InvokeShownAction = new Action(InvokeShownEventHandlersInternal);
             m_PrepareAnimateViewInAction = new Action(PrepareAnimateViewInInternal);
             m_OnLayoutReadyToAnimateInAction = new Action(OnLayoutReadyToAnimateInInternal);
-        }
 
-        /// <summary>
-        /// The handler that receives and dispatches messages. This is useful in multi-threaded applications.
-        /// </summary>
-        protected Handler handler
-        {
-            get
-            {
-                if (m_Handler == null)
-                    m_Handler = new Handler(global::Unity.AppUI.Core.AppUI.mainLooper, message =>
-                    {
-                        switch (message.what)
-                        {
-                            case k_PopupShow:
-                                ((Popup)message.obj).ShowView();
-                                return true;
-                            case k_PopupDismiss:
-                                ((Popup)message.obj).HideView((DismissType)message.arg1);
-                                return true;
-                            default:
-                                return false;
-                        }
-                    });
-
-                return m_Handler;
-            }
+            view.userData = this;
         }
 
         /// <summary>
@@ -115,6 +83,21 @@ namespace Unity.AppUI.UI
         public VisualElement contentView { get; }
 
         /// <summary>
+        /// Whether the popup can be dismissed by clicking outside of it.
+        /// </summary>
+        internal virtual bool focusOutDismissable { get; }
+
+        /// <summary>
+        /// The root view of the popup. It can be the container view itself or one of its ancestors.
+        /// </summary>
+        /// <remarks>
+        /// We do not use the panel.visualTree element as root view directly because this element persists in between tabbed
+        /// windows and can be shared between multiple panels. This would end up with a leak of the popup element.
+        /// </remarks>
+        /// <seealso cref="VisualElementExtensions.GetExclusiveRootElement"/>
+        public VisualElement rootView => containerView?.GetExclusiveRootElement();
+
+        /// <summary>
         /// Dismiss the <see cref="Popup"/>.
         /// </summary>
         public virtual void Dismiss()
@@ -129,7 +112,7 @@ namespace Unity.AppUI.UI
         public virtual void Dismiss(DismissType reason)
         {
             if (ShouldDismiss(reason))
-                handler.SendMessage(handler.ObtainMessage(k_PopupDismiss, (int)reason, this));
+                HideView(reason);
         }
 
         /// <summary>
@@ -150,11 +133,11 @@ namespace Unity.AppUI.UI
         /// </summary>
         public virtual void Show()
         {
-            handler.SendMessage(handler.ObtainMessage(k_PopupShow, this));
+            ShowView();
         }
 
         /// <summary>
-        /// Called when the popup's <see cref="Handler"/> has received a <see cref="k_PopupShow"/> message.
+        /// Called when it is time to show the popup.
         /// </summary>
         /// <remarks>
         /// In this method the view should become visible at some point (directly or via an animation).
@@ -188,7 +171,8 @@ namespace Unity.AppUI.UI
             {
                 // be sure its visible
                 view.visible = true;
-                InvokeShownEventHandlers();
+                view.AddToClassList(Styles.openUssClassName);
+                m_InvokeShownAction();
             }
         }
 
@@ -221,15 +205,11 @@ namespace Unity.AppUI.UI
         protected virtual void InvokeShownEventHandlers()
         {
             var focusableElement = GetFocusableElement();
-            if (focusableElement != null)
-                focusableElement.schedule.Execute(() =>
-                {
-                    // Instead of force focusing an element in the popup content,
-                    // we should change the current FocusController of the panel:
-                    // focusableElement.panel.focusController = new FocusController(new VisualElementFocusRing(focusableElement));
-                    // but UITK doesnt provide any accessible way to do it
-                    focusableElement.Focus();
-                });
+            // Instead of force focusing an element in the popup content,
+            // we should change the current FocusController of the panel:
+            // focusableElement.panel.focusController = new FocusController(new VisualElementFocusRing(focusableElement));
+            // but UITK doesnt provide any accessible way to do it
+            focusableElement?.Focus();
         }
 
         /// <summary>
@@ -266,6 +246,11 @@ namespace Unity.AppUI.UI
             m_ScheduledAnimateViewIn = view.schedule.Execute(AnimateViewIn);
         }
 
+        void InvokeShownEventHandlersInternal()
+        {
+            InvokeShownEventHandlers();
+        }
+
         /// <summary>
         /// Called when the layout is ready to be animated in.
         /// </summary>
@@ -292,7 +277,7 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
-        /// Called when the popup's <see cref="Handler"/> has received a <see cref="k_PopupDismiss"/> message.
+        /// Called when it is time to hide the popup.
         /// </summary>
         /// <param name="reason">The reason why the popup should be dismissed.</param>
         protected virtual void HideView(DismissType reason)
@@ -353,7 +338,7 @@ namespace Unity.AppUI.UI
         /// </remarks>
         protected virtual VisualElement FindSuitableParent(VisualElement element)
         {
-            return Panel.FindPopupLayer(element) ?? element?.panel?.visualTree;
+            return Panel.FindPopupLayer(element) ?? element?.GetExclusiveRootElement();
         }
     }
 

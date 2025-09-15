@@ -1,4 +1,9 @@
 /* AppBar */
+:root {
+    --appui-appbar-height-default: var(--appui-sizing-700);
+    --appui-appbar-height-compact: var(--appui-sizing-500);
+}
+
 .appui-appbar {
     display: flex;
     flex-direction: column;
@@ -15,11 +20,11 @@
     background-color: var(--appui-backgrounds-100);
     position: relative;
     padding: 0 var(--appui-spacing-100);
-    height: var(--appui-sizing-700);
+    height: var(--appui-appbar-height-default);
 }
 
 .appui-appbar--compact > .appui-appbar__bar {
-    height: var(--appui-sizing-500);
+    height: var(--appui-appbar-height-compact);
 }
 
 .appui-appbar__flexible-space {
@@ -50,7 +55,6 @@
 }
 
 .appui-appbar__compact-title.appui-localized-text {
-    display: flex;
     position: absolute;
     left: 0;
     right: 0;
@@ -65,7 +69,6 @@
 }
 
 .appui-appbar__large-title.appui-localized-text {
-    display: flex;
     font-size: var(--appui-font-sizes-900);
     color: var(--appui-foregrounds-200);
     -unity-text-align: lower-left;
@@ -76,10 +79,15 @@
 }
 
 .appui-appbar__action-container {
-    display: flex;
     flex-direction: row;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
+    padding-left: var(--appui-alias-actions-gap);
+}
+
+.appui--rtl .appui-appbar__action-container {
+    justify-content: flex-start;
+    padding-right: var(--appui-alias-actions-gap);
 }
 
 .appui-appbar__back-button {

@@ -41,6 +41,7 @@ namespace Unity.AppUI.UI
             AddToClassList(ussClassName);
 
             pickingMode = PickingMode.Ignore;
+            focusable = true;
 
             m_ScrollView = new ScrollView
             {
@@ -52,6 +53,22 @@ namespace Unity.AppUI.UI
             hierarchy.Add(m_ScrollView);
 
             RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
+            RegisterCallback<KeyDownEvent>(OnKeyDown);
+        }
+
+        internal VisualElement firstMenuItem =>
+            this.Query<MenuItem>().Enabled().First() as VisualElement ?? this.Query<PickerItem>().Enabled().First();
+
+        internal VisualElement lastMenuItem =>
+            this.Query<MenuItem>().Enabled().Last() as VisualElement ?? this.Query<PickerItem>().Enabled().Last();
+
+        void OnKeyDown(KeyDownEvent evt)
+        {
+            if (evt.keyCode == KeyCode.Escape || evt.target != this)
+                return;
+
+            evt.StopPropagation();
+            firstMenuItem?.Focus();
         }
 
         /// <summary>

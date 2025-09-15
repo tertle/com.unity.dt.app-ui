@@ -109,13 +109,15 @@ namespace Unity.AppUI.Editor
 
         void BindItem(VisualElement el, int idx)
         {
-            var item = (ListViewItem)el;
+            var item = (ListViewItem)el.ElementAt(0);
             item.title = $"Item {idx}";
         }
 
         static VisualElement MakeItem()
         {
-            return new ListViewItem();
+            var element = new VisualElement();
+            element.Add(new ListViewItem());
+            return element;
         }
     }
 }

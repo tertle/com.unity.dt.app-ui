@@ -1,5 +1,6 @@
 #if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine;
+using System;
 
 namespace Unity.AppUI.Core
 {
@@ -95,7 +96,7 @@ namespace Unity.AppUI.Core
 
         public override bool reduceMotion => AndroidAppUI.reduceMotion;
 
-        public override AppUITouch[] touches => AppUIInput.GetCurrentInputSystemTouches();
+        public override ReadOnlySpan<AppUITouch> touches => AppUIInput.GetCurrentInputSystemTouches();
 
         protected override void HighFrequencyUpdate()
         {

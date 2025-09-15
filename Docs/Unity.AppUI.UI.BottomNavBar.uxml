@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.BottomNavBar" class="main">
+    <engine:Label text="Bottom Navigation Bar" class="title" />
+    <engine:Label
+      text="A navigation component that enables easy switching between top-level destinations"
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Bottom Navigation Bar provides quick navigation between top-level destinations in your app. It displays 3-5 destinations at the bottom of the screen, each represented by an icon and an optional text label."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Bottom navigation bars are typically used in mobile applications where quick switching between main features is important. They should be used for important destinations that need to be accessed frequently."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: Bottom navigation should be used only for top-level destinations that need to be accessible from anywhere in the app. For other navigation patterns, consider using tabs, drawers, or other navigation components."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Bottom Navigation Bar consists of individual BottomNavBarItem elements, each representing a destination in your application."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="contentContainer" class="prop-name" />
+            <engine:Label text="VisualElement" class="prop-type" />
+            <engine:Label text="this" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The content container of the BottomNavBar. This property provides access to the main container where BottomNavBarItem elements are added."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding items programmatically to the BottomNavBar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var bottomNav = new BottomNavBar();
+var homeItem = new BottomNavBarItem("home", "Home", () =&gt; Debug.Log("Home clicked"));
+bottomNav.Add(homeItem);'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic Bottom Navigation Bar with three items"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='&lt;BottomNavBar&gt;
+    &lt;BottomNavBarItem icon="home" label="Home" /&gt;
+    &lt;BottomNavBarItem icon="search" label="Search" /&gt;
+    &lt;BottomNavBarItem icon="settings" label="Settings" /&gt;
+&lt;/BottomNavBar&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating a Bottom Navigation Bar programmatically"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='var bottomNav = new BottomNavBar();
+
+var homeItem = new BottomNavBarItem("home", "Home", () =&gt; {
+    Debug.Log("Home clicked");
+});
+
+var searchItem = new BottomNavBarItem("search", "Search", () =&gt; {
+    Debug.Log("Search clicked");
+});
+
+var settingsItem = new BottomNavBarItem("settings", "Settings", () =&gt; {
+    Debug.Log("Settings clicked");
+});
+
+bottomNav.Add(homeItem);
+bottomNav.Add(searchItem);
+bottomNav.Add(settingsItem);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Bottom Navigation Bar integrated with Navigation System"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='public class MainNavController : INavVisualController
+{
+    public void SetupBottomNavBar(BottomNavBar bottomNavBar, NavDestination destination, NavController navController)
+    {
+        var homeItem = new BottomNavBarItem("home", "Home", () =&gt;
+            navController.Navigate("home"));
+        var searchItem = new BottomNavBarItem("search", "Search", () =&gt;
+            navController.Navigate("search"));
+
+        bottomNavBar.Add(homeItem);
+        bottomNavBar.Add(searchItem);
+    }
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

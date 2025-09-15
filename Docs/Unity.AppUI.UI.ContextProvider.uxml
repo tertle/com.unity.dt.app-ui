@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ContextProvider" class="main">
+    <engine:Label text="ContextProvider" class="title" />
+    <engine:Label
+      text="A container component that provides contextual settings to its children in the UI hierarchy"
+      class="subtitle"
+    />
+    <engine:Label text="layout" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ContextProvider is a powerful layout component that allows you to override various UI settings for a specific section of your interface. It acts as a wrapper around UI elements, providing contextual configurations that affect all child elements within its scope."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful when you need to create isolated sections of your UI with different themes, scales, languages, or layout directions without affecting the rest of the application."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: The ContextProvider's picking mode is set to ignore by default, meaning it won't intercept any pointer events. This allows events to pass through to its children."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="scaleOverride" class="prop-name" />
+            <engine:Label text="Optional&lt;string&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;string&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the scale (size) context for all child elements. This affects the overall sizing of UI components within the provider's scope."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a section with larger scale UI elements"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider scale="large"&gt;
+    &lt;Button text="Large Button" /&gt;
+    &lt;Label text="Large Text" /&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="themeOverride" class="prop-name" />
+            <engine:Label text="Optional&lt;string&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;string&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the theme context for the contained UI elements. This allows you to create sections with different visual themes."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a dark themed section in a light themed app"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider theme="dark"&gt;
+    &lt;Panel class="content-section"&gt;
+        &lt;Label text="Dark themed content" /&gt;
+    &lt;/Panel&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="langOverride" class="prop-name" />
+            <engine:Label text="Optional&lt;string&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;string&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the language context for the contained UI elements. Useful for creating multilingual sections within your application."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a section with French language content"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider lang="fr-FR"&gt;
+    &lt;Label text="Bonjour" /&gt;
+    &lt;Button text="Cliquez ici" /&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="layoutDirectionOverride" class="prop-name" />
+            <engine:Label text="OptionalEnum&lt;Dir&gt;" class="prop-type" />
+            <engine:Label
+              text="OptionalEnum&lt;Dir&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the layout direction (LTR or RTL) for the contained UI elements. Essential for supporting right-to-left languages and layouts."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a right-to-left section for Arabic content"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider dir="Rtl"&gt;
+    &lt;TextField label="الاسم" /&gt;
+    &lt;Button text="تأكيد" /&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label
+              text="preferredTooltipPlacementOverride"
+              class="prop-name"
+            />
+            <engine:Label
+              text="OptionalEnum&lt;PopoverPlacement&gt;"
+              class="prop-type"
+            />
+            <engine:Label
+              text="OptionalEnum&lt;PopoverPlacement&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the preferred placement for tooltips within the context. This setting provides a hint for tooltip positioning but may be adjusted based on available space."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting tooltip placement preference for a section"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider preferred-tooltip-placement="Top"&gt;
+    &lt;Button text="Hover me" tooltip="This tooltip will prefer to appear above" /&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="tooltipDelayMsOverride" class="prop-name" />
+            <engine:Label text="Optional&lt;int&gt;" class="prop-type" />
+            <engine:Label text="Optional&lt;int&gt;.none" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the delay in milliseconds before showing tooltips within this context."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a section with faster tooltip response"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ContextProvider tooltip-delay-ms="100"&gt;
+    &lt;Button text="Quick Tooltip" tooltip="This tooltip appears faster" /&gt;
+&lt;/ContextProvider&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here are some common usage examples of the ContextProvider component:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a dark-themed modal dialog"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ContextProvider theme="dark" scale="medium"&gt;
+    &lt;Dialog&gt;
+        &lt;Header text="Dark Theme Dialog" /&gt;
+        &lt;Content&gt;
+            &lt;Label text="This entire dialog uses dark theme styling" /&gt;
+        &lt;/Content&gt;
+        &lt;Footer&gt;
+            &lt;Button text="Close" /&gt;
+        &lt;/Footer&gt;
+    &lt;/Dialog&gt;
+&lt;/ContextProvider&gt;'
+              class="code"
+            />
+            <engine:Label
+              text="Setting up a multilingual section with RTL support"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ContextProvider lang="ar-SA" dir="Rtl"&gt;
+    &lt;Panel class="form-section"&gt;
+        &lt;TextField label="الاسم" /&gt;
+        &lt;TextField label="البريد الإلكتروني" /&gt;
+        &lt;Button text="إرسال" /&gt;
+    &lt;/Panel&gt;
+&lt;/ContextProvider&gt;'
+              class="code"
+            />
+            <engine:Label
+              text="Creating a larger scale section for improved accessibility"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ContextProvider scale="large" tooltip-delay-ms="0"&gt;
+    &lt;Panel class="accessibility-section"&gt;
+        &lt;Label text="Larger Text for Better Visibility" /&gt;
+        &lt;Button text="Easy to Click" tooltip="Instant tooltip" /&gt;
+    &lt;/Panel&gt;
+&lt;/ContextProvider&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -50,6 +50,24 @@ You can also specify the theme stylesheet inside you UXML file directly.
 <Style src="project:/Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"/>
 ```
 
+### My user-interface presented in a `WorldsSpaceUIDocument` is not refreshed correctly in my Unity scene.
+
+When using a `WorldSpaceUIDocument` component, the referenced `PanelSettings` in `UIDocument` component of the same
+game object is used to render the UI in the scene view. This `PanelSettings` must be configured to clear any information
+about the previous rendering to avoid any artifacts.
+Please make sure that the `PanelSettings` component is configured as follows:
+
+- **Clear Color**: true
+- **Clear Depth Stencil**: true
+
+<p align="center">
+  <img src="images/clear-panel-settings.png" alt="Clear Panel Settings"/>
+</p>
+
+In order to clear correctly the depth and stencil buffers, make sure the `RenderTexture` used by the `WorldSpaceUIDocument` is configured to support theses buffers.
+
+We recommend a **Depth Stencil Format** set to `D32_SFLOAT_S8_UINT` or something equivalent for your target platform.
+
 ### I see an error message "Exception: Attempting to use an invalid operation handle" when I go in Play Mode
 
 This error message is caused by an invalid load of Addressables content.

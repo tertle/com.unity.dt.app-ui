@@ -86,7 +86,7 @@ namespace Unity.AppUI.Tests.Core
         public void SendContextChangedEventWithNullElementThrows()
         {
             // ReSharper disable once ExpressionIsAlwaysNull
-            Assert.Throws<ArgumentNullException>(() => VisualElementExtensions.SendContextChangedEvent<TestContext>(null));
+            Assert.Throws<ArgumentNullException>(() => VisualElementExtensions.SendContextChangedEvent<TestContext>(null, null));
         }
 
         [Test]

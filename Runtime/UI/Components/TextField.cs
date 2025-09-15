@@ -181,6 +181,7 @@ namespace Unity.AppUI.UI
             maxLength = k_MaxLengthDefault;
 
             m_InputField.AddManipulator(new KeyboardFocusController(OnKeyboardFocusedIn, OnFocusedIn, OnFocusedOut));
+            m_InputField.RuntimeContextMenu();
             m_Placeholder.RegisterValueChangedCallback(OnPlaceholderValueChanged);
             m_InputField.RegisterValueChangedCallback(OnInputValueChanged);
         }

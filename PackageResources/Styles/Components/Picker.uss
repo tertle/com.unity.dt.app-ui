@@ -127,6 +127,11 @@
     overflow: hidden;
 }
 
+.appui-picker-item.is-selected {
+    background-color: var(--appui-alias-actions-selected-background-color-default);
+    color: var(--appui-alias-actions-foreground-color-selected);
+}
+
 .appui--rtl .appui-picker-item {
     flex-direction: row-reverse;
 }
@@ -136,9 +141,17 @@
     color: var(--appui-alias-actions-foreground-color-hover);
 }
 
+.appui-picker-item.is-selected.is-hovered {
+    background-color: var(--appui-alias-actions-selected-background-color-hover);
+}
+
 .appui-picker-item.keyboard-focus{
     background-color: var(--appui-color-transparent-black-100);
     color: var(--appui-alias-actions-foreground-color-focus);
+}
+
+.appui-picker-item.is-selected.keyboard-focus {
+    background-color: var(--appui-alias-actions-selected-background-color-focus);
 }
 
 .appui-picker-item.is-active {
@@ -146,9 +159,8 @@
     color: var(--appui-alias-actions-foreground-color-active);
 }
 
-.appui-picker-item.is-selected {
-    background-color: var(--appui-alias-actions-background-color-selected);
-    color: var(--appui-alias-actions-foreground-color-selected);
+.appui-picker-item.is-selected.is-active {
+    background-color: var(--appui-alias-actions-selected-background-color-active);
 }
 
 .appui-picker-item:disabled {

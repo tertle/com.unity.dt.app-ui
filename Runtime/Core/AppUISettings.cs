@@ -5,7 +5,7 @@ namespace Unity.AppUI.Core
     /// <summary>
     /// The settings for the App UI system.
     /// </summary>
-    [CreateAssetMenu(menuName = "App UI/Settings", fileName = "App UI Settings")]
+    [CreateAssetMenu(menuName = "App UI/App UI Settings", fileName = "App UI Settings")]
     public class AppUISettings : ScriptableObject
     {
         internal const string configName = "com.unity.dt.app-ui";
@@ -91,6 +91,38 @@ namespace Unity.AppUI.Core
             }
         }
 
+        /// <summary>
+        /// Enable this option to include the App UI shaders in the player build.
+        /// </summary>
+        public bool includeShadersInPlayerBuild
+        {
+            get => m_IncludeShadersInPlayerBuild;
+            set
+            {
+                if (m_IncludeShadersInPlayerBuild == value)
+                    return;
+
+                m_IncludeShadersInPlayerBuild = value;
+                OnChange();
+            }
+        }
+
+        /// <summary>
+        /// Enable this option to get App UI working in the editor only.
+        /// </summary>
+        public bool editorOnly
+        {
+            get => m_EditorOnly;
+            set
+            {
+                if (m_EditorOnly == value)
+                    return;
+
+                m_EditorOnly = value;
+                OnChange();
+            }
+        }
+
         [Tooltip("Enable this options to correct the scale of UIDocuments, depending on the target platform and screen dpi.")]
         [SerializeField]
         // ReSharper disable once InconsistentNaming
@@ -115,6 +147,15 @@ namespace Unity.AppUI.Core
         [SerializeField]
         // ReSharper disable once InconsistentNaming
         bool m_EnableMacOSGestureRecognition = true;
+
+        [Tooltip("Enable this option to include the App UI shaders in the player build.")]
+        [SerializeField]
+        // ReSharper disable once InconsistentNaming
+        bool m_IncludeShadersInPlayerBuild = true;
+
+        [Tooltip("Enable this option to get App UI working in the editor only.")]
+        [SerializeField]
+        bool m_EditorOnly = false;
 
         internal void OnChange()
         {

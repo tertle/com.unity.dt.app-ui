@@ -7,41 +7,20 @@ using UnityEngine;
 
 namespace Unity.AppUI.Samples.MVVMRedux
 {
-    public class MainViewModel : ObservableObject
+    [ObservableObject]
+    public partial class MainViewModel
     {
-        const string k_SliceName = "app";
-
         readonly IStoreService m_StoreService;
 
         readonly ILocalStorageService m_LocalStorageService;
 
-        readonly Unsubscriber m_Unsubscribe;
+        IDisposableSubscription m_Subscription;
 
+        [ObservableProperty]
         Todo[] m_Todos;
 
+        [ObservableProperty]
         Todo[] m_TodosSearchResults;
-
-        public RelayCommand<string> createTodoCommand { get; }
-
-        public RelayCommand<Todo> deleteTodoCommand { get; }
-
-        public RelayCommand<(Todo, string)> editTodoCommand { get; }
-
-        public RelayCommand<Todo> toggleCompleteTodoCommand { get; }
-
-        public AsyncRelayCommand<string> searchTodoCommand { get; }
-
-        public Todo[] todos
-        {
-            get => m_Todos;
-            set => SetProperty(ref m_Todos, value);
-        }
-
-        public Todo[] todosSearchResults
-        {
-            get => m_TodosSearchResults;
-            set => SetProperty(ref m_TodosSearchResults, value);
-        }
 
         public MainViewModel(IStoreService storeService, ILocalStorageService localStorageService)
         {
@@ -49,32 +28,20 @@ namespace Unity.AppUI.Samples.MVVMRedux
             m_StoreService = storeService;
             m_LocalStorageService = localStorageService;
 
-            // Commands
-            createTodoCommand = new RelayCommand<string>(CreateTodo);
-            deleteTodoCommand = new RelayCommand<Todo>(DeleteTodo);
-            editTodoCommand = new RelayCommand<(Todo,string)>(EditTodo);
-            toggleCompleteTodoCommand = new RelayCommand<Todo>(ToggleCompleteTodo);
-            searchTodoCommand = new AsyncRelayCommand<string>(SearchTodo, AsyncRelayCommandOptions.None);
-
             // State
-            var initialState = m_LocalStorageService.GetValue(k_SliceName, new AppState());
-            m_StoreService.store.CreateSlice(k_SliceName, initialState, builder =>
-            {
-                builder
-                    .Add<string>(Actions.createTodo, Reducers.CreateTodoReducer)
-                    .Add<string>(Actions.deleteTodo, Reducers.DeleteTodoReducer)
-                    .Add<(string, string)>(Actions.editTodo, Reducers.EditTodoReducer)
-                    .Add<(string, bool)>(Actions.completeTodo, Reducers.CompleteTodoReducer)
-                    .Add<string>(Actions.setSearchInput, Reducers.SetSearchInputReducer);
-            });
-
-            m_Todos = initialState.todos;
+            m_Todos = m_StoreService.store.GetState<AppState>(m_StoreService.sliceName).todos;
 
             // Events
-            m_Unsubscribe = m_StoreService.store.Subscribe<AppState>(k_SliceName, OnStateChanged);
+            m_Subscription = m_StoreService.store.Subscribe(SelectAppSlice, OnStateChanged);
             App.shuttingDown += OnShuttingDown;
         }
 
+        AppState SelectAppSlice(PartitionedState state)
+        {
+            return state.Get<AppState>(m_StoreService.sliceName);
+        }
+
+        [ICommand]
         async Task SearchTodo(string input, CancellationToken cancellationToken)
         {
             // store the input in the state
@@ -86,7 +53,7 @@ namespace Unity.AppUI.Samples.MVVMRedux
         {
             // We could have a search service, but for the sake of the demo, we'll just filter the todos
             var result = new List<Todo>();
-            foreach (var todo in todos)
+            foreach (var todo in Todos)
             {
                 if (todo.text.Contains(input))
                 {
@@ -97,33 +64,39 @@ namespace Unity.AppUI.Samples.MVVMRedux
             // Simulate a network request
             await Task.Delay(300, cancellationToken);
 
-            todosSearchResults = result.ToArray();
+            TodosSearchResults = result.ToArray();
         }
 
         async void OnStateChanged(AppState state)
         {
-            if (state.todos != todos)
+            Debug.Log("Redux state has changed:\n" + state);
+
+            if (state.todos != Todos)
             {
-                todos = state.todos;
+                Todos = state.todos;
                 await SearchInternal(state.searchInput, CancellationToken.None);
             }
         }
 
+        [ICommand]
         void CreateTodo(string text)
         {
             m_StoreService.store.Dispatch(Actions.createTodo, text);
         }
 
+        [ICommand]
         void ToggleCompleteTodo(Todo todo)
         {
             m_StoreService.store.Dispatch(Actions.completeTodo, (todo.id, todo.completed));
         }
 
+        [ICommand]
         void EditTodo((Todo todo, string newName) args)
         {
             m_StoreService.store.Dispatch(Actions.editTodo, (args.todo.id, args.newName));
         }
 
+        [ICommand]
         void DeleteTodo(Todo todo)
         {
             m_StoreService.store.Dispatch(Actions.deleteTodo, todo.id);
@@ -131,9 +104,10 @@ namespace Unity.AppUI.Samples.MVVMRedux
 
         void OnShuttingDown()
         {
-            m_LocalStorageService?.SetValue(k_SliceName, m_StoreService.store.GetState<AppState>(k_SliceName));
+            m_StoreService.SaveState();
             App.shuttingDown -= OnShuttingDown;
-            m_Unsubscribe?.Invoke();
+            m_Subscription?.Dispose();
+            m_Subscription = null;
         }
     }
 }

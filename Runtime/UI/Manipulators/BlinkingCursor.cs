@@ -68,7 +68,9 @@ namespace Unity.AppUI.UI
 
         void UpdateCursorColor()
         {
-#if UNITY_2022_1_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
+            textField.ToggleInClassList("appui-text-cursor--transparent");
+#elif UNITY_2022_1_OR_NEWER
             var color = textField.textSelection.cursorColor;
             textField.textSelection.cursorColor = color.a == 0
                 ? new UnityEngine.Color(color.r, color.g, color.b, 1)

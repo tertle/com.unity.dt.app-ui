@@ -4,14 +4,6 @@
     overflow: hidden;
 }
 
-.appui-canvas.cursor--grab > * {
-    cursor: var(--appui-alias-control-cursor-grab);
-}
-
-.appui-canvas.cursor--grabbing > * {
-    cursor: var(--appui-alias-control-cursor-grabbing);
-}
-
 .appui-canvas__background {
     position: absolute;
     top: 0;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -19,6 +20,30 @@ namespace Unity.AppUI.UI
 #endif
     public partial class ColorPicker : VisualElement, INotifyValueChanged<Color>
     {
+#if UNITY_LOCALIZATION_PRESENT && ENABLE_LOCALIZED_COLOR_PICKER
+        const string k_DefaultAlphaChannelText = "@AppUI:AlphaChannel";
+        const string k_DefaultRedChannelText = "@AppUI:RedChannel";
+        const string k_DefaultGreenChannelText = "@AppUI:GreenChannel";
+        const string k_DefaultBlueChannelText = "@AppUI:BlueChannel";
+
+        const string k_DefaultHueText = "@AppUI:Hue";
+        const string k_DefaultSaturationText = "@AppUI:Saturation";
+        const string k_DefaultBrightnessText = "@AppUI:Brightness";
+
+        const string k_DefaultHexText = "@AppUI:Hex";
+#else
+        const string k_DefaultAlphaChannelText = "A";
+        const string k_DefaultRedChannelText = "R";
+        const string k_DefaultGreenChannelText = "G";
+        const string k_DefaultBlueChannelText = "B";
+
+        const string k_DefaultHueText = "H";
+        const string k_DefaultSaturationText = "S";
+        const string k_DefaultBrightnessText = "V";
+
+        const string k_DefaultHexText = "Hex";
+#endif
+
 #if ENABLE_RUNTIME_DATA_BINDINGS
 
         internal static readonly BindingId valueProperty = new BindingId(nameof(value));
@@ -93,6 +118,16 @@ namespace Unity.AppUI.UI
         /// The channels dropdown styling class.
         /// </summary>
         public const string channelsDropdownUssClassName = ussClassName + "__channels-dropdown";
+
+        /// <summary>
+        /// The channel row styling class.
+        /// </summary>
+        public const string channelRowUssClassName = ussClassName + "__channel-row";
+
+        /// <summary>
+        /// The channel label styling class.
+        /// </summary>
+        public const string channelLabelUssClassName = ussClassName + "__channel-label";
 
         /// <summary>
         /// The RGB red slider styling class.
@@ -174,6 +209,8 @@ namespace Unity.AppUI.UI
 
         readonly TextField m_HexField;
 
+        internal ActionButton eyeDropperButton => m_Toolbar.eyeDropperButton;
+
         Color m_Value;
 
         /// <summary>
@@ -247,11 +284,11 @@ namespace Unity.AppUI.UI
 #endif
         public bool showAlpha
         {
-            get => !m_AlphaSlider.ClassListContains(Styles.hiddenUssClassName);
+            get => !m_AlphaSlider.parent.ClassListContains(Styles.hiddenUssClassName);
             set
             {
                 var changed = showAlpha != value;
-                m_AlphaSlider.EnableInClassList(Styles.hiddenUssClassName, !value);
+                m_AlphaSlider.parent.EnableInClassList(Styles.hiddenUssClassName, !value);
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -352,9 +389,25 @@ namespace Unity.AppUI.UI
             m_SvSquare.AddToClassList(svSquareUssClassName);
             m_WheelContainer.hierarchy.Add(m_SvSquare);
 
-            m_AlphaSlider = new ColorSlider { name = alphaSliderUssClassName, focusable = true, pickingMode = PickingMode.Position };
+            var row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            hierarchy.Add(row);
+
+            var alphaLabel = new LocalizedTextElement(k_DefaultAlphaChannelText);
+            alphaLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(alphaLabel);
+
+            m_AlphaSlider = new ColorSlider
+            {
+                name = alphaSliderUssClassName,
+                focusable = true,
+                pickingMode = PickingMode.Position,
+                showInputField = true,
+                track = TrackDisplayType.Off,
+                formatString = "F2",
+            };
             m_AlphaSlider.AddToClassList(alphaSliderUssClassName);
-            hierarchy.Add(m_AlphaSlider);
+            row.Add(m_AlphaSlider);
 
             m_ChannelsContainer = new VisualElement { name = channelsContainerUssClassName, pickingMode = PickingMode.Ignore };
             m_ChannelsContainer.AddToClassList(channelsContainerUssClassName);
@@ -376,114 +429,200 @@ namespace Unity.AppUI.UI
 
             m_ChannelsDropdown.bindItem = BindDropdownItem;
 
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBContainer.hierarchy.Add(row);
+
+            var redLabel = new LocalizedTextElement(k_DefaultRedChannelText);
+            redLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(redLabel);
+
             m_RedChannelSlider = new SliderInt
             {
                 name = redChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 255,
-                label = "R",
-                filled = true,
+                track = TrackDisplayType.On,
+                showInputField = true,
             };
             m_RedChannelSlider.AddToClassList(redChannelSliderUssClassName);
-            m_RGBContainer.hierarchy.Add(m_RedChannelSlider);
+            row.Add(m_RedChannelSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBContainer.hierarchy.Add(row);
+
+            var greenLabel = new LocalizedTextElement(k_DefaultGreenChannelText);
+            greenLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(greenLabel);
 
             m_GreenChannelSlider = new SliderInt
             {
                 name = greenChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 255,
-                label = "G",
-                filled = true,
+                track = TrackDisplayType.On,
+                showInputField = true,
             };
             m_GreenChannelSlider.AddToClassList(greenChannelSliderUssClassName);
-            m_RGBContainer.hierarchy.Add(m_GreenChannelSlider);
+            row.Add(m_GreenChannelSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBContainer.hierarchy.Add(row);
+
+            var blueLabel = new LocalizedTextElement(k_DefaultBlueChannelText);
+            blueLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(blueLabel);
 
             m_BlueChannelSlider = new SliderInt
             {
                 name = blueChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 255,
-                label = "B",
-                filled = true,
+                track = TrackDisplayType.On,
+                showInputField = true,
             };
             m_BlueChannelSlider.AddToClassList(blueChannelSliderUssClassName);
-            m_RGBContainer.hierarchy.Add(m_BlueChannelSlider);
+            row.Add(m_BlueChannelSlider);
 
             m_RGBFloatContainer = new VisualElement();
             m_ChannelsContainer.hierarchy.Add(m_RGBFloatContainer);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBFloatContainer.hierarchy.Add(row);
+
+            var redFloatLabel = new LocalizedTextElement(k_DefaultRedChannelText);
+            redFloatLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(redFloatLabel);
 
             m_RedFChannelSlider = new SliderFloat
             {
                 name = redChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "R",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_RedFChannelSlider.AddToClassList(redChannelSliderUssClassName);
-            m_RGBFloatContainer.hierarchy.Add(m_RedFChannelSlider);
+            row.Add(m_RedFChannelSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBFloatContainer.hierarchy.Add(row);
+
+            var greenFloatLabel = new LocalizedTextElement(k_DefaultGreenChannelText);
+            greenFloatLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(greenFloatLabel);
 
             m_GreenFChannelSlider = new SliderFloat
             {
                 name = greenChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "G",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_GreenFChannelSlider.AddToClassList(greenChannelSliderUssClassName);
-            m_RGBFloatContainer.hierarchy.Add(m_GreenFChannelSlider);
+            row.Add(m_GreenFChannelSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_RGBFloatContainer.hierarchy.Add(row);
+
+            var blueFloatLabel = new LocalizedTextElement(k_DefaultBlueChannelText);
+            blueFloatLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(blueFloatLabel);
 
             m_BlueFChannelSlider = new SliderFloat
             {
                 name = blueChannelSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "B",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_BlueFChannelSlider.AddToClassList(blueChannelSliderUssClassName);
-            m_RGBFloatContainer.hierarchy.Add(m_BlueFChannelSlider);
+            row.Add(m_BlueFChannelSlider);
 
             m_HSVContainer = new VisualElement();
             m_ChannelsContainer.hierarchy.Add(m_HSVContainer);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_HSVContainer.hierarchy.Add(row);
+
+            var hueLabel = new LocalizedTextElement(k_DefaultHueText);
+            hueLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(hueLabel);
 
             m_HueSlider = new SliderFloat
             {
                 name = hueSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "H",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_HueSlider.AddToClassList(hueSliderUssClassName);
-            m_HSVContainer.hierarchy.Add(m_HueSlider);
+            row.Add(m_HueSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_HSVContainer.hierarchy.Add(row);
+
+            var saturationLabel = new LocalizedTextElement(k_DefaultSaturationText);
+            saturationLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(saturationLabel);
 
             m_SaturationSlider = new SliderFloat
             {
                 name = saturationSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "S",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_SaturationSlider.AddToClassList(saturationSliderUssClassName);
-            m_HSVContainer.hierarchy.Add(m_SaturationSlider);
+            row.Add(m_SaturationSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            m_HSVContainer.hierarchy.Add(row);
+
+            var brightnessLabel = new LocalizedTextElement(k_DefaultBrightnessText);
+            brightnessLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(brightnessLabel);
 
             m_BrightnessSlider = new SliderFloat
             {
                 name = brightnessSliderUssClassName,
                 lowValue = 0,
                 highValue = 1,
-                label = "V",
-                filled = true,
+                track = TrackDisplayType.On,
+                formatString = "F2",
+                showInputField = true,
             };
             m_BrightnessSlider.AddToClassList(brightnessSliderUssClassName);
-            m_HSVContainer.hierarchy.Add(m_BrightnessSlider);
+            row.Add(m_BrightnessSlider);
+
+            row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.AddToClassList(channelRowUssClassName);
+            hierarchy.Add(row);
+
+            var hexLabel = new LocalizedTextElement(k_DefaultHexText);
+            hexLabel.AddToClassList(channelLabelUssClassName);
+            row.Add(hexLabel);
 
             m_HexField = new TextField { name = hexFieldUssClassName };
             m_HexField.AddToClassList(hexFieldUssClassName);
-            hierarchy.Add(m_HexField);
+            row.Add(m_HexField);
 
             showAlpha = false;
             showToolbar = false;
@@ -507,12 +646,52 @@ namespace Unity.AppUI.UI
             m_AlphaSlider.RegisterValueChangingCallback(OnAlphaChannelValueChanging);
 
             m_Toolbar.previousColorSwatchClicked += OnPreviousSwatchClicked;
+            eyeDropperButton.clickable = new Pressable(OnEyeDropperClicked);
 
             m_HexField.RegisterValueChangedCallback(OnHexValueChanged);
 
             m_ChannelsDropdown.SetValueWithoutNotify(new []{ (int)SliderMode.RGB255 });
             OnChannelModeChanged(null);
             SetValueWithoutNotify(Color.clear);
+        }
+
+        internal void OnEyeDropperClicked(EventBase evt)
+        {
+            if (AppUI.Core.AppUI.gameObject)
+            {
+                var pos = evt is IPointerEvent e ? (Vector2)e.position : evt.originalMousePosition;
+                AppUI.Core.AppUI.gameObject.StartCoroutine(StartEyedropper(pos));
+            }
+            else
+            {
+                Debug.LogWarning("The Eyedropper tool is not available in this context (runtime only).");
+            }
+        }
+
+        IEnumerator StartEyedropper(Vector2 mousePosition)
+        {
+            var panel = this.GetLastAncestorOfType<Panel>();
+            if (panel == null)
+            {
+                Debug.LogWarning("No panel found to show the eyedropper tool.");
+                yield break;
+            }
+            var container = panel.popupContainer;
+            var overlay = new EyeDropperOverlay(value);
+            container.Add(overlay);
+
+            yield return new WaitForEndOfFrame();
+            overlay.StartEyedropper(mousePosition);
+            overlay.RegisterValueChangedCallback(OnOverlayValueChanged);
+        }
+
+        void OnOverlayValueChanged(ChangeEvent<Color> evt)
+        {
+            var overlay = (EyeDropperOverlay) evt.target;
+            overlay.UnregisterValueChangedCallback(OnOverlayValueChanged);
+            overlay.RemoveFromHierarchy();
+            value = evt.newValue;
+            schedule.Execute(Focus);
         }
 
         void OnHexValueChanged(ChangeEvent<string> evt)

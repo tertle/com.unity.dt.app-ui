@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.PageIndicator" class="main">
+    <engine:Label text="PageIndicator" class="title" />
+    <engine:Label
+      text="A component that displays a series of dots to indicate and navigate between multiple pages or slides."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The PageIndicator is a UI component that displays a sequence of interactive dots, commonly used in carousels, slideshows, or any content that spans multiple pages. Each dot represents a page, with the current page highlighted."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports both horizontal and vertical layouts, keyboard navigation, and can be controlled programmatically or through user interaction."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: The PageIndicator is designed to be used as a navigation aid and should be combined with the actual content container that displays the pages."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="count" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the number of dots (pages) to display in the page indicator."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a page indicator with 5 dots in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;PageIndicator count="5" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Gets or sets the index of the currently selected dot (active page)."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="The value must be between 0 and count-1."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Programmatically selecting a specific page"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="pageIndicator.value = 2; // Select the third dot"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the layout direction of the dots."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Can be either Horizontal (dots in a row) or Vertical (dots in a column)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical page indicator in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;PageIndicator direction="Vertical" count="3" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Usage" class="parapgraph" />
+            <engine:Label
+              text="Creating a basic horizontal page indicator with three dots and handling page changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;PageIndicator name="pageIndicator" count="3" direction="Horizontal" /&gt;
+&lt;/UXML&gt;
+
+// C#
+pageIndicator.RegisterCallback&lt;ChangeEvent&lt;int&gt;&gt;((evt) =&gt; {
+    // Handle page change
+    var newPageIndex = evt.newValue;
+    UpdatePageContent(newPageIndex);
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Image Carousel Integration"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Implementing an image carousel with PageIndicator for navigation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="public class ImageCarousel : VisualElement
+{
+    private PageIndicator m_PageIndicator;
+    private VisualElement m_ImageContainer;
+
+    public ImageCarousel()
+    {
+        // Setup image container
+        m_ImageContainer = new VisualElement();
+        Add(m_ImageContainer);
+
+        // Setup page indicator
+        m_PageIndicator = new PageIndicator();
+        m_PageIndicator.count = 5; // For 5 images
+        m_PageIndicator.RegisterCallback&lt;ChangeEvent&lt;int&gt;&gt;((evt) =&gt; {
+            ShowImage(evt.newValue);
+        });
+        Add(m_PageIndicator);
+    }
+
+    private void ShowImage(int index)
+    {
+        // Update image display logic
+    }
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Keyboard Navigation" class="parapgraph" />
+            <engine:Label
+              text="Demonstrating keyboard navigation and programmatic page changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="// The PageIndicator supports keyboard navigation out of the box:
+// - Left/Right arrows for horizontal layout
+// - Up/Down arrows for vertical layout
+
+// You can also programmatically navigate:
+pageIndicator.GoToNext(); // Move to next page
+pageIndicator.GoToPrevious(); // Move to previous page"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

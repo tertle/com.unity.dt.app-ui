@@ -34,6 +34,8 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId selectedProperty = nameof(selected);
 
         internal static readonly BindingId accentProperty = nameof(accent);
+
+        internal static readonly BindingId clickableProperty = nameof(clickable);
 #endif
 
         /// <summary>
@@ -156,6 +158,7 @@ namespace Unity.AppUI.UI
             get => m_Clickable;
             set
             {
+                var changed = value != m_Clickable;
                 if (m_Clickable != null)
                 {
                     m_Clickable.clicked -= OnClick;
@@ -167,6 +170,10 @@ namespace Unity.AppUI.UI
                     return;
                 this.AddManipulator(m_Clickable);
                 m_Clickable.clicked += OnClick;
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in clickableProperty);
+#endif
             }
         }
 

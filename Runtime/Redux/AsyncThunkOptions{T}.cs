@@ -5,8 +5,8 @@ namespace Unity.AppUI.Redux
     /// <summary>
     /// Options for the async thunk with arguments.
     /// </summary>
-    /// <typeparam name="TThunkArg"> The type of the argument to pass to the thunk. </typeparam>
-    public class AsyncThunkOptions<TThunkArg> : AsyncThunkOptions
+    /// <typeparam name="TArg"> The type of the argument to pass to the thunk. </typeparam>
+    public class AsyncThunkOptions<TArg> : AsyncThunkOptions
     {
         /// <summary>
         /// A condition to check before dispatching the action.
@@ -14,7 +14,7 @@ namespace Unity.AppUI.Redux
         /// <param name="dispatchedArguments"> The dispatched arguments. </param>
         /// <param name="store"> The store. </param>
         /// <returns> True if the thunk should be processed; false otherwise. </returns>
-        public delegate bool ConditionHandler(TThunkArg dispatchedArguments, Store store);
+        public delegate bool ConditionHandler(TArg dispatchedArguments, IDispatchable store);
 
         /// <summary>
         /// A condition to check before dispatching the action asynchronously.
@@ -22,14 +22,14 @@ namespace Unity.AppUI.Redux
         /// <param name="dispatchedArguments"> The dispatched arguments. </param>
         /// <param name="store"> The store. </param>
         /// <returns> True if the thunk should be processed; false otherwise. </returns>
-        public delegate Task<bool> ConditionHandlerAsync(TThunkArg dispatchedArguments, Store store);
+        public delegate Task<bool> ConditionHandlerAsync(TArg dispatchedArguments, IDispatchable store);
 
         /// <summary>
         /// A generator to create a unique ID for the request.
         /// </summary>
         /// <param name="dispatchedArguments"> The dispatched arguments. </param>
         /// <returns> The unique ID for the request. </returns>
-        public delegate string IDGeneratorHandler(TThunkArg dispatchedArguments);
+        public delegate string IDGeneratorHandler(TArg dispatchedArguments);
 
         /// <summary>
         /// The condition to check before dispatching the action.

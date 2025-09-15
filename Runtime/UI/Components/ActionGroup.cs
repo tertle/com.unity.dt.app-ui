@@ -134,8 +134,8 @@ namespace Unity.AppUI.UI
                 name = moreButtonUssClassName,
                 icon = "dots-three",
                 iconVariant = IconVariant.Bold,
-                usageHints = UsageHints.DynamicTransform
             };
+            m_MoreButton.EnableDynamicTransform(true);
             m_MoreButton.AddToClassList(ussClassName + "__item");
             m_MoreButton.AddToClassList("unity-last-child");
             m_MoreButton.AddToClassList(moreButtonUssClassName);
@@ -693,7 +693,7 @@ namespace Unity.AppUI.UI
             m_MenuBuilder.Show();
         }
 
-        void OnMenuActionPressed(ClickEvent evt)
+        void OnMenuActionPressed(EventBase evt)
         {
             if (
                 evt.target is MenuItem {userData: int actionId and >= 0} &&

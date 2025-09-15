@@ -24,6 +24,8 @@ namespace Unity.AppUI.Samples
 
         const int CONFIRM_ACTION = 42;
 
+        ScrollView m_ScrollView;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -40,6 +42,14 @@ namespace Unity.AppUI.Samples
                 uiDocument.rootVisualElement.Q<CircularProgress>("determinateCircularProgressWithLabel").value = progressValue;
                 uiDocument.rootVisualElement.Q<Text>("determinateCircularProgressLabel").text = $"{Mathf.RoundToInt(progressValue * 100f)}%";
                 uiDocument.rootVisualElement.Q<LinearProgress>("determinateLinearProgress").value = progressValue;
+
+#if UNITY_6000_0_OR_NEWER
+                if (m_ScrollView == null)
+                {
+                    m_ScrollView = uiDocument.rootVisualElement.Q<ScrollView>();
+                    m_ScrollView.mouseWheelScrollSize = 1;
+                }
+#endif
             }
         }
 
@@ -58,6 +68,8 @@ namespace Unity.AppUI.Samples
             void SetTheme()
             {
                 Platform.darkModeChanged -= OnSystemThemeChanged;
+                if (string.IsNullOrEmpty(themeSwitcher.value))
+                    themeSwitcher.SetValueWithoutNotify("dark");
                 if (themeSwitcher.value == "system")
                 {
                     Platform.darkModeChanged += OnSystemThemeChanged;
@@ -72,12 +84,16 @@ namespace Unity.AppUI.Samples
 
             void SetScale()
             {
+                if (string.IsNullOrEmpty(scaleSwitcher.value))
+                    scaleSwitcher.SetValueWithoutNotify("medium");
                 panel.scale = scaleSwitcher.value;
                 PlayerPrefs.SetString("scale", scaleSwitcher.value);
             }
 
             void SetDir()
             {
+                if (string.IsNullOrEmpty(dirSwitcher.value))
+                    dirSwitcher.SetValueWithoutNotify("Ltr");
                 Enum.TryParse<Dir>(dirSwitcher.value, out var dir);
                 panel.layoutDirection = dir;
                 PlayerPrefs.SetString("dir", dirSwitcher.value);
@@ -407,9 +423,12 @@ namespace Unity.AppUI.Samples
             var swipeViewD = root.Q<SwipeView>("swipeview-distance");
             swipeViewD.beingSwiped += OnBeingSwiped;
 
-            swipeViewD.Query<Avatar>().ForEach(avatar =>
+            swipeViewD.Query<Text>().ForEach(txt =>
             {
-                avatar.AddManipulator(new Pressable(() => swipeViewD.GoTo(swipeViewD.IndexOf(avatar.parent))));
+                txt.AddManipulator(new Pressable(() =>
+                {
+                    swipeViewD.GoTo(swipeViewD.IndexOf(txt.parent));
+                }));
             });
 
             root.Q<Chip>("filled-chip-ornament").ornament = new Image
@@ -529,9 +548,51 @@ namespace Unity.AppUI.Samples
                 Debug.Log($"SliderFloat Changing: {evt.newValue}");
             });
 
+            var maskField = root.Q<MaskField>("mask-field");
+            maskField.sourceItems = new List<string> { "Choice 1", "Choice 2", "Choice 3" };
+            maskField.getDisplayName = i => $"{maskField.sourceItems[i]}";
+            maskField.getMaskValue = i => 1 << i;
+
             var collapsibleSplitView = root.Q<SplitView>("collapsible-split-view");
+            collapsibleSplitView.showExpandButtons = true;
             root.Q<Button>("sv-cs0b").clicked += () => collapsibleSplitView.CollapseSplitter(0, CollapseDirection.Backward);
             root.Q<Button>("sv-cs1f").clicked += () => collapsibleSplitView.CollapseSplitter(1, CollapseDirection.Forward);
+
+            var restrictedSlider = root.Q<UI.SliderFloat>("restricted-slider");
+            var restrictedStepSlider = root.Q<UI.SliderFloat>("restricted-step-slider");
+            var customMarks = new List<SliderMark<float>>
+            {
+                new SliderMark<float> { value = 0.0f, label = "0"},
+                new SliderMark<float> { value = 0.4f, label = "40" },
+                new SliderMark<float> { value = 0.5f, label = "50" },
+                new SliderMark<float> { value = 0.75f, label = "75" },
+            };
+            restrictedSlider.customMarks = customMarks;
+            restrictedStepSlider.customMarks = customMarks;
+
+            var scaledSlider = root.Q<UI.SliderInt>("scaled-slider");
+            var calculateValue = new UI.SliderInt.ScaleHandler(v => (int)Mathf.Pow(2, v));
+            scaledSlider.scale = calculateValue;
+            scaledSlider.formatFunction = v =>
+            {
+                var units = new string[] { "KB", "MB", "GB", "TB" };
+                var unitIndex = 0;
+                var scaledValue = v;
+                while (scaledValue >= 1024 && unitIndex < units.Length - 1)
+                {
+                    scaledValue /= 1024;
+                    unitIndex++;
+                }
+
+                return $"{scaledValue} {units[unitIndex]}";
+            };
+
+            var scaledSliderText = root.Q<Text>("scaled-slider-text");
+            scaledSlider.RegisterValueChangingCallback(evt =>
+            {
+                scaledSliderText.text = "Storage Size: " + scaledSlider.formatFunction(calculateValue(evt.newValue));
+            });
+            scaledSliderText.text = "Storage Size: " + scaledSlider.formatFunction(calculateValue(scaledSlider.value));
         }
 
         static void OpenAlertDialog(VisualElement anchor, AlertSemantic semantic)

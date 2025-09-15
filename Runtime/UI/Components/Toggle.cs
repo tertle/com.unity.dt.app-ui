@@ -24,6 +24,8 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId validateValueProperty = nameof(validateValue);
 
+        internal static readonly BindingId clickableProperty = nameof(clickable);
+
 #endif
 
         /// <summary>
@@ -87,8 +89,8 @@ namespace Unity.AppUI.UI
             {
                 name = checkmarkUssClassName,
                 pickingMode = PickingMode.Ignore,
-                usageHints = UsageHints.DynamicTransform,
             };
+            checkmark.EnableDynamicTransform(true);
             checkmark.AddToClassList(checkmarkUssClassName);
             var checkmarkContainer = new VisualElement { name = checkmarkContainerUssClassName, pickingMode = PickingMode.Ignore };
             checkmarkContainer.AddToClassList(checkmarkContainerUssClassName);
@@ -120,12 +122,17 @@ namespace Unity.AppUI.UI
             get => m_Clickable;
             set
             {
+                var changed = value != m_Clickable;
                 if (m_Clickable != null && m_Clickable.target == this)
                     this.RemoveManipulator(m_Clickable);
                 m_Clickable = value;
                 if (m_Clickable == null)
                     return;
                 this.AddManipulator(m_Clickable);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in clickableProperty);
+#endif
             }
         }
 

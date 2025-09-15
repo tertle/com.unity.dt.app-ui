@@ -30,6 +30,16 @@
             "define": "ENABLE_UXML_SERIALIZED_DATA"
         },
         {
+            "name": "Unity",
+            "expression": "7000.0.0a1",
+            "define": "ENABLE_INSTANCE_ID"
+        },
+        {
+            "name": "Unity",
+            "expression": "7000.0.0a1",
+            "define": "ENABLE_ALWAYS_INCLUDED_SHADERS"
+        },
+        {
             "name": "com.unity.localization",
             "expression": "",
             "define": "UNITY_LOCALIZATION_PRESENT"

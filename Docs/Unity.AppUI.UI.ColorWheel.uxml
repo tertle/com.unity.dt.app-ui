@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ColorWheel" class="main">
+    <engine:Label text="ColorWheel" class="title" />
+    <engine:Label
+      text="A customizable color wheel component for intuitive color selection in Unity UI applications"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ColorWheel is an interactive component that enables users to select colors through a circular interface. It provides a natural and intuitive way to choose colors by rotating around the color spectrum."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component visualizes colors in a circular arrangement, with a draggable thumb that users can move to select different hues. The selected color is displayed in a swatch within the thumb indicator."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="In addition to hue selection through rotation, the ColorWheel supports customization of saturation, brightness, and opacity. It also features a configurable checkerboard background pattern to better visualize transparency."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The inner radius should be kept between 0 and 0.5 (exclusive) to maintain proper wheel visualization and interaction."
+            class="parapgraph warning"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The hue value of the color wheel, represented as a normalized value between 0 and 1. This value determines the selected color's position on the wheel."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Set the color wheel to red (0/360 degrees)"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Setting the hue to red"
+                  class="scenario-description"
+                />
+                <engine:Label text="colorWheel.value = 0f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="opacity" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the opacity of the color wheel. Values range from 0 (fully transparent) to 1 (fully opaque)."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="The checkerboard pattern remains visible behind the wheel to indicate transparency levels."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the wheel to be semi-transparent"
+                  class="scenario-description"
+                />
+                <engine:Label text="colorWheel.opacity = 0.5f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="brightness" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the brightness (value) of the colors in the wheel. Values range from 0 (black) to 1 (full brightness)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the wheel to 80% brightness"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorWheel.brightness = 0.8f;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="saturation" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the saturation of the colors in the wheel. Values range from 0 (grayscale) to 1 (fully saturated)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the wheel to 70% saturation"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorWheel.saturation = 0.7f;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="innerRadius" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.4f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the size of the inner hole of the color wheel. Values range from 0 (no hole) to 0.5 (maximum hole size)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a color wheel with a medium-sized inner hole"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorWheel.innerRadius = 0.3f;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="selectedColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.HSVToRGB(0, 1, 1)" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The currently selected color, computed from the current hue (value), saturation, and brightness settings."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="This is a read-only property that provides the final color selection."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Reading the currently selected color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='Color selectedColor = colorWheel.selectedColor;
+Debug.Log($"Selected color: {selectedColor}");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic ColorWheel Setup" class="parapgraph" />
+            <engine:Label
+              text="Basic UXML setup for a color wheel with default settings"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorWheel value="0.0" saturation="1.0" brightness="1.0" opacity="1.0" style="width: 200px; height: 200px;"/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Custom ColorWheel with Modified Properties"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="UXML setup for a color wheel with custom properties"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorWheel
+    value="0.33"
+    saturation="0.8"
+    brightness="0.9"
+    opacity="0.9"
+    inner-radius="0.3"
+    checker-size="8"
+    style="width: 300px; height: 300px;"/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Code Example: Creating and Configuring a ColorWheel"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a ColorWheel in code with event handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var colorWheel = new ColorWheel
+{
+    style = { width = 250, height = 250 },
+    value = 0.5f,  // Start at cyan
+    saturation = 0.9f,
+    brightness = 1.0f,
+    opacity = 0.95f,
+    innerRadius = 0.35f
+};
+
+colorWheel.RegisterValueChangedCallback(evt =&gt;
+{
+    Debug.Log($"Color changed to: {colorWheel.selectedColor}");
+});
+
+parentElement.Add(colorWheel);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -18,8 +18,10 @@ using UnityEngine.Localization.Settings;
 #endif
 #if UNITY_2022_1_OR_NEWER
 using FloatField = UnityEngine.UIElements.FloatField;
+using EnumField = UnityEngine.UIElements.EnumField;
 #else
 using FloatField = UnityEditor.UIElements.FloatField;
+using EnumField = UnityEditor.UIElements.EnumField;
 #endif
 
 namespace Unity.AppUI.Editor
@@ -286,6 +288,12 @@ namespace Unity.AppUI.Editor
     {
         const string k_DefaultTheme = "Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss";
 
+        const string k_StorybookDirPrefKey = "AppUI.Storybook.LayoutDirection";
+
+        const string k_StorybookScalePrefKey = "AppUI.Storybook.Scale";
+
+        const string k_StorybookThemePrefKey = "AppUI.Storybook.Theme";
+
         List<StoryBookPage> m_StoriesList = new List<StoryBookPage>();
 
         TwoPaneSplitView m_SplitView;
@@ -316,10 +324,14 @@ namespace Unity.AppUI.Editor
 
         string m_CurrentLocaleId = "en";
 
+        [SerializeField] int m_LastSelectedIndex = -1;
+
+        [SerializeField] int m_LastSelectedStoryIndex = -1;
+
         /// <summary>
         /// Open the StoryBook window.
         /// </summary>
-        [UnityEditor.MenuItem("Window/App UI/ Storybook")]
+        [UnityEditor.MenuItem("Window/App UI/ Storybook", priority = 2101)]
         public static void OpenStoryBook()
         {
             var window = GetWindow<Storybook>("App UI - StoryBook");
@@ -350,9 +362,14 @@ namespace Unity.AppUI.Editor
 
         void CreateGUI()
         {
+            m_CurrentTheme = EditorPrefs.GetString(k_StorybookThemePrefKey, "dark");
+            m_CurrentScale = EditorPrefs.GetString(k_StorybookScalePrefKey, "medium");
+            m_CurrentLayoutDirection = (Dir)EditorPrefs.GetInt(k_StorybookDirPrefKey, (int)Dir.Ltr);
+
             var root = rootVisualElement;
 
             m_SplitView = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+            m_SplitView.viewDataKey = "StorybookSplitView";
             m_StoriesList = new List<StoryBookPage>(GetStories().OrderBy(s => s.displayName));
             var listPane = new TwoPaneSplitView(0, 100, TwoPaneSplitViewOrientation.Horizontal);
             m_ListView = new ListView(m_StoriesList, -1f, MakeListVIewItem, BindListViewItem);
@@ -373,6 +390,9 @@ namespace Unity.AppUI.Editor
             root.Add(m_SplitView);
 
             root.Bind(new SerializedObject(this));
+
+            if (m_LastSelectedIndex >= 0 && m_LastSelectedIndex < m_ListView.itemsSource.Count)
+                m_ListView.SetSelection(new List<int> { m_LastSelectedIndex });
         }
 
         void BindStoryListViewItem(VisualElement ve, int idx)
@@ -382,15 +402,22 @@ namespace Unity.AppUI.Editor
 
         void OnSelectionChanged(IEnumerable<int> indices)
         {
-            var enumerator = indices.GetEnumerator();
+            using var enumerator = indices.GetEnumerator();
 
             if (!enumerator.MoveNext())
             {
+                m_LastSelectedIndex = -1;
+                m_LastSelectedStoryIndex = -1;
                 RefreshDetailPage(null);
                 return;
             }
 
             var idx = enumerator.Current;
+            if (m_LastSelectedIndex != idx)
+            {
+                m_LastSelectedIndex = idx;
+                m_LastSelectedStoryIndex = -1;
+            }
             var page = m_StoriesList[idx];
             RefreshStoryList(page);
         }
@@ -402,21 +429,29 @@ namespace Unity.AppUI.Editor
                 items.Insert(0, new StoryBookStory("Canvas", null));
             m_StoryListView.itemsSource = items;
             m_StoryListView.Rebuild();
-            m_StoryListView.SetSelection(new List<int> { 0 });
-            OnStorySelectionChanged(new List<int> { 0 });
+
+            var idx = m_LastSelectedStoryIndex >= 0 && m_LastSelectedStoryIndex < items.Count ? m_LastSelectedStoryIndex : 0;
+            if (idx >= 0 && idx < items.Count)
+            {
+                // we set the selection without notify first then we force call the selection changed callback
+                m_StoryListView.SetSelectionWithoutNotify(new List<int> {idx});
+                OnStorySelectionChanged(new List<int> { idx });
+            }
         }
 
         void OnStorySelectionChanged(IEnumerable<int> indices)
         {
-            var enumerator = indices.GetEnumerator();
+            using var enumerator = indices.GetEnumerator();
 
             if (!enumerator.MoveNext())
             {
+                m_LastSelectedStoryIndex = -1;
                 RefreshDetailPage(null);
                 return;
             }
 
             var idx = enumerator.Current;
+            m_LastSelectedStoryIndex = idx;
             var story = ((List<StoryBookStory>)m_StoryListView.itemsSource)[idx];
 
             RefreshDetailPage(story);
@@ -440,21 +475,25 @@ namespace Unity.AppUI.Editor
                 menu.AddItem(new GUIContent("Dark"), m_CurrentTheme == "dark", () =>
                 {
                     m_CurrentTheme = "dark";
+                    EditorPrefs.SetString(k_StorybookThemePrefKey, m_CurrentTheme);
                     panel.theme = m_CurrentTheme;
                 });
                 menu.AddItem(new GUIContent("Light"), m_CurrentTheme == "light", () =>
                 {
                     m_CurrentTheme = "light";
+                    EditorPrefs.SetString(k_StorybookThemePrefKey, m_CurrentTheme);
                     panel.theme = m_CurrentTheme;
                 });
                 menu.AddItem(new GUIContent("Editor Dark"), m_CurrentTheme == "editor-dark", () =>
                 {
                     m_CurrentTheme = "editor-dark";
+                    EditorPrefs.SetString(k_StorybookThemePrefKey, m_CurrentTheme);
                     panel.theme = m_CurrentTheme;
                 });
                 menu.AddItem(new GUIContent("Editor Light"), m_CurrentTheme == "editor-light", () =>
                 {
                     m_CurrentTheme = "editor-light";
+                    EditorPrefs.SetString(k_StorybookThemePrefKey, m_CurrentTheme);
                     panel.theme = m_CurrentTheme;
                 });
                 menu.DropDown(m_ThemeDropdown.worldBound);
@@ -467,16 +506,19 @@ namespace Unity.AppUI.Editor
                 menu.AddItem(new GUIContent("Small"), m_CurrentScale == "small", () =>
                 {
                     m_CurrentScale = "small";
+                    EditorPrefs.SetString(k_StorybookScalePrefKey, m_CurrentScale);
                     panel.scale = m_CurrentScale;
                 });
                 menu.AddItem(new GUIContent("Medium"), m_CurrentScale == "medium", () =>
                 {
                     m_CurrentScale = "medium";
+                    EditorPrefs.SetString(k_StorybookScalePrefKey, m_CurrentScale);
                     panel.scale = m_CurrentScale;
                 });
                 menu.AddItem(new GUIContent("Large"), m_CurrentScale == "large", () =>
                 {
                     m_CurrentScale = "large";
+                    EditorPrefs.SetString(k_StorybookScalePrefKey, m_CurrentScale);
                     panel.scale = m_CurrentScale;
                 });
                 menu.DropDown(m_ScaleDropdown.worldBound);
@@ -489,11 +531,13 @@ namespace Unity.AppUI.Editor
                 menu.AddItem(new GUIContent("Left To Right"), m_CurrentLayoutDirection == Dir.Ltr, () =>
                 {
                     m_CurrentLayoutDirection = Dir.Ltr;
+                    EditorPrefs.SetInt(k_StorybookDirPrefKey, (int)m_CurrentLayoutDirection);
                     panel.layoutDirection = m_CurrentLayoutDirection;
                 });
                 menu.AddItem(new GUIContent("Right To Left"), m_CurrentLayoutDirection == Dir.Rtl, () =>
                 {
                     m_CurrentLayoutDirection = Dir.Rtl;
+                    EditorPrefs.SetInt(k_StorybookDirPrefKey, (int)m_CurrentLayoutDirection);
                     panel.layoutDirection = m_CurrentLayoutDirection;
                 });
                 menu.DropDown(m_LayoutDirectionDropdown.worldBound);

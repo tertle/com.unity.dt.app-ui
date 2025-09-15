@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.PageView" class="main">
+    <engine:Label text="PageView" class="title" />
+    <engine:Label
+      text="A container component that displays a single child at a time with built-in navigation."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The PageView component is a container that displays one child element at a time and provides smooth navigation between them. It combines a SwipeView for touch/mouse interaction with a PageIndicator for visual feedback and navigation control."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="It's ideal for creating carousels, slideshows, onboarding flows, or any interface where content needs to be displayed one page at a time."
+            class="parapgraph note"
+          />
+          <engine:Label text="Key features:" class="parapgraph tip" />
+          <engine:Label
+            text="• Supports both horizontal and vertical orientations
+• Touch and mouse swipe gestures
+• Keyboard navigation
+• Auto-play capability
+• Configurable animation speed and behavior
+• Optional wrapping navigation
+• Built-in page indicator"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the orientation of the PageView. Can be either horizontal or vertical."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical PageView"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;PageView direction="Vertical" style="height: 300px;"&gt;
+    &lt;SwipeViewItem&gt;Page 1&lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;Page 2&lt;/SwipeViewItem&gt;
+&lt;/PageView&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="snapAnimationSpeed" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.5f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the speed of the animation when snapping to a page. Higher values result in faster animations."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adjusting the snap animation speed"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="pageView.snapAnimationSpeed = 0.8f; // Faster snap animation"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="skipAnimationThreshold" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="2" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The number of pages to skip before the animation is disabled. This helps maintain smooth performance when quickly navigating through multiple pages."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the animation skip threshold"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="pageView.skipAnimationThreshold = 3;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="wrap" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, navigation will wrap around from the last page to the first and vice versa."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enabling wrap-around navigation"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;PageView wrap="true"&gt;
+    &lt;SwipeViewItem&gt;First Page&lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;Last Page&lt;/SwipeViewItem&gt;
+&lt;/PageView&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="visibilityCount" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The number of pages that are visible simultaneously. Usually kept at 1 for traditional page views."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Showing multiple pages simultaneously"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="pageView.visibilityCount = 2; // Show two pages at once"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="autoPlayDuration" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="-1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The duration in milliseconds between automatic page transitions. Set to -1 to disable auto-play."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="This is particularly useful for creating automated slideshows or carousels."
+                class="parapgraph tip"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting up auto-play functionality"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="// Auto-advance every 3 seconds
+pageView.autoPlayDuration = 3000;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Usage" class="parapgraph heading" />
+            <engine:Label
+              text="Creating a simple horizontal page view with three pages"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;PageView style="width: 100%; height: 300px;"&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Page 1" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Page 2" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Page 3" /&gt;
+    &lt;/SwipeViewItem&gt;
+&lt;/PageView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Image Carousel" class="parapgraph heading" />
+            <engine:Label
+              text="Creating an auto-playing image carousel with wrap-around navigation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;PageView class="carousel" auto-play-duration="5000" wrap="true"&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image1.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image2.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image3.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+&lt;/PageView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Onboarding Flow" class="parapgraph heading" />
+            <engine:Label
+              text="Creating an onboarding flow with multiple pages"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;PageView direction="Horizontal" class="onboarding"&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Box class="onboarding-page"&gt;
+            &lt;Image src="welcome.png" /&gt;
+            &lt;Label text="Welcome!" class="title" /&gt;
+            &lt;Label text="Swipe to learn more" class="subtitle" /&gt;
+        &lt;/Box&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Box class="onboarding-page"&gt;
+            &lt;Image src="feature1.png" /&gt;
+            &lt;Label text="Feature 1" class="title" /&gt;
+            &lt;Label text="Description of feature 1" class="subtitle" /&gt;
+        &lt;/Box&gt;
+    &lt;/SwipeViewItem&gt;
+&lt;/PageView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

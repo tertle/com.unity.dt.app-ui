@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ColorPicker" class="main">
+    <engine:Label text="ColorPicker" class="title" />
+    <engine:Label
+      text="A color selection component that allows users to pick colors using various input methods including color wheel, RGB sliders, HSV sliders, and hex input."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ColorPicker is a versatile component that provides multiple ways for users to select and manipulate colors. It combines several color selection tools into a single cohesive interface:"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- A color wheel for intuitive hue selection"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- A saturation-value square for fine-tuning color brightness and intensity"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- RGB sliders for precise color adjustments"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- HSV sliders for alternative color space manipulation"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Hex color input for direct color code entry"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Optional alpha channel control for transparency adjustment"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports both mouse/touch interaction and keyboard navigation, making it accessible across different input methods."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.clear" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current color value selected in the ColorPicker. This property represents the complete color information including RGB values and alpha channel (if enabled)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Set an initial red color:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Setting a predefined color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorPicker.value = Color.red;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="previousValue" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.clear" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The previous color value. This is displayed in the toolbar (when enabled) to allow quick comparison and reversion to the previous color selection."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Store the current color before making changes:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Saving current color before changes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="colorPicker.previousValue = colorPicker.value;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showAlpha" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines if the alpha channel slider should be displayed, allowing transparency adjustment of the selected color."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enable alpha channel control:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="UXML: Creating a ColorPicker with alpha channel enabled"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorPicker show-alpha="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showToolbar" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visibility of the toolbar which contains the previous color swatch and current color preview."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Show the toolbar with color previews:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="UXML: Creating a ColorPicker with toolbar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorPicker show-toolbar="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showHex" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Toggles the visibility of the hex color input field, allowing direct input of color values in hexadecimal format."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enable hex color input:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Enabling hex input programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label text="colorPicker.showHex = true;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="hdr" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Enables High Dynamic Range (HDR) color selection mode. When enabled, color values can exceed the standard 0-1 range."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="This is particularly useful for lighting and special effects where bright or intense colors are needed."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create an HDR-enabled ColorPicker:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="UXML: Creating an HDR ColorPicker"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;ColorPicker hdr="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic ColorPicker with all features enabled:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="UXML: Creating a fully featured ColorPicker"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorPicker show-alpha="true" show-toolbar="true" show-hex="true" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating and configuring a ColorPicker programmatically:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="C#: Creating and handling color changes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var colorPicker = new ColorPicker();
+colorPicker.showAlpha = true;
+colorPicker.showToolbar = true;
+colorPicker.showHex = true;
+colorPicker.value = Color.blue;
+
+// Register for color change events
+colorPicker.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Color changed from {evt.previousValue} to {evt.newValue}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Minimal ColorPicker for simple RGB color selection:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="UXML: Creating a minimal ColorPicker"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorPicker show-alpha="false" show-toolbar="false" show-hex="false" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

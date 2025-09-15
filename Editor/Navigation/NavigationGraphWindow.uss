@@ -37,6 +37,13 @@
     margin: 4px 0;
 }
 
+.template-container {
+    border-width: 1px;
+    border-color: var(--unity-colors-helpbox-border);
+    padding: 4px;
+    border-radius: 3px;
+}
+
 .description-label {
     -unity-font-style: italic;
     color: #9d9d9d;

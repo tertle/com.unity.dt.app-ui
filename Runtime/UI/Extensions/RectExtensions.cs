@@ -38,7 +38,7 @@ namespace Unity.AppUI.UI
         /// <returns>True if its width and height are valid, False otherwise.</returns>
         public static bool IsValidForTextureSize(this Vector2 vec)
         {
-            return vec.x is > 0 and <= 4096 && vec.y is > 0 and <= 4096;
+            return vec.x is >= 1 and <= 4096 && vec.y is >= 1 and <= 4096;
         }
 
         /// <summary>
@@ -67,6 +67,20 @@ namespace Unity.AppUI.UI
             rect = new Rect(x, y, w, h);
 
             return true;
+        }
+
+        /// <summary>
+        /// Check if two <see cref="Rect"/> objects are approximately equal.
+        /// </summary>
+        /// <param name="rect1"> The first <see cref="Rect"/> object.</param>
+        /// <param name="rect2"> The second <see cref="Rect"/> object.</param>
+        /// <returns> True if the two <see cref="Rect"/> objects are approximately equal, False otherwise.</returns>
+        public static bool Approximately(Rect rect1, Rect rect2)
+        {
+            return Mathf.Approximately(rect1.x, rect2.x) &&
+                Mathf.Approximately(rect1.y, rect2.y) &&
+                Mathf.Approximately(rect1.width, rect2.width) &&
+                Mathf.Approximately(rect1.height, rect2.height);
         }
     }
 }

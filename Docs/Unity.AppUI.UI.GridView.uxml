@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.GridView" class="main">
+    <engine:Label text="GridView" class="title" />
+    <engine:Label
+      text="A virtualized grid layout component that displays a collection of items in a scrollable grid format with selection capabilities."
+      class="subtitle"
+    />
+    <engine:Label text="data" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The GridView component is a versatile UI element that displays items in a scrollable grid format. It efficiently handles large datasets through virtualization, only rendering the items currently visible in the viewport."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Some key features include:"
+            class="parapgraph features-list"
+          />
+          <engine:Label
+            text="- Virtualized scrolling for optimal performance with large datasets
+- Flexible selection modes (none, single, multiple)
+- Keyboard navigation support
+- Drag and drop capabilities
+- Customizable item templates
+- Support for right-click context menus"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="NOTE: The GridView requires three essential properties to be set for proper functioning: itemsSource, makeItem, and bindItem."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="itemsSource" class="prop-name" />
+            <engine:Label text="IList" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The data source containing the items to be displayed in the grid. This property must be set for the grid view to function."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic usage with a List of strings"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='gridView.itemsSource = new List&lt;string&gt; { "Item 1", "Item 2", "Item 3" };'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="itemHeight" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="30" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The height of each item in the grid, specified in pixels. All items must have the same height for proper grid calculations."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the item height"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="gridView.itemHeight = 50; // Sets all grid items to 50 pixels height"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="columnCount" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The number of columns to display in the grid."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a 3-column grid"
+                  class="scenario-description"
+                />
+                <engine:Label text="gridView.columnCount = 3;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="selectionType" class="prop-name" />
+            <engine:Label text="SelectionType" class="prop-type" />
+            <engine:Label text="SelectionType.Single" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines how users can select items in the grid. Available options are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- None: Disables selection
+- Single: Allows only one item to be selected at a time
+- Multiple: Allows multiple items to be selected"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enabling multiple selection"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="gridView.selectionType = SelectionType.Multiple;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="allowNoSelection" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the grid can have no items selected when selectionType is Single or Multiple."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Requiring at least one selection"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="gridView.allowNoSelection = false;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic GridView setup with string items"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='public class MyComponent : VisualElement
+{
+    public MyComponent()
+    {
+        var gridView = new GridView
+        {
+            itemsSource = new List&lt;string&gt; { "Item 1", "Item 2", "Item 3", "Item 4" },
+            makeItem = () =&gt; new Label(),
+            bindItem = (element, index) =&gt; ((Label)element).text = gridView.itemsSource[index].ToString(),
+            itemHeight = 40,
+            columnCount = 2
+        };
+
+        gridView.selectionChanged += (items) =&gt; Debug.Log($"Selected items: {string.Join(", ", items)}");
+
+        Add(gridView);
+    }
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="GridView with custom item template and multiple selection"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='public class CustomGridItem : VisualElement
+{
+    public CustomGridItem()
+    {
+        var image = new Image { name = "item-image" };
+        var label = new Label { name = "item-label" };
+
+        Add(image);
+        Add(label);
+
+        AddToClassList("custom-grid-item");
+    }
+}
+
+public class MyGridView : VisualElement
+{
+    public MyGridView()
+    {
+        var items = new List&lt;(string label, string imageUrl)&gt;
+        {
+            ("Item 1", "url1"),
+            ("Item 2", "url2")
+        };
+
+        var gridView = new GridView
+        {
+            itemsSource = items,
+            makeItem = () =&gt; new CustomGridItem(),
+            bindItem = (element, index) =&gt;
+            {
+                var item = items[index];
+                var image = element.Q&lt;Image&gt;("item-image");
+                var label = element.Q&lt;Label&gt;("item-label");
+
+                image.image = LoadImage(item.imageUrl);
+                label.text = item.label;
+            },
+            itemHeight = 100,
+            columnCount = 3,
+            selectionType = SelectionType.Multiple
+        };
+
+        Add(gridView);
+    }
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

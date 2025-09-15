@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.RectIntField" class="main">
+    <engine:Label text="RectIntField" class="title" />
+    <engine:Label
+      text="A field component for editing integer rectangle values with position (x,y) and size (width,height)"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The RectIntField is a specialized input component that allows users to edit rectangle properties using integer values. It provides a convenient way to manipulate both position (X,Y) and size (Width,Height) of a rectangle in a single component."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The field is organized into two rows: Position and Size, each containing two numerical inputs. Position controls the X and Y coordinates, while Size controls the Width and Height values."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful in scenarios where you need to edit rectangular bounds, layouts, or any other rectangle-based properties in your application."
+            class="parapgraph tip"
+          />
+          <engine:Label
+            text="The component supports validation through a callback function and can be styled using different size variants."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="RectInt" class="prop-type" />
+            <engine:Label text="new RectInt(0, 0, 0, 0)" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the RectIntField. Contains both position (x,y) and size (width,height) as integer values."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting initial rectangle values in UXML (x=0, y=0, width=100, height=50)"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;RectIntField value="0,0,100,50" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting rectangle values in code (x=10, y=20, width=200, height=100)"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="rectField.value = new RectInt(10, 20, 200, 100);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size variant of the field. Affects the visual size of input fields and overall component layout."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a small-sized RectIntField in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;RectIntField size="S" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid according to the validation rules."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="When true, the component will display in an error state to indicate invalid input."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting invalid state based on custom validation"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="rectField.invalid = !IsValidBounds(rectField.value);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label text="Func&lt;RectInt, bool&gt;" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A callback function to validate the rectangle value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding validation to ensure positive width and height"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="rectField.validateValue = (rect) =&gt; rect.width &gt; 0 &amp;&amp; rect.height &gt; 0;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage with default values:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a basic RectIntField in UXML with initial values"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;RectIntField name="boundingBox" value="0,0,100,100" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Advanced usage with validation and value change handling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a RectIntField in code with validation and change handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var rectField = new RectIntField();
+rectField.validateValue = (rect) =&gt; {
+    return rect.width &gt;= 0 &amp;&amp; rect.height &gt;= 0 &amp;&amp; rect.x &gt;= 0 &amp;&amp; rect.y &gt;= 0;
+};
+rectField.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Rectangle changed to: {evt.newValue}");
+});
+rectField.value = new RectInt(10, 10, 200, 100);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using RectIntField in a layout editor:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Using RectIntField as part of a UI layout editor with custom styling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;RectIntField name="elementBounds" size="M" value="50,50,300,200"&gt;
+    &lt;Style src="ElementEditor.uss" /&gt;
+&lt;/RectIntField&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

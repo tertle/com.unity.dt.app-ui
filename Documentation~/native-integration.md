@@ -198,3 +198,53 @@ For now, the only supported platforms are iOS and Android.
 > [!NOTE]
 > In the current state of App UI components, none of them use haptic feedback directly.
 > However, you can use this method to trigger haptic feedback when you need it.
+
+
+## Clipboard
+
+We provide a way to interact with the Clipboard on the following platforms:
+- iOS
+- Windows
+- macOS
+- Linux
+
+You can use [GetPasteboardData](xref:Unity.AppUI.Core.Platform.GetPasteboardData(Unity.AppUI.Core.PasteboardType))
+and [SetPasteboardData](xref:Unity.AppUI.Core.Platform.SetPasteboardData(Unity.AppUI.Core.PasteboardType,System.Byte[])) to interact with the Clipboard.
+
+You can also check if the Clipboard currently contains data using the [HasPasteboardData](xref:Unity.AppUI.Core.Platform.HasPasteboardData(Unity.AppUI.Core.PasteboardType)) method.
+
+The supported formats are:
+- `Text`: a UTF-8 string
+- `PNG`: a PNG image
+
+> [!NOTE]
+> On Windows platform, Text content will be automatically converted from/to Unicode (UTF-16LE).
+> You only need to deal with UTF-8 encoding in C# code.
+
+```csharp
+// Get the text content from the clipboard
+byte[] clipboardContent = Platform.GetPasteboardData(PasteboardType.Text);
+if (clipboardContent is { Length: >0 })
+{
+    string text = Encoding.UTF8.GetString(clipboardContent);
+    Debug.Log($"Clipboard content: {text}");
+}
+
+// Set the text content to the clipboard
+string textToCopy = "Hello, World!";
+Platform.SetPasteboardData(PasteboardType.Text, Encoding.UTF8.GetBytes(textToCopy));
+
+// Get the image content from the clipboard
+byte[] clipboardContent = Platform.GetPasteboardData(PasteboardType.PNG);
+if (clipboardContent is { Length: >0 })
+{
+    Texture2D texture = new Texture2D(2, 2);
+    texture.LoadImage(clipboardContent);
+    Debug.Log($"Clipboard image size: {texture.width}x{texture.height}");
+}
+
+// Set the image content to the clipboard
+Texture2D texture = new Texture2D(2, 2);
+byte[] imageBytes = texture.EncodeToPNG();
+Platform.SetPasteboardData(PasteboardType.PNG, imageBytes);
+```

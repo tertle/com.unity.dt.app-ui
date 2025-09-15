@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ExVisualElement" class="main">
+    <engine:Label text="ExVisualElement" class="title" />
+    <engine:Label
+      text="An enhanced VisualElement with advanced styling capabilities including shadows, borders, and outlines"
+      class="subtitle"
+    />
+    <engine:Label text="layout" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="ExVisualElement extends Unity's VisualElement to provide advanced styling options commonly found in modern UI frameworks. It enables developers to create visually rich interfaces with features like drop shadows, customizable borders, outlines, and complex background effects."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is ideal for creating containers, cards, panels, and other UI elements that require sophisticated visual treatments without the need for additional images or sprites."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Key features include:"
+            class="parapgraph feature-list"
+          />
+          <engine:Label
+            text="- Customizable borders with different styles (solid, dashed, dotted)
+- Box shadows with inset/outset options
+- Outline effects with adjustable width and offset
+- Background colors and images
+- Optimized rendering with configurable render passes"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="WARNING: Be mindful of performance when using multiple instances with complex effects. Consider using the passMask property to disable unnecessary render passes."
+            class="parapgraph warning"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="backgroundColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.clear" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the background color of the element. This property can be set either through code or USS styles."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting background color through code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var element = new ExVisualElement();
+element.backgroundColor = new Color(0.2f, 0.5f, 0.8f, 1.0f);"
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting background color through USS"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text=".custom-element {
+    --background-color: rgb(51, 128, 204);
+}"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="outlineColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.clear" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the color of the outline effect around the element."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting outline color in code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="element.outlineColor = Color.red;"
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Configuring outline through USS"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text=".custom-element {
+    --outline-color: rgb(255, 0, 0);
+    --outline-width: 2px;
+}"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="passMask" class="prop-name" />
+            <engine:Label text="Passes" class="prop-type" />
+            <engine:Label text="(Passes)0xFF" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls which render passes are executed for this element. Use this to optimize rendering by disabling unnecessary effects."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Available passes: Clear, OutsetShadows, BackgroundColor, BackgroundImage, InsetShadows, Borders, Outline"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Optimizing rendering by selecting specific passes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="// Only render background and borders
+element.passMask = ExVisualElement.Passes.BackgroundColor | ExVisualElement.Passes.Borders;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Card Example" class="parapgraph" />
+            <engine:Label
+              text="Creating a basic card with shadow and padding"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ExVisualElement name="card" class="card"&gt;
+    &lt;Label text="Card Title"/&gt;
+    &lt;Label text="Card content goes here"/&gt;
+&lt;/ExVisualElement&gt;
+
+.card {
+    --background-color: white;
+    --box-shadow-offset-x: 0;
+    --box-shadow-offset-y: 2px;
+    --box-shadow-blur: 4px;
+    --box-shadow-color: rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    border-radius: 4px;
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Outlined Button Example" class="parapgraph" />
+            <engine:Label
+              text="Creating an outlined button with hover effect"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ExVisualElement name="button" class="outlined-button"&gt;
+    &lt;Label text="Click Me"/&gt;
+&lt;/ExVisualElement&gt;
+
+.outlined-button {
+    --outline-color: rgb(25, 118, 210);
+    --outline-width: 1px;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.outlined-button:hover {
+    --background-color: rgba(25, 118, 210, 0.04);
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Custom Panel with Inset Shadow"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a panel with an inset shadow effect"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ExVisualElement class="inset-panel"&gt;
+    &lt;Label text="Panel Content"/&gt;
+&lt;/ExVisualElement&gt;
+
+.inset-panel {
+    --background-color: rgb(245, 245, 245);
+    --box-shadow-type: 1; /* inset */
+    --box-shadow-blur: 4px;
+    --box-shadow-color: rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    border-radius: 8px;
+}'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

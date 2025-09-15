@@ -78,6 +78,11 @@ namespace Unity.AppUI.UI
         public const string drawerButtonUssClassName = ussClassName + "__drawer-button";
 
         /// <summary>
+        /// USS class name of the AppBar's bar spacer.
+        /// </summary>
+        public const string spacerUssClassName = ussClassName + "__spacer";
+
+        /// <summary>
         /// USS class name of the AppBar's flexible space.
         /// </summary>
         public const string flexibleSpaceUssClassName = ussClassName + "__flexible-space";
@@ -294,6 +299,10 @@ namespace Unity.AppUI.UI
             m_DrawerButton.AddToClassList(drawerButtonUssClassName);
             m_DrawerButton.clickable.clicked += () => drawerButtonTriggered?.Invoke();
             bar.Add(m_DrawerButton);
+
+            var spacer = new Spacer {spacing = SpacerSpacing.Expand};
+            spacer.AddToClassList(spacerUssClassName);
+            bar.Add(spacer);
 
             m_ActionContainer = new VisualElement
             {

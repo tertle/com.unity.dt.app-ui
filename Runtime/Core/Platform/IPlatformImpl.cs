@@ -102,7 +102,7 @@ namespace Unity.AppUI.Core
         /// <summary>
         /// The touches on the trackpad.
         /// </summary>
-        AppUITouch[] touches { get; }
+        ReadOnlySpan<AppUITouch> touches { get; }
 
         /// <summary>
         /// Get the system color for the given color type.
@@ -110,6 +110,27 @@ namespace Unity.AppUI.Core
         /// <param name="colorType"> The type of system color to get. </param>
         /// <returns> The system color for the given color type if any, otherwise Color.clear. </returns>
         Color GetSystemColor(SystemColorType colorType);
+
+        /// <summary>
+        /// Whether the platform has data of the given type in the pasteboard.
+        /// </summary>
+        /// <param name="type"> The type of data to check for. </param>
+        /// <returns> Whether the platform has data of the given type in the pasteboard. </returns>
+        bool HasPasteboardData(PasteboardType type);
+
+        /// <summary>
+        /// Get the data of the given type to the pasteboard.
+        /// </summary>
+        /// <param name="type"> The type of data to get. </param>
+        /// <returns> The data of the given type from the pasteboard. </returns>
+        byte[] GetPasteboardData(PasteboardType type);
+
+        /// <summary>
+        /// Set the data of the given type to the pasteboard.
+        /// </summary>
+        /// <param name="type"> The type of data to set. </param>
+        /// <param name="data"> The data to set. </param>
+        void SetPasteboardData(PasteboardType type, byte[] data);
 
         /// <summary>
         /// Event to update the native integration.

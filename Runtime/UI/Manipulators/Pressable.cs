@@ -1,7 +1,11 @@
 using System;
+using System.Windows.Input;
 using Unity.AppUI.Bridge;
 using UnityEngine;
 using UnityEngine.UIElements;
+#if ENABLE_RUNTIME_DATA_BINDINGS
+using Unity.Properties;
+#endif
 
 namespace Unity.AppUI.UI
 {
@@ -9,7 +13,13 @@ namespace Unity.AppUI.UI
     /// Pressable Manipulator, used on <see cref="Button"/> elements.
     /// </summary>
     public class Pressable : PointerManipulator
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        , INotifyBindablePropertyChanged
+#endif
     {
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        internal static readonly BindingId commandProperty = nameof(command);
+#endif
         /// <summary>
         /// The event invoked when the element is pressed.
         /// </summary>
@@ -46,6 +56,31 @@ namespace Unity.AppUI.UI
         /// </summary>
         public bool keepEventPropagation { get; set; } = true;
 
+        /// <summary>
+        /// A command to invoke when the Button is clicked.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+        public ICommand command
+        {
+            get => m_Command;
+            set
+            {
+                var changed = m_Command != value;
+                if (m_Command != null)
+                    m_Command.CanExecuteChanged -= OnCommandCanExecuteChanged;
+                m_Command = value;
+                if (m_Command != null)
+                    m_Command.CanExecuteChanged += OnCommandCanExecuteChanged;
+                UpdateEnabledState();
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in commandProperty);
+#endif
+            }
+        }
+
         Event m_MoveEvent;
 
         Touch m_TouchMoveEvent;
@@ -59,6 +94,10 @@ namespace Unity.AppUI.UI
         IVisualElementScheduledItem m_DeferLongPress;
 
         IVisualElementScheduledItem m_PostProcessDisabledState;
+
+        int m_PointerId;
+
+        ICommand m_Command;
 
         /// <summary>
         /// Constructor.
@@ -101,6 +140,7 @@ namespace Unity.AppUI.UI
 
         void Invoke(EventBase evt)
         {
+            m_Command?.Execute(target.userData);
             clicked?.Invoke();
             clickedWithEventInfo?.Invoke(evt);
             PostProcessDisabledState();
@@ -115,6 +155,18 @@ namespace Unity.AppUI.UI
             longClicked?.Invoke();
             PostProcessDisabledState();
             m_PostProcessDisabledState?.ExecuteLater(Styles.animationRefreshDelayMs);
+        }
+
+        void OnCommandCanExecuteChanged(object sender, EventArgs e)
+        {
+            UpdateEnabledState();
+        }
+
+        void UpdateEnabledState()
+        {
+            if (m_Command == null)
+                return;
+            target.SetEnabled(m_Command.CanExecute(target.userData));
         }
 
         void PostProcessDisabledState()
@@ -262,7 +314,11 @@ namespace Unity.AppUI.UI
             if (!target.enabledInHierarchy)
                 return;
 
-            if (evt.pointerId == PointerId.mousePointerId)
+            if (evt.pointerId == PointerId.mousePointerId
+#if UNITY_6000_2_OR_NEWER
+                || evt.pointerId >= PointerId.trackedPointerIdBase
+#endif
+                )
                 AddHoveredState();
         }
 
@@ -322,7 +378,7 @@ namespace Unity.AppUI.UI
             if (!keepEventPropagation)
                 return;
 
-            m_MoveEvent.mousePosition = evt.originalMousePosition;
+            m_MoveEvent.mousePosition = evt.position;
             m_MoveEvent.delta = evt.deltaPosition;
             m_MoveEvent.button = evt.button;
             m_MoveEvent.modifiers = evt.modifiers;
@@ -365,7 +421,7 @@ namespace Unity.AppUI.UI
             if (parent == null || !keepEventPropagation)
                 return;
 
-            m_UpEvent.mousePosition = evt.originalMousePosition;
+            m_UpEvent.mousePosition = evt.position;
             m_UpEvent.delta = evt.deltaPosition;
             m_UpEvent.button = evt.button;
             m_UpEvent.modifiers = evt.modifiers;
@@ -441,8 +497,6 @@ namespace Unity.AppUI.UI
             target.RemoveFromClassList(Styles.activeUssClassName);
         }
 
-        int m_PointerId;
-
         void DeferDeactivate()
         {
             m_DeferDeactivate = null;
@@ -460,5 +514,17 @@ namespace Unity.AppUI.UI
                 Deactivate(m_PointerId);
             }
         }
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        /// <summary>
+        /// Event raised when a Bindable property changes.
+        /// </summary>
+        public event EventHandler<BindablePropertyChangedEventArgs> propertyChanged;
+
+        void NotifyPropertyChanged(in BindingId id)
+        {
+            propertyChanged?.Invoke(this, new BindablePropertyChangedEventArgs(id));
+        }
+#endif
     }
 }

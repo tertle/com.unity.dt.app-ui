@@ -70,7 +70,7 @@ namespace Unity.AppUI.UI
         /// <param name="item"> The content to add to the StackViewItem. </param>
         public StackViewItem(VisualElement item)
         {
-            usageHints = UsageHints.DynamicTransform;
+            this.EnableDynamicTransform(true);
             AddToClassList(ussClassName);
             Add(item);
         }

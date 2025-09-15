@@ -28,11 +28,11 @@ namespace Unity.AppUI.Samples.MVVMRedux
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(MainViewModel.todos))
+            if (e.PropertyName == nameof(MainViewModel.Todos))
             {
                 RefreshTodoList();
             }
-            else if (e.PropertyName == nameof(MainViewModel.todosSearchResults))
+            else if (e.PropertyName == nameof(MainViewModel.TodosSearchResults))
             {
                 RefreshTodoList();
             }
@@ -42,11 +42,11 @@ namespace Unity.AppUI.Samples.MVVMRedux
         {
             if (string.IsNullOrEmpty(m_SearchTextField.value))
             {
-                m_TodoListView.itemsSource = m_ViewModel.todos;
+                m_TodoListView.itemsSource = m_ViewModel.Todos;
             }
             else
             {
-                m_TodoListView.itemsSource = m_ViewModel.todosSearchResults;
+                m_TodoListView.itemsSource = m_ViewModel.TodosSearchResults;
             }
 
             var hasResults = m_TodoListView.itemsSource is {Count: > 0};
@@ -75,11 +75,11 @@ namespace Unity.AppUI.Samples.MVVMRedux
         void UnbindItem(VisualElement element, int index)
         {
             var item = (TodoItemView) element;
-            var modelView = (TodoItemViewModel) item.dataContext;
+            var modelView = (TodoItemViewModel) item.viewModel;
             modelView.PropertyChanged -= OnItemPropertyChanged;
             modelView.deleteRequested -= OnItemDeleteRequested;
             modelView.renamed -= OnItemEditRequested;
-            item.dataContext = null;
+            item.viewModel = null;
         }
 
         VisualElement MakeItem()
@@ -91,21 +91,21 @@ namespace Unity.AppUI.Samples.MVVMRedux
         {
             var todo = (Todo)m_TodoListView.itemsSource[index];
             var item = (TodoItemView) element;
-            var modelView = new TodoItemViewModel(todo);
-            item.dataContext = modelView;
-            modelView.PropertyChanged += OnItemPropertyChanged;
-            modelView.deleteRequested += OnItemDeleteRequested;
-            modelView.renamed += OnItemEditRequested;
+            var viewModel = new TodoItemViewModel(todo);
+            item.viewModel = viewModel;
+            viewModel.PropertyChanged += OnItemPropertyChanged;
+            viewModel.deleteRequested += OnItemDeleteRequested;
+            viewModel.renamed += OnItemEditRequested;
         }
 
         void OnItemEditRequested((TodoItemViewModel vm, string newName) args)
         {
-            m_ViewModel.editTodoCommand.Execute((args.vm.todo, args.newName));
+            m_ViewModel.EditTodoCommand.Execute((args.vm.todo, args.newName));
         }
 
         void OnItemDeleteRequested(TodoItemViewModel viewModel)
         {
-            m_ViewModel.deleteTodoCommand.Execute(viewModel.todo);
+            m_ViewModel.DeleteTodoCommand.Execute(viewModel.todo);
         }
 
         void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -113,21 +113,21 @@ namespace Unity.AppUI.Samples.MVVMRedux
             if (e.PropertyName == nameof(TodoItemViewModel.completed))
             {
                 var modelView = (TodoItemViewModel) sender;
-                m_ViewModel.toggleCompleteTodoCommand.Execute(modelView.todo);
+                m_ViewModel.ToggleCompleteTodoCommand.Execute(modelView.todo);
             }
         }
 
         void OnAddButtonClicked()
         {
-            var index = m_ViewModel.todos?.Length ?? 0;
-            m_ViewModel.createTodoCommand.Execute("New Todo " + (index + 1));
+            var index = m_ViewModel.Todos?.Length ?? 0;
+            m_ViewModel.CreateTodoCommand.Execute("New Todo " + (index + 1));
         }
 
         void OnSearchTextChanged(ChangingEvent<string> evt)
         {
             if (evt.newValue != evt.previousValue)
             {
-                m_ViewModel.searchTodoCommand.Execute(evt.newValue);
+                m_ViewModel.SearchTodoCommand.Execute(evt.newValue);
             }
         }
     }

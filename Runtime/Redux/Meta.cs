@@ -6,8 +6,8 @@ namespace Unity.AppUI.Redux
     /// The metadata of the thunk.
     /// </summary>
     /// <param name="thunkStatus"> The status of the thunk. </param>
-    /// <typeparam name="TThunkArg"> The type of the argument to pass to the thunk. </typeparam>
-    public record Meta<TThunkArg>(ThunkStatus thunkStatus)
+    /// <typeparam name="TArg"> The type of the argument to pass to the thunk. </typeparam>
+    public record Meta<TArg>(ThunkStatus thunkStatus)
     {
         /// <summary>
         /// The request ID of the thunk.
@@ -17,7 +17,7 @@ namespace Unity.AppUI.Redux
         /// <summary>
         /// The argument passed to the thunk.
         /// </summary>
-        public TThunkArg arg { get; internal set; }
+        public TArg arg { get; internal set; }
 
         /// <summary>
         /// The status of the thunk.
@@ -28,20 +28,20 @@ namespace Unity.AppUI.Redux
     /// <summary>
     /// The metadata of the thunk when it is pending.
     /// </summary>
-    /// <typeparam name="TThunkArg"> The type of the argument to pass to the thunk. </typeparam>
-    public record PendingMeta<TThunkArg>() : Meta<TThunkArg>(ThunkStatus.Pending);
+    /// <typeparam name="TArg"> The type of the argument to pass to the thunk. </typeparam>
+    public record PendingMeta<TArg>() : Meta<TArg>(ThunkStatus.Pending);
 
     /// <summary>
     /// The metadata of the thunk when it is fulfilled.
     /// </summary>
-    /// <typeparam name="TThunkArg"> The type of the argument to pass to the thunk. </typeparam>
-    public record FulfilledMeta<TThunkArg>() : Meta<TThunkArg>(ThunkStatus.Fulfilled);
+    /// <typeparam name="TArg"> The type of the argument to pass to the thunk. </typeparam>
+    public record FulfilledMeta<TArg>() : Meta<TArg>(ThunkStatus.Fulfilled);
 
     /// <summary>
     /// The metadata of the thunk when it is rejected.
     /// </summary>
-    /// <typeparam name="TThunkArg"> The type of the argument to pass to the thunk. </typeparam>
-    public record RejectedMeta<TThunkArg>() : Meta<TThunkArg>(ThunkStatus.Rejected)
+    /// <typeparam name="TArg"> The type of the argument to pass to the thunk. </typeparam>
+    public record RejectedMeta<TArg>() : Meta<TArg>(ThunkStatus.Rejected)
     {
         /// <summary>
         /// Whether the thunk has been aborted.

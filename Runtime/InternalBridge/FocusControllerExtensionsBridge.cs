@@ -1,4 +1,7 @@
 using UnityEngine.UIElements;
+#if FOCUSABLE_AS_VISUALELEMENT
+using Focusable = UnityEngine.UIElements.VisualElement;
+#endif
 
 namespace Unity.AppUI.Bridge
 {
@@ -29,7 +32,7 @@ namespace Unity.AppUI.Bridge
             return k_FocusNextInDirection.Invoke(controller, new object[] { currentFocusable, direction }) as Focusable;
         }
 #else
-        internal static Focusable FocusNextInDirection(this FocusController controller, FocusChangeDirection direction)
+        internal static Focusable FocusNextInDirection(this FocusController controller, Focusable currentFocusable, FocusChangeDirection direction)
         {
             return k_FocusNextInDirection.Invoke(controller, new object[] { direction }) as Focusable;
         }

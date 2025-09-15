@@ -19,98 +19,58 @@ namespace Unity.AppUI.Navigation
     [Serializable]
     public class NavDestination : NavGraphViewHierarchicalNode
     {
-        [SerializeField]
-        [Tooltip("The screen to use when navigating to this destination. This is the Assembly Qualified Name of the view class.")]
-        string m_Template;
+        [SerializeReference]
+        [Tooltip("The template that defines the screen to use when navigating to this destination.")]
+        NavDestinationTemplate m_TemplateSettings;
 
         [SerializeField]
         [Tooltip("A dictionary of arguments to apply when navigating to this destination." +
                  "The key is the name of the argument and the value is the default value of the argument.")]
-        List<NavArgumentKeyValuePair> m_Arguments;
-
-        [SerializeField]
-        [Tooltip("Weathers or not to show the bottom navigation bar when navigating to this destination.")]
-        bool m_ShowBottomNavBar = true;
-
-        [SerializeField]
-        [Tooltip("Weathers or not to show the app bar when navigating to this destination.")]
-        bool m_ShowAppBar = true;
-
-        [SerializeField]
-        [Tooltip("Weathers or not to show the back button when navigating to this destination." +
-                 "This property is ignored if showAppBar is false.")]
-        bool m_ShowBackButton = true;
-
-        [SerializeField]
-        [Tooltip("Weathers or not to show the drawer when navigating to this destination.")]
-        bool m_ShowDrawer = true;
-
-        [SerializeField]
-        [Tooltip("Weathers or not to show the navigation rail when navigating to this destination.")]
-        bool m_ShowNavigationRail = true;
+        List<Argument> m_Arguments;
 
         /// <summary>
-        /// The screen to use when navigating to this destination.
+        /// The template that defines the screen to use when navigating to this destination.
         /// </summary>
-        public string template
+        public NavDestinationTemplate destinationTemplate
         {
-            get => m_Template;
-            set => m_Template = value;
-        }
-
-        /// <summary>
-        /// Weathers or not to show the bottom navigation bar when navigating to this destination.
-        /// </summary>
-        public bool showBottomNavBar
-        {
-            get => m_ShowBottomNavBar;
-            set => m_ShowBottomNavBar = value;
-        }
-
-        /// <summary>
-        /// Weathers or not to show the app bar when navigating to this destination.
-        /// </summary>
-        public bool showAppBar
-        {
-            get => m_ShowAppBar;
-            set => m_ShowAppBar = value;
-        }
-
-        /// <summary>
-        /// Weathers or not to show the back button when navigating to this destination.
-        /// </summary>
-        /// <remarks> This property is ignored if <see cref="showAppBar"/> is false. </remarks>
-        public bool showBackButton
-        {
-            get => m_ShowBackButton;
-            set => m_ShowBackButton = value;
-        }
-
-        /// <summary>
-        /// Weathers or not to show the drawer when navigating to this destination.
-        /// </summary>
-        public bool showDrawer
-        {
-            get => m_ShowDrawer;
-            set => m_ShowDrawer = value;
-        }
-
-        /// <summary>
-        /// Weathers or not to show the navigation rail when navigating to this destination.
-        /// </summary>
-        public bool showNavigationRail
-        {
-            get => m_ShowNavigationRail;
-            set => m_ShowNavigationRail = value;
+            get => m_TemplateSettings;
+            set => m_TemplateSettings = value;
         }
 
         /// <summary>
         /// The arguments supported by this destination.
         /// </summary>
-        public List<NavArgumentKeyValuePair> arguments
+        public List<Argument> arguments
         {
             get => m_Arguments;
             set => m_Arguments = value;
+        }
+
+        /// <summary>
+        /// Merge the default arguments with the provided arguments.
+        /// </summary>
+        /// <param name="args"> The arguments to merge with the default arguments.</param>
+        /// <returns> The merged arguments.</returns>
+        public Argument[] MergeArguments(params Argument[] args)
+        {
+            var mergedArgs = new List<Argument>();
+
+            // Add the default arguments
+            foreach (var argument in arguments)
+            {
+                mergedArgs.Add(new Argument(argument.name, argument.value));
+            }
+
+            if (args != null)
+            {
+                // Add the new arguments
+                foreach (var argument in args)
+                {
+                    mergedArgs.Add(new Argument(argument.name, argument.value));
+                }
+            }
+
+            return mergedArgs.ToArray();
         }
     }
 }

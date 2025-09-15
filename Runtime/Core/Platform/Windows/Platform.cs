@@ -71,6 +71,15 @@ namespace Unity.AppUI.Core
         [DllImport("AppUINativePlugin", CallingConvention = CallingConvention.Cdecl)]
         static extern Color NativeAppUI_GetSystemColor(SystemColorType elementType);
 
+        [DllImport("AppUINativePlugin", CallingConvention = CallingConvention.Cdecl)]
+        static extern UIntPtr NativeAppUI_GetPasteBoardDataLength(PasteboardType type);
+
+        [DllImport("AppUINativePlugin", CallingConvention = CallingConvention.Cdecl)]
+        static extern void NativeAppUI_GetPasteBoardData(PasteboardType type, UIntPtr size, IntPtr data);
+
+        [DllImport("AppUINativePlugin", CallingConvention = CallingConvention.Cdecl)]
+        static extern void NativeAppUI_SetPasteBoardData(PasteboardType type, UIntPtr size, IntPtr data);
+
         [MonoPInvokeCallback(typeof(DebugLogDelegate))]
         static void DebugLog(IntPtr messagePtr, uint length)
         {
@@ -194,7 +203,7 @@ namespace Unity.AppUI.Core
             PollLayoutDirection();
         }
 
-        public override AppUITouch[] touches => AppUIInput.GetCurrentInputSystemTouches();
+        public override ReadOnlySpan<AppUITouch> touches => AppUIInput.GetCurrentInputSystemTouches();
 
         public override bool darkMode => NativeAppUI_DarkMode();
 
@@ -207,6 +216,48 @@ namespace Unity.AppUI.Core
         public override float textScaleFactor => NativeAppUI_TextScaleFactor();
 
         public override Color GetSystemColor(SystemColorType elementType) => NativeAppUI_GetSystemColor(elementType);
+
+        public override bool HasPasteboardData(PasteboardType type) => NativeAppUI_GetPasteBoardDataLength(type).ToUInt64() > 0;
+
+        public override byte[] GetPasteboardData(PasteboardType type)
+        {
+            var length = NativeAppUI_GetPasteBoardDataLength(type);
+            var size = length.ToUInt64();
+            if (size <= 0)
+                return Array.Empty<byte>();
+
+            var dataBuffer = new byte[size];
+            var handle = GCHandle.Alloc(dataBuffer, GCHandleType.Pinned);
+            try
+            {
+                var dataPtr = handle.AddrOfPinnedObject();
+                NativeAppUI_GetPasteBoardData(type, length, dataPtr);
+            }
+            finally
+            {
+                handle.Free();
+            }
+
+            return dataBuffer;
+        }
+
+        public override void SetPasteboardData(PasteboardType type, byte[] data)
+        {
+            if (data == null || data.Length == 0)
+                return;
+
+            var size = new UIntPtr((ulong)data.Length);
+            var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+            try
+            {
+                var dataPtr = handle.AddrOfPinnedObject();
+                NativeAppUI_SetPasteBoardData(type, size, dataPtr);
+            }
+            finally
+            {
+                handle.Free();
+            }
+        }
     }
 }
 #endif

@@ -2,15 +2,18 @@
     "name": "Unity.AppUI.MVVM",
     "rootNamespace": "Unity.AppUI.MVVM",
     "references": [
-        "GUID:2f101f87087d58f4ba92ca00188e763d"
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
-    "defineConstraints": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR || !APP_UI_EDITOR_ONLY"
+    ],
     "versionDefines": [
         {
             "name": "Unity",

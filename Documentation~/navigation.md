@@ -72,11 +72,9 @@ Here is an example of a custom navigation visual controller:
 ```cs
 class MyVisualController : INavVisualController
 {
+    // called only when the Bottom Navigation Bar is required by the destination
     public void SetupBottomNavBar(BottomNavBar bottomNavBar, NavDestination destination, NavController navController)
     {
-        if (!destination.showBottomNavBar)
-            return;
-
         var homeButton = new BottomNavBarItem("info", "Home", () => navController.Navigate(Actions.navigateToHome))
         {
             isSelected = destination.name == Screens.home
@@ -85,24 +83,33 @@ class MyVisualController : INavVisualController
 
         // etc ...
     }
+    // called only when the AppBar is required by the destination
     public void SetupAppBar(AppBar appBar, NavDestination destination, NavController navController)
     {
-        if (!destination.showAppBar)
-            return;
-
         appBar.title = destination.label;
     }
+    // called only when the Drawer is required by the destination
     public void SetupDrawer(Drawer drawer, NavDestination destination, NavController navController)
     {
-        if (!destination.showDrawer)
-            return;
-
         drawer.Add(new DrawerHeader());
         drawer.Add(new Divider { vertical = false });
         var homeButton = new MenuItem {icon = "info", label = "Home", selectable = true};
         homeButton.SetValueWithoutNotify(destination.name == Screens.home);
         homeButton.clickable.clicked += () => navController.Navigate(Actions.navigateToHome);
         drawer.Add(homeButton);
+
+        // etc ...
+    }
+    // called only when the Rail is required by the destination
+    public void SetupNavigationRail(NavigationRail navigationRail, NavDestination destination, NavController navController)
+    {
+        navigationRail.anchor = NavigationRailAnchor.End;
+        navigationRail.labelType = LabelType.Selected;
+        navigationRail.groupAlignment = GroupAlignment.Center;
+
+        var homeButton = new NavigationRailItem { icon = "info", label = "Home", selected = destination.name == Destinations.home };
+        homeButton.clickable.clicked += () => navController.Navigate(Actions.navigateToHome);
+        navigationRail.mainContainer.Add(homeButton);
 
         // etc ...
     }
@@ -119,6 +126,7 @@ navHost.visualController = new MyVisualController();
 ### Handling Navigation Visual Components Per Navigation Screen
 
 You also have the possibility to implement
+[SetupNavigationRail](xref:Unity.AppUI.Navigation.NavigationScreen.SetupNavigationRail(Unity.AppUI.UI.NavigationRail)),
 [SetupAppBar](xref:Unity.AppUI.Navigation.NavigationScreen.SetupAppBar(Unity.AppUI.UI.AppBar)),
 [SetupBottomNavBar](xref:Unity.AppUI.Navigation.NavigationScreen.SetupBottomNavBar(Unity.AppUI.UI.BottomNavBar)) and
 [SetupDrawer](xref:Unity.AppUI.Navigation.NavigationScreen.SetupDrawer(Unity.AppUI.UI.Drawer))
@@ -128,7 +136,7 @@ methods directly in your implementation of
 ```cs
 class MyAppHomeScreen : NavigationScreen
 {
-    public override void SetupAppBar(AppBar appBar, NavController navController)
+    protected override void SetupAppBar(AppBar appBar, NavController navController)
     {
         appBar.title = "Home";
     }
@@ -146,22 +154,66 @@ of the screen. It can be used to display a button to display the [Drawer](#drawe
 
 You can also add a [actions](xref:Unity.AppUI.UI.ActionButton) to the AppBar component to display a button on the right side of the AppBar.
 
-When navigating to a page, you can set the [title](xref:Unity.AppUI.UI.AppBar.title) property of the AppBar component to display the title of the page.
-If the navigation back stack is not empty, the AppBar component will display a back button that will navigate to the previous page.
+When navigating to a page, you can set the [title](xref:Unity.AppUI.UI.AppBar.title) property of the `AppBar` component to display the title of the page.
+If the navigation back stack is not empty, the `AppBar` component will display a back button that will navigate to the previous page.
 
 ### Drawer Component
 
 The [Drawer](xref:Unity.AppUI.UI.Drawer) component is a navigation component located on the left or right side of the screen.
 It can be used to display a list of links to other pages in your application, or to display a list of links to other applications.
 
-The Drawer component can be collapsed or expanded. When collapsed, the AppBar component will display a button to expand the Drawer component.
-The Drawer component can be expanded by clicking on the button displayed by the AppBar component, or by dragging the edge of the screen.
+The `Drawer` component can be collapsed or expanded. When collapsed, the `AppBar` component will display a button to expand the `Drawer` component.
+The `Drawer` component can be expanded by clicking on the button displayed by the `AppBar`s component, or by dragging the edge of the screen.
 
 ### BottomNavBar Component
 
 The [BottomNavBar](xref:Unity.AppUI.UI.BottomNavBar) component is a navigation component located at the bottom of the screen.
 
-The BottomNavBar component can be used to display a list of links to other pages in your application, or to display a list of links to other applications.
+The `BottomNavBar` component can be used to display a list of links to other pages in your application, or to display a list of links to other applications.
+
+### NavigationRail Component
+
+The [NavigationRail](xref:Unity.AppUI.UI.NavigationRail) component is a navigation component located on the left or right side of the screen.
+You can choose which side of the screen the `NavigationRail` component is displayed by setting the [anchor](xref:Unity.AppUI.UI.NavigationRail.anchor) property.
+
+The `NavigationRail` component can be used to display items similar to the BottomNavBar component, but in a vertical layout.
+
+It is composed of three parts:
+- The [leading container](xref:Unity.AppUI.UI.NavigationRail.leadingContainer).
+- The [main container](xref:Unity.AppUI.UI.NavigationRail.mainContainer), which you can align to the start, center or end of the vertical layout.
+- The [trailing container](xref:Unity.AppUI.UI.NavigationRail.trailingContainer).
+
+These containers usually contain [NavigationRailItem](xref:Unity.AppUI.UI.NavigationRailItem) interactable components,
+where you can specify an icon and a label to display.
+
+You can customize the way labels are displayed in the main container by setting the [labelType](xref:Unity.AppUI.UI.NavigationRail.labelType) property.
+
+> [!NOTE]
+> When using a `NavigationRail` component, we recommend to not use any other navigation components like the `Drawer` or the
+> `BottomNavBar` in order to avoid redundancy.
+
+#### INavigationScreen interface
+
+All these components are ready to use in [NavigationScreen](xref:Unity.AppUI.Navigation.NavigationScreen) implementations.
+But if you want to have a total control over navigation screens, you can make your own implementation of the
+[INavigationScreen](xref:Unity.AppUI.Navigation.INavigationScreen) interface.
+
+```csharp
+class MyCustomScreen : VisualElement, INavigationScreen
+{
+    public void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+    {
+        // Called when the screen is entered.
+        // You can use this method to initialize the screen or to perform any action when the screen is displayed.
+    }
+
+    public void OnExit(NavController controller, NavDestination destination, Argument[] args)
+    {
+        // Called when the screen is exited.
+        // You can use this method to clean up the screen or to perform any action when the screen is hidden.
+    }
+}
+```
 
 ## Navigation Graph Editor
 
@@ -196,6 +248,94 @@ When a Destination node is used as the start destination of the navigation graph
 > [!NOTE]
 > A navigation graph can have only one start destination. By default when a single destination node is present in the
 > navigation graph, it will be used as the start destination.
+
+##### Customizing the Destination Node with templates
+
+In a destination node, it is convenient to define some directives that must be executed when reaching the destination.
+
+App UI provides a [DefaultDestinationTemplate](xref:Unity.AppUI.Navigation.DefaultDestinationTemplate)
+which is an implementation of [NavDestinationTemplate](xref:Unity.AppUI.Navigation.NavDestinationTemplate)
+that is used to instantiate and set up [NavigationScreen](xref:Unity.AppUI.Navigation.NavigationScreen)
+instances when the destination is reached. The options offered by this template is the selection of the derived type of
+`NavigationScreen` to instantiate, and the display of the various navigation components
+(AppBar, Drawer, BottomNavBar, NavigationRail). A visual example of this template used in a destination node
+is shown in the screenshot above.
+
+By creating your own implementation of the [NavDestinationTemplate](xref:Unity.AppUI.Navigation.NavDestinationTemplate)
+class, you can add your own logic to execute.
+
+Here is an example of a custom destination template that
+takes a `VisualTreeAsset` (UXML) file as a parameter and instantiates it when the destination is reached:
+
+```csharp
+// UxmlDestinationTemplate.cs
+using System;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace MyNamespace
+{
+    [Serializable]
+    public class UxmlDestinationTemplate : NavDestinationTemplate
+    {
+        [SerializeField]
+        [Tooltip("The UXML asset to instantiate when the destination is reached.")]
+        VisualTreeAsset m_UxmlAsset;
+
+        public VisualTreeAsset uxmlAsset
+        {
+            get => m_UxmlAsset;
+            set => m_UxmlAsset = value;
+        }
+
+        public override INavigationScreen CreateScreen(NavHost host)
+        {
+            // Instantiate the screen here, or use a factory method if you have a more complex setup
+            // (like caching screen per destination).
+            var screen = new UxmlNavigationScreen(uxmlAsset, host);
+            return screen;
+        }
+    }
+}
+```
+
+```csharp
+// UxmlNavigationScreen.cs
+using UnityEngine.UIElements;
+using Unity.AppUI.Navigation;
+
+namespace MyNamespace
+{
+    public class UxmlNavigationScreen : VisualElement, INavigationScreen
+    {
+        readonly VisualTreeAsset m_UxmlAsset;
+
+        public UxmlNavigationScreen(VisualTreeAsset uxmlAsset)
+        {
+            m_UxmlAsset = uxmlAsset;
+            m_UxmlAsset.CloneTree(this);
+        }
+
+        public void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        {
+            // Called when the screen is entered.
+            // You can use this method to initialize the screen or to perform any action when the screen is displayed.
+        }
+
+        public void OnExit(NavController controller, NavDestination destination, Argument[] args)
+        {
+            // Called when the screen is exited.
+            // You can use this method to clean up the screen or to perform any action when the screen is hidden.
+        }
+    }
+}
+```
+
+Result in the Navigation Graph Editor:
+
+<p align="center">
+  <img src="images/uxml-destination-node.png" alt="Uxml Destination Node">
+</p>
 
 #### Action Node
 

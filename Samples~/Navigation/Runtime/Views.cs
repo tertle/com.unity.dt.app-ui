@@ -80,8 +80,9 @@ namespace Unity.AppUI.Samples.Navigation
             Add(new Unity.AppUI.UI.Text("Item Detail Screen Content"));
         }
 
-        protected override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
         {
+            base.OnEnter(controller, destination, args);
             var item = args.FirstOrDefault(arg => arg.name == "item");
             if (item != null)
             {
@@ -214,15 +215,17 @@ namespace Unity.AppUI.Samples.Navigation
             Add(logoutButton);
         }
 
-        protected override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
         {
+            base.OnEnter(controller, destination, args);
             if (args is {Length: > 0})
                 Debug.Log("Entered Profile Screen with arguments: " +
                 args.Select(a => a.name + " = " + a.value).Aggregate((a, b) => a + ", " + b));
         }
 
-        protected override void OnExit(NavController controller, NavDestination destination, Argument[] args)
+        public override void OnExit(NavController controller, NavDestination destination, Argument[] args)
         {
+            base.OnExit(controller, destination, args);
             Debug.Log("Exited Profile Screen");
         }
     }
@@ -269,8 +272,9 @@ namespace Unity.AppUI.Samples.Navigation
             Add(m_ThemeSettingRow);
         }
 
-        protected override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
         {
+            base.OnEnter(controller, destination, args);
             var theme = this.GetContext<ThemeContext>().theme;
             m_ThemeSettingRow.value = theme;
             m_ThemeSettingRow.clickable.clicked += () =>
@@ -305,8 +309,9 @@ namespace Unity.AppUI.Samples.Navigation
             closestProvider.ProvideContext(new ThemeContext(theme));
         }
 
-        protected override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
+        public override void OnEnter(NavController controller, NavDestination destination, Argument[] args)
         {
+            base.OnEnter(controller, destination, args);
             if (args is {Length: > 0})
             {
                 var currentTheme = args[0].value;
@@ -319,9 +324,6 @@ namespace Unity.AppUI.Samples.Navigation
     {
         public void SetupBottomNavBar(BottomNavBar bottomNavBar, NavDestination destination, NavController navController)
         {
-            if (!destination.showBottomNavBar)
-                return;
-
             var homeButton = new BottomNavBarItem("info", "Home", () => navController.Navigate(Actions.go_to_home))
             {
                 isSelected = destination.name == Destinations.home
@@ -343,9 +345,6 @@ namespace Unity.AppUI.Samples.Navigation
 
         public void SetupAppBar(AppBar appBar, NavDestination destination, NavController navController)
         {
-            if (!destination.showAppBar)
-                return;
-
             appBar.title = destination.label;
             appBar.stretch = true;
             appBar.expandedHeight = 92;
@@ -353,9 +352,6 @@ namespace Unity.AppUI.Samples.Navigation
 
         public void SetupDrawer(Drawer drawer, NavDestination destination, NavController navController)
         {
-            if (!destination.showDrawer)
-                return;
-
             drawer.swipeAreaWidth = 16;
             drawer.Add(new DrawerHeader());
             drawer.Add(new Divider { direction = Direction.Horizontal });
@@ -398,6 +394,11 @@ namespace Unity.AppUI.Samples.Navigation
                 drawer.Close();
             };
             drawer.Add(profileButton);
+        }
+
+        public void SetupNavigationRail(NavigationRail navigationRail, NavDestination destination, NavController navController)
+        {
+            // Not used in this sample
         }
     }
 }

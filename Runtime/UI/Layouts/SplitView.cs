@@ -46,6 +46,8 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId paneCountProperty = nameof(paneCount);
 
         internal static readonly BindingId splitterCountProperty = nameof(splitterCount);
+
+        internal static readonly BindingId showExpandButtonsProperty = nameof(showExpandButtons);
 #endif
 
         Direction m_Direction = Direction.Horizontal;
@@ -103,9 +105,39 @@ namespace Unity.AppUI.UI
         public const string lastItemUssClassName = itemUssClassName + "--last";
 
         /// <summary>
+        /// The USS class name of the SplitView with expand buttons.
+        /// </summary>
+        public const string withExpandButtonsUssClassName = ussClassName + "--with-expand-buttons";
+
+        /// <summary>
         /// Child elements are added to it, usually this is the same as the element itself.
         /// </summary>
         public override VisualElement contentContainer => m_PaneContainer;
+
+        /// <summary>
+        /// Whether the SplitView should show expand buttons or not.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public bool showExpandButtons
+        {
+            get => ClassListContains(withExpandButtonsUssClassName);
+            set
+            {
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                var changed = showExpandButtons != value;
+#endif
+                EnableInClassList(withExpandButtonsUssClassName, value);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in showExpandButtonsProperty);
+#endif
+            }
+        }
 
         /// <summary>
         /// The direction of the SplitView. A horizontal SplitView will have the splitters between the panes
@@ -928,6 +960,12 @@ namespace Unity.AppUI.UI
                 defaultValue = Direction.Horizontal,
             };
 
+            readonly UxmlBoolAttributeDescription m_ShowExpandButtons = new UxmlBoolAttributeDescription
+            {
+                name = "show-expand-buttons",
+                defaultValue = false
+            };
+
             /// <summary>
             /// Initializes the VisualElement from the UXML attributes.
             /// </summary>
@@ -941,6 +979,7 @@ namespace Unity.AppUI.UI
                 var el = (SplitView)ve;
                 el.realtimeResize = m_RealtimeResize.GetValueFromBag(bag, cc);
                 el.direction = m_Orientation.GetValueFromBag(bag, cc);
+                el.showExpandButtons = m_ShowExpandButtons.GetValueFromBag(bag, cc);
             }
         }
 #endif
@@ -1052,7 +1091,7 @@ namespace Unity.AppUI.UI
         {
             AddToClassList(ussClassName);
             pickingMode = PickingMode.Position;
-            usageHints |= UsageHints.DynamicTransform;
+            this.EnableDynamicTransform(true);
 
             m_SplitView = splitView;
             m_Index = index;

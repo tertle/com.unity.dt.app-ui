@@ -20,7 +20,7 @@ namespace Unity.AppUI.Tests.UI
 
     class TouchSliderTests<T, TU> : VisualElementTests<T>
         where T : TouchSlider<TU>, new()
-        where TU : struct, IComparable, IEquatable<TU>
+        where TU : unmanaged, IComparable, IEquatable<TU>
     {
 
     }

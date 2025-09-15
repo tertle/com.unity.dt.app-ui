@@ -5,7 +5,7 @@ namespace Unity.AppUI.Editor
 {
     static class Utils
     {
-        internal static void AddItemInArray(SerializedProperty array, Object item)
+        internal static bool AddItemInArray(SerializedProperty array, Object item)
         {
             if (IndexOf(array, item) == -1)
             {
@@ -13,7 +13,10 @@ namespace Unity.AppUI.Editor
                 array.InsertArrayElementAtIndex(arrayIndex);
                 var arrayElem = array.GetArrayElementAtIndex(arrayIndex);
                 arrayElem.objectReferenceValue = item;
+                return true;
             }
+
+            return false;
         }
 
         internal static int IndexOf(SerializedProperty array, Object item)

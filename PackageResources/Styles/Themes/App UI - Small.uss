@@ -1,6 +1,6 @@
 :root {
 
-    --appui-checkbox__box-size-md: var(--appui-sizing-300);
+    --appui-checkbox__box-size-md: var(--appui-sizing-320);
     --appui-checkbox__box-size-sm: var(--appui-sizing-250);
     --appui-checkbox__box-size-lg: var(--appui-sizing-350);
 

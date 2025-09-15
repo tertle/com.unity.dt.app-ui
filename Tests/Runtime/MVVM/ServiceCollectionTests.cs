@@ -10,6 +10,7 @@ namespace Unity.AppUI.Tests.MVVM
     {
         interface IServiceTest { }
         class ServiceTest : IServiceTest { }
+        class AlternateServiceTest : IServiceTest { }
 
         [Test]
         public void ServiceCollection_ShouldContainServices()
@@ -57,6 +58,80 @@ namespace Unity.AppUI.Tests.MVVM
 
             services.Clear();
             Assert.AreEqual(0, services.Count);
+        }
+
+        [Test]
+        public void ServiceDescriptor_When_ShouldCreateConditionalDescriptor()
+        {
+            var originalDescriptor = ServiceDescriptor.Singleton(typeof(IServiceTest), typeof(ServiceTest));
+            Assert.IsNull(originalDescriptor.condition);
+
+            var conditionalDescriptor = originalDescriptor.When(ctx => ctx.RequestingType == typeof(ServiceTest));
+
+            Assert.IsNotNull(conditionalDescriptor.condition);
+            Assert.AreEqual(originalDescriptor.serviceType, conditionalDescriptor.serviceType);
+            Assert.AreEqual(originalDescriptor.implementationType, conditionalDescriptor.implementationType);
+            Assert.AreEqual(originalDescriptor.lifetime, conditionalDescriptor.lifetime);
+        }
+
+        [Test]
+        public void ServiceCollection_AddSingletonWhen_ShouldAddConditionalService()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingletonWhen(typeof(IServiceTest), typeof(ServiceTest),
+                ctx => ctx.RequestingType == typeof(ServiceTest));
+
+            Assert.AreEqual(1, services.Count);
+            var descriptor = services[0];
+
+            Assert.AreEqual(typeof(IServiceTest), descriptor.serviceType);
+            Assert.AreEqual(typeof(ServiceTest), descriptor.implementationType);
+            Assert.AreEqual(ServiceLifetime.Singleton, descriptor.lifetime);
+            Assert.IsNotNull(descriptor.condition);
+        }
+
+        [Test]
+        public void ServiceCollection_AddScopedWhen_ShouldAddConditionalService()
+        {
+            var services = new ServiceCollection();
+
+            services.AddScopedWhen(typeof(IServiceTest), typeof(ServiceTest),
+                ctx => ctx.IsScoped);
+
+            Assert.AreEqual(1, services.Count);
+            var descriptor = services[0];
+
+            Assert.AreEqual(ServiceLifetime.Scoped, descriptor.lifetime);
+            Assert.IsNotNull(descriptor.condition);
+        }
+
+        [Test]
+        public void ServiceCollection_AddTransientWhen_ShouldAddConditionalService()
+        {
+            var services = new ServiceCollection();
+
+            services.AddTransientWhen(typeof(IServiceTest), typeof(ServiceTest),
+                ctx => ctx.ServiceType == typeof(IServiceTest));
+
+            Assert.AreEqual(1, services.Count);
+            var descriptor = services[0];
+
+            Assert.AreEqual(ServiceLifetime.Transient, descriptor.lifetime);
+            Assert.IsNotNull(descriptor.condition);
+        }
+
+        [Test]
+        public void ServiceDescriptor_ExtensionWhen_ShouldCreateConditionalDescriptor()
+        {
+            var services = new ServiceCollection();
+            var descriptor = ServiceDescriptor.Singleton(typeof(IServiceTest), typeof(ServiceTest));
+
+            var conditionalDescriptor = descriptor.When(ctx => ctx.RequestingType != null);
+            services.Add(conditionalDescriptor);
+
+            Assert.AreEqual(1, services.Count);
+            Assert.IsNotNull(services[0].condition);
         }
     }
 }

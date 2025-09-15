@@ -49,7 +49,7 @@ namespace Unity.AppUI.Tests.UI
                 m_TestUI.rootVisualElement.Add(m_Panel);
             }
 
-            global::Unity.AppUI.Core.AppUI.s_Manager.DismissAnyPopups(m_Panel.panel, DismissType.Manual);
+            m_Panel.DismissAllPopups();
             yield return new WaitForSeconds(0.1f);
             m_SetupDone = true;
         }

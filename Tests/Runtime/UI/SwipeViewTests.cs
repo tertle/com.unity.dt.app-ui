@@ -86,7 +86,7 @@ namespace Unity.AppUI.Tests.UI
             Assert.IsNotNull(item2);
             Assert.IsNotNull(item3);
 
-            yield return new WaitUntilOrTimeOut(() => Mathf.Approximately(100, item1.worldBound.width),
+            yield return new WaitUntilOrTimeOut(() => Mathf.Abs(item1.worldBound.width - 100f) < 1f,
                 true, TimeSpan.FromSeconds(k_TimeOut));
 
             Assert.AreEqual(0, swipeView.value);
@@ -99,7 +99,7 @@ namespace Unity.AppUI.Tests.UI
             yield return new WaitUntilOrTimeOut(() =>
             {
                 var pos = swipeView.WorldToLocal(item2.worldBound.min);
-                return Mathf.Approximately(0, pos.x);
+                return Mathf.Abs(pos.x) < 1f;
             }, true, TimeSpan.FromSeconds(k_TimeOut));
 
             Assert.AreEqual(1, swipeView.value);
@@ -112,7 +112,7 @@ namespace Unity.AppUI.Tests.UI
             yield return new WaitUntilOrTimeOut(() =>
             {
                 var pos = swipeView.WorldToLocal(item3.worldBound.min);
-                return Mathf.Approximately(0, pos.x);
+                return Mathf.Abs(pos.x) < 1f;
             }, true, TimeSpan.FromSeconds(k_TimeOut));
 
             Assert.AreEqual(2, swipeView.value);
@@ -125,7 +125,7 @@ namespace Unity.AppUI.Tests.UI
             yield return new WaitUntilOrTimeOut(() =>
             {
                 var pos = swipeView.WorldToLocal(item2.worldBound.min);
-                return Mathf.Approximately(0, pos.x);
+                return Mathf.Abs(pos.x) < 1f;
             }, true, TimeSpan.FromSeconds(k_TimeOut));
 
             Assert.AreEqual(1, swipeView.value);
@@ -143,7 +143,7 @@ namespace Unity.AppUI.Tests.UI
             yield return new WaitUntilOrTimeOut(() =>
             {
                 var pos = swipeView.WorldToLocal(item3.worldBound.min);
-                return Mathf.Approximately(0, pos.x);
+                return Mathf.Abs(pos.x) < 1f;
             }, true, TimeSpan.FromSeconds(k_TimeOut));
 
             Assert.AreEqual(2, swipeView.value);
@@ -158,7 +158,7 @@ namespace Unity.AppUI.Tests.UI
             yield return new WaitUntilOrTimeOut(() =>
             {
                 var pos = swipeView.WorldToLocal(item1.worldBound.min);
-                return Mathf.Approximately(0, pos.x);
+                return Mathf.Abs(pos.x) < 1f;
             }, true, TimeSpan.FromSeconds(k_TimeOut));
         }
 

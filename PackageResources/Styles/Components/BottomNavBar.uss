@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     padding: var(--appui-spacing-100) var(--appui-spacing-200);
+    flex-shrink: 0;
 }
 
 .appui--rtl .appui-bottom-navbar {

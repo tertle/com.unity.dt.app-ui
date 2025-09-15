@@ -185,12 +185,7 @@ namespace Unity.AppUI.UI
 
                 if (ve.panel == null)
                 {
-                    if (ve.m_RT)
-                    {
-                        ve.m_RT.Release();
-                        UnityObject.Destroy(ve.m_RT);
-                    }
-                    ve.m_RT = null;
+                    ve.ReleaseTextures();
                     return true;
                 }
 
@@ -198,20 +193,16 @@ namespace Unity.AppUI.UI
                 var rtSize = GetRenderTextureSize(renderRect);
 
                 if (rtSize.x < 1 || rtSize.y < 1)
+                {
+                    ve.ReleaseTextures();
                     return true;
+                }
 
                 if (ve.m_RT && (ve.m_RT.width != rtSize.x || ve.m_RT.height != rtSize.y))
-                {
-                    ve.m_RT.Release();
-                    UnityObject.Destroy(ve.m_RT);
-                    ve.m_RT = null;
-                }
+                    ve.ReleaseTextures();
 
                 if (!ve.m_RT)
-                {
-                    ve.m_RT = new RenderTexture(rtSize.x, rtSize.y, 24);
-                    ve.m_RT.Create();
-                }
+                    ve.m_RT = RenderTexture.GetTemporary(rtSize.x, rtSize.y, 24);
 
                 var prevRt = RenderTexture.active;
                 if (ve.passMask == (Passes)0xFF)
@@ -420,13 +411,7 @@ namespace Unity.AppUI.UI
 
         void OnDetachedFromPanel(DetachFromPanelEvent evt)
         {
-            if (m_RT)
-            {
-                m_RT.Release();
-                UnityObject.Destroy(m_RT);
-            }
-
-            m_RT = null;
+            ReleaseTextures();
         }
 
         void GenerateVisualContentInternal(MeshGenerationContext mgc)
@@ -522,20 +507,21 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/Box");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             if (!paddingRect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (passMask == 0)
             {
-                if (m_RT)
-                {
-                    m_RT.Release();
-                    UnityObject.Destroy(m_RT);
-                }
-                m_RT = null;
+                ReleaseTextures();
                 mgc.Allocate(0, 0, null);
                 return;
             }
@@ -545,23 +531,16 @@ namespace Unity.AppUI.UI
             var rtSize = GetRenderTextureSize(renderRect);
 
             if (rtSize.x < 1 || rtSize.y < 1)
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (m_RT.width != rtSize.x || m_RT.height != rtSize.y))
-            {
-                m_RT.Release();
-                UnityObject.Destroy(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
-                m_RT = new RenderTexture(rtSize.x, rtSize.y, 24)
-                {
-                    hideFlags = HideFlags.HideAndDontSave
-                };
-                m_RT.Create();
-            }
+                m_RT = RenderTexture.GetTemporary(rtSize.x, rtSize.y, 24);
 
             //handler.SendMessage(Message.Obtain(handler, k_BlitTextureMessageId, this));
             var msg = Message.Obtain(null, k_BlitTextureMessageId, this);
@@ -596,6 +575,13 @@ namespace Unity.AppUI.UI
             mwd.SetAllIndices(k_Indices);
         }
 
+        void ReleaseTextures()
+        {
+            if (m_RT)
+                RenderTexture.ReleaseTemporary(m_RT);
+            m_RT = null;
+        }
+
         internal static Vector2Int GetRenderTextureSize(Rect renderRect, int maxSize = 1024)
         {
             var dpi = Mathf.Clamp(Platform.scaleFactor, 1, 2);
@@ -621,7 +607,7 @@ namespace Unity.AppUI.UI
             rect = new Rect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
 
             // calculate the area that the outline will be drawn in
-            var outlineRadius = new Vector2(ads.outlineOffset + ads.outlineWidth + 2f, ads.outlineOffset + ads.outlineWidth + 2f);
+            var outlineRadius = new Vector2(ads.outlineOffset + ads.outlineWidth + 4f, ads.outlineOffset + ads.outlineWidth + 4f);
             var outlineRect = new Rect(-outlineRadius,
                 rect.size + outlineRadius * 2f);
 

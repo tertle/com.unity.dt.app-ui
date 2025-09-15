@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Input;
 using UnityEngine;
 using UnityEngine.UIElements;
 #if ENABLE_RUNTIME_DATA_BINDINGS
@@ -50,6 +51,8 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId trailingIconProperty = nameof(trailingIcon);
 
         internal static readonly BindingId sizeProperty = nameof(size);
+
+        internal static readonly BindingId clickableProperty = nameof(clickable);
 #endif
         /// <summary>
         /// The Button main styling class.
@@ -219,17 +222,25 @@ namespace Unity.AppUI.UI
         /// <summary>
         /// Clickable Manipulator for this Button.
         /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
         public Pressable clickable
         {
             get => m_Clickable;
             private set
             {
+                var changed = m_Clickable != value;
                 if (m_Clickable != null && m_Clickable.target == this)
                     this.RemoveManipulator(m_Clickable);
                 m_Clickable = value;
                 if (m_Clickable == null)
                     return;
                 this.AddManipulator(m_Clickable);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in clickableProperty);
+#endif
             }
         }
 

@@ -31,14 +31,23 @@ support property change notifications.
 
 ## Usage
 
+> [!NOTE]
+> When creating properties in a ViewModel that need to be compatible with the runtime binding system of UI-Toolkit,
+> you must add the `[Unity.Properties.CreateProperty]` attribute to the property.
+
 ### Simple Property
 
 Here's an example of how to implement notification support to a custom property:
 
 ```cs
+using Unity.AppUI.MVVM;
+using Unity.Properties;
+
 public class MyViewModel : ObservableObject
 {
     private string _name;
+
+    [CreateProperty]
     public string Name
     {
         get => _name;
@@ -47,10 +56,73 @@ public class MyViewModel : ObservableObject
 }
 ```
 
+That also can be simplified using
+[ObservableObject](xref:Unity.AppUI.MVVM.ObservableObjectAttribute) and
+[ObservableProperty](xref:Unity.AppUI.MVVM.ObservablePropertyAttribute) attributes, which will automatically generate the
+rest of the code for you:
+
+```cs
+using Unity.AppUI.MVVM;
+
+[ObservableObject]
+public partial class MyViewModel
+{
+    [ObservableProperty]
+    private string _name;
+}
+```
+
 The provided `SetProperty<T>(ref T, T, string)` method checks the current value of the property, and updates it if
 different, and then also raises the relevant events automatically.
 The property name is automatically captured through the use of the `[CallerMemberName]` attribute, so there's no need to
 manually specify which property is being updated.
+
+Since `SetProperty` returns a boolean indicating whether the property was updated, it can be used to perform additional
+actions when the property is updated, such as notifying other properties that depend on it.
+
+```csharp
+using Unity.AppUI.MVVM;
+using Unity.Properties;
+
+public class MyViewModel : ObservableObject
+{
+    private string _name;
+
+    [CreateProperty]
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            if (SetProperty(ref _name, value))
+            {
+                OnPropertyChanged(nameof(HasName));
+            }
+        }
+    }
+
+    [CreateProperty(ReadOnly = true)]
+    public bool HasName => !string.IsNullOrEmpty(Name);
+}
+```
+
+Again, that can be simplified using [AlsoNotifyChangeFor](xref:Unity.AppUI.MVVM.AlsoNotifyChangeForAttribute) attribute:
+
+```csharp
+using Unity.AppUI.MVVM;
+using Unity.Properties;
+
+[ObservableObject]
+public partial class MyViewModel
+{
+    [ObservableProperty]
+    [AlsoNotifyChangeFor(nameof(HasName))]
+    private string _name;
+
+    [CreateProperty(ReadOnly = true)]
+    public bool HasName => !string.IsNullOrEmpty(Name);
+}
+```
 
 ### Wrap a non-observable model
 
@@ -61,12 +133,16 @@ interface. `ObservableObject` provides a dedicated method to make this process s
 User is a model directly mapping a database table, without inheriting from `ObservableObject`:
 
 ```cs
+using Unity.AppUI.MVVM;
+using Unity.Properties;
+
 public class ObservableUser : ObservableObject
 {
     private readonly User user;
 
     public ObservableUser(User user) => this.user = user;
 
+    [CreateProperty]
     public string Name
     {
         get => user.Name;

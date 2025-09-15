@@ -356,7 +356,13 @@ namespace Unity.AppUI.UI
             pickingMode = PickingMode.Ignore;
 
             RegisterCallback<CustomStyleResolvedEvent>(OnCustomStyleResolved);
+            RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
             generateVisualContent = OnGenerateVisualContent;
+        }
+
+        void OnDetachFromPanel(DetachFromPanelEvent e)
+        {
+            ReleaseTextures();
         }
 
         void OnCustomStyleResolved(CustomStyleResolvedEvent e)
@@ -415,32 +421,31 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/CanvasBackground");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             if (!contentRect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             var rtSize = ExVisualElement.GetRenderTextureSize(contentRect, 4096);
 
             if (rtSize.x < 1 || rtSize.y < 1)
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (m_RT.width != rtSize.x || m_RT.height != rtSize.y))
-            {
-                m_RT.Release();
-                UnityObject.Destroy(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
-                m_RT = new RenderTexture(rtSize.x, rtSize.y, 24)
-                {
-                    hideFlags = HideFlags.HideAndDontSave
-                };
-                m_RT.Create();
-            }
+                m_RT = RenderTexture.GetTemporary(rtSize.x, rtSize.y, 24);
 
             var prevRt = RenderTexture.active;
             RenderTexture.active = m_RT;
@@ -475,6 +480,13 @@ namespace Unity.AppUI.UI
 
             mwd.SetAllVertices(k_Vertices);
             mwd.SetAllIndices(k_Indices);
+        }
+
+        void ReleaseTextures()
+        {
+            if (m_RT)
+                RenderTexture.ReleaseTemporary(m_RT);
+            m_RT = null;
         }
 
         void Draw()

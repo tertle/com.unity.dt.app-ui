@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Link" class="main">
+    <engine:Label text="Link" class="title" />
+    <engine:Label
+      text="A clickable text element that can navigate to a URL or trigger an action."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Link component is a fundamental navigation element that allows users to navigate to different URLs or trigger actions within your application. Links are interactive text elements that can be clicked, focused, and activated using keyboard navigation."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Links can be styled with different text sizes to establish visual hierarchy and improve readability. They inherit text localization capabilities and support keyboard focus management for better accessibility."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Links should be visually distinguishable from regular text to indicate their interactive nature. Use appropriate styling (like underlines or distinct colors) to make links recognizable."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="text" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content displayed in the link. This property is inherited from LocalizedTextElement and supports localization."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic link with text"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Link text="Click here to learn more" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="url" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The URL that the link points to. This can be used to specify the destination when the link is clicked."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Link with URL destination"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Link text="Visit our website" url="https://example.com" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="TextSize" class="prop-type" />
+            <engine:Label text="TextSize.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the link text. Available sizes range from XXS to XXXL, allowing for flexible typography scaling."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Links with different sizes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Link text="Small Link" size="S" /&gt;
+&lt;Link text="Medium Link" size="M" /&gt;
+&lt;Link text="Large Link" size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="clickable" class="prop-name" />
+            <engine:Label text="Pressable" class="prop-type" />
+            <engine:Label text="new Pressable()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The pressable manipulator that handles click/press interactions. Can be customized to handle click events and modify the link's behavior."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Custom click handler"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var link = new Link("Custom Action");
+link.clickable.clicked += () =&gt; Debug.Log("Link clicked!");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Usage" class="parapgraph" />
+            <engine:Label
+              text="Simple link with URL"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Link text="Click me" url="https://example.com" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Size Variants" class="parapgraph" />
+            <engine:Label
+              text="Links with different sizes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;VerticalStack spacing="10"&gt;
+    &lt;Link text="Small Link" size="S" /&gt;
+    &lt;Link text="Medium Link" size="M" /&gt;
+    &lt;Link text="Large Link" size="L" /&gt;
+&lt;/VerticalStack&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Custom Click Handler" class="parapgraph" />
+            <engine:Label
+              text="Link with custom click behavior"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var link = new Link("Custom Action");
+link.clickable.clicked += () =&gt; {
+    // Custom action
+    Debug.Log("Link clicked!");
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Localized Link" class="parapgraph" />
+            <engine:Label
+              text="Link using localized text"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Link text="@MyLocalizedText" url="https://example.com" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

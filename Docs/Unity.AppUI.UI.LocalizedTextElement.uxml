@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.LocalizedTextElement" class="main">
+    <engine:Label text="LocalizedTextElement" class="title" />
+    <engine:Label
+      text="A text element that supports localization and string formatting with variables"
+      class="subtitle"
+    />
+    <engine:Label text="data" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="LocalizedTextElement is a specialized text component that enables seamless localization of text content in your Unity application's UI. It extends BaseTextElement and provides built-in support for string localization and dynamic text formatting using variables."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful when building applications that need to support multiple languages and require dynamic text updates based on user interactions or application state."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component integrates with Unity's Localization system and supports both direct text display and localized string references. When using localized strings, it automatically updates the displayed text when the application's language changes."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: To use the localization features, make sure you have the Unity Localization package installed in your project. Without it, the component will function as a regular text element."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="text" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The reference text to display. This can be either:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- A plain text string that will be displayed as-is"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- A localization key that references a string in your localization tables"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting plain text"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var textElement = new LocalizedTextElement("Hello World");
+// or
+textElement.text = "Hello World";'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using a localization key"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var textElement = new LocalizedTextElement("UI.Greeting");
+// The actual text will be fetched from the localization system'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variables" class="prop-name" />
+            <engine:Label text="IList&lt;object&gt;" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A list of variables to use when formatting the localized string. This is useful when your localized text contains placeholders that need to be filled with dynamic values."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using variables for string formatting"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='// Assuming the localized string is "Welcome {0}, you have {1} messages"
+var textElement = new LocalizedTextElement("UI.WelcomeMessage");
+textElement.variables = new object[] { "John", 5 };
+// Will display something like: "Welcome John, you have 5 messages"'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="langOverride" class="prop-name" />
+            <engine:Label text="Optional&lt;string&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;string&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Override the language for this specific text element. This allows you to display text in a different language than the rest of the UI."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a specific language for the element"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='textElement.langOverride = "fr"; // Force French language for this element'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic Usage with Plain Text"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;ui:LocalizedTextElement text="Hello World" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Using Localization Keys" class="parapgraph" />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;ui:LocalizedTextElement text="UI.Welcome" /&gt;
+&lt;/UXML&gt;
+
+// C#
+var welcomeText = new LocalizedTextElement("UI.Welcome");
+container.Add(welcomeText);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Dynamic Text with Variables"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='// Assuming the localized string is "Player {0} scored {1} points!"
+var scoreText = new LocalizedTextElement("UI.ScoreMessage");
+scoreText.variables = new object[] { "Player1", 100 };
+container.Add(scoreText);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Language Override Example" class="parapgraph" />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;ui:LocalizedTextElement
+    text="UI.Greeting"
+    lang="fr" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Complete Example with Multiple Features"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='&lt;UXML&gt;
+&lt;ui:LocalizedTextElement
+    text="UI.WelcomeMessage"
+    class="title-text"
+    style="font-size: 20px;"
+    dir="LTR"
+    theme="dark" /&gt;
+&lt;/UXML&gt;
+
+// C#
+var welcomeText = new LocalizedTextElement("UI.WelcomeMessage");
+welcomeText.variables = new object[] { "User", DateTime.Now.ToString() };
+welcomeText.AddToClassList("title-text");
+welcomeText.style.fontSize = 20;
+container.Add(welcomeText);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

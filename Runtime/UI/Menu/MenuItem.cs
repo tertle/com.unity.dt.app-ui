@@ -17,6 +17,12 @@ namespace Unity.AppUI.UI
 #endif
     public partial class MenuItem : BaseVisualElement, INotifyValueChanged<bool>, IPressable
     {
+        enum FocusStrategy
+        {
+            None,
+            Item,
+        }
+
 #if ENABLE_RUNTIME_DATA_BINDINGS
 
         internal static readonly BindingId labelProperty = new BindingId(nameof(label));
@@ -35,7 +41,11 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId hasSubMenuProperty = new BindingId(nameof(hasSubMenu));
 
+        internal static readonly BindingId clickableProperty = new BindingId(nameof(clickable));
+
 #endif
+
+        const int k_DefaultOpenSubMenuDelay = 300;
 
         static readonly Stack<Menu> k_SubMenuStack = new Stack<Menu>();
 
@@ -142,7 +152,7 @@ namespace Unity.AppUI.UI
             hierarchy.Add(m_Shortcut);
             hierarchy.Add(subMenuIcon);
 
-            this.AddManipulator(new KeyboardFocusController());
+            this.AddManipulator(new KeyboardFocusController(OnFocusIn, OnFocusIn, OnFocusOut));
 
             m_SubMenuContainer = new VisualElement { style = { display = DisplayStyle.None } };
             hierarchy.Add(m_SubMenuContainer);
@@ -159,43 +169,47 @@ namespace Unity.AppUI.UI
             RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
+        void OnFocusIn(FocusInEvent evt)
+        {
+            if (GetFirstAncestorOfType<ScrollView>() is {} scrollView)
+                scrollView.ScrollTo(this);
+
+            if (subMenu != null)
+                ScheduleOpenSubMenu(k_DefaultOpenSubMenuDelay, FocusStrategy.None);
+        }
+
         void OnKeyDown(KeyDownEvent evt)
         {
-            var handled = false;
+            if (evt.target != this)
+                return;
 
             var dir = this.GetContext<DirContext>()?.dir ?? Dir.Ltr;
+            var menu = GetFirstAncestorOfType<Menu>();
 
             switch (evt.keyCode)
             {
                 case KeyCode.DownArrow:
-                    focusController.FocusNextInDirectionEx(VisualElementFocusChangeDirection.right);
-                    handled = true;
+                    evt.StopPropagation();
+                    if (menu.lastMenuItem != this)
+                        focusController.FocusNextInDirectionEx(this, VisualElementFocusChangeDirection.right);
                     break;
                 case KeyCode.UpArrow:
-                    focusController.FocusNextInDirectionEx(VisualElementFocusChangeDirection.left);
-                    handled = true;
+                    evt.StopPropagation();
+                    if (menu.firstMenuItem != this)
+                        focusController.FocusNextInDirectionEx(this, VisualElementFocusChangeDirection.left);
                     break;
                 case KeyCode.RightArrow when dir is Dir.Ltr:
                 case KeyCode.LeftArrow when dir is Dir.Rtl:
+                    evt.StopPropagation();
                     if (hasSubMenu)
                         clickable?.SimulateSingleClickInternal(evt);
-                    handled = true;
                     break;
                 case KeyCode.LeftArrow when dir is Dir.Ltr:
                 case KeyCode.RightArrow when dir is Dir.Rtl:
-                    if (GetFirstAncestorOfType<Menu>() is { parentItem: { } item } menu)
-                    {
-                        CloseSubMenus(Vector2.negativeInfinity, menu);
+                    evt.StopPropagation();
+                    if (menu is { parentItem: { } item })
                         item.Focus();
-                    }
-                    handled = true;
                     break;
-            }
-
-            if (handled)
-            {
-                evt.StopPropagation();
-
             }
         }
 
@@ -225,7 +239,16 @@ namespace Unity.AppUI.UI
                 return;
 
             if (subMenu != null)
-                ScheduleOpenSubMenu(420);
+                ScheduleOpenSubMenu(k_DefaultOpenSubMenuDelay, FocusStrategy.None);
+        }
+
+        void OnFocusOut(FocusOutEvent evt)
+        {
+            if (subMenu != null && evt.relatedTarget is VisualElement el && el.GetFirstAncestorOfType<Menu>() != subMenu)
+            {
+                m_ScheduledItem?.Pause();
+                CloseSubMenus(Vector2.negativeInfinity, subMenu);
+            }
         }
 
         void OnLeft(PointerOutEvent evt)
@@ -240,23 +263,26 @@ namespace Unity.AppUI.UI
             }
         }
 
-        void ScheduleOpenSubMenu(int delayMs)
+        void ScheduleOpenSubMenu(int delayMs, FocusStrategy strategy)
         {
             m_ScheduledItem?.Pause();
 
             if (!enabledInHierarchy || !enabledSelf)
                 return;
 
-            m_ScheduledItem = schedule.Execute(OpenSubMenu);
+            m_ScheduledItem = schedule.Execute(() => OpenSubMenu(strategy));
             if (delayMs > 0)
                 m_ScheduledItem.ExecuteLater(delayMs);
         }
 
-        void OpenSubMenu()
+        void OpenSubMenu(FocusStrategy strategy)
         {
             m_ScheduledItem?.Pause();
             if (subMenu.parent != null)
+            {
+                FocusItemOrMenu(subMenu, strategy);
                 return;
+            }
 
             var popoverElement = MenuBuilder.CreateMenuPopoverVisualElement(subMenu).popoverElement;
 
@@ -283,12 +309,27 @@ namespace Unity.AppUI.UI
                 popoverElement.style.opacity = 1f;
                 popoverElement.schedule.Execute(() =>
                 {
-                    popoverElement.Focus();
+                    FocusItemOrMenu(subMenu, strategy);
                     subMenuOpened?.Invoke();
                 });
             });
 
             k_SubMenuStack.Push(subMenu);
+        }
+
+        static void FocusItemOrMenu(Menu menu, FocusStrategy strategy)
+        {
+            switch (strategy)
+            {
+                case FocusStrategy.None:
+                    return;
+                case FocusStrategy.Item when menu.firstMenuItem != null:
+                    menu.firstMenuItem.Focus();
+                    break;
+                default:
+                    menu.Focus();
+                    break;
+            }
         }
 
         internal void CloseSubMenus(Vector2 localMousePosition, Menu targetMenu)
@@ -315,17 +356,25 @@ namespace Unity.AppUI.UI
         /// <summary>
         /// Clickable Manipulator for this MenuItem.
         /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
         public Pressable clickable
         {
             get => m_Clickable;
             set
             {
+                var changed = m_Clickable != value;
                 if (m_Clickable != null && m_Clickable.target == this)
                     this.RemoveManipulator(m_Clickable);
                 m_Clickable = value;
                 if (m_Clickable == null)
                     return;
                 this.AddManipulator(m_Clickable);
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in clickableProperty);
+#endif
             }
         }
 
@@ -532,14 +581,15 @@ namespace Unity.AppUI.UI
             m_Selected = newValue;
         }
 
-        void OnClick()
+        void OnClick(EventBase e)
         {
             if (selectable)
                 value = !value;
 
             if (subMenu != null)
             {
-                ScheduleOpenSubMenu(0);
+                var fromKeyboard = e is KeyDownEvent or KeyUpEvent;
+                ScheduleOpenSubMenu(0, fromKeyboard ? FocusStrategy.Item : FocusStrategy.None);
             }
             else
             {

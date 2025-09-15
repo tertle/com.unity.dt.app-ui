@@ -64,35 +64,34 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/LinearProgress");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             var rect = contentRect;
 
             if (!rect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             var dpi = Mathf.Max(Platform.scaleFactor, 1f);
             var rectSize = rect.size * dpi;
 
             if (!rectSize.IsValidForTextureSize())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (Mathf.Abs(m_RT.width - rectSize.x) > 1 || Mathf.Abs(m_RT.height - rectSize.y) > 1))
-            {
-                m_RT.Release();
-                UnityObject.Destroy(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
-                m_RT = new RenderTexture((int)rectSize.x, (int)rectSize.y, 24)
-                {
-                    hideFlags = HideFlags.HideAndDontSave,
-                };
-                m_RT.Create();
-            }
+                m_RT = RenderTexture.GetTemporary((int)rectSize.x, (int)rectSize.y, 24);
 
             s_Material.SetColor(k_Color, colorOverride);
             s_Material.SetInt(k_Rounded, roundedProgressCorners ? 1 : 0);

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Button" class="main">
+    <engine:Label text="Button" class="title" />
+    <engine:Label
+      text="A button triggers an action or event when pressed"
+      class="subtitle"
+    />
+    <engine:Label text="action" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="Buttons are interactive elements that users can click or tap to trigger actions. They serve as key interaction points in the user interface, guiding users through their journey and enabling them to accomplish tasks."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Button component provides several customization options including different variants, sizes, and the ability to include icons and text labels. This flexibility allows you to create buttons that match your application's design language while maintaining consistency and usability."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Use buttons for the most important actions in your interface. For less important or secondary actions, consider using alternative components like links or menu items."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="- Default: Standard button style for most use cases
+- Accent: Highlights the primary action in a group of buttons
+- Destructive: Indicates actions that may have destructive consequences"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="ButtonVariant" class="prop-type" />
+            <engine:Label text="ButtonVariant.Default" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The visual style variant of the button. Choose from Default, Accent, or Destructive to indicate the button's importance and purpose."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a primary action button"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button variant="Accent" title="Save Changes" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="quiet" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, renders the button in a more subtle style with reduced visual emphasis. Useful for secondary actions or in dense interfaces."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a subtle secondary action button"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button quiet="true" title="Cancel" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="title" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The main text label displayed on the button. Should be clear and concise, describing the action that will occur when the button is pressed."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a button with a clear action label"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button title="Submit Form" variant="Accent" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="subtitle" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Additional descriptive text displayed below the main title. Use it to provide extra context about the button's action."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a button with warning explanation"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button title="Delete Account" subtitle="This action cannot be undone" variant="Destructive" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="leadingIcon" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Icon displayed before the button's text. Use icons to reinforce the button's action visually."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a save icon to a button"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button leadingIcon="save" title="Save Project" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="trailingIcon" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Icon displayed after the button's text. Useful for indicating additional actions or states."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a dropdown indicator to a button"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button title="More Options" trailingIcon="chevron-down" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the button's size. Available options are S (Small), M (Medium), and L (Large). Choose based on the button's importance and available space."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Demonstrating different button sizes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Button size="S" title="Quick Action" /&gt;
+&lt;Button size="M" title="Standard Action" /&gt;
+&lt;Button size="L" title="Important Action" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="clicked" class="prop-name" />
+            <engine:Label text="event Action" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Event triggered when the button is clicked. Use this to handle user interactions and execute the button's action."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Handling button click events"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var button = new Button();
+button.clicked += () =&gt; Debug.Log("Button clicked!");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here are some common button usage patterns:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Various button configurations for different use cases"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='// Basic button with title
+&lt;Button title="Click Me" /&gt;
+
+// Primary action button
+&lt;Button variant="Accent" title="Save Changes" /&gt;
+
+// Destructive action with warning
+&lt;Button
+    variant="Destructive"
+    title="Delete Item"
+    subtitle="This cannot be undone"
+    leadingIcon="trash" /&gt;
+
+// Icon-only button
+&lt;Button leadingIcon="settings" size="S" /&gt;
+
+// Quiet secondary action
+&lt;Button quiet="true" title="Cancel" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating and handling buttons in C#:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Programming button behavior"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='// Create a new button
+var saveButton = new Button();
+saveButton.variant = ButtonVariant.Accent;
+saveButton.title = "Save Changes";
+saveButton.leadingIcon = "save";
+
+// Handle click events
+saveButton.clicked += () =&gt; {
+    SaveChanges();
+    Debug.Log("Changes saved!");
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Dialog" class="main">
+    <engine:Label text="Dialog" class="title" />
+    <engine:Label
+      text="A reusable dialog component that displays content in a modal window, often used for important information or actions that require user attention."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Dialog component provides a way to present content in a focused modal window, temporarily interrupting the user's workflow. It's commonly used for important notifications, gathering user input, or requiring user decisions."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Dialogs can contain various types of content including text, form elements, or custom components. They appear as modal windows overlaying the main content and typically include a title, content area, and optional action buttons."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: For situations requiring specific user decisions or acknowledgments, consider using the AlertDialog variant which provides pre-configured semantic variants and action buttons."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="A Dialog's visibility is typically controlled by a Modal component, which handles the overlay and focus management."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="title" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The title text displayed in the dialog's header. The header section will be hidden if the title is null or empty and dismissable is false."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a dialog title"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dialog.title = "Confirm Action";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="description" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The main content text of the dialog. This text appears in the content area below the header."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting dialog content"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dialog.description = "Are you sure you want to proceed with this action?";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the width of the dialog. Available sizes are XS, S, M, L, and XL."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large dialog"
+                  class="scenario-description"
+                />
+                <engine:Label text="dialog.size = Size.L;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="dismissable" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, displays a close button in the header that allows users to dismiss the dialog."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Making a dialog dismissable"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='dialog.dismissable = true;
+dialog.dismissRequested += (dismissType) =&gt; {
+    if (dismissType == DismissType.Manual)
+        Debug.Log("Dialog was closed by user");
+};'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Dialog Example" class="parapgraph" />
+            <engine:Label
+              text='var dialog = new Dialog
+{
+    title = "Welcome",
+    description = "Welcome to our application! We hope you enjoy using it.",
+    size = Size.M,
+    dismissable = true
+};
+
+// Add the dialog to a modal
+var modal = new Modal();
+modal.Add(dialog);
+
+// Add the modal to your UI hierarchy
+rootElement.Add(modal);'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="UXML Dialog Definition" class="parapgraph" />
+            <engine:Label
+              text='&lt;UXML xmlns="UnityEngine.UIElements"&gt;
+    &lt;Modal&gt;
+        &lt;ui:Dialog
+            title="Settings"
+            description="Configure your application settings below."
+            size="M"
+            dismissable="true"&gt;
+            &lt;!-- Add custom content here --&gt;
+        &lt;/ui:Dialog&gt;
+    &lt;/Modal&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Dialog with Custom Content"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='var dialog = new Dialog();
+dialog.title = "User Profile";
+
+// Add custom content
+var customContent = new VisualElement();
+customContent.Add(new TextField("Name:"));
+customContent.Add(new TextField("Email:"));
+
+dialog.Add(customContent);
+
+// Add action buttons
+var saveButton = new Button(() =&gt; Debug.Log("Save clicked")) { text = "Save" };
+var cancelButton = new Button(() =&gt; Debug.Log("Cancel clicked")) { text = "Cancel" };
+
+dialog.actionContainer.Add(cancelButton);
+dialog.actionContainer.Add(saveButton);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

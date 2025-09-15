@@ -11,22 +11,6 @@ using Unity.Properties;
 namespace Unity.AppUI.UI
 {
     /// <summary>
-    /// The direction of the scroll.
-    /// </summary>
-    public enum ScrollDirection
-    {
-        /// <summary>
-        /// The natural scroll direction.
-        /// </summary>
-        Natural,
-
-        /// <summary>
-        /// The inversed scroll direction.
-        /// </summary>
-        Inverse,
-    }
-
-    /// <summary>
     /// The current Grab Mode.
     /// </summary>
     public enum GrabMode
@@ -49,16 +33,96 @@ namespace Unity.AppUI.UI
 
     /// <summary>
     /// The current Canvas control scheme.
+    ///
+    /// > [!NOTE]
+    /// > The control scheme defines the key bindings for the Canvas manipulator.
+    /// >
+    /// > * LMB = Left mouse button
+    /// > * MMB = Middle mouse button (wheel button)
+    /// > * RMB = Right mouse button
+    ///
+    /// > [!WARNING]
+    /// > If a primaryManipulator is set on the Canvas,
+    /// > this manipulator will override the control scheme when the pointer (mouse, trackpad, etc)
+    /// > is used without modifier keys.
     /// </summary>
     public enum CanvasControlScheme
     {
         /// <summary>
         /// The default control scheme, similar to others Unity Editor tools.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Control</term>
+        /// <description>Bindings</description>
+        /// </listheader>
+        /// <item>
+        /// <term>Pan</term>
+        /// <description><c>MMB</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Pan (alt)</term>
+        /// <description><c>Alt</c> + <c>LMB</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom</term>
+        /// <description>Mouse/Trackpad Scroll</description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom In</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>+</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom Out</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>-</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Reset Zoom</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>0</c></description>
+        /// </item>
+        /// </list>
         /// </summary>
         Editor,
 
         /// <summary>
         /// The alternate control scheme, similar to Figma, Sketch, etc.
+        /// <list type="table">
+        /// <listheader>
+        /// <term>Control</term>
+        /// <description>Bindings</description>
+        /// </listheader>
+        /// <item>
+        /// <term>Pan</term>
+        /// <description><c>MMB</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Pan (alt)</term>
+        /// <description><c>Space</c> + <c>LMB</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Pan (trackpad alternative)</term>
+        /// <description>Swipe gesture</description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + Mouse Scroll</description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom (trackpad alternative)</term>
+        /// <description>Pinch gesture</description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom In</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>+</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Zoom Out</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>-</c></description>
+        /// </item>
+        /// <item>
+        /// <term>Reset Zoom</term>
+        /// <description><c>Ctrl</c>/<c>Cmd</c> + <c>0</c></description>
+        /// </item>
+        /// </list>
         /// </summary>
         Modern,
     }
@@ -109,8 +173,6 @@ namespace Unity.AppUI.UI
         internal static readonly BindingId zoomMultiplierProperty = nameof(zoomMultiplier);
 
         internal static readonly BindingId panMultiplierProperty = nameof(panMultiplier);
-
-        internal static readonly BindingId scrollDirectionProperty = nameof(scrollDirection);
 
         internal static readonly BindingId zoomProperty = nameof(zoom);
 
@@ -196,8 +258,6 @@ namespace Unity.AppUI.UI
         ValueAnimation<float> m_DampingEffect;
 
         const int k_DefaultDampingEffectDurationMs = 750;
-
-        const ScrollDirection k_DefaultScrollDirection = ScrollDirection.Natural;
 
         const CanvasControlScheme k_DefaultControlScheme = CanvasControlScheme.Modern;
 
@@ -412,30 +472,6 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
-        /// The scroll direction of the Canvas. See <see cref="ScrollDirection"/> for more information.
-        /// </summary>
-#if ENABLE_RUNTIME_DATA_BINDINGS
-        [CreateProperty]
-#endif
-#if ENABLE_UXML_SERIALIZED_DATA
-        [UxmlAttribute]
-#endif
-        public ScrollDirection scrollDirection
-        {
-            get => m_Manipulator.scrollDirection;
-            set
-            {
-                var changed = m_Manipulator.scrollDirection != value;
-                m_Manipulator.scrollDirection = value;
-
-#if ENABLE_RUNTIME_DATA_BINDINGS
-                if (changed)
-                    NotifyPropertyChanged(in scrollDirectionProperty);
-#endif
-            }
-        }
-
-        /// <summary>
         /// The zoom factor of the Canvas.
         /// </summary>
 #if ENABLE_RUNTIME_DATA_BINDINGS
@@ -595,8 +631,8 @@ namespace Unity.AppUI.UI
             {
                 name = viewportUssClassName,
                 pickingMode = PickingMode.Ignore,
-                usageHints = UsageHints.DynamicTransform
             };
+            m_Viewport.EnableDynamicTransform(true);
             m_Viewport.AddToClassList(viewportUssClassName);
             hierarchy.Add(m_Viewport);
 
@@ -722,7 +758,11 @@ namespace Unity.AppUI.UI
         void OnScrollOffsetChanged(Vector2 previousScrollOffset, Vector2 newScrollOffset)
         {
             UpdateScrollers();
+#if UNITY_6000_2_OR_NEWER
+            m_Background.offset = m_Viewport.resolvedStyle.translate;
+#else
             m_Background.offset = m_Viewport.transform.position;
+#endif
             scrollOffsetChanged?.Invoke();
 #if ENABLE_RUNTIME_DATA_BINDINGS
             NotifyPropertyChanged(in scrollOffsetProperty);
@@ -743,7 +783,11 @@ namespace Unity.AppUI.UI
 
             var delta = evt.newValue - m_LastScrollersPosition.y;
             m_Manipulator.SetScrollOffsetWithoutNotify(new Vector2(scrollOffset.x, scrollOffset.y + delta));
+#if UNITY_6000_2_OR_NEWER
+            m_Background.offset = m_Viewport.resolvedStyle.translate;
+#else
             m_Background.offset = m_Viewport.transform.position;
+#endif
             m_LastScrollersPosition.y = evt.newValue;
             scrollOffsetChanged?.Invoke();
         }
@@ -755,7 +799,11 @@ namespace Unity.AppUI.UI
 
             var delta = evt.newValue - m_LastScrollersPosition.x;
             m_Manipulator.SetScrollOffsetWithoutNotify(new Vector2(scrollOffset.x - delta, scrollOffset.y));
+#if UNITY_6000_2_OR_NEWER
+            m_Background.offset = m_Viewport.resolvedStyle.translate;
+#else
             m_Background.offset = m_Viewport.transform.position;
+#endif
             m_LastScrollersPosition.x = evt.newValue;
             scrollOffsetChanged?.Invoke();
         }
@@ -906,12 +954,6 @@ namespace Unity.AppUI.UI
                 defaultValue = k_DefaultFrameMargin
             };
 
-            readonly UxmlEnumAttributeDescription<ScrollDirection> m_ScrollDirection = new UxmlEnumAttributeDescription<ScrollDirection>
-            {
-                name = "scroll-direction",
-                defaultValue = k_DefaultScrollDirection
-            };
-
             readonly UxmlEnumAttributeDescription<CanvasControlScheme> m_ControlScheme = new UxmlEnumAttributeDescription<CanvasControlScheme>
             {
                 name = "control-scheme",
@@ -955,10 +997,6 @@ namespace Unity.AppUI.UI
 
                 if (m_FrameMargin.TryGetValueFromBag(bag, cc, ref floatVal))
                     canvas.frameMargin = floatVal;
-
-                var scrollDirectionVal = ScrollDirection.Natural;
-                if (m_ScrollDirection.TryGetValueFromBag(bag, cc, ref scrollDirectionVal))
-                    canvas.scrollDirection = scrollDirectionVal;
 
                 var controlSchemeVal = CanvasControlScheme.Modern;
                 if (m_ControlScheme.TryGetValueFromBag(bag, cc, ref controlSchemeVal))

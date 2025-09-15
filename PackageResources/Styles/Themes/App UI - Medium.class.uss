@@ -40,7 +40,7 @@
   --appui-sizing-350: 21px;
   --appui-sizing-320: 20px;
   --appui-sizing-300: 18px;
-  --appui-sizing-250: 15px;
+  --appui-sizing-250: 16px;
   --appui-sizing-225: 14px;
   --appui-sizing-200: 12px;
   --appui-sizing-175: 11px;

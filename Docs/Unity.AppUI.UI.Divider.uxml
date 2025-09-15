@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Divider" class="main">
+    <engine:Label text="Divider" class="title" />
+    <engine:Label
+      text="A visual separator that creates a thematic break between different content sections"
+      class="subtitle"
+    />
+    <engine:Label text="layout" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Divider component is a thin line that groups content in lists and layouts. Dividers can separate content into clear groups and establish hierarchy, creating visual rhythm and improving content readability."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Dividers can be oriented horizontally or vertically, and their appearance can be customized through size and spacing properties to match your design requirements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: Dividers are non-interactive elements with picking mode set to ignore by default."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the orientation of the divider. Can be either horizontal (creating a row break) or vertical (creating a column break)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a vertical divider between two panels"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Divider direction="Vertical" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the thickness of the divider line. Available options are based on the Size enum (XS, S, M, L, XL)."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Use smaller sizes for subtle separation and larger sizes for more prominent divisions between content."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a thick divider for major content separation"
+                  class="scenario-description"
+                />
+                <engine:Label text='&lt;Divider size="L" /&gt;' class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="spacing" class="prop-name" />
+            <engine:Label text="Spacing" class="prop-type" />
+            <engine:Label text="Spacing.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the margin space around the divider. Available options are based on the Spacing enum (XS, S, M, L, XL)."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Proper spacing helps create visual hierarchy and improve content readability."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a divider with large spacing"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Divider spacing="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic horizontal divider:" class="parapgraph" />
+            <engine:Label
+              text="Simple horizontal divider with default properties"
+              class="scenario-description"
+            />
+            <engine:Label text="&lt;Divider /&gt;" class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Custom styled divider:" class="parapgraph" />
+            <engine:Label
+              text="Customized divider with specific size and spacing"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Divider direction="Horizontal" size="L" spacing="XL" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using dividers in a layout:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Example of using dividers in a complex layout"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Box&gt;
+    &lt;Text text="Section 1" /&gt;
+    &lt;Divider spacing="M" /&gt;
+    &lt;Text text="Section 2" /&gt;
+    &lt;Box style="flex-direction: row;"&gt;
+        &lt;Box&gt;
+            &lt;Text text="Left Content" /&gt;
+        &lt;/Box&gt;
+        &lt;Divider direction="Vertical" size="S" spacing="S" /&gt;
+        &lt;Box&gt;
+            &lt;Text text="Right Content" /&gt;
+        &lt;/Box&gt;
+    &lt;/Box&gt;
+    &lt;Divider spacing="M" /&gt;
+    &lt;Text text="Section 3" /&gt;
+&lt;/Box&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

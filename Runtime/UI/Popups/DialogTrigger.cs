@@ -126,6 +126,10 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId placementProperty = new BindingId(nameof(placement));
 
+        internal static readonly BindingId resizableProperty = new BindingId(nameof(resizable));
+
+        internal static readonly BindingId resizeDirectionProperty = new BindingId(nameof(resizeDirection));
+
 #endif
 
         string m_AnchorName = null;
@@ -591,6 +595,64 @@ namespace Unity.AppUI.UI
             }
         }
 
+        bool m_Resizable;
+
+        /// <summary>
+        /// Whether the dialog is resizable.
+        /// </summary>
+        /// <remarks>
+        /// This is only useful for presentations using popups of type <see cref="Popover"/>.
+        /// </remarks>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public bool resizable
+        {
+            get => m_Resizable;
+            set
+            {
+                var changed = m_Resizable != value;
+                m_Resizable = value;
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in resizableProperty);
+#endif
+            }
+        }
+
+        Draggable.DragDirection m_ResizeDirection = Draggable.DragDirection.Vertical;
+
+        /// <summary>
+        /// Which direction the dialog can be resized.
+        /// </summary>
+        /// <remarks>
+        /// This is only useful for presentations using popups of type <see cref="Popover"/>.
+        /// </remarks>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public Draggable.DragDirection resizeDirection
+        {
+            get => m_ResizeDirection;
+            set
+            {
+                var changed = m_ResizeDirection != value;
+                m_ResizeDirection = value;
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in resizeDirectionProperty);
+#endif
+            }
+        }
+
         /// <summary>
         /// The content container of the DialogTrigger.
         /// </summary>
@@ -660,6 +722,8 @@ namespace Unity.AppUI.UI
                         .SetOutsideClickDismiss(outsideClickDismissEnabled)
                         .SetModalBackdrop(modalBackdrop)
                         .SetKeyboardDismiss(keyboardDismissEnabled)
+                        .SetResizable(resizable)
+                        .SetResizeDirection(resizeDirection)
                         .Show();
                     break;
                 case PopupPresentationType.Tray:
@@ -777,6 +841,18 @@ namespace Unity.AppUI.UI
                 defaultValue = 150
             };
 
+            readonly UxmlBoolAttributeDescription m_Resizable = new UxmlBoolAttributeDescription
+            {
+                name = "resizable",
+                defaultValue = false
+            };
+
+            readonly UxmlEnumAttributeDescription<Draggable.DragDirection> m_ResizeDirection = new UxmlEnumAttributeDescription<Draggable.DragDirection>
+            {
+                name = "resize-direction",
+                defaultValue = Draggable.DragDirection.Vertical
+            };
+
             /// <summary>
             /// Initializes the VisualElement from the UXML attributes.
             /// </summary>
@@ -802,6 +878,8 @@ namespace Unity.AppUI.UI
                 el.keyboardDismissEnabled = m_KeyboardDismissEnabled.GetValueFromBag(bag, cc);
                 el.outsideClickDismissEnabled = m_OutsideClickDismissEnabled.GetValueFromBag(bag, cc);
                 el.modalBackdrop = m_ModalBackdrop.GetValueFromBag(bag, cc);
+                el.resizable = m_Resizable.GetValueFromBag(bag, cc);
+                el.resizeDirection = m_ResizeDirection.GetValueFromBag(bag, cc);
             }
         }
 

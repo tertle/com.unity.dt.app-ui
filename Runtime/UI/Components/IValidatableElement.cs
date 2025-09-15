@@ -10,8 +10,8 @@ namespace Unity.AppUI.UI
     /// Value validation implies the UI element has a `value` property,
     /// hence this interface inherits from <see cref="INotifyValueChanged{T}"/>.
     /// </remarks>
-    /// <typeparam name="TValueType">The type of the `value`.</typeparam>
-    public interface IValidatableElement<TValueType> : INotifyValueChanged<TValueType>
+    /// <typeparam name="TValue">The type of the `value`.</typeparam>
+    public interface IValidatableElement<TValue> : INotifyValueChanged<TValue>
     {
         /// <summary>
         /// **True** if the current value set on the UI element is invalid, **False** otherwise.
@@ -33,6 +33,6 @@ namespace Unity.AppUI.UI
         /// If the property is `null`, there wont be any validation process so by convention the `value` will be always valid.
         /// </para>
         /// </remarks>
-        Func<TValueType, bool> validateValue { get; set; }
+        Func<TValue, bool> validateValue { get; set; }
     }
 }

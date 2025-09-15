@@ -221,4 +221,28 @@ namespace Unity.AppUI.Tests.MVVM
             }
         }
     }
+
+    [ObservableObject]
+    partial class DummyFullObservable
+    {
+        [ICommand]
+        System.Threading.Tasks.Task DummyCommandAsync(int count) => System.Threading.Tasks.Task.CompletedTask;
+
+        [ICommand(AsyncOptions = AsyncRelayCommandOptions.AllowConcurrentExecutions)]
+        System.Threading.Tasks.Task DummyConcurrentCommandAsync(int count) => System.Threading.Tasks.Task.CompletedTask;
+
+        [ICommand(CanExecuteMethod = nameof(CanExecuteDummyCommand2))]
+        System.Threading.Tasks.Task DummyCommand2Async(int count) => System.Threading.Tasks.Task.CompletedTask;
+
+        [ICommand(AsyncOptions = AsyncRelayCommandOptions.AllowConcurrentExecutions, CanExecuteMethod = nameof(CanExecuteDummyCommand2))]
+        System.Threading.Tasks.Task DummyConcurrentCommand2Async(int count) => System.Threading.Tasks.Task.CompletedTask;
+
+        bool CanExecuteDummyCommand2(int count) => true;
+    }
+
+    [INotifyPropertyChanged]
+    public partial class DummyObservable { }
+
+    [INotifyPropertyChanged(IncludeAdditionalHelperMethods = true)]
+    abstract partial class DummyAbstractObservable { }
 }

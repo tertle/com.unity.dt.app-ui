@@ -88,7 +88,7 @@
 }
 
 .is-selected.appui-actionbutton {
-    background-color: var(--appui-alias-actions-background-color-selected);
+    background-color: var(--appui-alias-actions-selected-background-color-default);
     border-color: var(--appui-alias-actions-border-color-selected);
 }
 

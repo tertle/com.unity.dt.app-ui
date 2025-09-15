@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.SwipeView" class="main">
+    <engine:Label text="SwipeView" class="title" />
+    <engine:Label
+      text="A container that allows users to swipe between multiple items with smooth animations and customizable behavior."
+      class="subtitle"
+    />
+    <engine:Label text="navigation" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The SwipeView is a versatile container component that enables users to navigate through content using swipe gestures or programmatic controls. It's perfect for creating image carousels, onboarding flows, or any interface where users need to browse through a sequence of items."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Key features include:"
+            class="parapgraph feature-list"
+          />
+          <engine:Label
+            text="• Horizontal or vertical orientation"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="• Smooth animations with customizable speed and easing"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="• Support for both touch/mouse swipe gestures and keyboard navigation"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="• Optional wrapping behavior"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="• Configurable resistance and thresholds"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="• Auto-play capability"
+            class="parapgraph feature-item"
+          />
+          <engine:Label
+            text="The SwipeView can be populated either through UXML by adding SwipeViewItem elements as children, or programmatically by setting a data source and providing bind/unbind callbacks."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the orientation of the SwipeView. Items can be arranged and swiped either horizontally or vertically."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical swipe view in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SwipeView direction="Vertical"&gt;
+    &lt;SwipeViewItem&gt;Page 1&lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;Page 2&lt;/SwipeViewItem&gt;
+&lt;/SwipeView&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="wrap" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, allows continuous navigation by wrapping from the last item back to the first and vice versa."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enabling wrap behavior with auto-play"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="swipeView.wrap = true;
+swipeView.autoPlayDuration = 3000; // Auto-play with wrapping enabled"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="visibleItemCount" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies how many items should be visible simultaneously in the view."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Showing two items at once"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SwipeView visible-item-count="2"&gt;
+    &lt;SwipeViewItem&gt;Item 1&lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;Item 2&lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;Item 3&lt;/SwipeViewItem&gt;
+&lt;/SwipeView&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="snapAnimationSpeed" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.5f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the speed of the snapping animation when transitioning between items."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adjusting animation speed"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="swipeView.snapAnimationSpeed = 0.8f; // Faster animations"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="autoPlayDuration" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="-1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the interval (in milliseconds) between automatic transitions. Set to -1 to disable auto-play."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Enabling auto-play functionality"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="swipeView.autoPlayDuration = 5000; // Auto-play every 5 seconds"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="swipeable" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the view responds to swipe gestures. When false, navigation is only possible programmatically."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Disabling swipe gestures"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="swipeView.swipeable = false;
+swipeView.GoToNext(); // Programmatic navigation only"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="resistance" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="1.0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how much resistance is applied when swiping past the bounds of the content. Higher values make it harder to swipe past the edges."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Customizing edge resistance"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="swipeView.resistance = 2.0f; // Increased resistance at edges"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating an image carousel with SwipeView"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SwipeView class="image-carousel"&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image1.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image2.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Image src="image3.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+&lt;/SwipeView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Implementing a dynamic image gallery with data binding"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="public class Gallery : VisualElement
+{
+    private SwipeView swipeView;
+    private List&lt;string&gt; imageUrls;
+
+    public Gallery()
+    {
+        swipeView = new SwipeView
+        {
+            direction = Direction.Horizontal,
+            wrap = true,
+            autoPlayDuration = 3000,
+            snapAnimationSpeed = 0.5f
+        };
+
+        swipeView.sourceItems = imageUrls;
+        swipeView.bindItem = (item, index) =&gt; {
+            var image = new Image { image = LoadImage(imageUrls[index]) };
+            item.Add(image);
+        };
+
+        Add(swipeView);
+    }
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating an onboarding flow with vertical swiping"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SwipeView direction="Vertical" class="onboarding"&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Welcome" /&gt;
+        &lt;Image src="welcome.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Features" /&gt;
+        &lt;Image src="features.png" /&gt;
+    &lt;/SwipeViewItem&gt;
+    &lt;SwipeViewItem&gt;
+        &lt;Label text="Get Started" /&gt;
+        &lt;Button text="Continue" /&gt;
+    &lt;/SwipeViewItem&gt;
+&lt;/SwipeView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

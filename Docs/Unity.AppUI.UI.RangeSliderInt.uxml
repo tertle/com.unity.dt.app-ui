@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.RangeSliderInt" class="main">
+    <engine:Label text="RangeSliderInt" class="title" />
+    <engine:Label
+      text="A UI component that lets users select a range of integer values by dragging handles along a track."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The RangeSliderInt is a UI component that allows users to select a range of integer values by dragging two handles along a track. It's particularly useful when you need to let users define minimum and maximum bounds within a specific range."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports both horizontal and vertical orientations, customizable step values, and various display options for the track and value labels. Users can interact with the slider using mouse/touch input or keyboard navigation."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Unlike a regular slider that has a single value, a range slider operates with two values (minValue and maxValue) that define the selected range. These values can be accessed and modified independently."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="orientation" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the orientation of the slider. When set to horizontal, the slider will be drawn from left to right (or right to left in RTL contexts). In vertical orientation, the slider is drawn from bottom to top."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical range slider in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;RangeSliderInt orientation="Vertical" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="minValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The lower value of the selected range. This value must be between lowValue and highValue."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the lower bound of the selected range"
+                  class="scenario-description"
+                />
+                <engine:Label text="rangeSlider.minValue = 25;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="maxValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="100" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The upper value of the selected range. This value must be between lowValue and highValue."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the upper bound of the selected range"
+                  class="scenario-description"
+                />
+                <engine:Label text="rangeSlider.maxValue = 75;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum possible value that can be selected. This defines the start of the slider's range."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a range slider with a custom range in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;RangeSliderInt low-value="-100" high-value="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="100" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum possible value that can be selected. This defines the end of the slider's range."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples"></engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="step" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when moving the handles. This determines the granularity of the slider's values."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a custom step value for coarser control"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="rangeSlider.step = 5; // Values will snap to multiples of 5"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="shiftStep" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="10" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The increment value used when moving the handles while holding the Shift key. This allows for faster value adjustments."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples"></engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="swapThumbs" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, allows the min and max handles to cross over each other, effectively swapping their positions and values."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a range slider that allows handle swapping"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;RangeSliderInt swap-thumbs="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="displayValueLabel" class="prop-name" />
+            <engine:Label text="ValueDisplayMode" class="prop-type" />
+            <engine:Label text="ValueDisplayMode.Off" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls how the current values are displayed next to the handles. Can be Off (no labels), On (always visible), or Auto (visible during interaction)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Showing value labels only during interaction"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="rangeSlider.displayValueLabel = ValueDisplayMode.Auto;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic range slider with default settings:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a horizontal range slider with a range of 0-100 and initial selection of 25-75"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;RangeSliderInt low-value="0" high-value="100" min-value="25" max-value="75" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Advanced range slider with custom configuration:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a vertical range slider with custom range, step value, and visual feedback options"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;RangeSliderInt
+    orientation="Vertical"
+    low-value="-50"
+    high-value="50"
+    step="5"
+    display-value-label="Auto"
+    show-marks="true"
+    track="On"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Range slider with C# event handling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Demonstrates how to create a range slider and handle value changes in code"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var rangeSlider = new RangeSliderInt();
+rangeSlider.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Range changed: {evt.newValue.x} - {evt.newValue.y}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

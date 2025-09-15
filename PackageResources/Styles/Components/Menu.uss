@@ -63,6 +63,7 @@
     width: var(--appui-sizing-400);
     height: var(--appui-sizing-400);
     translate: 2px 0;
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
 }
 
 .appui--rtl .appui-menuitem__submenu-icon {
@@ -84,6 +85,7 @@
     width: var(--appui-sizing-300);
     height: var(--appui-sizing-300);
     scale: 1.4;
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
 }
 
 .appui--rtl .appui-menuitem__checkmark {
@@ -117,21 +119,26 @@
     font-size: var(--appui-font-sizes-body-xs);
 }
 
-.appui-menuitem--active > .appui-menuitem__label {
+.appui-menuitem--active > .appui-menuitem__label,
+.appui-menuitem--active > .appui-menuitem__checkmark {
     color: var(--appui-alias-actions-foreground-color-active);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-active);
 }
 
 .appui-menuitem--selectable.appui-menuitem.is-selected {
-    background-color: var(--appui-alias-actions-background-color-selected);
+    background-color: var(--appui-alias-actions-selected-background-color-default);
 }
 
-.appui-menuitem--selectable.appui-menuitem.is-selected > .appui-menuitem__label {
+.appui-menuitem--selectable.appui-menuitem.is-selected > .appui-menuitem__label,
+.appui-menuitem--selectable.appui-menuitem.is-selected > .appui-menuitem__checkmark {
     color: var(--appui-alias-actions-foreground-color-selected);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-selected);
 }
 
 .appui-menuitem__icon {
     margin-left: 0;
     margin-right: var(--appui-alias-control-gap-md); /* todo remove this when gap is supported */
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-default);
 }
 
 .appui--rtl .appui-menuitem__icon {
@@ -139,35 +146,68 @@
     margin-left: var(--appui-alias-control-gap-md); /* todo remove this when gap is supported */
 }
 
-.appui-menuitem.is-hovered {
+.appui-menuitem:hover:enabled {
     background-color: var(--appui-color-transparent-black-100);
 }
 
-.appui-menuitem.is-hovered > .appui-menuitem__label {
+.appui-menuitem--selectable.appui-menuitem.is-selected:hover:enabled {
+    background-color: var(--appui-alias-actions-selected-background-color-hover);
+}
+
+.appui-menuitem:hover:enabled > .appui-menuitem__label,
+.appui-menuitem:hover:enabled > .appui-menuitem__icon,
+.appui-menuitem:hover:enabled > .appui-menuitem__checkmark,
+.appui-menuitem:hover:enabled > .appui-menuitem__submenu-icon {
     color: var(--appui-alias-actions-foreground-color-hover);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-hover);
 }
 
-.appui-menuitem.keyboard-focus{
+.appui-menuitem:focus {
     background-color: var(--appui-color-transparent-black-100);
 }
 
-.appui-menuitem.keyboard-focus > .appui-menuitem__label {
+.appui-menuitem--selectable.appui-menuitem.is-selected:focus {
+    background-color: var(--appui-alias-actions-selected-background-color-focus);
+}
+
+.appui-menuitem:focus > .appui-menuitem__label,
+.appui-menuitem:focus > .appui-menuitem__icon,
+.appui-menuitem:focus > .appui-menuitem__checkmark,
+.appui-menuitem:focus > .appui-menuitem__submenu-icon {
     color: var(--appui-alias-actions-foreground-color-focus);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-focus);
 }
 
-.appui-menuitem.is-active {
+.appui-menuitem:active {
     background-color: var(--appui-color-transparent-black-100);
 }
 
-.appui-menuitem.is-active > .appui-menuitem__label {
+.appui-menuitem--selectable.appui-menuitem.is-selected:active {
+    background-color: var(--appui-alias-actions-selected-background-color-active);
+}
+
+.appui-menuitem:active > .appui-menuitem__label,
+.appui-menuitem:active > .appui-menuitem__icon,
+.appui-menuitem:active > .appui-menuitem__checkmark,
+.appui-menuitem:active > .appui-menuitem__submenu-icon {
     color: var(--appui-alias-actions-foreground-color-active);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-active);
 }
 
 .appui-menuitem:disabled {
     cursor: var(--appui-alias-control-cursor-disabled);
+    color: var(--appui-alias-actions-foreground-color-disabled);
     opacity: 0.5;
 }
 
-.appui-menuitem.is-hovered:disabled {
-    background-color: var(--appui-color-transparent-black-0);
+.appui-menuitem:disabled > .appui-menuitem__label,
+.appui-menuitem:disabled > .appui-menuitem__icon,
+.appui-menuitem:disabled > .appui-menuitem__checkmark,
+.appui-menuitem:disabled > .appui-menuitem__submenu-icon {
+    color: var(--appui-alias-actions-foreground-color-disabled);
+    --unity-image-tint-color: var(--appui-alias-actions-foreground-color-disabled);
+}
+
+.appui-menuitem--selectable.appui-menuitem.is-selected:disabled {
+    background-color: var(--appui-alias-actions-selected-background-color-disabled);
 }

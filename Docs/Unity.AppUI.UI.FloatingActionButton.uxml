@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.FloatingActionButton" class="main">
+    <engine:Label text="FloatingActionButton" class="title" />
+    <engine:Label
+      text="A circular button that promotes a primary action in the application"
+      class="subtitle"
+    />
+    <engine:Label text="action" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Floating Action Button (FAB) represents the primary action in an application. It appears on top of the main content and stays fixed in a position (usually bottom right) as a circular button with elevation (shadow)."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="FABs are used for positive actions like Create, Favorite, Share, or Start. The action should be contextual to the screen's main content."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Only use one FAB per screen to represent the most important action. Multiple FABs can cause confusion about which action is primary."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports different sizes, elevation levels, and can be styled with an accent color to make it more prominent."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the FAB. Available options are:"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- S: Small FAB (40x40 pixels)"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- M: Medium FAB (56x56 pixels)"
+                class="parapgraph"
+              />
+              <engine:Label
+                text="- L: Large FAB (72x72 pixels)"
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Small FAB suitable for compact layouts"
+                  class="scenario-description"
+                />
+                <engine:Label text='&lt;FAB size="Size.S" /&gt;' class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="elevation" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="12" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the elevation level of the FAB, which determines its shadow depth. Higher values create more prominent shadows, making the button appear to float higher above the surface."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="The default elevation of 12 provides good visibility while maintaining visual hierarchy. Adjust based on your design needs."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="FAB with higher elevation for more emphasis"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;FAB elevation="16" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="accent" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, applies the accent color variant to the FAB. This makes the button use the application's accent color scheme instead of the default primary color."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="Use accent styling to create visual distinction or emphasis when needed."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="FAB with accent color styling"
+                  class="scenario-description"
+                />
+                <engine:Label text='&lt;FAB accent="true" /&gt;' class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="clicked" class="prop-name" />
+            <engine:Label text="event Action" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Event fired when the FAB is clicked. Use this to handle user interactions and trigger the primary action."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Handling FAB click event"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='fab.clicked += () =&gt; Debug.Log("FAB clicked!");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic FAB with default settings:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a medium-sized FAB with the add icon"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;FAB&gt;
+    &lt;Icon name="add" /&gt;
+&lt;/FAB&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Accent FAB with custom elevation:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates an accent-colored FAB with higher elevation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;FAB accent="true" elevation="16"&gt;
+    &lt;Icon name="favorite" /&gt;
+&lt;/FAB&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Code example showing FAB creation and event handling:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating and configuring FAB in C# code"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var fab = new FloatingActionButton(() =&gt; {
+    Debug.Log("FAB clicked!");
+});
+fab.size = Size.L;
+fab.accent = true;
+fab.Add(new Icon { name = "add" });
+parentElement.Add(fab);'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

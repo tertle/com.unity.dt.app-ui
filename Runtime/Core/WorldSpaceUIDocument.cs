@@ -49,7 +49,7 @@ namespace Unity.AppUI.Core
         void OnDisable()
         {
             if (m_PanelSettings)
-                m_PanelSettings.SetScreenToPanelSpaceFunction(null);
+                m_PanelSettings.SetScreenToPanelSpaceFunction((Func<Vector2,Vector2>)null);
         }
 
         Vector2 ScreenCoordinatesToRenderTexture(Vector2 screenPosition)

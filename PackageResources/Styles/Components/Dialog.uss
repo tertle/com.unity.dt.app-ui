@@ -18,10 +18,10 @@
 }*/
 
 :root {
-    --appui-dialog__icon-default-icon: null;
-    --appui-dialog__icon-confirmation-icon: null;
-    --appui-dialog__icon-information-icon: null;
-    --appui-dialog__icon-destructive-icon: null;
+    --appui-dialog__icon-default-icon: none;
+    --appui-dialog__icon-confirmation-icon: none;
+    --appui-dialog__icon-information-icon: none;
+    --appui-dialog__icon-destructive-icon: none;
     --appui-dialog__icon-warning-icon: var(--appui-icon-warning-fill);
     --appui-dialog__icon-error-icon: var(--appui-icon-warning-fill);
 
@@ -281,31 +281,31 @@
 }
 
 .appui-dialog--default .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-default-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-default-color);
+    background-image: var(--appui-dialog__icon-default-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-default-color);
 }
 
 .appui-dialog--information .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-information-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-information-icon);
+    background-image: var(--appui-dialog__icon-information-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-information-icon);
 }
 
 .appui-dialog--confirmation .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-confirmation-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-confirmation-color);
+    background-image: var(--appui-dialog__icon-confirmation-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-confirmation-color);
 }
 
 .appui-dialog--warning .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-warning-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-warning-color);
+    background-image: var(--appui-dialog__icon-warning-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-warning-color);
 }
 
 .appui-dialog--error .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-error-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-error-color);
+    background-image: var(--appui-dialog__icon-error-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-error-color);
 }
 
 .appui-dialog--destructive .appui-dialog__icon {
-    --unity-image: var(--appui-dialog__icon-destructive-icon);
-    --unity-image-tint-color: var(--appui-dialog__icon-destructive-color);
+    background-image: var(--appui-dialog__icon-destructive-icon);
+    -unity-background-image-tint-color: var(--appui-dialog__icon-destructive-color);
 }

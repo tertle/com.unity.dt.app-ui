@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Vector2IntField" class="main">
+    <engine:Label text="Vector2IntField" class="title" />
+    <engine:Label
+      text="A field control that allows users to input or modify a 2D vector with integer components"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Vector2IntField is a specialized input control that enables users to edit two-dimensional vectors with integer components (X and Y values). It provides a clean and intuitive interface for manipulating 2D coordinates, dimensions, or any other data that can be represented as a pair of integer values."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The field consists of two numerical inputs arranged horizontally - one for the X component and one for the Y component. Each component is clearly labeled and can be modified independently."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful in scenarios involving:"
+            class="parapgraph list-intro"
+          />
+          <engine:Label
+            text="• 2D grid positions or coordinates"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="• Pixel dimensions or offsets"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="• Integer-based 2D transformations"
+            class="parapgraph list-item"
+          />
+          <engine:Label
+            text="Both input fields support keyboard navigation, direct numerical input, and validation to ensure only valid integer values are accepted."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Vector2Int" class="prop-type" />
+            <engine:Label text="Vector2Int.zero" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the Vector2IntField, represented as a Vector2Int structure containing X and Y integer components."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the vector value programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="vector2IntField.value = new Vector2Int(100, 200);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size variant of the Vector2IntField. Available options are defined in the Size enum."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large-sized vector field"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="vector2IntField.size = Size.L;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is considered invalid based on the validation rules."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="When true, the field will display in an error state to indicate invalid input."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting up validation for non-negative values"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="// The field will show as invalid if any component is negative
+vector2IntField.validateValue = (v) =&gt; v.x &gt;= 0 &amp;&amp; v.y &gt;= 0;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label
+              text="Func&lt;Vector2Int, bool&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function that validates the vector value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Validating dimensions within screen resolution limits"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="vector2IntField.validateValue = (v) =&gt; v.x &lt;= 1920 &amp;&amp; v.y &lt;= 1080;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The format string used to display the integer values. Follows standard C# numeric format strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Displaying values with leading zeros (e.g., 0042)"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='vector2IntField.formatString = "D4";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic Vector2IntField Usage:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a basic Vector2IntField in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:Vector2IntField
+        name="positionField"
+        size="M"
+        value="0,0"
+    /&gt;
+&lt;/ui:UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Vector2IntField with Validation:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Setting up a Vector2IntField with validation and change handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var vector2IntField = new Vector2IntField();
+
+// Set up validation for positive values only
+vector2IntField.validateValue = (v) =&gt; v.x &gt;= 0 &amp;&amp; v.y &gt;= 0;
+
+// Add change handler
+vector2IntField.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Vector changed to: ({evt.newValue.x}, {evt.newValue.y})");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customized Vector2IntField:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a customized Vector2IntField for screen resolution input"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:Vector2IntField
+        name="resolutionField"
+        size="L"
+        value="1920,1080"
+        format-string="D4"
+    /&gt;
+&lt;/ui:UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

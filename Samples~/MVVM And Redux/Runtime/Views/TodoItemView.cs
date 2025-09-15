@@ -6,7 +6,7 @@ namespace Unity.AppUI.Samples.MVVMRedux
 {
     public class TodoItemView : VisualElement
     {
-        object m_DataContext;
+        TodoItemViewModel m_ViewModel;
 
         Checkbox m_Checkbox;
 
@@ -14,12 +14,12 @@ namespace Unity.AppUI.Samples.MVVMRedux
 
         ActionButton m_EditButton;
 
-        public object dataContext
+        public TodoItemViewModel viewModel
         {
-            get => m_DataContext;
+            get => m_ViewModel;
             set
             {
-                m_DataContext = value;
+                m_ViewModel = value;
                 BindDataContext();
             }
         }
@@ -32,7 +32,7 @@ namespace Unity.AppUI.Samples.MVVMRedux
             m_DeleteButton.clickable.clicked -= OnDeleteButtonClicked;
             m_EditButton.clickable.clicked -= OnEditButtonClicked;
 
-            if (m_DataContext == null)
+            if (m_ViewModel == null)
                 return;
 
             var data = viewModel;
@@ -57,7 +57,7 @@ namespace Unity.AppUI.Samples.MVVMRedux
             dlg.SetPrimaryAction(1234, "Rename", () =>
             {
                 if (m_Checkbox.label != textField.value && !string.IsNullOrWhiteSpace(textField.value))
-                    viewModel.editCommand.Execute(textField.value);
+                    viewModel.EditCommand.Execute(textField.value);
             });
             dlg.SetCancelAction(1122, "Cancel");
             var modal = Modal.Build(this, dlg);
@@ -66,15 +66,13 @@ namespace Unity.AppUI.Samples.MVVMRedux
 
         void OnDeleteButtonClicked()
         {
-            viewModel.deleteCommand.Execute();
+            viewModel.DeleteCommand.Execute();
         }
 
         void OnToggled(ChangeEvent<CheckboxState> evt)
         {
             viewModel.completed = evt.newValue == CheckboxState.Checked;
         }
-
-        TodoItemViewModel viewModel => (TodoItemViewModel) dataContext;
 
         public TodoItemView()
         {

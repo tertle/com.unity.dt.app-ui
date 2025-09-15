@@ -59,6 +59,12 @@ Here are the available settings:
   Like in web browser, our stylesheets are designed to work with a 96 DPI screen. When the screen has a higher DPI, the UI elements will be scaled up to match the current DPI.
   This way your CSS stylesheets will work as USS stylesheets in your Unity project.
 
+- #### Editor-only mode
+
+  This setting allows you to enable or disable the editor-only mode. When enabled, the App UI manager will inject
+  a scripting definition symbol to the project settings which will prevent App UI assemblies to get included in the build.
+  This setting is disabled by default and is only useful if you want to use App UI features only in the editor.
+
 > [!NOTE]
 > USS stands for **Unity Style Sheets**. It is the new UI styling system introduced with UI Toolkit.
 >
@@ -89,3 +95,13 @@ Here are the available settings:
   > This setting only affects [Android](https://docs.unity3d.com/Manual/android-introducing.html) development.
   >
   > On others platforms there is no need to override a manifest file.
+
+- #### Include App UI Shaders In Player Build
+
+  This setting allows you to include the App UI shaders in the player build.
+  By default, this setting is enabled.
+  If you are not using the App UI shaders, you can disable this setting to reduce the build size.
+
+  > [!NOTE]
+  > The App UI shaders are used to render the UI elements.
+  > If you are using the App UI package, you will need to enable this setting.

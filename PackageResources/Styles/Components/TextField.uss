@@ -12,7 +12,6 @@
     border-color: var(--appui-alias-field-border-color-default);
     cursor: var(--appui-alias-control-cursor-text);
     color: var(--appui-foregrounds-50);
-    width: 100%;
     flex-shrink: 0;
 }
 

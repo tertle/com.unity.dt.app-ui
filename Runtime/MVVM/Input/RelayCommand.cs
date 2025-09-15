@@ -25,7 +25,7 @@ namespace Unity.AppUI.MVVM
         readonly Func<bool>? m_CanExecute;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
+        /// Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="execute"> The action to execute. </param>
         /// <exception cref="ArgumentNullException"> Thrown if the action is null. </exception>
@@ -35,7 +35,7 @@ namespace Unity.AppUI.MVVM
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
+        /// Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="execute"> The action to execute. </param>
         /// <param name="canExecute"> Predicate used to determine if the command can execute. </param>

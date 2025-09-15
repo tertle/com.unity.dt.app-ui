@@ -31,12 +31,13 @@ Shader "Hidden/App UI/Box"
     }
     SubShader
     {
-        ZTest Always Cull Off ZWrite Off
+        ZTest Always
+        Cull Off
+        ZWrite Off
 
-        CGINCLUDE
+        HLSLINCLUDE
 
-        #include "UnityCG.cginc"
-        #include "AppUI.cginc"
+        #include "AppUI.hlsl"
 
         struct appdata
         {
@@ -64,13 +65,23 @@ Shader "Hidden/App UI/Box"
         float4 _Radiuses;
         float _AA;
 
-        ENDCG
+        ENDHLSL
 
         Pass
         {
             Name "Clear"
-            ColorMask RGBA
-            Color (0,0,0,0)
+            Blend One Zero
+
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            half4 frag(v2f i) : SV_Target
+            {
+                // Output the clear color (0,0,0,0)
+                return half4(0, 0, 0, 0);
+            }
+            ENDHLSL
         }
 
         Pass
@@ -78,20 +89,20 @@ Shader "Hidden/App UI/Box"
             Name "BoxShadows"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_local __ ENABLE_SHADOW
 
-            fixed4 _ShadowColor;
+            half4 _ShadowColor;
             float4 _ShadowOffset;
             int _ShadowInset;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 #if ENABLE_SHADOW
                 if (_ShadowInset == 1)
-                    return fixed4(0,0,0,0);
+                    return half4(0,0,0,0);
                 // Find clip box mask
                 const float2 spread = float2(_ShadowOffset.z, _ShadowOffset.z / _Ratio);
                 const float2 boxClipSSize = _Rect.zw + _AA * 0.5;
@@ -114,12 +125,12 @@ Shader "Hidden/App UI/Box"
                 // apply clip box mask based on Inset value
                 // if the pixel is inside the box, then shadow is smoothed with _AA
                 const float outsetShadow = sd > 0. ? shadow : smoothstep(-_AA, 0., sd) * shadow;
-                return fixed4(_ShadowColor.rgb, outsetShadow * _ShadowColor.a);
+                return half4(_ShadowColor.rgb, outsetShadow * _ShadowColor.a);
                 #else
-                return fixed4(0,0,0,0);
+                return half4(0,0,0,0);
                 #endif
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
@@ -127,22 +138,22 @@ Shader "Hidden/App UI/Box"
             Name "BackgroundColor"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
             float _BorderThickness;
-            fixed4 _Color;
+            half4 _Color;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 const float2 rectSize = _Rect.zw;
                 const float2 halfSize = float2(rectSize.x, rectSize.y * _Ratio) * 0.5;
                 const float distanceWithoutBorder = roundedBoxSDF(i.uv, halfSize, _Radiuses.zywx);
                 const float smoothedAlphaWithoutBorder = 1.0 - smoothstep(0.0, _AA, distanceWithoutBorder);
-                return fixed4(_Color.rgb, _Color.a * smoothedAlphaWithoutBorder);
+                return half4(_Color.rgb, _Color.a * smoothedAlphaWithoutBorder);
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
@@ -150,7 +161,7 @@ Shader "Hidden/App UI/Box"
             Name "BackgroundImage"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -159,7 +170,7 @@ Shader "Hidden/App UI/Box"
             float4 _BackgroundImageTransform;
             int _BackgroundSize;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 const float2 rectSize = _Rect.zw - _BorderThickness;
                 const float2 halfSize = float2(rectSize.x, rectSize.y * _Ratio) * 0.5;
@@ -193,10 +204,10 @@ Shader "Hidden/App UI/Box"
                 // background-repeat (no-repeat)
                 clip(texcoord.x < 0 || texcoord.x > 1 || texcoord.y < 0 || texcoord.y > 1 ? -1 : 1);
 
-                const fixed4 img = tex2D(_BackgroundImage, texcoord);
-                return fixed4(img.rgb, img.a * smoothedAlphaWithoutBorder);
+                const half4 img = tex2D(_BackgroundImage, texcoord);
+                return half4(img.rgb, img.a * smoothedAlphaWithoutBorder);
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
@@ -204,20 +215,20 @@ Shader "Hidden/App UI/Box"
             Name "InsetBoxShadows"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_local __ ENABLE_SHADOW
 
-            fixed4 _ShadowColor;
+            half4 _ShadowColor;
             float4 _ShadowOffset;
             int _ShadowInset;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 #if ENABLE_SHADOW
                 if (_ShadowInset == 0)
-                    return fixed4(0,0,0,0);
+                    return half4(0,0,0,0);
                 // Find clip box mask
                 const float2 spread = float2(_ShadowOffset.z, _ShadowOffset.z / _Ratio) * -1.0;
                 const float2 boxClipSSize = _Rect.zw;
@@ -239,12 +250,12 @@ Shader "Hidden/App UI/Box"
                 shadow *= boxShadow(lower, upper, i.uv, sigma);
                 // apply clip box mask based on Inset value
                 const float insetShadow = (1.0 - shadow) * max(float(sd < 0.), 0.);
-                return fixed4(_ShadowColor.rgb, insetShadow * _ShadowColor.a);
+                return half4(_ShadowColor.rgb, insetShadow * _ShadowColor.a);
                 #else
-                return fixed4(0,0,0,0);
+                return half4(0,0,0,0);
                 #endif
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
@@ -252,23 +263,23 @@ Shader "Hidden/App UI/Box"
             Name "Border"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_local __ ENABLE_BORDER
 
             float _BorderThickness;
-            fixed4 _BorderColor;
+            half4 _BorderColor;
             int _BorderStyle;
             int _BorderDotFactor;
             float _BorderSpeed;
             float4 _Phase;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 #if ENABLE_BORDER
                 if (_BorderStyle <= 0 || _BorderThickness <= 0.0 || _BorderColor.a <= 0.0)
-                    return fixed4(0,0,0,0);
+                    return half4(0,0,0,0);
 
                 const float band = _BorderThickness * _BorderDotFactor;
                 const float2 boxClipSSize = _Rect.zw;
@@ -298,13 +309,13 @@ Shader "Hidden/App UI/Box"
                     borderAlpha *= smoothstep(dotSize - (_AA / band), dotSize, abs(dotLength));
                 }
 
-                return fixed4(_BorderColor.rgb, _BorderColor.a * borderAlpha);
+                return half4(_BorderColor.rgb, _BorderColor.a * borderAlpha);
 
                 #else
-                return fixed4(0,0,0,0);
+                return half4(0,0,0,0);
                 #endif
             }
-            ENDCG
+            ENDHLSL
         }
 
         Pass
@@ -312,28 +323,28 @@ Shader "Hidden/App UI/Box"
             Name "Outline"
             Blend SrcAlpha OneMinusSrcAlpha
 
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_local __ ENABLE_OUTLINE
 
             float _OutlineThickness;
             float _OutlineOffset;
-            fixed4 _OutlineColor;
+            half4 _OutlineColor;
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 #if ENABLE_OUTLINE
                 const float2 halfSize = float2(_Rect.z, _Rect.w * _Ratio) * 0.5;
                 const float distance = roundedBoxSDF(i.uv, halfSize, _Radiuses.zywx);
                 const float outerAlpha = 1.0 - smoothstep(_OutlineOffset, _OutlineOffset + _AA, distance);
                 const float innerAlpha = 1.0 - smoothstep(_OutlineOffset - _OutlineThickness + _AA * 0.5, _OutlineOffset - _OutlineThickness, distance);
-                return fixed4(_OutlineColor.rgb, _OutlineColor.a * min(innerAlpha, outerAlpha));
+                return half4(_OutlineColor.rgb, _OutlineColor.a * min(innerAlpha, outerAlpha));
                 #else
-                return fixed4(0,0,0,0);
+                return half4(0,0,0,0);
                 #endif
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

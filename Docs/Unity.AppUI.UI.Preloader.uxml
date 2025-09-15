@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Preloader" class="main">
+    <engine:Label text="Preloader" class="title" />
+    <engine:Label
+      text="A visual element that indicates content is being loaded or processed"
+      class="subtitle"
+    />
+    <engine:Label text="misc" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Preloader component provides visual feedback to users when content is loading or an operation is in progress. It consists of a circular progress animation with an optional centered logo, making it ideal for initial app loading screens or during resource-intensive operations."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component uses a circular progress indicator that rotates smoothly to indicate ongoing activity. The logo element can be customized through USS styling to match your application's branding."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="By default, the Preloader ignores user input events (PickingMode.Ignore) as it's designed to be a visual indicator only."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="1. A CircularProgress element that provides the rotating animation
+2. A centered Image element that can display a logo"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="innerRadius" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.49f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the inner radius of the circular progress animation. This value represents the size of the inner empty space as a ratio of the total radius. A value of 0.49 means the progress ring will take up 51% of the available space from the center to the edge."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Customize the thickness of the progress ring:"
+                  class="parapgraph"
+                />
+                <engine:Label
+                  text="Creating a preloader with a thinner progress ring"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var preloader = new Preloader();
+var circularProgress = preloader.Q&lt;CircularProgress&gt;();
+circularProgress.innerRadius = 0.7f; // Creates a thinner progress ring"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage of the Preloader component:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Adding a basic preloader to a parent element"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="// Create a new Preloader
+var preloader = new Preloader();
+
+// Add it to a parent element
+parentElement.Add(preloader);"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Customizing the Preloader appearance using USS:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Styling the preloader with custom size, colors, and logo"
+              class="scenario-description"
+            />
+            <engine:Label
+              text=".appui-preloader {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.appui-preloader__circular-progress {
+    --progress-color: rgb(0, 122, 255);
+}
+
+.appui-preloader__logo {
+    --unity-image: url('project://path-to-your-logo.png');
+    width: 50%;
+    height: 50%;
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using the Preloader in a loading screen:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a full-screen loading screen with a centered preloader"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="public class LoadingScreen : VisualElement
+{
+    public LoadingScreen()
+    {
+        style.flexGrow = 1;
+        style.alignItems = Align.Center;
+        style.justifyContent = Justify.Center;
+
+        var preloader = new Preloader();
+        preloader.style.width = 120;
+        preloader.style.height = 120;
+
+        Add(preloader);
+    }
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

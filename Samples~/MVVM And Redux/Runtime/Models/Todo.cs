@@ -14,5 +14,14 @@ namespace Unity.AppUI.Samples.MVVMRedux
 
         [SerializeField]
         public bool completed;
+
+        public override string ToString()
+        {
+            return @$"{{
+        id: {id},
+        text: {text},
+        completed: {completed}
+    }}";
+        }
     }
 }

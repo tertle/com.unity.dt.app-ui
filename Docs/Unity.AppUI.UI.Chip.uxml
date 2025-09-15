@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Chip" class="main">
+    <engine:Label text="Chip" class="title" />
+    <engine:Label
+      text="A compact element that represents an input, attribute, or action."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="Chips are compact elements that represent an input, attribute, or action. They allow users to enter information, make selections, filter content, or trigger actions."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Chips can be used for various purposes including:"
+            class="parapgraph list-intro"
+          />
+          <engine:Label
+            text="• Filtering content or search results
+• Entering data or tags
+• Making selections from a set of options
+• Triggering actions"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The Chip component supports two visual variants (Filled and Outlined), can include an ornament (like an icon or avatar), and optionally provides delete functionality."
+            class="parapgraph tip"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="Chip.Variant" class="prop-type" />
+            <engine:Label text="Variant.Filled" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the visual style of the chip. Can be either Filled (default) or Outlined."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating chips with different variants"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Chip variant="Filled" label="Filled Chip" /&gt;
+&lt;Chip variant="Outlined" label="Outlined Chip" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="label" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content displayed within the chip."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a basic chip with label"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Chip label="Technology" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="deletable" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When set to true, displays a delete button that allows the chip to be removed."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a deletable chip"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Chip label="Removable Tag" deletable="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="deleteIcon" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text='"x"' class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The icon name for the delete button. By default, it uses an 'x' icon."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Customizing the delete icon"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Chip label="Custom Delete" deletable="true" delete-icon="close" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="ornament" class="prop-name" />
+            <engine:Label text="VisualElement" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="An optional visual element (such as an icon or avatar) that appears at the start of the chip."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding an icon ornament to a chip"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var chip = new Chip { label = "With Icon" };
+chip.ornament = new Icon { iconName = "star" };'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Usage" class="parapgraph header" />
+            <engine:Label
+              text="Creating a simple chip with just a label"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Chip label="Basic Chip" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Interactive Chip with Events"
+              class="parapgraph header"
+            />
+            <engine:Label
+              text="Creating an interactive chip with click and delete events"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var chip = new Chip { label = "Click Me" };
+chip.clicked += () =&gt; Debug.Log("Chip clicked!");
+chip.deleted += () =&gt; Debug.Log("Chip deleted!");'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Filter Chips Example"
+              class="parapgraph header"
+            />
+            <engine:Label
+              text="Creating a group of filter chips"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Group&gt;
+    &lt;Chip variant="Outlined" label="Filter 1" deletable="true" /&gt;
+    &lt;Chip variant="Outlined" label="Filter 2" deletable="true" /&gt;
+    &lt;Chip variant="Outlined" label="Filter 3" deletable="true" /&gt;
+&lt;/Group&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Chip with Custom Styling"
+              class="parapgraph header"
+            />
+            <engine:Label
+              text="Customizing chip colors using custom properties"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var chip = new Chip { label = "Custom Style" };
+chip.style.SetCustomProperty("--chip-color", new Color(1, 0, 0, 1));
+chip.style.SetCustomProperty("--chip-background-color", new Color(0, 0, 1, 0.1f));'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

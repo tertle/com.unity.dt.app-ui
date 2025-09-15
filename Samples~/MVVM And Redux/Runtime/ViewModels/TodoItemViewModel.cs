@@ -1,19 +1,22 @@
 using Unity.AppUI.MVVM;
+#if UNITY_2023_2_OR_NEWER
+using Unity.Properties;
+#endif
 
 namespace Unity.AppUI.Samples.MVVMRedux
 {
-    public class TodoItemViewModel : ObservableObject
+    [ObservableObject]
+    public partial class TodoItemViewModel
     {
-        public RelayCommand toggleCompletedCommand { get; }
-
-        public RelayCommand deleteCommand { get; }
-
-        public RelayCommand<string> editCommand { get; }
-
         public event System.Action<TodoItemViewModel> deleteRequested;
 
         public event System.Action<(TodoItemViewModel, string)> renamed;
 
+        // When creating properties yourself, you must
+        // use CreateProperty attribute for UITK data binding to work.
+#if UNITY_2023_2_OR_NEWER
+        [CreateProperty]
+#endif
         public bool completed
         {
             get => todo.completed;
@@ -25,24 +28,18 @@ namespace Unity.AppUI.Samples.MVVMRedux
         public TodoItemViewModel(Todo todo)
         {
             this.todo = todo;
-            toggleCompletedCommand = new RelayCommand(ToggleCompleted);
-            deleteCommand = new RelayCommand(Delete);
-            editCommand = new RelayCommand<string>(Edit);
         }
 
+        [ICommand]
         void Delete()
         {
             deleteRequested?.Invoke(this);
         }
 
+        [ICommand]
         void Edit(string newName)
         {
              renamed?.Invoke((this, newName));
-        }
-
-        void ToggleCompleted()
-        {
-            completed = !completed;
         }
     }
 }

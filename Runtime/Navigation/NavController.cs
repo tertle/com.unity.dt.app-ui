@@ -165,7 +165,7 @@ namespace Unity.AppUI.Navigation
             if (m_GraphAsset.TryFindAction(actionOrDestination, out var action))
             {
                 actionTriggered?.Invoke(this, action);
-                return Navigate(action.destination.name, action.options, arguments);
+                return Navigate(action.destination.name, action.options, action.MergeArguments(arguments));
             }
             return Navigate(actionOrDestination, null, arguments);
         }

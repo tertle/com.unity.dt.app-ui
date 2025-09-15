@@ -75,6 +75,27 @@
     overflow: hidden;
 }
 
+.appui-popover__container > .appui-popover__resize-handle {
+    position: absolute;
+    display: none;
+    width: var(--appui-sizing-200);
+    height: var(--appui-sizing-200);
+    bottom: 0;
+    right: 0;
+    cursor: var(--appui-alias-control-cursor-nwseresize);
+    background-image: var(--appui-icon-resize-handle-regular);
+    -unity-background-image-tint-color: var(--appui-foregrounds-50);
+}
+
+.appui-popover__resize-handle:hover,
+.appui-popover__resize-handle:active {
+    -unity-background-image-tint-color: var(--appui-foregrounds-100);
+}
+
+.appui-popover--resizable > .appui-popover__popover > .appui-popover__container > .appui-popover__resize-handle {
+    display: flex;
+}
+
 .appui-popover--menu .appui-popover__container {
     background-color: var(--appui-base-100);
     border-color: var(--appui-alias-menu-border-color-default);
@@ -116,6 +137,7 @@
     margin-top: -6px;
 }
 
-.no-arrow > .appui-popover__popover > .appui-popover__tip {
+.no-arrow > .appui-popover__popover > .appui-popover__tip,
+.appui-popover--resizable > .appui-popover__popover > .appui-popover__tip {
     display: none;
 }

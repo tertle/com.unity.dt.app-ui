@@ -627,6 +627,7 @@ namespace Unity.AppUI.UI
 
             public RecycledRow(float height)
             {
+                pickingMode = PickingMode.Ignore;
                 AddToClassList(k_RowUssClassName);
                 style.height = height;
 

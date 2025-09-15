@@ -495,9 +495,9 @@ namespace Unity.AppUI.UI
             {
                 name = thumbUssClassName,
                 pickingMode = PickingMode.Position,
-                usageHints = UsageHints.DynamicTransform,
                 passMask = ExVisualElement.Passes.Clear | ExVisualElement.Passes.OutsetShadows
             };
+            m_Thumb.EnableDynamicTransform(true);
             m_Thumb.AddToClassList(thumbUssClassName);
             hierarchy.Add(m_Thumb);
 
@@ -662,10 +662,7 @@ namespace Unity.AppUI.UI
 
         void OnDetachedFromPanel(DetachFromPanelEvent evt)
         {
-            if (m_RT)
-                RenderTexture.ReleaseTemporary(m_RT);
-
-            m_RT = null;
+            ReleaseTextures();
         }
 
         void OnGeometryChanged(GeometryChangedEvent evt)
@@ -726,31 +723,34 @@ namespace Unity.AppUI.UI
             {
                 s_Material = MaterialUtils.CreateMaterial("Hidden/App UI/ColorWheel");
                 if (!s_Material)
+                {
+                    ReleaseTextures();
                     return;
+                }
             }
 
             var rect = m_Image.contentRect;
 
             if (!rect.IsValid())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             var dpi = Mathf.Max(Platform.scaleFactor, 1f);
             var texSize = rect.size * dpi;
 
             if (!texSize.IsValidForTextureSize())
+            {
+                ReleaseTextures();
                 return;
+            }
 
             if (m_RT && (Mathf.Abs(m_RT.width - texSize.x) > 1 || Mathf.Abs(m_RT.height - texSize.y) > 1))
-            {
-                RenderTexture.ReleaseTemporary(m_RT);
-                m_RT = null;
-            }
+                ReleaseTextures();
 
             if (!m_RT)
-            {
                 m_RT = RenderTexture.GetTemporary((int)texSize.x, (int)texSize.y, 24);
-                m_RT.Create();
-            }
 
             s_Material.SetColor(k_CheckerColor1, checkerColor1);
             s_Material.SetColor(k_CheckerColor2, checkerColor2);
@@ -781,6 +781,13 @@ namespace Unity.AppUI.UI
             // simplified since atan of red color is 0.
             // var refPoint = new Vector2(1, 0); // angle = 0 = red = position(1,0) in wheel
             return (/*Mathf.Atan2(refPoint.y, refPoint.x)*/ -Mathf.Atan2(direction.y, direction.x)) * k_InvTwoPI;
+        }
+
+        void ReleaseTextures()
+        {
+            if (m_RT)
+                RenderTexture.ReleaseTemporary(m_RT);
+            m_RT = null;
         }
 
 #if ENABLE_UXML_TRAITS

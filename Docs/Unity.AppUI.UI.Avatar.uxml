@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Avatar" class="main">
+    <engine:Label text="Avatar" class="title" />
+    <engine:Label
+      text="Avatars are visual elements that represent a user, entity, or content through images or initials."
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Avatar component is a versatile UI element that displays either an image, initials, or fallback icon to represent a user or entity. It supports different shapes, sizes, and can be customized with outlines and background colors."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Avatars can be used in various contexts such as user profiles, comment sections, or anywhere user representation is needed. They can be displayed individually or grouped together using the AvatarGroup component."
+            class="parapgraph tip"
+          />
+          <engine:Label
+            text="When using images in avatars, ensure they are properly cropped and centered to maintain visual consistency across your application."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the size of the avatar. Available options are defined in the Size enum (XS, S, M, L, XL)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large avatar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Avatar size="Size.L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="AvatarVariant" class="prop-type" />
+            <engine:Label text="AvatarVariant.Circular" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the shape of the avatar. Can be Square, Rounded, or Circular."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a square avatar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Avatar variant="AvatarVariant.Square" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="src" class="prop-name" />
+            <engine:Label text="Background" class="prop-type" />
+            <engine:Label text="new Background()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The source image to be displayed in the avatar."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting an image from resources"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='avatar.src = BackgroundExtensions.FromObject(Resources.Load("profile-image"));'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="backgroundColor" class="prop-name" />
+            <engine:Label text="Optional&lt;Color&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;Color&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The background color of the avatar. Used when no image is set or as a fallback."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a blue background color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="avatar.backgroundColor = Color.blue;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="outlineWidth" class="prop-name" />
+            <engine:Label text="Optional&lt;float&gt;" class="prop-type" />
+            <engine:Label text="2" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The width of the avatar's outline border."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a 3-pixel outline width"
+                  class="scenario-description"
+                />
+                <engine:Label text="avatar.outlineWidth = 3f;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="outlineColor" class="prop-name" />
+            <engine:Label text="Optional&lt;Color&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;Color&gt;.none"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The color of the avatar's outline border."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a white outline color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="avatar.outlineColor = Color.white;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Avatar with Image" class="parapgraph" />
+            <engine:Label
+              text="Creating a circular avatar with a profile image"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var avatar = new Avatar();
+avatar.size = Size.M;
+avatar.variant = AvatarVariant.Circular;
+avatar.src = BackgroundExtensions.FromObject(Resources.Load("user-profile"));'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Styled Avatar with Outline"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a rounded avatar with background color and outline"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var avatar = new Avatar();
+avatar.backgroundColor = Color.blue;
+avatar.outlineColor = Color.white;
+avatar.outlineWidth = 2f;
+avatar.variant = AvatarVariant.Rounded;"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="UXML Declaration" class="parapgraph" />
+            <engine:Label
+              text="Declaring an avatar in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Avatar size="L" variant="Circular" src="profile-image" outline-color="white" outline-width="2" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

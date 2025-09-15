@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Mask" class="main">
+    <engine:Label text="Mask" class="title" />
+    <engine:Label
+      text="A visual element that applies color masking effects to create visual overlays and highlights"
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Mask component is a versatile visual element that allows you to create masked areas with customizable colors, shapes, and effects. It's particularly useful for creating spotlight effects, highlighting specific areas, or creating visual overlays in your UI."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component provides fine control over the mask's appearance through properties like inner and outer colors, mask rectangle dimensions, corner radius, and blur effects. You can specify mask dimensions either in absolute pixels or normalized coordinates (0-1 range)."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: The Mask component inherits from Image and uses a custom shader to generate the masking effect. The mask is rendered using a RenderTexture that automatically adjusts to the component's size."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="innerMaskColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.white" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The color applied to the inner area of the mask. This is the primary color that will be visible within the masked region."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a semi-transparent spotlight effect"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var mask = new Mask();
+mask.innerMaskColor = new Color(1, 1, 1, 0.8f); // Semi-transparent white
+mask.outerMaskColor = new Color(0, 0, 0, 0.5f); // Semi-transparent black"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="outerMaskColor" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.black" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The color applied to the area outside the mask. This color fills the space surrounding the masked region."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a dimmed background effect"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var mask = new Mask();
+mask.outerMaskColor = new Color(0, 0, 0, 0.7f); // Dimmed black background
+mask.innerMaskColor = Color.clear; // Transparent inner area"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="maskRect" class="prop-name" />
+            <engine:Label text="Rect" class="prop-type" />
+            <engine:Label
+              text="new Rect(20f, 20f, 20f, 20f)"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the position and size of the mask. The interpretation of these values depends on the useNormalizedMaskRect setting."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="When useNormalizedMaskRect is false, the values are in pixels. When true, the values should be in the 0-1 range, representing proportions of the component's size."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting up a pixel-based mask rectangle"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="mask.useNormalizedMaskRect = false;
+mask.maskRect = new Rect(100, 100, 200, 150); // x, y, width, height in pixels"
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using normalized coordinates"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="mask.useNormalizedMaskRect = true;
+mask.maskRect = new Rect(0.2f, 0.2f, 0.6f, 0.3f); // 20% from left/top, 60% width, 30% height"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="radius" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The radius of the mask's rounded corners in pixels. A value of 0 creates sharp corners."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a rounded mask"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="mask.radius = 12f; // 12-pixel rounded corners"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="blur" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The blur amount applied to the mask's edges in pixels. A value of 0 creates sharp edges."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a soft edge to the mask"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="mask.blur = 8f; // 8-pixel blur effect on the edges"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="useNormalizedMaskRect" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the maskRect values should be interpreted as pixel coordinates (false) or normalized coordinates in the 0-1 range (true)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Using normalized coordinates for responsive masking"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="mask.useNormalizedMaskRect = true;
+mask.maskRect = new Rect(0.25f, 0.25f, 0.5f, 0.5f); // Center square taking up 50% of the space"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Here are some common use cases and examples for the Mask component:"
+              class="parapgraph"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating a spotlight effect"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var spotlight = new Mask();
+spotlight.style.position = Position.Absolute;
+spotlight.style.width = new StyleLength(new Length(100, LengthUnit.Percent));
+spotlight.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
+spotlight.innerMaskColor = Color.clear;
+spotlight.outerMaskColor = new Color(0, 0, 0, 0.7f);
+spotlight.maskRect = new Rect(100, 100, 200, 200);
+spotlight.radius = 100f; // Circular spotlight
+spotlight.blur = 20f; // Soft edges"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating a responsive highlight area using normalized coordinates"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var highlight = new Mask();
+highlight.useNormalizedMaskRect = true;
+highlight.innerMaskColor = new Color(1, 1, 0, 0.2f); // Semi-transparent yellow
+highlight.outerMaskColor = Color.clear;
+highlight.maskRect = new Rect(0.1f, 0.1f, 0.8f, 0.2f); // Highlight strip
+highlight.radius = 10f;
+highlight.blur = 5f;"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="UXML definition example"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns="UnityEngine.UIElements"&gt;
+    &lt;Mask
+        inner-mask-color="#FFFFFF"
+        outer-mask-color="#000000AA"
+        mask-rect-x="50"
+        mask-rect-y="50"
+        mask-rect-width="300"
+        mask-rect-height="200"
+        radius="15"
+        blur="10"
+        use-normalized-mask-rect="false"
+        style="position: absolute; width: 100%; height: 100%;" /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

@@ -113,7 +113,7 @@ namespace Unity.AppUI.UI
         {
             m_ManagerCallback = new ManagerCallback(this);
             keyboardDismissEnabled = false;
-            view.usageHints = UsageHints.DynamicTransform;
+            view.EnableDynamicTransform(true);
             view.AddToClassList(k_USSClassName);
             view.AddToClassList(MemoryUtils.Concatenate(k_VariantClassName, m_Placement.ToLowerCase()));
             view.AddToClassList(MemoryUtils.Concatenate(k_VariantClassName, m_AnimationMode.ToLowerCase()));
@@ -272,14 +272,14 @@ namespace Unity.AppUI.UI
 
             public void Show()
             {
-                var handler = ((PopupNotification<T>)obj).handler;
-                handler.SendMessage(handler.ObtainMessage(k_PopupShow, obj));
+                if (obj is PopupNotification<T> popup)
+                    popup.ShowView();
             }
 
             public void Dismiss(DismissType reason)
             {
-                var handler = ((PopupNotification<T>)obj).handler;
-                handler.SendMessage(handler.ObtainMessage(k_PopupDismiss, (int)reason, obj));
+                if (obj is PopupNotification<T> popup)
+                    popup.HideView(reason);
             }
 
             public object obj { get; }

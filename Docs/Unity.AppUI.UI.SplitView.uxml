@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.SplitView" class="main">
+    <engine:Label text="SplitView" class="title" />
+    <engine:Label
+      text="A resizable multi-pane layout component that allows users to adjust the size of each pane using draggable splitters."
+      class="subtitle"
+    />
+    <engine:Label text="layout" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The SplitView component creates a flexible layout that divides space into multiple resizable panes. Users can drag the splitters between panes to adjust their sizes. This component is ideal for creating complex layouts like file explorers, code editors, or any interface requiring adjustable panels."
+            class="parapgraph"
+          />
+          <engine:Label text="Key features:" class="parapgraph feature-list" />
+          <engine:Label
+            text="• Supports both horizontal and vertical orientations
+• Allows real-time or deferred resizing
+• Supports collapsible panes with customizable thresholds
+• RTL (Right-to-Left) layout support
+• Maintains minimum size constraints"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="NOTE: Each pane in the SplitView must be a Pane component. Other visual elements are not supported as direct children."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="direction" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the orientation of the SplitView. In horizontal mode, panes are arranged left-to-right with vertical splitters. In vertical mode, panes are arranged top-to-bottom with horizontal splitters."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a horizontal split view with two panes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;SplitView direction="Horizontal"&gt;
+    &lt;Pane /&gt;
+    &lt;Pane /&gt;
+&lt;/SplitView&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="realtimeResize" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls whether pane resizing happens in real-time as the user drags the splitter, or only when the drag operation is complete."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="TIP: Set to false for better performance when resizing large or complex panes."
+                class="parapgraph tip"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Disable real-time resizing for improved performance"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="splitView.realtimeResize = false;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="paneCount" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Gets the number of panes currently in the SplitView. This is a read-only property."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Getting the number of panes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var count = splitView.paneCount;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic horizontal split view with two panes:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a basic horizontal split view"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SplitView direction="Horizontal"&gt;
+    &lt;Pane style="min-width: 200px"&gt;
+        &lt;Label text="Left Panel" /&gt;
+    &lt;/Pane&gt;
+    &lt;Pane style="min-width: 200px"&gt;
+        &lt;Label text="Right Panel" /&gt;
+    &lt;/Pane&gt;
+&lt;/SplitView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Complex layout with nested split views:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a complex layout with nested split views"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;SplitView direction="Horizontal"&gt;
+    &lt;Pane style="min-width: 200px"&gt;
+        &lt;Label text="Navigation" /&gt;
+    &lt;/Pane&gt;
+    &lt;Pane stretch="true"&gt;
+        &lt;SplitView direction="Vertical"&gt;
+            &lt;Pane style="min-height: 300px"&gt;
+                &lt;Label text="Content" /&gt;
+            &lt;/Pane&gt;
+            &lt;Pane style="min-height: 150px"&gt;
+                &lt;Label text="Details" /&gt;
+            &lt;/Pane&gt;
+        &lt;/SplitView&gt;
+    &lt;/Pane&gt;
+&lt;/SplitView&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using collapse and expand functionality:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Implementing collapsible panes"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="// Create split view with collapsible panes
+var splitView = new SplitView();
+var leftPane = new Pane { compactThreshold = 50 };
+var rightPane = new Pane();
+
+splitView.AddPane(leftPane);
+splitView.AddPane(rightPane);
+
+// Collapse the first splitter forward
+splitView.CollapseSplitter(0, CollapseDirection.Forward);
+
+// Later, expand it back
+splitView.ExpandSplitter(0);"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

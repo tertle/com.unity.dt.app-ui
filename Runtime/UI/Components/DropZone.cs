@@ -119,13 +119,15 @@ namespace Unity.AppUI.UI
             m_DropZoneFrame.AddToClassList(frameUssClassName);
             hierarchy.Add(m_DropZoneFrame);
 
-            controller = new DropZoneController();
+            controller = new DropZoneController(OnControllerStateChanged);
             this.AddManipulator(controller);
 
             state = DragAndDropState.Default;
             visibleIndicator = false;
             generateVisualContent = OnGenerateVisualContent;
         }
+
+        void OnControllerStateChanged(DragAndDropState controllerState) => state = controllerState;
 
         void OnGenerateVisualContent(MeshGenerationContext _) => RefreshAnimation();
 

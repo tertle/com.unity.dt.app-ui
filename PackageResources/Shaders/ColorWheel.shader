@@ -20,69 +20,13 @@ Shader "Hidden/App UI/ColorWheel"
         Cull Off
         ZWrite Off
         ZTest Always
-
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
-            #include "UnityCG.cginc"
-            #include "AppUI.cginc"
-
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-            };
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv - 0.5;
-                return o;
-            }
-
-            fixed4 _CheckerColor1;
-            fixed4 _CheckerColor2;
-            float _CheckerSize;
-            float _Width;
-            float _Height;
-
-            float _InnerRadius;
-            float _Saturation;
-            float _Brightness;
-            float _Opacity;
-            float _AA;
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                const float radius = length(i.uv.xy);
-
-                const float mask = smoothstep(0.5, 0.5 - _AA, radius) * smoothstep(_InnerRadius - _AA, _InnerRadius, radius);
-
-                const float angle = atan2(i.uv.y, i.uv.x) * UNITY_INV_TWO_PI;
-
-                fixed4 checker = checker_board(i.uv, _Width, _Height, _CheckerSize, _CheckerColor1, _CheckerColor2);
-
-                float3 hsv = hsv_to_rgb(float3(angle, _Saturation, _Brightness));
-
-                #ifndef UNITY_COLORSPACE_GAMMA
-                hsv = GammaToLinearSpace(hsv);
-                #endif
-
-                fixed4 color = lerp(checker, fixed4(hsv, mask), _Opacity);
-                color.a *= mask;
-                return color;
-            }
-            ENDCG
+            #include "ColorWheel.hlsl"
+            ENDHLSL
         }
     }
 }

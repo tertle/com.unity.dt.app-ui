@@ -79,6 +79,44 @@ namespace Unity.AppUI.Tests.MVVM
             Assert.AreEqual(1, service.onDependenciesInjectedCalled);
         }
 
+        [Test]
+        public void ServiceProvider_ShouldCreateScope()
+        {
+            var services = new ServiceCollection();
+            services.AddSingleton<ServiceWithValidConstructor>();
+            services.AddSingleton<ServiceWithValidConstructor2>();
+            services.AddScoped<ServiceWithAttributes>();
+            var serviceProvider = services.BuildServiceProvider();
+
+            var service1 = serviceProvider.GetService<ServiceWithValidConstructor>();
+            Assert.IsNotNull(service1);
+            var service2 = serviceProvider.GetService<ServiceWithValidConstructor2>();
+            Assert.IsNotNull(service2);
+
+            var service3 = serviceProvider.GetService<ServiceWithAttributes>();
+            Assert.IsNotNull(service3);
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var scoped1 = scope.ServiceProvider.GetService<ServiceWithValidConstructor>();
+                Assert.IsNotNull(scoped1);
+                Assert.AreSame(service1, scoped1);
+
+                var scoped2 = scope.ServiceProvider.GetService<ServiceWithValidConstructor2>();
+                Assert.IsNotNull(scoped2);
+                Assert.AreSame(service2, scoped2);
+
+                var scoped3 = scope.ServiceProvider.GetService<ServiceWithAttributes>();
+                Assert.IsNotNull(scoped3);
+                Assert.IsNotNull(scoped3.dependency1);
+                Assert.IsNotNull(scoped3.dependency2);
+                Assert.IsNotNull(scoped3.dependency2.dep);
+                Assert.AreEqual(1, scoped3.onDependenciesInjectedCalled);
+
+                Assert.AreNotSame(service3, scoped3);
+            }
+        }
+
         public class ServiceWithValidConstructor
         {
             public ServiceWithValidConstructor() { }
@@ -113,6 +151,146 @@ namespace Unity.AppUI.Tests.MVVM
             {
                 onDependenciesInjectedCalled++;
             }
+        }
+
+        [Test]
+        public void ServiceProvider_ConditionalResolution_ShouldResolveBasedOnContext()
+        {
+            var services = new ServiceCollection();
+
+            // Add conditional services for ITestInterface
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation1),
+                ctx => ctx.RequestingType == typeof(ServiceConsumer1));
+
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation2),
+                ctx => ctx.RequestingType == typeof(ServiceConsumer2));
+
+            services.AddSingleton<ServiceConsumer1>();
+            services.AddSingleton<ServiceConsumer2>();
+
+            var provider = services.BuildServiceProvider();
+
+            var consumer1 = provider.GetService<ServiceConsumer1>();
+            var consumer2 = provider.GetService<ServiceConsumer2>();
+
+            Assert.IsNotNull(consumer1);
+            Assert.IsNotNull(consumer2);
+            Assert.IsNotNull(consumer1.dependency);
+            Assert.IsNotNull(consumer2.dependency);
+
+            Assert.IsInstanceOf<TestImplementation1>(consumer1.dependency);
+            Assert.IsInstanceOf<TestImplementation2>(consumer2.dependency);
+        }
+
+        [Test]
+        public void ServiceProvider_ConditionalResolution_WithNoMatchingCondition_ShouldThrow()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation1),
+                ctx => ctx.RequestingType == typeof(ServiceConsumer1));
+
+            services.AddSingleton<ServiceConsumer2>();
+
+            var provider = services.BuildServiceProvider();
+
+            Assert.Throws<System.InvalidOperationException>(() => provider.GetService<ServiceConsumer2>());
+        }
+
+        [Test]
+        public void ServiceProvider_ConditionalResolution_WithScopeContext_ShouldWork()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation1),
+                ctx => !ctx.IsScoped);
+
+            services.AddScopedWhen(typeof(ITestInterface), typeof(TestImplementation2),
+                ctx => ctx.IsScoped);
+
+            services.AddSingleton<ServiceConsumer1>();
+            services.AddScoped<ServiceConsumer2>();
+
+            var provider = services.BuildServiceProvider();
+
+            var rootConsumer = provider.GetService<ServiceConsumer1>();
+            Assert.IsInstanceOf<TestImplementation1>(rootConsumer.dependency);
+
+            using var scope = provider.CreateScope();
+            var scopedConsumer = scope.ServiceProvider.GetService<ServiceConsumer2>();
+            Assert.IsInstanceOf<TestImplementation2>(scopedConsumer.dependency);
+        }
+
+        [Test]
+        public void ServiceProvider_ConditionalResolution_WithAttributeInjection_ShouldWork()
+        {
+            var services = new ServiceCollection();
+
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation1),
+                ctx => ctx.RequestingType == typeof(ServiceWithConditionalAttributes));
+
+            services.AddSingleton<ServiceWithConditionalAttributes>();
+
+            var provider = services.BuildServiceProvider();
+            var service = provider.GetService<ServiceWithConditionalAttributes>();
+
+            Assert.IsNotNull(service);
+            Assert.IsNotNull(service.dependency);
+            Assert.IsInstanceOf<TestImplementation1>(service.dependency);
+        }
+
+        [Test]
+        public void ServiceProvider_ConditionalResolution_MultipleConditions_ShouldMatchFirst()
+        {
+            var services = new ServiceCollection();
+
+            // First condition should match
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation1),
+                ctx => ctx.ServiceType == typeof(ITestInterface));
+
+            // Second condition would also match but shouldn't be reached
+            services.AddSingletonWhen(typeof(ITestInterface), typeof(TestImplementation2),
+                ctx => ctx.ServiceType == typeof(ITestInterface));
+
+            services.AddSingleton<ServiceConsumer1>();
+
+            var provider = services.BuildServiceProvider();
+            var consumer = provider.GetService<ServiceConsumer1>();
+
+            Assert.IsInstanceOf<TestImplementation1>(consumer.dependency);
+        }
+
+        // Test interfaces and implementations for conditional resolution
+        public interface ITestInterface { }
+
+        public class TestImplementation1 : ITestInterface { }
+
+        public class TestImplementation2 : ITestInterface { }
+
+        public class ServiceConsumer1
+        {
+            public ITestInterface dependency { get; }
+
+            public ServiceConsumer1(ITestInterface dep)
+            {
+                dependency = dep;
+            }
+        }
+
+        public class ServiceConsumer2
+        {
+            public ITestInterface dependency { get; }
+
+            public ServiceConsumer2(ITestInterface dep)
+            {
+                dependency = dep;
+            }
+        }
+
+        public class ServiceWithConditionalAttributes
+        {
+            [Service]
+            public ITestInterface dependency;
         }
     }
 }

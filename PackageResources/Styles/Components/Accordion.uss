@@ -1,4 +1,8 @@
 /* Accordion */
+:root {
+    --appui-accordion-header-font-weight: bold;
+}
+
 .appui-accordion {
     display: flex;
     flex-direction: column;
@@ -34,7 +38,7 @@
     background-color: rgba(0,0,0,0);
     color: var(--appui-foregrounds-100);
     font-size: var(--appui-font-sizes-body-md);
-    -unity-font-definition: var(--appui-font-weights-200);
+    -unity-font-style: var(--appui-accordion-header-font-weight);
     height: var(--appui-sizing-600);
     -unity-text-align: middle-left; /*text-align: left;*/
     padding: 0;
@@ -94,6 +98,7 @@
     -unity-text-align: middle-right;
 }
 
+.appui-accordionitem__leading-container,
 .appui-accordionitem__trailing-container {
     display: flex;
     flex-direction: row;
@@ -102,6 +107,7 @@
     justify-content: flex-end;
 }
 
+.appui--rtl .appui-accordionitem__leading-container,
 .appui--rtl .appui-accordionitem__trailing-container {
     flex-direction: row-reverse;
 }

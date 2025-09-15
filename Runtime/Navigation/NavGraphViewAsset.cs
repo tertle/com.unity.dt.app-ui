@@ -18,7 +18,7 @@ namespace Unity.AppUI.Navigation
     {
         [Tooltip("The nodes of this navigation graph.")]
         [SerializeField]
-        List<NavGraphViewNode> m_Nodes;
+        List<NavGraphViewNode> m_Nodes = new ();
 
         /// <summary>
         /// The nodes of this navigation graph.

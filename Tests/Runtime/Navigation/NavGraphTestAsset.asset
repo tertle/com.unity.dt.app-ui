@@ -12,19 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: start
   m_EditorClassIdentifier: 
-  m_Position: {x: 35, y: -187.5}
+  m_Position: {x: -143, y: -203.5}
   m_Guid: 0c2c38948314846d4b7b760b04dcfc20
   m_Parent: {fileID: 435015050559732834}
   m_Actions:
   - {fileID: 2526874940782906629}
   m_Label: Start
-  m_Template: 
+  m_TemplateSettings:
+    rid: 8101548310601138176
   m_Arguments: []
-  m_ShowBottomNavBar: 1
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 1
-  m_ShowNavigationRail: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548310601138176
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Navigation.NavigationScreen, Unity.AppUI.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 1
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,15 +110,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e9866b5cc41e7ac482ba5fe89e09b, type: 3}
   m_Name: other
   m_EditorClassIdentifier: 
-  m_Position: {x: 735.5, y: -187.5}
+  m_Position: {x: 658.5, y: -222.5}
   m_Guid: 8f50e163bdce145f49b222f0da9f2248
   m_Parent: {fileID: 435015050559732834}
   m_Actions: []
   m_Label: Other
-  m_Template: 
+  m_TemplateSettings:
+    rid: 8101548310601138177
   m_Arguments: []
-  m_ShowBottomNavBar: 1
-  m_ShowAppBar: 1
-  m_ShowBackButton: 1
-  m_ShowDrawer: 1
-  m_ShowNavigationRail: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101548310601138177
+      type: {class: DefaultDestinationTemplate, ns: Unity.AppUI.Navigation, asm: Unity.AppUI.Navigation}
+      data:
+        m_ScreenType: Unity.AppUI.Navigation.NavigationScreen, Unity.AppUI.Navigation,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        m_ShowBottomNavBar: 1
+        m_ShowAppBar: 1
+        m_ShowBackButton: 1
+        m_ShowDrawer: 1
+        m_ShowNavigationRail: 1

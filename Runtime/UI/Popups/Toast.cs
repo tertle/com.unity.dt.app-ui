@@ -254,7 +254,7 @@ namespace Unity.AppUI.UI
         public ToastVisualElement()
         {
             pickingMode = PickingMode.Ignore;
-            usageHints |= UsageHints.DynamicTransform;
+            this.EnableDynamicTransform(true);
             AddToClassList(containerUssClassName);
 
             m_ToastElement = new ExVisualElement

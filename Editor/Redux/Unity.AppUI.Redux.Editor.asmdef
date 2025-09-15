@@ -1,0 +1,44 @@
+{
+    "name": "Unity.AppUI.Redux.Editor",
+    "rootNamespace": "Unity.AppUI.Redux.Editor",
+    "references": [
+        "GUID:2f101f87087d58f4ba92ca00188e763d",
+        "GUID:30599ed272688438b8375570b417ba36",
+        "GUID:710bb277e6ff49ed91ba164465e106ef",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Unity.Plastic.Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.collab-proxy",
+            "expression": "2.0.0",
+            "define": "UNITY_ENABLE_VERSION_CONTROL"
+        },
+        {
+            "name": "Unity",
+            "expression": "6000.0.0a1",
+            "define": "UNITY_ENABLE_TABVIEW"
+        },
+        {
+            "name": "Unity",
+            "expression": "6000.0.0a1",
+            "define": "UNITY_ENABLE_SLIDER_FILL"
+        },
+        {
+            "name": "Unity",
+            "expression": "2022.2.0a9",
+            "define": "UITK_SELECTED_INDICES_CHANGED"
+        }
+    ],
+    "noEngineReferences": false
+}

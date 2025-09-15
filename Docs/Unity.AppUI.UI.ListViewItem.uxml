@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ListViewItem" class="main">
+    <engine:Label text="ListViewItem" class="title" />
+    <engine:Label
+      text="A versatile list item component that displays content with a title, subtitle, thumbnail, and optional actions"
+      class="subtitle"
+    />
+    <engine:Label text="data" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="ListViewItem is a flexible component designed to display content in a list format. It provides a consistent layout structure with support for leading (left) and trailing (right) content areas, making it perfect for displaying items in lists, menus, or selection interfaces."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports various content elements including:"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="• A thumbnail image
+• A primary title
+• A secondary subtitle
+• Leading and trailing containers for custom content
+• A built-in options button"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="ListViewItem comes with different size variants and loading states to accommodate various use cases and provide better user feedback during data loading."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="title" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text='""' class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The main text displayed in the list item. This is typically the primary identifier for the item."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a simple title for the list item"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='listViewItem.title = "Project Settings";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="subtitle" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text='""' class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Additional descriptive text displayed below the title. Use this to provide supplementary information about the item."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a subtitle with metadata information"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='listViewItem.subtitle = "Last modified: 2 days ago";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="thumbnail" class="prop-name" />
+            <engine:Label text="Texture" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="An image displayed at the leading edge of the list item. Useful for icons, avatars, or preview thumbnails."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a thumbnail image for the list item"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='listViewItem.thumbnail = AssetDatabase.LoadAssetAtPath&lt;Texture&gt;("Assets/Icons/project-icon.png");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the overall size of the list item. Available options are defined in the Size enum (S, M, L)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large list item for better visibility"
+                  class="scenario-description"
+                />
+                <engine:Label text="listViewItem.size = Size.L;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="isLoading" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the loading state of the list item. When true, the item becomes non-interactive and may display a loading indicator."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="During loading state, the item's pickingMode is set to Ignore and it becomes non-focusable."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Managing loading state during async operations"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="// Show loading state while fetching data
+listViewItem.isLoading = true;
+await FetchDataAsync();
+listViewItem.isLoading = false;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="leadingContainer" class="prop-name" />
+            <engine:Label text="VisualElement" class="prop-type" />
+            <engine:Label text="new VisualElement()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A container element at the leading (left) edge of the list item. Use this to add custom content before the title area."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a custom icon to the leading container"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var icon = new Icon { name = "folder" };
+listViewItem.leadingContainer.Add(icon);'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="trailingContainer" class="prop-name" />
+            <engine:Label text="VisualElement" class="prop-type" />
+            <engine:Label text="new VisualElement()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A container element at the trailing (right) edge of the list item. Use this to add custom content after the title area."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a status badge to the trailing container"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='var badge = new Badge { content = "New" };
+listViewItem.trailingContainer.Add(badge);'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="optionsButton" class="prop-name" />
+            <engine:Label text="IconButton" class="prop-type" />
+            <engine:Label
+              text='new IconButton { icon = "info", quiet = true }'
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A built-in button with an info icon, positioned in the trailing container. Use this to provide additional actions or show more information about the item."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Handling options button click to show additional actions"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="listViewItem.optionsButton.clicked += () =&gt; ShowItemOptions(item);"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage with title and subtitle:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a standard list item with title and subtitle"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var item = new ListViewItem
+{
+    title = "Project Assets",
+    subtitle = "Contains 42 files",
+    size = Size.M
+};'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Advanced usage with custom content and loading state:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a rich list item with custom content, loading state, and event handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var item = new ListViewItem();
+
+// Add custom badge to trailing container
+var badge = new Badge { content = "Updated" };
+item.trailingContainer.Add(badge);
+
+// Configure item properties
+item.title = "Documentation";
+item.subtitle = "Last updated: Today";
+item.thumbnail = documentIcon;
+
+// Handle options button click
+item.optionsButton.clicked += () =&gt; ShowOptionsMenu();
+
+// Show loading state
+item.isLoading = true;
+await LoadDataAsync();
+item.isLoading = false;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using ListViewItem in a UXML template:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Declaring a ListViewItem in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:ui="Unity.AppUI.UI"&gt;
+    &lt;ui:ListViewItem
+        title="Settings"
+        subtitle="Configure application preferences"
+        size="L"
+    /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

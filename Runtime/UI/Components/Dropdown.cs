@@ -119,7 +119,7 @@ namespace Unity.AppUI.UI
         /// </summary>
         public new const string ussClassName = "appui-dropdown";
 
-        Action<DropdownItem, IEnumerable<int>> m_CustomBindTitle;
+        BindTitleFunc m_CustomBindTitle;
 
         /// <summary>
         /// A method that will be called to bind the title.
@@ -127,7 +127,7 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
         [CreateProperty]
 #endif
-        public new Action<DropdownItem, IEnumerable<int>> bindTitle
+        public new BindTitleFunc bindTitle
         {
             get => m_CustomBindTitle;
             set
@@ -157,8 +157,8 @@ namespace Unity.AppUI.UI
         /// <param name="defaultIndices">The selected index by default.</param>
         public Dropdown(
             IList items,
-            Action<DropdownItem, int> bindItemFunc = null,
-            Action<DropdownItem, IEnumerable<int>> bindTitleFunc = null,
+            BindItemFunc bindItemFunc = null,
+            BindTitleFunc bindTitleFunc = null,
             int[] defaultIndices = null)
             : base(items, null, null, null, null, null, defaultIndices)
         {
@@ -211,12 +211,20 @@ namespace Unity.AppUI.UI
 #endif
         }
 
-        static DropdownItem MakeTitle()
+        /// <summary>
+        /// Default delegate to create a new DropdownItem for the title.
+        /// </summary>
+        /// <returns> A new DropdownItem. </returns>
+        protected static DropdownItem MakeTitle()
         {
             return new DropdownItem();
         }
 
-        static DropdownItem MakeItem()
+        /// <summary>
+        /// Default delegate to create a new DropdownItem for any item.
+        /// </summary>
+        /// <returns> A new DropdownItem. </returns>
+        protected static DropdownItem MakeItem()
         {
             return new DropdownItem();
         }

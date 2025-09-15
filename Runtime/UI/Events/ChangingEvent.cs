@@ -1,17 +1,21 @@
 using System;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
+using UnityEngine;
+#if FOCUSABLE_AS_VISUALELEMENT
+using CallbackEventHandler = UnityEngine.UIElements.VisualElement;
+#endif
 
 namespace Unity.AppUI.UI
 {
     /// <summary>
     /// Interface that must be implemented to UI components which can change their value progressively, like a <see cref="Slider"/>.
     /// </summary>
-    /// <typeparam name="TValueType">The type of value handled by the UI component.</typeparam>
-    public interface INotifyValueChanging<TValueType> : INotifyValueChanged<TValueType> { }
+    /// <typeparam name="TValue">The type of value handled by the UI component.</typeparam>
+    public interface INotifyValueChanging<TValue> : INotifyValueChanged<TValue> { }
 
     /// <summary>
-    /// Extensions for <see cref="INotifyValueChanging{TValueType}"/>.
+    /// Extensions for <see cref="INotifyValueChanging{TValue}"/>.
     /// </summary>
     public static class NotifyValueChangingExtensions
     {
@@ -20,12 +24,12 @@ namespace Unity.AppUI.UI
         /// </summary>
         /// <param name="control">The UI component.</param>
         /// <param name="callback">The callback.</param>
-        /// <typeparam name="TValueType">The type of value handled by the UI component.</typeparam>
+        /// <typeparam name="TValue">The type of value handled by the UI component.</typeparam>
         /// <returns>True if the UI component can handle callbacks, False otherwise.</returns>
         [Preserve]
-        public static bool RegisterValueChangingCallback<TValueType>(this INotifyValueChanging<TValueType> control, EventCallback<ChangingEvent<TValueType>> callback)
+        public static bool RegisterValueChangingCallback<TValue>(this INotifyValueChanging<TValue> control, EventCallback<ChangingEvent<TValue>> callback)
         {
-            if (!(control is CallbackEventHandler callbackEventHandler))
+            if (control is not CallbackEventHandler callbackEventHandler)
                 return false;
             callbackEventHandler.RegisterCallback(callback);
             return true;
@@ -36,12 +40,12 @@ namespace Unity.AppUI.UI
         /// </summary>
         /// <param name="control">The UI component.</param>
         /// <param name="callback">The callback.</param>
-        /// <typeparam name="TValueType">The type of value handled by the UI component.</typeparam>
+        /// <typeparam name="TValue">The type of value handled by the UI component.</typeparam>
         /// <returns>True if the UI component can handle callbacks, False otherwise.</returns>
         [Preserve]
-        public static bool UnregisterValueChangingCallback<TValueType>(this INotifyValueChanging<TValueType> control, EventCallback<ChangingEvent<TValueType>> callback)
+        public static bool UnregisterValueChangingCallback<TValue>(this INotifyValueChanging<TValue> control, EventCallback<ChangingEvent<TValue>> callback)
         {
-            if (!(control is CallbackEventHandler callbackEventHandler))
+            if (control is not CallbackEventHandler callbackEventHandler)
                 return false;
             callbackEventHandler.UnregisterCallback(callback);
             return true;
@@ -51,17 +55,17 @@ namespace Unity.AppUI.UI
     /// <summary>
     /// THe value changing event.
     /// </summary>
-    /// <typeparam name="TValueType">The type of value handled by the UI component.</typeparam>
-    public class ChangingEvent<TValueType> : EventBase<ChangingEvent<TValueType>>
+    /// <typeparam name="TValue">The type of value handled by the UI component.</typeparam>
+    public class ChangingEvent<TValue> : EventBase<ChangingEvent<TValue>>
     {
         /// <summary>
         /// The previous value.
         /// </summary>
-        public TValueType previousValue { get; set; }
+        public TValue previousValue { get; set; }
 
         /// <summary>
         /// The new value.
         /// </summary>
-        public TValueType newValue { get; set; }
+        public TValue newValue { get; set; }
     }
 }

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.LinearProgress" class="main">
+    <engine:Label text="LinearProgress" class="title" />
+    <engine:Label
+      text="A progress indicator that displays progress linearly along a horizontal bar."
+      class="subtitle"
+    />
+    <engine:Label text="feedback" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="Linear Progress indicators express an unspecified wait time or display the length of a process. They help users visualize the progression of an operation or activity in your application."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports two variants: determinate and indeterminate. Use determinate progress indicators when the wait time or completion percentage is known. For operations where the wait time is unknown, use the indeterminate mode which displays a continuous animation."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Note: Progress indicators inform users about the status of ongoing processes, such as loading an app, submitting a form, or saving updates."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The LinearProgress component inherits from the base Progress class and implements additional features specific to linear representation of progress."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="Variant" class="prop-type" />
+            <engine:Label text="Variant.Indeterminate" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the type of progress indicator to display."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a determinate progress bar at 75% completion"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;LinearProgress variant="Determinate" value="0.75" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The progress value between 0 and 1. Only used when variant is set to Determinate."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the progress value programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="progressBar.value = 0.5f; // Sets progress to 50%"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="bufferValue" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The secondary progress value (buffer) between 0 and 1. Useful for showing buffering progress in media playback scenarios."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Shows a progress bar with both primary (30%) and buffer (60%) progress"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;LinearProgress variant="Determinate" value="0.3" bufferValue="0.6" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The size variant of the progress bar. Affects the height of the progress bar."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Different size variants of the progress bar"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;LinearProgress size="S" /&gt;
+&lt;LinearProgress size="M" /&gt;
+&lt;LinearProgress size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="roundedProgressCorners" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="true" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When true, applies rounded corners to the progress bar for a softer appearance."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creates a progress bar with sharp corners"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;LinearProgress roundedProgressCorners="false" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="colorOverride" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.white" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Override the default progress bar color. If not set, uses the color defined in USS styles."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a custom color programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="progressBar.colorOverride = Color.blue;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="bufferOpacity" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The opacity of the buffer progress indicator. Values between 0 and 1."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Customizing the buffer appearance"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;LinearProgress bufferValue="0.8" bufferOpacity="0.3" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic indeterminate progress:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Shows an animated progress bar for operations with unknown duration"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;LinearProgress variant="Indeterminate" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Determinate progress with buffer:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Shows a progress bar with both primary and buffer progress, useful for media playback scenarios"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;LinearProgress
+    variant="Determinate"
+    value="0.4"
+    bufferValue="0.6"
+    size="M"
+    roundedProgressCorners="true"
+/&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Programmatic usage example:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating and configuring a progress bar through code"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var progress = new LinearProgress();
+progress.variant = Variant.Determinate;
+progress.value = 0.75f;
+progress.size = Size.L;
+progress.colorOverride = new Color(0.2f, 0.6f, 1f, 1f);"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Styling with USS:" class="parapgraph" />
+            <engine:Label
+              text="Customizing the appearance using USS styles"
+              class="scenario-description"
+            />
+            <engine:Label
+              text=".custom-progress {
+    --progress-color: rgb(25, 118, 210);
+    width: 200px;
+    margin: 8px;
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

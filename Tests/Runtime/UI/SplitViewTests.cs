@@ -266,8 +266,8 @@ namespace Unity.AppUI.Tests.UI
             var splitView = m_TestUI.rootVisualElement.Q<SplitView>();
             splitView.GetRange(testCase.index, out var min, out var max);
 
-            Assert.AreEqual(testCase.expectedMin(m_Direction, m_LayoutDirection), min);
-            Assert.AreEqual(testCase.expectedMax(m_Direction, m_LayoutDirection), max);
+            Assert.AreEqual(testCase.expectedMin(m_Direction, m_LayoutDirection), min, 1);
+            Assert.AreEqual(testCase.expectedMax(m_Direction, m_LayoutDirection), max, 1);
         }
 
         public struct SplitView_CanGetLegalSplitterPosition_TestCase
@@ -380,7 +380,7 @@ namespace Unity.AppUI.Tests.UI
             var splitView = m_TestUI.rootVisualElement.Q<SplitView>();
             var res = splitView.GetLegalSplitterPosition(testCase.index, testCase.desiredPosition);
 
-            Assert.AreEqual(testCase.expectedResult(m_Direction, m_LayoutDirection), res);
+            Assert.AreEqual(testCase.expectedResult(m_Direction, m_LayoutDirection), res, 1);
         }
 
         [UnityTest]
@@ -396,9 +396,9 @@ namespace Unity.AppUI.Tests.UI
             Assert.AreEqual(m_Direction, state.direction);
             Assert.IsTrue(state.collapsedPanes.All(cp => !cp));
             Assert.IsTrue(state.realtimeResize);
-            Assert.AreEqual(k_TotalSize * 0.25f, state.paneSizes[0]);
+            Assert.AreEqual(k_TotalSize * 0.25f, state.paneSizes[0], 1);
             Assert.AreEqual(-1f, state.paneSizes[1], "Panes with 'auto' size should be saved as -1f");
-            Assert.AreEqual(k_TotalSize * 0.25f, state.paneSizes[2]);
+            Assert.AreEqual(k_TotalSize * 0.25f, state.paneSizes[2], 1);
 
             Assert.DoesNotThrow(() => splitView.RestoreState(state));
         }
@@ -419,20 +419,20 @@ namespace Unity.AppUI.Tests.UI
 
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(149), GetMax(splitView.PaneAt(0).layout));
+            Assert.AreEqual(GetExpectedPosition(149), GetMax(splitView.PaneAt(0).layout), 1);
 
             splitView.OnSplitterDragged(0, GetWorldPos(50 + splitView.PaneAt(0).compactThreshold - 1));
 
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(50), GetMax(splitView.PaneAt(0).layout));
+            Assert.AreEqual(GetExpectedPosition(50), GetMax(splitView.PaneAt(0).layout), 1);
             Assert.IsTrue(splitView.PaneAt(0).compact);
 
             splitView.OnSplitterDragged(1, GetWorldPos(50));
 
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(50 + Pane.defaultCompactThreshold), GetMax(splitView.PaneAt(1).layout));
+            Assert.AreEqual(GetExpectedPosition(50 + Pane.defaultCompactThreshold), GetMax(splitView.PaneAt(1).layout), 1);
 
             splitView.OnSplitterDragged(1, GetWorldPos(290));
 
@@ -443,7 +443,7 @@ namespace Unity.AppUI.Tests.UI
 
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(250), GetMax(splitView.PaneAt(1).layout));
+            Assert.AreEqual(GetExpectedPosition(250), GetMax(splitView.PaneAt(1).layout), 1);
 
             yield break;
 
@@ -482,7 +482,7 @@ namespace Unity.AppUI.Tests.UI
 
             yield return null;
 
-            Assert.AreEqual(149, GetMax(splitView.PaneAt(0).layout));
+            Assert.AreEqual(149, GetMax(splitView.PaneAt(0).layout), 1);
         }
 
         [UnityTest]
@@ -499,37 +499,37 @@ namespace Unity.AppUI.Tests.UI
 
             yield return null;
 
-            Assert.AreEqual(0, GetMax(splitView.PaneAt(0).layout));
+            Assert.AreEqual(0, GetMax(splitView.PaneAt(0).layout), 1);
             Assert.IsTrue(splitView.IsSplitterCollapsed(0));
             Assert.AreEqual(DisplayStyle.None, splitView.PaneAt(0).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(1).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(2).resolvedStyle.display);
-            Assert.AreEqual(0, GetPos(splitView.splitters[0].resolvedStyle));
+            Assert.AreEqual(0, GetPos(splitView.splitters[0].resolvedStyle), 1);
 
             splitView.CollapseSplitter(0, CollapseDirection.Forward); // should do nothing, already collapsed
 
             yield return null;
 
-            Assert.AreEqual(0, GetMax(splitView.PaneAt(0).layout));
+            Assert.AreEqual(0, GetMax(splitView.PaneAt(0).layout), 1);
             Assert.IsTrue(splitView.IsSplitterCollapsed(0));
             Assert.AreEqual(DisplayStyle.None, splitView.PaneAt(0).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(1).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(2).resolvedStyle.display);
-            Assert.AreEqual(0, GetPos(splitView.splitters[0].resolvedStyle));
+            Assert.AreEqual(0, GetPos(splitView.splitters[0].resolvedStyle), 1);
 
             splitView.CollapseSplitter(1, CollapseDirection.Forward);
 
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetMax(splitView.PaneAt(1).layout));
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetMax(splitView.PaneAt(1).layout), 1);
             Assert.IsTrue(splitView.IsSplitterCollapsed(1));
             Assert.AreEqual(DisplayStyle.None, splitView.PaneAt(0).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(1).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.None, splitView.PaneAt(2).resolvedStyle.display);
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetPos(splitView.splitters[1].resolvedStyle));
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetPos(splitView.splitters[1].resolvedStyle), 1);
 
-            Assert.AreEqual(GetExpectedPosition(0), GetMin(splitView.PaneAt(1).layout));
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetMax(splitView.PaneAt(1).layout));
+            Assert.AreEqual(GetExpectedPosition(0), GetMin(splitView.PaneAt(1).layout), 1);
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetMax(splitView.PaneAt(1).layout), 1);
 
             Assert.Throws<System.ArgumentOutOfRangeException>(() => splitView.ExpandSplitter(-1));
 
@@ -539,14 +539,14 @@ namespace Unity.AppUI.Tests.UI
             yield return null;
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetMax(splitView.PaneAt(0).layout), "Splitter 0 should expand the pane with its minimum size");
+            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetMax(splitView.PaneAt(0).layout), 1, "Splitter 0 should expand the pane with its minimum size");
             Assert.IsFalse(splitView.IsSplitterCollapsed(0));
             Assert.IsTrue(splitView.IsSplitterCollapsed(1));
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(0).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(1).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.None, splitView.PaneAt(2).resolvedStyle.display);
-            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetPos(splitView.splitters[0].resolvedStyle));
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetPos(splitView.splitters[1].resolvedStyle));
+            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetPos(splitView.splitters[0].resolvedStyle), 1);
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize), GetPos(splitView.splitters[1].resolvedStyle), 1);
 
             splitView.ExpandSplitter(1);
 
@@ -554,14 +554,14 @@ namespace Unity.AppUI.Tests.UI
             yield return null;
             yield return null;
 
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize - GetMin(splitView.PaneAt(2))), GetMax(splitView.PaneAt(1).layout), "Splitter 1 should expand the pane with its minimum size");
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize - GetMin(splitView.PaneAt(2))), GetMax(splitView.PaneAt(1).layout), 1, "Splitter 1 should expand the pane with its minimum size");
             Assert.IsFalse(splitView.IsSplitterCollapsed(0));
             Assert.IsFalse(splitView.IsSplitterCollapsed(1));
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(0).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(1).resolvedStyle.display);
             Assert.AreEqual(DisplayStyle.Flex, splitView.PaneAt(2).resolvedStyle.display);
-            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetPos(splitView.splitters[0].resolvedStyle));
-            Assert.AreEqual(GetExpectedPosition(k_TotalSize - GetMin(splitView.PaneAt(2))), GetPos(splitView.splitters[1].resolvedStyle));
+            Assert.AreEqual(GetExpectedPosition(GetMin(splitView.PaneAt(0))), GetPos(splitView.splitters[0].resolvedStyle), 1);
+            Assert.AreEqual(GetExpectedPosition(k_TotalSize - GetMin(splitView.PaneAt(2))), GetPos(splitView.splitters[1].resolvedStyle), 1);
 
             Assert.Throws<System.ArgumentOutOfRangeException>(() => splitView.IsSplitterCollapsed(-1));
 

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.Badge" class="main">
+    <engine:Label text="Badge" class="title" />
+    <engine:Label
+      text="A small overlay element that displays numerical or status information"
+      class="subtitle"
+    />
+    <engine:Label text="data" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The Badge component generates a small badge element that can be used to display counts, notifications, or status information. It's commonly used to show unread messages, notifications, or task counts on top of icons or other UI elements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Badges can be customized in various ways, including their position (using anchors), appearance (using variants), and overlap behavior. They can display numbers with an optional maximum value, or appear as simple dots for status indication."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="When using badges, ensure they provide meaningful information and don't overwhelm the user interface. Consider using the dot variant for simple status indicators and the default variant for numerical information."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="backgroundColor" class="prop-name" />
+            <engine:Label text="Optional&lt;Color&gt;" class="prop-type" />
+            <engine:Label text="none" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the background color of the badge. When not set, the badge will use the default theme color."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a red badge with content '5'"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge background-color="#FF0000" content="5" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="color" class="prop-name" />
+            <engine:Label text="Optional&lt;Color&gt;" class="prop-type" />
+            <engine:Label text="none" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the text color of the badge content. When not set, the badge will use the default theme text color."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a badge with white text"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge color="#FFFFFF" content="3" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="BadgeVariant" class="prop-type" />
+            <engine:Label text="BadgeVariant.Default" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the visual style of the badge. Can be either Default (shows content) or Dot (shows a simple dot indicator)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a simple dot badge for status indication"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge variant="Dot" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="overlapType" class="prop-name" />
+            <engine:Label text="BadgeOverlapType" class="prop-type" />
+            <engine:Label
+              text="BadgeOverlapType.Rectangular"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies how the badge should overlap its parent element. Can be either Rectangular or Circular to match the parent's shape."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a badge that overlaps a circular parent element"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge overlap-type="Circular" content="1" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="horizontalAnchor" class="prop-name" />
+            <engine:Label text="HorizontalAnchor" class="prop-type" />
+            <engine:Label text="HorizontalAnchor.Right" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the horizontal positioning of the badge relative to its parent. Can be either Left or Right."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Positioning a badge on the left side of its parent"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge horizontal-anchor="Left" content="2" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="verticalAnchor" class="prop-name" />
+            <engine:Label text="VerticalAnchor" class="prop-type" />
+            <engine:Label text="VerticalAnchor.Top" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Sets the vertical positioning of the badge relative to its parent. Can be either Top or Bottom."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Positioning a badge at the bottom of its parent"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge vertical-anchor="Bottom" content="4" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="content" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The numerical content to display in the badge. If the value exceeds the max property, it will show as 'max+'."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a badge that shows '99+' for values over 99"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge content="99" max="99" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="max" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="int.MaxValue" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum value to display directly. Values above this will be shown as 'max+'."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a badge that shows '99+' for values over 99"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge content="150" max="99" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="showZero" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines whether the badge should be visible when its content is zero."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a badge that remains visible when the content is zero"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;Badge show-zero="true" content="0" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Badge Usage" class="parapgraph" />
+            <engine:Label
+              text="Simple numerical badge"
+              class="scenario-description"
+            />
+            <engine:Label text='&lt;Badge content="5" /&gt;' class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Status Indicator" class="parapgraph" />
+            <engine:Label
+              text="Using dot variant as a status indicator"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Badge variant="Dot" background-color="#4CAF50" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Notification Badge" class="parapgraph" />
+            <engine:Label
+              text="Badge overlapping an icon to show notifications"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;VisualElement&gt;
+    &lt;Icon name="notifications" /&gt;
+    &lt;Badge content="3" overlap-type="Circular" horizontal-anchor="Right" vertical-anchor="Top" /&gt;
+&lt;/VisualElement&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Maximum Value Badge" class="parapgraph" />
+            <engine:Label
+              text="Badge showing maximum value with overflow"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;Badge content="1000" max="999" background-color="#FF4081" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

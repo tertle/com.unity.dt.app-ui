@@ -282,10 +282,10 @@ namespace Unity.AppUI.UI
                 trayElement = new VisualElement
                 {
                     name = trayUssClassName,
-                    usageHints = UsageHints.DynamicTransform,
                     focusable = true,
                     pickingMode = PickingMode.Position
                 };
+                trayElement.EnableDynamicTransform(true);
                 trayElement.AddToClassList(trayUssClassName);
                 m_HandleZone = new VisualElement { name = handleZoneUssClassName, focusable = true, pickingMode = PickingMode.Position };
                 m_HandleZone.AddToClassList(handleZoneUssClassName);

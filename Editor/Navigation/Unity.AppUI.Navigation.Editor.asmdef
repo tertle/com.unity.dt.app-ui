@@ -4,7 +4,8 @@
     "references": [
         "GUID:2f101f87087d58f4ba92ca00188e763d",
         "GUID:30599ed272688438b8375570b417ba36",
-        "GUID:f7898ee836234b98a20cbddc2a6e0b08"
+        "GUID:f7898ee836234b98a20cbddc2a6e0b08",
+        "GUID:1d0cfa0a4b984e0eb4f9a1d48aea0ce9"
     ],
     "includePlatforms": [
         "Editor"
@@ -15,6 +16,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "7000.0.0a1",
+            "define": "ENABLE_INSTANCE_ID"
+        }
+    ],
     "noEngineReferences": false
 }

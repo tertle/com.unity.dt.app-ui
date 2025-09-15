@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.ColorSwatch" class="main">
+    <engine:Label text="ColorSwatch" class="title" />
+    <engine:Label
+      text="A visual element that displays a color or gradient with customizable appearance."
+      class="subtitle"
+    />
+    <engine:Label text="media" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The ColorSwatch component is a versatile visual element designed to display colors and gradients in your UI. It supports both single colors and complex gradients, making it ideal for color pickers, palettes, and visual indicators."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component features a transparent checkerboard background to better visualize colors with alpha values, and supports various sizes and shapes to fit different design requirements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="For the best visual experience, ensure the ColorSwatch has adequate space to render properly, as it automatically adjusts its internal render texture based on the available space and device's scale factor."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Gradient" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The gradient value to display in the ColorSwatch. This property allows you to show complex color transitions and patterns."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a simple two-color gradient"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var swatch = new ColorSwatch();
+var gradient = new Gradient();
+gradient.SetKeys(
+    new[] { new GradientColorKey(Color.red, 0), new GradientColorKey(Color.blue, 1) },
+    new[] { new GradientAlphaKey(1, 0), new GradientAlphaKey(1, 1) }
+);
+swatch.value = gradient;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="color" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.black" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A simplified property to set or get a single color. When set, it creates a uniform gradient with the specified color. When get, it returns the first color of the gradient."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a single solid color"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var swatch = new ColorSwatch();
+swatch.color = Color.red;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the size of the ColorSwatch. Available options are defined in the Size enum (XS, S, M, L, XL)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a large color swatch"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var swatch = new ColorSwatch();
+swatch.size = Size.L;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="round" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When set to true, applies rounded corners to the ColorSwatch, creating a circular or pill-shaped appearance."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a circular color swatch"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var swatch = new ColorSwatch();
+swatch.round = true;
+swatch.color = Color.blue;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="orientation" class="prop-name" />
+            <engine:Label text="Direction" class="prop-type" />
+            <engine:Label text="Direction.Horizontal" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the direction of the gradient when displaying multiple colors. Can be either Horizontal or Vertical."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a vertical gradient"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var swatch = new ColorSwatch();
+swatch.orientation = Direction.Vertical;
+var gradient = new Gradient();
+gradient.SetKeys(
+    new[] { new GradientColorKey(Color.yellow, 0), new GradientColorKey(Color.green, 1) },
+    new[] { new GradientAlphaKey(1, 0), new GradientAlphaKey(1, 1) }
+);
+swatch.value = gradient;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label text="Basic Usage Example" class="parapgraph" />
+            <engine:Label
+              text="Creating a basic color swatch with UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ColorSwatch size="M" round="true" orientation="Horizontal" value="Fixed:[0,#FF0000];[1,#0000FF]+[0,1];[1,1]" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Create a color swatch programmatically"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a color swatch with gradient in code"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var swatch = new ColorSwatch();
+swatch.size = Size.M;
+swatch.round = true;
+
+var gradient = new Gradient();
+gradient.mode = GradientMode.Fixed;
+gradient.SetKeys(
+    new[] {
+        new GradientColorKey(Color.red, 0),
+        new GradientColorKey(Color.blue, 0.5f),
+        new GradientColorKey(Color.green, 1)
+    },
+    new[] {
+        new GradientAlphaKey(1, 0),
+        new GradientAlphaKey(1, 1)
+    }
+);
+
+swatch.value = gradient;"
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="Color Palette Example" class="parapgraph" />
+            <engine:Label
+              text="Creating a simple color palette with multiple swatches"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var container = new VisualElement();
+container.style.flexDirection = FlexDirection.Row;
+container.style.flexWrap = Wrap.Wrap;
+
+var colors = new[] { Color.red, Color.green, Color.blue, Color.yellow };
+
+foreach (var color in colors)
+{
+    var swatch = new ColorSwatch();
+    swatch.size = Size.S;
+    swatch.round = true;
+    swatch.color = color;
+    swatch.style.margin = 5;
+    container.Add(swatch);
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

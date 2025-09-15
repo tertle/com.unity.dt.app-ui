@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.TextArea" class="main">
+    <engine:Label text="TextArea" class="title" />
+    <engine:Label
+      text="A multi-line text input field that allows users to enter and edit longer text content"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="TextArea is a versatile input component that enables users to enter and edit multiple lines of text. It's particularly useful for collecting longer form responses, comments, or any scenario requiring multi-line text input."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component features a resizable input area, placeholder text support, and various customization options like auto-resize and validation capabilities."
+            class="parapgraph note"
+          />
+          <engine:Label
+            text="Key features include:"
+            class="parapgraph highlight"
+          />
+          <engine:Label
+            text="• Resizable text area with drag handle
+• Auto-resize capability based on content
+• Placeholder text support
+• Read-only mode
+• Maximum length restriction
+• Input validation
+• Submit on Enter functionality
+• Keyboard focus management"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The text content of the TextArea. This property represents the current value entered by the user or set programmatically."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting initial text content via UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea value="Initial text content" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting text content via code"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='textArea.value = "New text content";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="placeholder" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="string.Empty" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The placeholder text displayed when the TextArea is empty. This provides a hint to users about what kind of content should be entered."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting placeholder text via UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea placeholder="Enter your comments here..." /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="isReadOnly" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When set to true, makes the TextArea read-only, preventing user input while still allowing text selection."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a read-only TextArea"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea is-read-only="true" value="This text cannot be edited" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="maxLength" class="prop-name" />
+            <engine:Label text="int" class="prop-type" />
+            <engine:Label text="-1" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the maximum number of characters that can be entered in the TextArea. Set to -1 for unlimited length."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Limiting input to 100 characters"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea max-length="100" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="autoResize" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, the TextArea will automatically grow in height to accommodate its content. Note that it will only grow, not shrink, unless autoShrink is also enabled."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating an auto-resizing TextArea"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea auto-resize="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="autoShrink" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled along with autoResize, allows the TextArea to both grow and shrink based on its content."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a TextArea that both grows and shrinks"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;TextArea auto-resize="true" auto-shrink="true" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="submitOnEnter" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="When enabled, triggers the submitted event when the user presses Enter. Can be combined with submitModifiers for more control."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Handling text submission on Enter key"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='textArea.submitOnEnter = true;
+textArea.submitted += () =&gt; Debug.Log("Text submitted!");'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic TextArea with placeholder"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a simple TextArea with placeholder text and fixed dimensions"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TextArea placeholder="Enter your message here..." style="height: 100px; width: 300px;" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Auto-resizing TextArea with validation"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a TextArea that automatically resizes and validates input length"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var textArea = new TextArea {
+    autoResize = true,
+    autoShrink = true,
+    placeholder = "Enter at least 10 characters",
+    style = { minHeight = 50, width = 300 }
+};
+
+textArea.validateValue = (value) =&gt; value.Length &gt;= 10;
+textArea.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"Text is valid: {!textArea.invalid}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Comment box with submission handling"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a comment box that submits on Shift+Enter with character limit"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;TextArea
+    placeholder="Write your comment..."
+    submit-on-enter="true"
+    submit-modifiers="Shift"
+    max-length="500"
+    style="min-height: 100px; width: 100%" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

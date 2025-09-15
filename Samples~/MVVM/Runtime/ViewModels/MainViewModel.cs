@@ -1,26 +1,34 @@
 using System;
 using Unity.AppUI.MVVM;
+#if UNITY_2023_2_OR_NEWER
+using Unity.Properties;
+#endif
 
 namespace Unity.AppUI.Samples.MVVM
 {
-    public class MainViewModel : ObservableObject
+    [ObservableObject]
+    public partial class MainViewModel
     {
+        [ObservableProperty]
+        [AlsoNotifyChangeFor(nameof(ClickCountMessage))]
         int m_Counter;
-
-        public int counter
-        {
-            get => m_Counter;
-            set => SetProperty(ref m_Counter, value);
-        }
 
         public MainViewModel()
         {
-            counter = 0;
+            Counter = 0;
         }
 
-        public void IncrementCounter()
+        [ICommand]
+        void IncrementCounter()
         {
-            counter++;
+            Counter++;
         }
+
+        // When creating properties yourself, you must
+        // use CreateProperty attribute for UITK data binding to work.
+#if UNITY_2023_2_OR_NEWER
+        [CreateProperty(ReadOnly = true)]
+#endif
+        public string ClickCountMessage => $"Click count: {Counter}";
     }
 }

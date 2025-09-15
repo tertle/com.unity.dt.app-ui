@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.BoundsField" class="main">
+    <engine:Label text="BoundsField" class="title" />
+    <engine:Label
+      text="A UI component for editing 3D bounds with center and size values"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The BoundsField is a specialized input component that allows users to edit 3D bounds by specifying both the center point and size dimensions. It provides a structured interface with separate numerical fields for each coordinate (X, Y, Z) of both the center position and size values."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="This component is particularly useful when working with 3D spaces and requiring precise control over boundary definitions, such as in level editors, collision detection setup, or camera framing configurations."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The field is composed of two main sections:"
+            class="parapgraph note"
+          />
+          <engine:Label
+            text="1. Center: Three numerical fields for setting the X, Y, and Z coordinates of the bounds center point"
+            class="parapgraph"
+          />
+          <engine:Label
+            text="2. Size: Three numerical fields for defining the width (X), height (Y), and depth (Z) dimensions of the bounds"
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="Bounds" class="prop-type" />
+            <engine:Label
+              text="new Bounds(Vector3.zero, Vector3.zero)"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the BoundsField, representing both the center point and size of the bounds."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the bounds to be centered at (0,1,0) with dimensions of 2x2x2"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="boundsField.value = new Bounds(new Vector3(0, 1, 0), new Vector3(2, 2, 2));"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visual size of the BoundsField component. This affects the overall dimensions of the input fields."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting the BoundsField to use small size styling"
+                  class="scenario-description"
+                />
+                <engine:Label text="boundsField.size = Size.S;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid according to the validation function."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="When true, the field will display with error styling to indicate invalid input."
+                class="parapgraph note"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Manually setting the field to invalid state"
+                  class="scenario-description"
+                />
+                <engine:Label text="boundsField.invalid = true;" class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label text="Func&lt;Bounds, bool&gt;" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function that validates the bounds value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding validation to ensure the bounds have non-zero size"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="boundsField.validateValue = (bounds) =&gt; bounds.size.magnitude &gt; 0;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage of BoundsField in UXML:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a medium-sized BoundsField in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;ui:BoundsField name="myBounds" size="M" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Creating and configuring BoundsField in C#:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Complete example showing creation, configuration, validation, and change handling"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var boundsField = new BoundsField();
+boundsField.size = Size.M;
+boundsField.value = new Bounds(Vector3.zero, new Vector3(1, 1, 1));
+boundsField.validateValue = (bounds) =&gt; bounds.size.x &gt; 0 &amp;&amp; bounds.size.y &gt; 0 &amp;&amp; bounds.size.z &gt; 0;
+
+// Register for value changes
+boundsField.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"New bounds: Center={evt.newValue.center}, Size={evt.newValue.size}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Using BoundsField with validation for game object bounds:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Example showing how to use BoundsField to edit game object bounds with size validation"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var boundsField = new BoundsField();
+
+// Set up validation for minimum size
+boundsField.validateValue = (bounds) =&gt; {
+    var minSize = 0.1f;
+    return bounds.size.x &gt;= minSize &amp;&amp;
+           bounds.size.y &gt;= minSize &amp;&amp;
+           bounds.size.z &gt;= minSize;
+};
+
+// Update game object bounds when value changes
+boundsField.RegisterValueChangedCallback(evt =&gt; {
+    if (!boundsField.invalid) {
+        gameObject.transform.position = evt.newValue.center;
+        // Assuming a cube mesh
+        gameObject.transform.localScale = evt.newValue.size;
+    }
+});"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

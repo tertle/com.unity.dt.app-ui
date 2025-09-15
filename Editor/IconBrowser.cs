@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using Object = UnityEngine.Object;
+using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace Unity.AppUI.Editor
 {
@@ -22,7 +23,7 @@ namespace Unity.AppUI.Editor
 
         const string k_BoldVariant = "bold";
 
-        [UnityEditor.MenuItem("Window/App UI/Icon Browser")]
+        [UnityEditor.MenuItem("Window/App UI/Icon Browser", priority = 2111)]
         public static void ShowWindow()
         {
             var window = GetWindow<IconBrowser>();
@@ -40,11 +41,13 @@ namespace Unity.AppUI.Editor
         {
             var root = rootVisualElement;
             root.AddToClassList("icon-browser");
-            var panel = new Panel();
+            root.RegisterCallback<GeometryChangedEvent>(OnWindowResized);
+            var panel = new VisualElement();
             panel.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.unity.dt.app-ui/PackageResources/Styles/Themes/App UI.tss"));
             root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.unity.dt.app-ui/Editor/IconBrowser.uss"));
-            panel.scale = "small";
-            panel.theme = EditorGUIUtility.isProSkin ? "editor-dark" : "editor-light";
+            panel.AddToClassList("appui");
+            panel.AddToClassList(EditorGUIUtility.isProSkin ? "appui--editor-dark" : "appui--editor-light");
+            panel.AddToClassList("appui--small");
 
             // create UI
             var header = new Label("Choose or create a new style sheet to browse its icons.\n" +
@@ -64,7 +67,14 @@ namespace Unity.AppUI.Editor
                 text = "Create a new App UI Icons style sheet"
             };
             root.Add(generateButton);
+
+            var searchBar = new ToolbarSearchField { name = "search" };
+            searchBar.RegisterValueChangedCallback(OnSearchTextChanged);
+            searchBar.AddToClassList("search");
+            root.Add(searchBar);
+
             var gridView = new GridView();
+            gridView.AddToClassList("grid-view");
             gridView.dragger.acceptStartDrag = _ => false;
             gridView.dragger.acceptDrag = () => false;
             gridView.style.flexGrow = 1;
@@ -87,16 +97,29 @@ namespace Unity.AppUI.Editor
             buttonsGroup.AddToClassList("footer__buttons");
             footer.Add(buttonsGroup);
 
+            var showRequiredIconsButton = new Toggle("Show required icons") { name = "show-required-icons" };
+            showRequiredIconsButton.AddToClassList("footer__checkbox");
+            showRequiredIconsButton.RegisterValueChangedCallback(OnShowRequiredIconsClicked);
+
             var addIconsButton = new Button(OnAddIconsClicked);
             addIconsButton.name = "add";
             addIconsButton.text = "Add icons...";
             addIconsButton.AddToClassList("footer__button");
+
             var saveFileButton = new Button(SaveFile);
             saveFileButton.name = "save";
             saveFileButton.text = "Save file";
             saveFileButton.AddToClassList("footer__button");
+
+            var saveAsButton = new Button(SaveAsFile);
+            saveAsButton.name = "save-as";
+            saveAsButton.text = "Save as...";
+            saveAsButton.AddToClassList("footer__button");
+
+            buttonsGroup.Add(showRequiredIconsButton);
             buttonsGroup.Add(addIconsButton);
             buttonsGroup.Add(saveFileButton);
+            buttonsGroup.Add(saveAsButton);
 
             // setup data binding
             panel.RegisterCallback<DragEnterEvent>(OnDragEnter);
@@ -109,6 +132,17 @@ namespace Unity.AppUI.Editor
             gridView.RegisterCallback<PointerUpEvent>(OnContextClicked);
 
             // refresh UI
+            RefreshUI();
+        }
+
+        void OnWindowResized(GeometryChangedEvent _)
+        {
+            var searchBar = rootVisualElement.Q<ToolbarSearchField>("search");
+            searchBar.style.width = rootVisualElement.contentRect.width - 7f;
+        }
+
+        void OnSearchTextChanged(ChangeEvent<string> evt)
+        {
             RefreshUI();
         }
 
@@ -138,11 +172,22 @@ namespace Unity.AppUI.Editor
 
             if (selectedIndices.Count > 0)
             {
-                if (EditorUtility.DisplayDialog("Delete selected icons",
+                if (
+#if ENABLE_INSTANCE_ID
+                    EditorDialog.DisplayDecisionDialog
+#else
+                    EditorUtility.DisplayDialog
+#endif
+                        ("Delete selected icons",
                         "Are you sure you want to delete the selected icons from the stylesheet?", "Yes", "No"))
                 {
                     var source = gridView.itemsSource.Cast<IconEntry>().ToList();
-                    var toDelete = selectedIndices.Select(i => source[i]).ToList();
+                    var toDelete = selectedIndices.Select(i => source[i])
+                        .Where(ie => k_RequiredIcons.All(icn1 => icn1.path != ie.path)).ToList();
+
+                    if (toDelete.Count == 0)
+                        return;
+
                     var additionalIcons = ParseStyleSheet(tempContent);
                     var newIcons = additionalIcons
                         .Where(icn => toDelete.FindIndex(icn2 => icn2.path == icn.path) < 0).ToList();
@@ -230,6 +275,11 @@ namespace Unity.AppUI.Editor
             OnAddSingleIconClicked();
         }
 
+        void OnShowRequiredIconsClicked(ChangeEvent<bool> evt)
+        {
+            RefreshUI();
+        }
+
         void OnAddIconsFromAppUIOnlineRepositoryClicked()
         {
             throw new NotImplementedException();
@@ -315,9 +365,14 @@ namespace Unity.AppUI.Editor
         [UnityEditor.MenuItem("Assets/Create/App UI/Icons Style Sheet Asset")]
         static void CreateIconsStyleSheetAsset()
         {
+#if ENABLE_INSTANCE_ID
+            var instanceId = InstanceID.None;
+#else
+            var instanceId = 0;
+#endif
             var endAction = CreateInstance<IconBrowserActions>();
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
-                0,
+                instanceId,
                 endAction,
                 "AppUIIcons.uss",
                 null,
@@ -334,7 +389,12 @@ namespace Unity.AppUI.Editor
             var adbPath = ToAdbPath(outPath);
             if (string.IsNullOrEmpty(adbPath))
             {
-                EditorUtility.DisplayDialog("Invalid path",
+#if ENABLE_INSTANCE_ID
+                EditorDialog.DisplayAlertDialog
+#else
+                EditorUtility.DisplayDialog
+#endif
+                ("Invalid path",
                     "The selected path must be inside the Assets or Packages folder", "OK");
                 return;
             }
@@ -366,8 +426,24 @@ namespace Unity.AppUI.Editor
 
             var additionalIcons = ParseStyleSheet(tempContent);
             var gridView = rootVisualElement.Q<GridView>();
-            gridView.itemsSource = additionalIcons;
-            gridView.SetEnabled(additionalIcons.Count > 0);
+            gridView.ClearSelection();
+            var searchBar = rootVisualElement.Q<ToolbarSearchField>("search");
+            var search = searchBar.value.ToLowerInvariant();
+            var includeRequired = rootVisualElement.Q<Toggle>("show-required-icons").value;
+            if (string.IsNullOrEmpty(search))
+            {
+                gridView.itemsSource =
+                    includeRequired ? additionalIcons.Concat(k_RequiredIcons).ToList() : additionalIcons;
+            }
+            else
+            {
+                var filteredIcons = additionalIcons.Where(icn => icn.name.ToLowerInvariant().Contains(search)).ToList();
+                if (includeRequired)
+                    filteredIcons.AddRange(k_RequiredIcons.Where(icn => icn.name.ToLowerInvariant().Contains(search)));
+                gridView.itemsSource = filteredIcons;
+            }
+            searchBar.SetEnabled(gridView.itemsSource is { Count: > 0 });
+            gridView.SetEnabled(gridView.itemsSource is { Count: > 0 });
 
             var footer = rootVisualElement.Q("footer");
             footer.SetEnabled(styleSheetAsset);
@@ -378,6 +454,8 @@ namespace Unity.AppUI.Editor
             var message = footer.Q<Label>("message");
             message.text = styleSheetAsset ? $"Total of {additionalIcons.Count + k_RequiredIcons.Length} icons " +
                 $"({additionalIcons.Count} additional and {k_RequiredIcons.Length} required)" : "";
+
+            OnWindowResized(null);
         }
 
         void SaveFile()
@@ -387,6 +465,20 @@ namespace Unity.AppUI.Editor
 
             var saveButton = rootVisualElement.Q<Button>("save");
             saveButton.SetEnabled(false);
+        }
+
+        void SaveAsFile()
+        {
+            var path = EditorUtility.SaveFilePanelInProject("Save As...", "AppUIIcons", "uss", "Select a location to save the style sheet");
+            if (string.IsNullOrEmpty(path))
+                return;
+
+            System.IO.File.WriteAllText(path, tempContent);
+            AssetDatabase.Refresh();
+
+            styleSheetAsset = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+            tempContent = System.IO.File.ReadAllText(path);
+            RefreshUI();
         }
 
         static string GetStyleSheetContent(IEnumerable<IconEntry> additionalIcons)
@@ -537,6 +629,7 @@ namespace Unity.AppUI.Editor
 
             public IconEntryElement()
             {
+                pickingMode = PickingMode.Ignore;
                 AddToClassList("icon-entry");
                 m_Element = new VisualElement
                 {
@@ -623,7 +716,19 @@ namespace Unity.AppUI.Editor
 
         class IconBrowserActions : EndNameEditAction
         {
+#if ENABLE_INSTANCE_ID
+            public override void Action(InstanceID instanceId, string pathName, string resourceFile)
+            {
+                HandleAction(pathName);
+            }
+#else
             public override void Action(int instanceId, string pathName, string resourceFile)
+            {
+                HandleAction(pathName);
+            }
+#endif
+
+            static void HandleAction(string pathName)
             {
                 System.IO.File.WriteAllText(pathName, GetStyleSheetContent(Array.Empty<IconEntry>()));
                 AssetDatabase.Refresh();

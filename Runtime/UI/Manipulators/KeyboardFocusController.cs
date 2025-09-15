@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Unity.AppUI.UI
@@ -42,6 +43,7 @@ namespace Unity.AppUI.UI
         {
             target.RegisterCallback<FocusInEvent>(OnFocusedIn);
             target.RegisterCallback<FocusOutEvent>(OnFocusedOut);
+            target.RegisterCallback<DetachFromPanelEvent>(OnDetachedFromPanel);
         }
 
         /// <summary>
@@ -51,6 +53,12 @@ namespace Unity.AppUI.UI
         {
             target.UnregisterCallback<FocusInEvent>(OnFocusedIn);
             target.UnregisterCallback<FocusOutEvent>(OnFocusedOut);
+            target.UnregisterCallback<DetachFromPanelEvent>(OnDetachedFromPanel);
+        }
+
+        void OnDetachedFromPanel(DetachFromPanelEvent evt)
+        {
+            target.RemoveFromClassList(Styles.keyboardFocusUssClassName);
         }
 
         void OnFocusedOut(FocusOutEvent evt)

@@ -19,6 +19,10 @@
     --unity-cursor-color: var(--appui-foregrounds-200);
 }
 
+.unity-text-field.appui-text-cursor--transparent {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
 .unity-base-text-field__input--placeholder {
     color: var(--appui-foregrounds-50);
 }
@@ -33,6 +37,10 @@
 .unity-base-text-field__input:disabled > .unity-text-element {
     color: var(--appui-foregrounds-25);
     cursor: var(--appui-alias-control-cursor-disabled);
+}
+
+.unity-text-element__selectable {
+    cursor: var(--appui-alias-control-cursor-text);
 }
 
 .unity-collection-view__item {

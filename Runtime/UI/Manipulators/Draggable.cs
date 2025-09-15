@@ -38,8 +38,6 @@ namespace Unity.AppUI.UI
 
         readonly Action<Draggable> m_UpHandler;
 
-        bool m_IsDown;
-
         Vector2 m_LastPos = Vector2.zero;
 
         /// <summary>
@@ -91,9 +89,34 @@ namespace Unity.AppUI.UI
         public Vector2 startPosition { get; internal set; }
 
         /// <summary>
+        /// Whether the pointer is currently down.
+        /// </summary>
+        public bool isDown { get; private set; }
+
+        /// <summary>
         /// Has the pointer moved since the last <see cref="PointerDownEvent"/>.
         /// </summary>
         public bool hasMoved { get; internal set; }
+
+        /// <summary>
+        /// Whether the Ctrl Key is currently pressed.
+        /// </summary>
+        public bool ctrlKey { get; internal set; }
+
+        /// <summary>
+        /// Whether the Shift Key is currently pressed.
+        /// </summary>
+        public bool shiftKey { get; internal set; }
+
+        /// <summary>
+        /// Whether the Alt Key is currently pressed.
+        /// </summary>
+        public bool altKey { get; internal set; }
+
+        /// <summary>
+        /// Whether the Action Key is currently pressed (Cmd on macOS, Ctrl on Windows).
+        /// </summary>
+        public bool actionKey { get; internal set; }
 
         /// <summary>
         /// The threshold in pixels to start the drag operation.
@@ -129,9 +152,25 @@ namespace Unity.AppUI.UI
             deltaPos = Vector2.zero;
             deltaStartPos = Vector2.zero;
             this.localPosition = localPosition;
-            position = (evt is PointerDownEvent e) ? e.position : ((MouseDownEvent)evt).mousePosition;
+            switch (evt)
+            {
+                case PointerDownEvent pde:
+                    position = pde.position;
+                    ctrlKey = pde.ctrlKey;
+                    shiftKey = pde.shiftKey;
+                    altKey = pde.altKey;
+                    actionKey = pde.actionKey;
+                    break;
+                case MouseDownEvent mde:
+                    position = mde.mousePosition;
+                    ctrlKey = mde.ctrlKey;
+                    shiftKey = mde.shiftKey;
+                    altKey = mde.altKey;
+                    actionKey = mde.actionKey;
+                    break;
+            }
             m_LastPos = position;
-            m_IsDown = true;
+            isDown = true;
             hasMoved = false;
             startPosition = position;
 
@@ -147,11 +186,27 @@ namespace Unity.AppUI.UI
         /// <param name="pointerId"> The pointer id of the pointer.</param>
         protected override void ProcessUpEvent(EventBase evt, Vector2 localPosition, int pointerId)
         {
-            m_IsDown = false;
+            isDown = false;
             deltaPos = Vector2.zero;
             deltaStartPos = Vector2.zero;
             this.localPosition = localPosition;
-            position = (evt is PointerUpEvent e) ? e.position : ((MouseUpEvent)evt).mousePosition;
+            switch (evt)
+            {
+                case PointerUpEvent pue:
+                    position = pue.position;
+                    ctrlKey = pue.ctrlKey;
+                    shiftKey = pue.shiftKey;
+                    altKey = pue.altKey;
+                    actionKey = pue.actionKey;
+                    break;
+                case MouseUpEvent mue:
+                    position = mue.mousePosition;
+                    ctrlKey = mue.ctrlKey;
+                    shiftKey = mue.shiftKey;
+                    altKey = mue.altKey;
+                    actionKey = mue.actionKey;
+                    break;
+            }
 
             m_UpHandler?.Invoke(this);
             base.ProcessUpEvent(evt, localPosition, pointerId);
@@ -164,20 +219,40 @@ namespace Unity.AppUI.UI
         /// <param name="localPosition"> The local position of the pointer.</param>
         protected override void ProcessMoveEvent(EventBase evt, Vector2 localPosition)
         {
-            if (m_IsDown)
+            if (isDown)
             {
+                var isValidPointerType = evt is MouseMoveEvent ||
+                    (evt is PointerMoveEvent pe && IsValidPointerType(pe.pointerId));
+
+                if (!isValidPointerType)
+                {
+                    // If the pointer type is not valid, we ignore the event.
+                    return;
+                }
+
                 this.localPosition = localPosition;
-                position = (evt is PointerMoveEvent e) ? e.position : ((MouseMoveEvent)evt).mousePosition;
+                switch (evt)
+                {
+                    case PointerMoveEvent pme:
+                        position = pme.position;
+                        ctrlKey = pme.ctrlKey;
+                        shiftKey = pme.shiftKey;
+                        altKey = pme.altKey;
+                        actionKey = pme.actionKey;
+                        break;
+                    case MouseMoveEvent mme:
+                        position = mme.mousePosition;
+                        ctrlKey = mme.ctrlKey;
+                        shiftKey = mme.shiftKey;
+                        altKey = mme.altKey;
+                        actionKey = mme.actionKey;
+                        break;
+                }
                 deltaPos = position - m_LastPos;
                 deltaStartPos = position - startPosition;
                 m_LastPos = position;
 
-                var canDrag =
-                    hasMoved ||
-                    (evt is PointerMoveEvent pme && pme.pointerId == PointerId.mousePointerId) ||
-                    evt is MouseMoveEvent ||
-                    IsDraggingInDirection();
-
+                var canDrag = hasMoved || IsDraggingInDirection();
                 if (canDrag || !hasMoved)
                 {
                     if (evt is PointerMoveEvent pointerMoveEvent)
@@ -218,10 +293,19 @@ namespace Unity.AppUI.UI
 
                 // if we are dragging in a cross direction, we cancel the drag
                 if (isCrossDirection)
-                    m_IsDown = false;
+                    isDown = false;
             }
 
             return r;
+        }
+
+        static bool IsValidPointerType(int pointerId)
+        {
+            return pointerId == PointerId.mousePointerId
+#if UNITY_6000_2_OR_NEWER
+                || pointerId >= PointerId.trackedPointerIdBase
+#endif
+                ;
         }
     }
 }

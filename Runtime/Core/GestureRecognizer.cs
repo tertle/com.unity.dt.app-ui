@@ -108,7 +108,7 @@ namespace Unity.AppUI.Core
         /// The concrete implementation must aknowledge this and reset its state accordingly.
         /// </remarks>
         /// <param name="appuiTouches"> The current touch inputs for the current frame.</param>
-        void Recognize(AppUITouch[] appuiTouches);
+        void Recognize(ReadOnlySpan<AppUITouch> appuiTouches);
 
         /// <summary>
         /// Resets the gesture recognizer to its initial state.
@@ -150,7 +150,7 @@ namespace Unity.AppUI.Core
         public bool hasChangedThisFrame { get; protected set; }
 
         /// <inheritdoc />
-        public virtual void Recognize(AppUITouch[] appuiTouches)
+        public virtual void Recognize(ReadOnlySpan<AppUITouch> appuiTouches)
         {
             hasChangedThisFrame = false;
         }

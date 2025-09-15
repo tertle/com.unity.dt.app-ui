@@ -13,6 +13,33 @@ using Unity.Properties;
 namespace Unity.AppUI.UI
 {
     /// <summary>
+    /// The strategy used when going to a specific item in the SwipeView.
+    /// </summary>
+    public enum GoToStrategy
+    {
+        /// <summary>
+        /// The SwipeView will animate forward until it reaches the item.
+        /// If the target item is before the current item, it will animate backward if the wrap property is set to false,
+        /// otherwise it will animate forward until it reaches the item.
+        /// </summary>
+        Forward,
+        /// <summary>
+        /// The SwipeView will animate backward until it reaches the item.
+        /// If the target item is after the current item, it will animate forward if the wrap property is set to false,
+        /// otherwise it will animate backward until it reaches the item.
+        /// </summary>
+        Backward,
+        /// <summary>
+        /// The SwipeView will animate to the item using the shortest path, by taking into account the wrap property.
+        /// </summary>
+        ShortestPath,
+        /// <summary>
+        /// The SwipeView will animate to the item using the longest path, by taking into account the wrap property.
+        /// </summary>
+        LongestPath
+    }
+
+    /// <summary>
     /// A SwipeViewItem is an item that must be used as a child of a <see cref="SwipeView"/>.
     /// </summary>
 #if ENABLE_UXML_SERIALIZED_DATA
@@ -41,6 +68,12 @@ namespace Unity.AppUI.UI
         public SwipeViewItem()
         {
             AddToClassList(ussClassName);
+
+            // Optimize for frequent transforms during swipe animations
+            usageHints |= UsageHints.DynamicTransform;
+
+            // Note: Positioning and sizing will be handled by the parent SwipeView
+            // Items will be set to absolute positioning and sized based on visibleItemCount
         }
 
 #if ENABLE_UXML_TRAITS
@@ -110,6 +143,8 @@ namespace Unity.AppUI.UI
 
         internal static readonly BindingId startSwipeThresholdProperty = new BindingId(nameof(startSwipeThreshold));
 
+        internal static readonly BindingId goToStrategyProperty = new BindingId(nameof(goToStrategy));
+
 #endif
 
         /// <summary>
@@ -147,6 +182,8 @@ namespace Unity.AppUI.UI
 
         int m_VisibleItemCount = k_DefaultVisibleItemCount;
 
+        GoToStrategy m_GoToStrategy = k_DefaultGoToStrategy;
+
         IVisualElementScheduledItem m_PollHierarchyItem;
 
         IList m_SourceItems;
@@ -165,15 +202,8 @@ namespace Unity.AppUI.UI
 
         Dir m_CurrentDirection;
 
-        struct ScheduledNextValue
-        {
-            public bool scheduled;
-            public float newAnimationDirection;
-            public int newIndex;
-            public int previousIndex;
-        }
-
-        ScheduledNextValue m_ScheduledNextValue;
+        // Current drag offset for smooth dragging
+        float m_CurrentDragOffset = 0f;
 
         /// <summary>
         /// The container of the SwipeView.
@@ -255,6 +285,31 @@ namespace Unity.AppUI.UI
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
                     NotifyPropertyChanged(in startSwipeThresholdProperty);
+#endif
+            }
+        }
+
+        const GoToStrategy k_DefaultGoToStrategy = GoToStrategy.ShortestPath;
+
+        /// <summary>
+        /// The strategy used when going to a specific item.
+        /// </summary>
+#if ENABLE_RUNTIME_DATA_BINDINGS
+        [CreateProperty]
+#endif
+#if ENABLE_UXML_SERIALIZED_DATA
+        [UxmlAttribute]
+#endif
+        public GoToStrategy goToStrategy
+        {
+            get => m_GoToStrategy;
+            set
+            {
+                var changed = m_GoToStrategy != value;
+                m_GoToStrategy = value;
+#if ENABLE_RUNTIME_DATA_BINDINGS
+                if (changed)
+                    NotifyPropertyChanged(in goToStrategyProperty);
 #endif
             }
         }
@@ -455,7 +510,7 @@ namespace Unity.AppUI.UI
             {
                 var changed = m_Wrap != value;
                 m_Wrap = value;
-                RefreshEverything();
+                PositionAllItems();
 
 #if ENABLE_RUNTIME_DATA_BINDINGS
                 if (changed)
@@ -486,17 +541,20 @@ namespace Unity.AppUI.UI
             if (wrap)
                 return false;
 
+            var currentOffset = m_CurrentDragOffset;
+            var itemSize = direction == Direction.Horizontal ? contentRect.width / m_VisibleItemCount : contentRect.height / m_VisibleItemCount;
+
+            // Calculate how much we can drag in each direction from current value
+            var maxRightDrag = value * itemSize;  // Can drag right to show earlier items (down to value 0)
+            var maxLeftDrag = -(count - m_VisibleItemCount - value) * itemSize;  // Can drag left to show later items (up to max valid value)
+
             if (direction == Direction.Horizontal)
             {
-                var left = m_Container.resolvedStyle.left;
-                var width = m_Container.resolvedStyle.width - resolvedStyle.width ;
-                return (left > 0 && delta.x >= 0) || (left < -width && delta.x <= 0);
+                return (currentOffset >= maxRightDrag && delta.x >= 0) || (currentOffset <= maxLeftDrag && delta.x <= 0);
             }
             else
             {
-                var top = m_Container.resolvedStyle.top;
-                var height = m_Container.resolvedStyle.height - resolvedStyle.height;
-                return (top > 0 && delta.y >= 0) || (top < -height && delta.y <= 0);
+                return (currentOffset >= maxRightDrag && delta.y >= 0) || (currentOffset <= maxLeftDrag && delta.y <= 0);
             }
         }
 
@@ -679,8 +737,11 @@ namespace Unity.AppUI.UI
                 name = containerUssClassName,
                 pickingMode = PickingMode.Ignore,
             };
-            m_Container.usageHints |= UsageHints.DynamicTransform;
             m_Container.AddToClassList(containerUssClassName);
+
+            // Optimize for group transforms during animations
+            m_Container.usageHints |= UsageHints.GroupTransform;
+
             hierarchy.Add(m_Container);
 
             m_PollHierarchyItem = schedule.Execute(PollHierarchy).Every(50L);
@@ -707,7 +768,10 @@ namespace Unity.AppUI.UI
         void OnDirectionChanged(ContextChangedEvent<DirContext> evt)
         {
             m_CurrentDirection = evt.context?.dir ?? Dir.Ltr;
-            schedule.Execute(RefreshEverything);
+            schedule.Execute(() => {
+                RefreshItemsSize();
+                PositionAllItems();
+            });
         }
 
         void OnGeometryChanged(GeometryChangedEvent evt)
@@ -715,14 +779,8 @@ namespace Unity.AppUI.UI
             if (!evt.newRect.IsValid())
                 return;
 
-            RefreshEverything();
-        }
-
-        void RefreshEverything()
-        {
-            m_AnimationDirection = 0;
-            SetValueWithoutNotify(value);
-            InvokeSwipeEvents();
+            RefreshItemsSize();
+            PositionAllItems();
         }
 
         void OnKeyDown(KeyDownEvent evt)
@@ -748,14 +806,15 @@ namespace Unity.AppUI.UI
 
             if (handled)
             {
-
                 evt.StopPropagation();
             }
         }
 
         void OnDown(Scrollable draggable)
         {
-            // do nothing
+            // Stop any ongoing animation
+            if (m_Animation != null && !m_Animation.IsRecycled())
+                m_Animation.Recycle();
         }
 
         void OnUp(Scrollable draggable)
@@ -763,10 +822,99 @@ namespace Unity.AppUI.UI
             m_ForceDisableWrap = true;
             var closestElement = GetClosestElement(out var d);
             var closestIndex = closestElement?.index ?? -1;
-            m_AnimationDirection = Mathf.Approximately(0f, d) ? 0f : Mathf.Sign(-d);
 
-            SetValue(closestIndex, false);
+            if (closestIndex < 0)
+            {
+                m_ForceDisableWrap = false;
+                return;
+            }
+
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            // If we're very close already, just snap without animation
+            if (Mathf.Abs(d) < itemSize * 0.05f)
+            {
+                // Update value immediately and snap to final position
+                UpdateValueAndSnap(closestIndex);
+            }
+            else
+            {
+                // Simple animation: animate current drag offset to center the closest element
+                var targetOffset = m_CurrentDragOffset + d;
+                StartSimpleSnapAnimation(closestIndex, targetOffset);
+            }
+
             m_ForceDisableWrap = false;
+        }
+
+        /// <summary>
+        /// Simple animation for manual drag release - just animate drag offset
+        /// </summary>
+        void StartSimpleSnapAnimation(int targetValue, float targetOffset)
+        {
+            // Recycle any previous animation
+            if (m_Animation != null && !m_Animation.IsRecycled())
+                m_Animation.Recycle();
+
+            var startOffset = m_CurrentDragOffset;
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            // Calculate duration based on distance
+            var distance = Mathf.Abs(targetOffset - startOffset);
+            var itemDistance = distance / itemSize;
+            var durationInMilliseconds = (int)(itemDistance * snapAnimationSpeed * 1000f);
+
+            if (durationInMilliseconds < 1)
+                durationInMilliseconds = 1;
+
+            // Simple animation from current offset to target offset
+            m_Animation = experimental.animation.Start(startOffset, targetOffset, durationInMilliseconds, (_, currentOffset) =>
+            {
+                m_CurrentDragOffset = currentOffset;
+                PositionAllItems(currentOffset);
+            }).Ease(snapAnimationEasing).OnCompleted(() =>
+            {
+                // Update value when animation completes
+                UpdateValueAndSnap(targetValue);
+            }).KeepAlive();
+        }
+
+        /// <summary>
+        /// Update value and snap to clean position
+        /// </summary>
+        void UpdateValueAndSnap(int newValue)
+        {
+            var previousValue = m_Value;
+
+            // Update value and CSS classes
+            var from = previousValue >= 0 ? GetItem(previousValue) : null;
+            var to = GetItem(newValue);
+            from?.RemoveFromClassList(Styles.selectedUssClassName);
+            m_Value = newValue;
+            to?.AddToClassList(Styles.selectedUssClassName);
+
+            // Reset drag offset and position cleanly
+            m_CurrentDragOffset = 0f;
+            PositionAllItems();
+
+            // Fire change event
+            if (previousValue != m_Value)
+            {
+                using var evt = ChangeEvent<int>.GetPooled(previousValue, m_Value);
+                evt.target = this;
+                SendEvent(evt);
+            }
+
+#if ENABLE_RUNTIME_DATA_BINDINGS
+            NotifyPropertyChanged(in valueProperty);
+            NotifyPropertyChanged(in canGoToNextProperty);
+            NotifyPropertyChanged(in canGoToPreviousProperty);
+            NotifyPropertyChanged(in currentItemProperty);
+#endif
         }
 
         void OnDrag(Scrollable drag)
@@ -779,20 +927,9 @@ namespace Unity.AppUI.UI
 
             m_AnimationDirection = Mathf.Approximately(0, delta) ? 0 : Mathf.Sign(-delta);
 
-            var currentPos = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
-            if (shouldWrap)
-            {
-                var nbOffScreenItems = GetNbOfOffScreenItems();
-                if (nbOffScreenItems > 0 && m_AnimationDirection > 0)
-                    currentPos = SwapFirstToLast(nbOffScreenItems);
-                if (nbOffScreenItems > 0 && m_AnimationDirection < 0)
-                    currentPos = SwapLastToFirst(nbOffScreenItems);
-            }
-
-            if (direction == Direction.Horizontal)
-                m_Container.style.left = currentPos + drag.deltaPos.x * multiplier;
-            else
-                m_Container.style.top = currentPos + drag.deltaPos.y * multiplier;
+            // Update the current drag offset and position all items
+            m_CurrentDragOffset += delta * multiplier;
+            PositionAllItems(m_CurrentDragOffset);
         }
 
         float FindAnimationDirection(int newIndex)
@@ -800,21 +937,67 @@ namespace Unity.AppUI.UI
             if (newIndex < 0 || newIndex >= count)
                 return 0;
 
-            var newItem = GetItem(newIndex);
-            if (newItem == null)
-                return 0;
+            var currentIndex = value;
+            if (currentIndex < 0 || currentIndex >= count)
+                return 0f;
 
-            // we use min instead of center because a container can show multiple items at the same time
-            // we should use max instead of min for RightToLeft
-            var delta = direction switch
+            if (currentIndex == newIndex)
+                return 0f;
+
+            if (m_GoToStrategy == GoToStrategy.Forward)
             {
-                Direction.Horizontal when m_CurrentDirection is Dir.Ltr => worldBound.min.x - newItem.worldBound.min.x,
-                Direction.Horizontal when m_CurrentDirection is Dir.Rtl => newItem.worldBound.max.x - worldBound.max.x,
-                Direction.Vertical when m_CurrentDirection is Dir.Ltr => worldBound.min.y - newItem.worldBound.min.y,
-                Direction.Vertical when m_CurrentDirection is Dir.Rtl => newItem.worldBound.max.y - worldBound.max.y,
-                _ => 0f
-            };
-            return Mathf.Approximately(0f, delta) ? 0f : Mathf.Sign(-delta);
+                if (newIndex > currentIndex)
+                    return 1f;
+                if (newIndex < currentIndex && !shouldWrap)
+                    return -1f; // Go backward if no wrap
+                return 1f; // Wrap forward
+            }
+            else if (m_GoToStrategy == GoToStrategy.Backward)
+            {
+                if (newIndex < currentIndex)
+                    return -1f;
+                if (newIndex > currentIndex && !shouldWrap)
+                    return 1f; // Go forward if no wrap
+                return -1f; // Wrap backward
+            }
+            else if (m_GoToStrategy == GoToStrategy.ShortestPath)
+            {
+                if (!shouldWrap)
+                {
+                    // No wrapping - just go in the direct direction
+                    return newIndex > currentIndex ? 1f : -1f;
+                }
+                else
+                {
+                    // With wrapping - calculate shortest path
+                    var forwardDistance = newIndex > currentIndex
+                        ? newIndex - currentIndex
+                        : count - currentIndex + newIndex;
+                    var backwardDistance = newIndex < currentIndex
+                        ? currentIndex - newIndex
+                        : currentIndex + count - newIndex;
+                    return forwardDistance <= backwardDistance ? 1f : -1f;
+                }
+            }
+            else // LongestPath
+            {
+                if (!shouldWrap)
+                {
+                    // No wrapping - just go in the direct direction
+                    return newIndex > currentIndex ? 1f : -1f;
+                }
+                else
+                {
+                    // With wrapping - calculate longest path
+                    var forwardDistance = newIndex > currentIndex
+                        ? newIndex - currentIndex
+                        : count - currentIndex + newIndex;
+                    var backwardDistance = newIndex < currentIndex
+                        ? currentIndex - newIndex
+                        : currentIndex + count - newIndex;
+                    return forwardDistance > backwardDistance ? 1f : -1f;
+                }
+            }
         }
 
         SwipeViewItem GetClosestElement(out float distance)
@@ -824,22 +1007,22 @@ namespace Unity.AppUI.UI
                 return null;
 
             SwipeViewItem best = null;
-            var bestDistance = 0f;
-            // we use min instead of center because a container can show multiple items at the same time
-            // we should use max instead of min for RightToLeft
-            var worldMin = direction == Direction.Horizontal
-                ? worldBound.min.x
-                : worldBound.min.y;
+            var bestDistance = float.MaxValue;
+            var containerMin = direction == Direction.Horizontal ? paddingRect.x : paddingRect.y;
 
             for (var i = 0; i < childCount; i++)
             {
                 var candidate = (SwipeViewItem)ElementAt(i);
-                var candidateCenter = direction == Direction.Horizontal
-                    ? candidate.worldBound.min.x
-                    : candidate.worldBound.min.y;
-                var d = worldMin - candidateCenter;
+
+                // Get the current translate value to determine actual position
+                var translate = candidate.resolvedStyle.translate;
+                var candidatePos = direction == Direction.Horizontal
+                    ? translate.x
+                    : translate.y;
+
+                var d = containerMin - candidatePos;
                 var candidateDistance = Mathf.Abs(d);
-                if (best == null || candidateDistance < bestDistance)
+                if (candidateDistance < bestDistance)
                 {
                     bestDistance = candidateDistance;
                     distance = d;
@@ -849,6 +1032,103 @@ namespace Unity.AppUI.UI
 
             return best;
         }
+
+        /// <summary>
+        /// Position all items based on current value and drag offset
+        /// </summary>
+        void PositionAllItems(float dragOffset = 0f)
+        {
+            if (!contentRect.IsValid() || childCount == 0)
+                return;
+
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            for (var i = 0; i < childCount; i++)
+            {
+                var item = ElementAt(i) as SwipeViewItem;
+                if (item == null) continue;
+
+                // Base position relative to the current value
+                var basePosition = (item.index - value) * itemSize + dragOffset;
+
+                // Handle wrapping if enabled - ensure no blank spaces are visible
+                if (shouldWrap && count > 0)
+                {
+                    var containerSize = direction == Direction.Horizontal ? contentRect.width : contentRect.height;
+                    var totalItemsSize = count * itemSize;
+
+                    // Define extended viewport (including buffer zones)
+                    var viewportStart = -itemSize;
+                    var viewportEnd = containerSize + itemSize;
+
+                    // Wrap element to ensure it's positioned optimally to fill potential gaps
+                    // Move items that are too far left to the right side
+                    while (basePosition < viewportStart - totalItemsSize)
+                        basePosition += totalItemsSize;
+
+                    // Move items that are too far right to the left side
+                    while (basePosition > viewportEnd + totalItemsSize)
+                        basePosition -= totalItemsSize;
+
+                    // If the item is outside the extended viewport, find the best wrapping position
+                    if (basePosition < viewportStart || basePosition > viewportEnd)
+                    {
+                        // Find which wrap position puts the item closest to filling the viewport
+                        var wrapPositions = new[]
+                        {
+                            basePosition,
+                            basePosition + totalItemsSize,
+                            basePosition - totalItemsSize
+                        };
+
+                        var bestPosition = basePosition;
+                        var bestScore = float.MaxValue;
+
+                        foreach (var pos in wrapPositions)
+                        {
+                            // Score based on how well this position helps fill the viewport
+                            var score = 0f;
+
+                            if (pos >= viewportStart && pos <= viewportEnd)
+                            {
+                                // Inside viewport - excellent
+                                score = 0f;
+                            }
+                            else if (pos < viewportStart)
+                            {
+                                // Too far left
+                                score = viewportStart - pos;
+                            }
+                            else
+                            {
+                                // Too far right
+                                score = pos - viewportEnd;
+                            }
+
+                            if (score < bestScore)
+                            {
+                                bestScore = score;
+                                bestPosition = pos;
+                            }
+                        }
+
+                        basePosition = bestPosition;
+                    }
+                }
+
+                // Use GPU-optimized translate instead of left/top
+                if (direction == Direction.Horizontal)
+                    item.style.translate = new Translate(basePosition, 0);
+                else
+                    item.style.translate = new Translate(0, basePosition);
+            }
+
+            InvokeSwipeEvents();
+        }
+
+
 
         /// <summary>
         /// Sets the value without notifying the listeners.
@@ -865,119 +1145,167 @@ namespace Unity.AppUI.UI
             if (newValue < 0 || newValue > count - 1)
                 return;
 
-            if (m_ScheduledNextValue.scheduled)
-                m_Value = m_ScheduledNextValue.previousIndex;
-
-            m_ScheduledNextValue.scheduled = false;
-
-            // Recycle previous animation
-            if (m_Animation != null && !m_Animation.IsRecycled())
-                m_Animation.Recycle();
-
-            RefreshItemsSize();
-            SetValueAndScheduleAnimation(newValue);
-        }
-
-        void SetValueAndScheduleAnimation(int newValue)
-        {
-            if (shouldWrap)
-            {
-                var offScreenItemCount = GetNbOfOffScreenItems();
-                if (offScreenItemCount > 0)
-                {
-                    m_ScheduledNextValue = new ScheduledNextValue
-                    {
-                        scheduled = true,
-                        newAnimationDirection = m_AnimationDirection,
-                        newIndex = newValue,
-                        previousIndex = m_Value,
-                    };
-                    if (m_AnimationDirection > 0)
-                        SwapFirstToLast(offScreenItemCount);
-                    if (m_AnimationDirection < 0)
-                        SwapLastToFirst(offScreenItemCount);
-                    PostSetValueWithoutNotify(newValue, false);
-                    return;
-                }
-            }
-            else
+            if (!shouldWrap)
             {
                 newValue = Mathf.Clamp(newValue, 0, count - m_VisibleItemCount);
             }
-            PostSetValueWithoutNotify(newValue, true);
-        }
 
-        void PostSetValueWithoutNotify(int newValue, bool animate)
-        {
-            var from = m_Value >= 0 ? GetItem(m_Value) : null;
+            var oldValue = m_Value;
+            var from = oldValue >= 0 ? GetItem(oldValue) : null;
             var to = GetItem(newValue);
 
-            if (animate && paddingRect.IsValid())
-                StartSwipeAnimation(from, to);
-
+            // Update value immediately - animation is just visual feedback
             from?.RemoveFromClassList(Styles.selectedUssClassName);
             m_Value = newValue;
             to?.AddToClassList(Styles.selectedUssClassName);
+
+            // Animate if there's a direction set, value changed, and we have valid elements to animate
+            bool shouldAnimate = oldValue != newValue &&
+                               !Mathf.Approximately(m_AnimationDirection, 0f) &&
+                               paddingRect.IsValid() &&
+                               contentRect.IsValid();
+
+            if (shouldAnimate)
+            {
+                // Programmatic call - use full animation logic
+                StartSwipeAnimation(oldValue, newValue);
+            }
+            else
+            {
+                // No animation needed - refresh sizes and position immediately (snap behavior)
+                RefreshItemsSize();
+                m_CurrentDragOffset = 0f;
+                PositionAllItems();
+            }
         }
 
-        void StartSwipeAnimation(VisualElement from, VisualElement to)
+
+
+        void StartSwipeAnimation(int oldValue, int newValue)
         {
-            // Need a valid destination to create the animation
-            if (to == null)
-                return;
-
-            // Find the position where the container must be at the end of the animation
-            var newElementMin = this.WorldToLocal(to.worldBound.min);
-            var newElementSize = direction == Direction.Horizontal ? to.worldBound.width : to.worldBound.height;
-            var newElementOffset = direction == Direction.Horizontal ? newElementMin.x : newElementMin.y;
-            var currentContainerOffset = direction == Direction.Horizontal
-                ? m_Container.resolvedStyle.left
-                : m_Container.resolvedStyle.top;
-            var targetContainerOffset = currentContainerOffset - newElementOffset;
-
-            // Recycle previous animation
+            // Recycle any previous animation
             if (m_Animation != null && !m_Animation.IsRecycled())
                 m_Animation.Recycle();
 
-            // Find the best duration and distance to use in the animation
-            var duration = from == null || Mathf.Approximately(0f, newElementOffset) || Mathf.Approximately(0f, m_AnimationDirection)
-                ? 0
-                : Mathf.RoundToInt(Mathf.Abs(newElementOffset) / snapAnimationSpeed);
+            // Calculate the actual animation distance considering wrap and direction
+            var actualDistance = CalculateAnimationDistance(oldValue, newValue);
 
-            // The best distance takes in account the max distance based on skipAnimationThreshold property
-            var distance = Mathf.Abs(targetContainerOffset - currentContainerOffset);
-            var sign = Mathf.Sign(targetContainerOffset - currentContainerOffset);
-            distance = Mathf.Min(distance, skipAnimationThreshold * newElementSize);
-            currentContainerOffset = targetContainerOffset - sign * distance;
-
-            var isValidAnimation =
-                Mathf.Approximately(0, m_AnimationDirection) ||
-                (m_AnimationDirection > 0 && targetContainerOffset < currentContainerOffset) ||
-                (m_AnimationDirection < 0 && targetContainerOffset > currentContainerOffset);
-
-            if (!isValidAnimation)
+            // Skip animation if distance is too great
+            if (actualDistance > skipAnimationThreshold)
             {
-                var dir = m_AnimationDirection switch
-                {
-                    0 => "0",
-                    > 0 => "positive",
-                    < 0 => "negative",
-                    _ => "unknown"
-                };
-                Debug.Assert(isValidAnimation, $"<b>[AppUI]</b>[SwipeView] Trying to animate in the wrong direction:\n" +
-                    $"- Current Direction: {dir}\n" +
-                    $"- Current Container Offset: {currentContainerOffset}\n" +
-                    $"- Target Container Offset: {targetContainerOffset}");
+                // Debug.Log($"Skipping animation: distance {actualDistance} > threshold {skipAnimationThreshold}");
+                m_CurrentDragOffset = 0f;
+                PositionAllItems();
+                return;
             }
 
-            // Start the animation
-            m_Animation = experimental.animation.Start(currentContainerOffset, targetContainerOffset, duration, (_, f) =>
+            if (!contentRect.IsValid())
             {
-                if (direction == Direction.Horizontal)
-                    m_Container.style.left = f;
-                else
-                    m_Container.style.top = f;
-            }).Ease(snapAnimationEasing).KeepAlive();
+                // Debug.Log("Skipping animation: contentRect not valid");
+                m_CurrentDragOffset = 0f;
+                PositionAllItems();
+                return;
+            }
+
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            var startOffset = m_CurrentDragOffset;
+            var targetOffset = 0f;
+
+            // Only add visual offset for programmatic calls (not drag releases)
+            // If m_CurrentDragOffset is near zero, this is likely a programmatic call
+            if (Mathf.Abs(m_CurrentDragOffset) < itemSize * 0.1f)
+            {
+                // Programmatic call - calculate visual offset to maintain appearance
+                var visualOffset = m_AnimationDirection * actualDistance * itemSize;
+                startOffset = m_CurrentDragOffset + visualOffset;
+            }
+            // else: Manual drag release - use current drag offset as-is
+
+            // Calculate duration based on actual visual distance to travel
+            var visualDistance = Mathf.Abs(startOffset - targetOffset);
+            var itemDistance = visualDistance / itemSize;
+            var durationInMilliseconds = (int)(itemDistance * snapAnimationSpeed * 1000f);
+
+            // Ensure minimum duration
+            if (durationInMilliseconds < 1)
+                durationInMilliseconds = 1;
+
+            // Set the starting offset
+            m_CurrentDragOffset = startOffset;
+            PositionAllItems(startOffset);
+
+            // Debug.Log($"Starting animation: {oldValue} → {newValue}, actualDistance: {actualDistance}, startOffset: {startOffset}, duration: {durationInMilliseconds}ms");
+
+            // Start the animation
+            m_Animation = experimental.animation.Start(startOffset, targetOffset, durationInMilliseconds, (_, currentOffset) =>
+            {
+                m_CurrentDragOffset = currentOffset;
+                PositionAllItems(currentOffset);
+            }).Ease(snapAnimationEasing).OnCompleted(() =>
+            {
+                // Ensure final position is exact
+                m_CurrentDragOffset = 0f;
+                PositionAllItems();
+            }).KeepAlive();
+        }
+
+        /// <summary>
+        /// Calculate the actual visual distance needed for animation, respecting m_AnimationDirection
+        /// </summary>
+        /// <param name="fromIndex">The index to animate from.</param>
+        /// <param name="toIndex">The index to animate to.</param>
+        float CalculateVisualDistance(int fromIndex, int toIndex)
+        {
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            // Basic visual distance (direct path)
+            var directDistance = (fromIndex - toIndex) * itemSize;
+
+            if (!shouldWrap)
+            {
+                // No wrapping - use direct distance
+                return directDistance;
+            }
+
+            return m_AnimationDirection switch
+            {
+                // With wrapping, respect the animation direction
+                // Forward animation
+                // If direct path is already forward (negative/left direction), use it
+                > 0 when directDistance <= 0 => directDistance,
+
+                // Direct path is backward, so wrap forward
+                > 0 => directDistance - (count * itemSize),
+
+                // Backward animation
+                // If direct path is already backward (positive/right direction), use it
+                < 0 when directDistance >= 0 => directDistance,
+
+                // Direct path is forward, so wrap backward
+                < 0 => directDistance + (count * itemSize),
+                _ => directDistance
+            };
+        }
+
+        /// <summary>
+        /// Calculate the actual animation distance considering wrap and animation direction
+        /// </summary>
+        int CalculateAnimationDistance(int oldValue, int newValue)
+        {
+            // Calculate visual distance that respects animation direction
+            var visualDistance = CalculateVisualDistance(oldValue, newValue);
+
+            var itemSize = direction == Direction.Horizontal
+                ? contentRect.width / m_VisibleItemCount
+                : contentRect.height / m_VisibleItemCount;
+
+            // Convert visual distance to item distance
+            return Mathf.RoundToInt(Mathf.Abs(visualDistance) / itemSize);
         }
 
         void PollHierarchy()
@@ -1002,6 +1330,10 @@ namespace Unity.AppUI.UI
             }
         }
 
+        /// <summary>
+        /// Refresh size and reset transforms for all items.
+        /// WARNING: This resets all translate values to (0,0) - do not call during animations!
+        /// </summary>
         void RefreshItemsSize()
         {
             if (!contentRect.IsValid())
@@ -1009,10 +1341,25 @@ namespace Unity.AppUI.UI
 
             foreach (var c in Children())
             {
+                // Set absolute positioning for independent movement
+                c.style.position = Position.Absolute;
+
+                // Size based on visible item count
                 if (direction == Direction.Horizontal)
+                {
                     c.style.width = contentRect.width / m_VisibleItemCount;
+                    c.style.height = contentRect.height; // Full height
+                    c.style.top = 0; // Align to top
+                }
                 else
+                {
                     c.style.height = contentRect.height / m_VisibleItemCount;
+                    c.style.width = contentRect.width; // Full width
+                    c.style.left = 0; // Align to left
+                }
+
+                // Reset translate to ensure clean positioning
+                c.style.translate = new Translate(0, 0);
             }
         }
 
@@ -1032,6 +1379,7 @@ namespace Unity.AppUI.UI
                 for (var i = 0; i < m_SourceItems.Count; i++)
                 {
                     var item = new SwipeViewItem { index = i };
+                    ConfigureItem(item);
                     bindItem?.Invoke(item, i);
                     Add(item);
                 }
@@ -1041,6 +1389,7 @@ namespace Unity.AppUI.UI
                 for (var i = 0; i < m_StaticItems.Count; i++)
                 {
                     var item = new SwipeViewItem { index = i };
+                    ConfigureItem(item);
                     if (m_StaticItems[i].childCount > 0)
                         item.Add(m_StaticItems[i].ElementAt(0));
                     Add(item);
@@ -1050,87 +1399,30 @@ namespace Unity.AppUI.UI
             if (childCount > 0)
                 ElementAt(0).RegisterCallback<GeometryChangedEvent>(OnItemGeometryChanged);
 
+            // Refresh sizing and positioning for all new items
+            RefreshItemsSize();
             m_AnimationDirection = 0;
+            m_CurrentDragOffset = 0f;
             if (childCount > 0)
-                SetValue(0, false);
+                SetValueWithoutNotify(0);
             else
                 m_Value = -1;
         }
 
-        float SwapLastToFirst(int times)
+        /// <summary>
+        /// Configure a SwipeViewItem with proper styling for individual positioning
+        /// </summary>
+        void ConfigureItem(SwipeViewItem item)
         {
-            var newPosition = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
-            if (times <= 0)
-                return 0;
+            // Force absolute positioning for independent movement
+            item.style.position = Position.Absolute;
 
-            if (direction == Direction.Horizontal)
-            {
-                newPosition -= contentRect.width * times;
-                m_Container.style.left = newPosition;
-            }
-            else
-            {
-                newPosition -= contentRect.height * times;
-                m_Container.style.top = newPosition;
-            }
+            // Optimize for frequent transforms during swipe animations
+            item.usageHints |= UsageHints.DynamicTransform;
 
-            while (times > 0)
-            {
-                var item = ElementAt(childCount - 1);
-                item.SendToBack();
-                times--;
-            }
-
-            return newPosition;
-        }
-
-        float SwapFirstToLast(int times)
-        {
-            var newPosition = direction == Direction.Horizontal ? m_Container.resolvedStyle.left : m_Container.resolvedStyle.top;
-            if (times == 0)
-                return newPosition;
-
-            if (direction == Direction.Horizontal)
-            {
-                newPosition += contentRect.width * times;
-                m_Container.style.left = newPosition;
-            }
-            else
-            {
-                newPosition += contentRect.height * times;
-                m_Container.style.top = newPosition;
-            }
-
-            while (times > 0)
-            {
-                var item = ElementAt(0);
-                item.BringToFront();
-                times--;
-            }
-
-            return newPosition;
-        }
-
-        int GetNbOfOffScreenItems()
-        {
-            if (Mathf.Approximately(0, m_AnimationDirection))
-                return 0;
-
-            var containerMin = direction == Direction.Horizontal ? m_Container.layout.x : m_Container.layout.y;
-            var containerMax = direction == Direction.Horizontal ? m_Container.layout.xMax : m_Container.layout.yMax;
-            var size = direction == Direction.Horizontal ? paddingRect.width : paddingRect.height;
-
-            if (shouldWrap)
-            {
-                var nbOffScreenStart = containerMin < 0 ? Mathf.FloorToInt(-containerMin / size) : 0;
-                if (m_AnimationDirection > 0 && nbOffScreenStart > 0) // one or more elements are off-screen on the start
-                    return nbOffScreenStart;
-                var nbOffScreenEnd = containerMax > size ? Mathf.FloorToInt((containerMax - size) / size) : 0;
-                if (m_AnimationDirection < 0 && nbOffScreenEnd > 0) // one or more elements are off-screen on the end
-                    return nbOffScreenEnd;
-            }
-
-            return 0;
+            // Ensure items don't interfere with layout
+            item.style.flexGrow = 0;
+            item.style.flexShrink = 0;
         }
 
         void InvokeSwipeEvents()
@@ -1149,13 +1441,12 @@ namespace Unity.AppUI.UI
 
         void OnItemGeometryChanged(GeometryChangedEvent evt)
         {
-            if (m_ScheduledNextValue.scheduled)
+            // Re-position items when geometry changes, but don't refresh sizes during animations
+            if (m_Animation == null || m_Animation.IsRecycled())
             {
-                var nextValue = m_ScheduledNextValue;
-                m_ScheduledNextValue = new ScheduledNextValue();
-                m_AnimationDirection = nextValue.newAnimationDirection;
-                SetValue(nextValue.newIndex, false);
+                RefreshItemsSize();
             }
+            PositionAllItems(m_CurrentDragOffset);
         }
 
         void OnContainerGeometryChanged(GeometryChangedEvent evt)
@@ -1221,15 +1512,14 @@ namespace Unity.AppUI.UI
                 return false;
 
             var nextIndex = shouldWrap
-                ? (int)Mathf.Repeat(value + 1, childCount)
-                : Mathf.Clamp(value + 1, 0, childCount - visibleItemCount);
+                ? (value + 1) % count
+                : Mathf.Clamp(value + 1, 0, count - visibleItemCount);
 
             if (nextIndex == value)
                 return false;
 
             m_AnimationDirection = 1f;
             SetValue(nextIndex, false);
-
             return true;
         }
 
@@ -1243,17 +1533,18 @@ namespace Unity.AppUI.UI
                 return false;
 
             var nextIndex = shouldWrap
-                ? (int)Mathf.Repeat(value - 1, childCount)
-                : Mathf.Clamp(value - 1, 0, childCount - visibleItemCount);
+                ? (value - 1 + count) % count
+                : Mathf.Clamp(value - 1, 0, count - visibleItemCount);
 
             if (nextIndex == value)
                 return false;
 
             m_AnimationDirection = -1f;
             SetValue(nextIndex, false);
-
             return true;
         }
+
+
 
 #if ENABLE_UXML_TRAITS
 
@@ -1321,6 +1612,12 @@ namespace Unity.AppUI.UI
                 defaultValue = k_DefaultResistance,
             };
 
+            readonly UxmlEnumAttributeDescription<GoToStrategy> m_GoToStrategy = new UxmlEnumAttributeDescription<GoToStrategy>()
+            {
+                name = "go-to-strategy",
+                defaultValue = GoToStrategy.ShortestPath,
+            };
+
             /// <summary>
             /// Returns an enumerable containing UxmlChildElementDescription(typeof(VisualElement)), since VisualElements can contain other VisualElements.
             /// </summary>
@@ -1350,6 +1647,7 @@ namespace Unity.AppUI.UI
                 el.autoPlayDuration = m_AutoPlayDuration.GetValueFromBag(bag, cc);
                 el.swipeable = m_Swipeable.GetValueFromBag(bag, cc);
                 el.resistance = m_Resistance.GetValueFromBag(bag, cc);
+                el.goToStrategy = m_GoToStrategy.GetValueFromBag(bag, cc);
             }
         }
 

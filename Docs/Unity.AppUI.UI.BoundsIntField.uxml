@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.BoundsIntField" class="main">
+    <engine:Label text="BoundsIntField" class="title" />
+    <engine:Label
+      text="A UI component that allows users to input and edit integer bounds values with position and size in 3D space."
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="The BoundsIntField is a specialized input component designed for editing BoundsInt values in Unity applications. It provides a user-friendly interface for manipulating 3D bounds defined by integer coordinates, consisting of a position (x, y, z) and size (width, height, depth)."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component is organized into two rows: one for position coordinates and another for size dimensions. Each row contains three integer input fields for the respective x, y, and z values."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The BoundsIntField is particularly useful when working with grid-based systems, tile maps, or any scenario requiring precise integer-based 3D boundaries."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="BoundsInt" class="prop-type" />
+            <engine:Label text="new BoundsInt()" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current value of the BoundsIntField. This property represents both the position and size of the bounds."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a 10x10x10 bounds at origin"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="boundsIntField.value = new BoundsInt(new Vector3Int(0, 0, 0), new Vector3Int(10, 10, 10));"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Controls the visual size of the BoundsIntField component. This affects the overall dimensions of the input fields and labels."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a small-sized bounds field in UXML"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;BoundsIntField size="S" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="invalid" class="prop-name" />
+            <engine:Label text="bool" class="prop-type" />
+            <engine:Label text="false" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Indicates whether the current value is invalid according to the validation function."
+                class="parapgraph"
+              />
+              <engine:Label
+                text="When true, the component will display visual feedback to indicate the invalid state."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting up validation to ensure positive sizes"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="boundsIntField.validateValue = (bounds) =&gt; bounds.size.x &gt; 0 &amp;&amp; bounds.size.y &gt; 0 &amp;&amp; bounds.size.z &gt; 0;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="validateValue" class="prop-name" />
+            <engine:Label
+              text="Func&lt;BoundsInt, bool&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A function that validates the bounds value. Returns true if the value is valid, false otherwise."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Validating that position coordinates are non-negative"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="boundsIntField.validateValue = (bounds) =&gt; {
+    return bounds.position.x &gt;= 0 &amp;&amp; bounds.position.y &gt;= 0 &amp;&amp; bounds.position.z &gt;= 0;
+};"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic usage example showing how to create and configure a BoundsIntField:"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creating a BoundsIntField with validation and change callback"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='var boundsField = new BoundsIntField();
+boundsField.value = new BoundsInt(Vector3Int.zero, new Vector3Int(1, 1, 1));
+boundsField.validateValue = (bounds) =&gt; bounds.size.x &gt; 0 &amp;&amp; bounds.size.y &gt; 0 &amp;&amp; bounds.size.z &gt; 0;
+
+// Register to value changes
+boundsField.RegisterValueChangedCallback(evt =&gt; {
+    Debug.Log($"New bounds: Pos({evt.newValue.position}), Size({evt.newValue.size})");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="UXML definition example:" class="parapgraph" />
+            <engine:Label
+              text="Defining a BoundsIntField in UXML"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;UXML xmlns:appui="Unity.AppUI.UI"&gt;
+    &lt;appui:BoundsIntField
+        size="M"
+        value="0,0,0,1,1,1"
+        name="myBoundsField"
+    /&gt;
+&lt;/UXML&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="USS styling example:" class="parapgraph" />
+            <engine:Label
+              text="Styling the BoundsIntField with USS"
+              class="scenario-description"
+            />
+            <engine:Label
+              text=".appui-boundsfield {
+    margin: 8px;
+}
+
+.appui-boundsfield__row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.appui-boundsfield__label {
+    min-width: 60px;
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

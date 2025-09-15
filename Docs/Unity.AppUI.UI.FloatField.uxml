@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.FloatField" class="main">
+    <engine:Label text="FloatField" class="title" />
+    <engine:Label
+      text="A text field that accepts floating-point numeric values"
+      class="subtitle"
+    />
+    <engine:Label text="input" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="FloatField is an input control that allows users to enter and edit floating-point numbers. It provides validation, formatting, and range constraints for numeric input."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports both keyboard input and increment/decrement functionality. Users can directly type values or use up/down arrow keys to adjust the value incrementally."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The field can be customized with various formatting options and can display optional units alongside the numeric value."
+            class="parapgraph note"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current numeric value of the field. The value will be automatically clamped between lowValue and highValue if these bounds are set."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Basic usage with initial value"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var floatField = new FloatField { value = 3.14f };"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatString" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="G" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The format string used to display the numeric value. Uses standard .NET numeric format strings."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a custom format string for 2 decimal places"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='floatField.formatString = "F2";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="formatFunction" class="prop-name" />
+            <engine:Label
+              text="FormatFunction&lt;float&gt;"
+              class="prop-type"
+            />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="False" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="A custom function to format the displayed value. Takes precedence over formatString when both are set."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Custom formatting function"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='floatField.formatFunction = (value) =&gt; $"{value:0.##} ms";'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="lowValue" class="prop-name" />
+            <engine:Label text="Optional&lt;float&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;float&gt;.Unset"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The minimum allowed value. When set, input values below this threshold will be clamped to this value."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a minimum value constraint"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="floatField.lowValue = 0.0f; // Prevent negative values"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="highValue" class="prop-name" />
+            <engine:Label text="Optional&lt;float&gt;" class="prop-type" />
+            <engine:Label
+              text="Optional&lt;float&gt;.Unset"
+              class="prop-value"
+            />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The maximum allowed value. When set, input values above this threshold will be clamped to this value."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Setting a maximum value constraint"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="floatField.highValue = 100.0f; // Limit to 100"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="unit" class="prop-name" />
+            <engine:Label text="string" class="prop-type" />
+            <engine:Label text="null" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The unit label displayed after the numeric value. Use this to indicate the measurement unit (e.g., 'px', '%', 'sec')."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Adding a unit label"
+                  class="scenario-description"
+                />
+                <engine:Label text='floatField.unit = "px";' class="code" />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The size variant of the field. Supports different predefined sizes to match your design system."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Creating a small-sized float field"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="var floatField = new FloatField { size = Size.S };"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic FloatField with validation"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='var field = new FloatField
+{
+    value = 50.0f,
+    lowValue = 0.0f,
+    highValue = 100.0f,
+    formatString = "F1",
+    unit = "%"
+};
+
+// Add validation for even numbers
+field.validateValue = (value) =&gt; value % 2 == 0;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="FloatField with custom formatting and event handling"
+              class="parapgraph"
+            />
+            <engine:Label
+              text='var field = new FloatField();
+
+// Custom format function to display with units
+field.formatFunction = (value) =&gt; $"{value:0.##} sec";
+
+// Listen for value changes
+field.RegisterValueChangedCallback(evt =&gt;
+{
+    Debug.Log($"Value changed from {evt.previousValue} to {evt.newValue}");
+});'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label text="UXML Definition Example" class="parapgraph" />
+            <engine:Label
+              text='&lt;ui:FloatField
+    name="opacity-field"
+    value="0.5"
+    low-value="0"
+    high-value="1"
+    format-string="P0"
+    unit="opacity"
+    size="M" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

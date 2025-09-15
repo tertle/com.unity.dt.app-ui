@@ -1,0 +1,203 @@
+:root {
+    --play-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_PlayButton.png");
+    --pause-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_PauseButton.png");
+    --back-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_StepButton.png");
+    --forward-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_StepButton.png");
+    --record-on-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_Record On.png");
+    --record-off-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/d_Record Off.png");
+
+    --mono-font: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Fonts/RobotoMono-Regular.ttf");
+}
+
+.editor-light {
+    --play-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/PlayButton.png");
+    --pause-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/PauseButton.png");
+    --back-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/StepButton.png");
+    --forward-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/StepButton.png");
+    --record-on-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/Record On.png");
+    --record-off-icon: url("project:/Packages/com.unity.dt.app-ui/Editor/Editor Default Resources/Icons/Record Off.png");
+}
+
+.dev-tools {
+    flex-grow: 1;
+}
+
+.dev-tools__toolbar {
+    flex-shrink: 0;
+}
+
+.dev-tools__store-dropdown {
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+.dev-tools__split-view {
+    flex-grow: 1;
+}
+
+.dev-tools__footer {
+    flex-shrink: 0;
+}
+
+.dev-tools__record-button .unity-toggle__checkmark {
+    width: 16px;
+    height: 16px;
+    background-image: var(--record-off-icon);
+}
+
+.dev-tools__record-button:checked .unity-toggle__checkmark {
+    background-image: var(--record-on-icon);
+}
+
+.dev-tools__play-pause-button > VisualElement {
+    width: 16px;
+    height: 16px;
+    background-image: var(--play-icon);
+}
+
+.dev-tools__play-pause-button--playing > VisualElement {
+    background-image: var(--pause-icon);
+}
+
+.unity-toolbar-button {
+    justify-content: center;
+    align-items: center;
+}
+
+.dev-tools__back-button > VisualElement {
+    width: 16px;
+    height: 16px;
+    background-image: var(--back-icon);
+    rotate: 180deg;
+}
+
+.dev-tools__forward-button > VisualElement {
+    width: 16px;
+    height: 16px;
+    background-image: var(--forward-icon);
+}
+
+.dev-tools__time-slider {
+    flex-grow: 1;
+}
+
+/* Action History Pane */
+.dev-tools-action-history__pane {
+    flex-direction: column;
+}
+
+.dev-tools-action-history__search-field {
+    flex-shrink: 0;
+    margin: 0;
+    height: 22px;
+    width: auto;
+    border-radius: 0;
+}
+
+.dev-tools-action-history__list-view {
+    flex-grow: 1;
+}
+
+.dev-tools-action-history-item {
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    -unity-font-definition: var(--mono-font);
+    opacity: 0.6;
+}
+
+.dev-tools-action-history-item--played {
+    opacity: 1;
+}
+
+.dev-tools-action-history-item__label {
+    margin-right: 8px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dev-tools-action-history-item__time {
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: var(--unity-colors-button-background);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dev-tools-action-history-item--skipped > .dev-tools-action-history-item__label,
+.dev-tools-action-history-item--skipped > .dev-tools-action-history-item__time {
+    color: var(--unity-colors-warning-text);
+    -unity-font-style: italic;
+    opacity: 0.6;
+}
+
+.dev-tools-action-history-item--skipped > .dev-tools-action-history-item__button-group > .dev-tools-action-history-item__skip-button {
+    background-color: var(--unity-colors-button-background-pressed);
+}
+
+.dev-tools-action-history-item--skipped > .dev-tools-action-history-item__button-group > .dev-tools-action-history-item__skip-button:hover {
+    background-color: var(--unity-colors-button-background-hover_pressed);
+}
+
+.dev-tools-action-history-item:hover > .dev-tools-action-history-item__time {
+    display: none;
+}
+
+.dev-tools-action-history-item__button-group {
+    display: none;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.dev-tools-action-history-item:hover > .dev-tools-action-history-item__button-group {
+    display: flex;
+}
+
+.dev-tools-action-history-item__jump-to-button,
+.dev-tools-action-history-item__skip-button {
+    margin: 0;
+    font-size: 9px;
+}
+
+/* Inspector Pane */
+.dev-tools-inspector__pane {
+    flex-direction: column;
+}
+
+.dev-tools-inspector__tab-view {
+    flex-grow: 0;
+    flex-direction: row;
+}
+
+.dev-tools-inspector__tab-view > .unity-button {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.unity-button.dev-tools-inspector__tab-view-item--selected {
+    background-color: var(--unity-colors-button-background-pressed);
+}
+
+.unity-button.dev-tools-inspector__tab-view-item--selected:hover {
+    background-color: var(--unity-colors-button-background-hover_pressed);
+}
+
+.dev-tools-inspector__action-pane,
+.dev-tools-inspector__state-pane,
+.dev-tools-inspector__diff-pane {
+    flex-grow: 1;
+    background-color: var(--unity-colors-input_field-background);
+    -unity-font-definition: var(--mono-font);
+}
+
+.dev-tools-inspector__action-content,
+.dev-tools-inspector__state-content,
+.dev-tools-inspector__diff-content {
+    padding: 8px;
+}

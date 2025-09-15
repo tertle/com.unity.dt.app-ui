@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+  xmlns:engine="UnityEngine.UIElements"
+  xmlns:appui="Unity.AppUI.UI"
+  xmlns:navigation="Unity.AppUI.Navigation"
+>
+  <engine:VisualElement name="Unity.AppUI.UI.CircularProgress" class="main">
+    <engine:Label text="CircularProgress" class="title" />
+    <engine:Label
+      text="A circular progress indicator that represents loading or processing state"
+      class="subtitle"
+    />
+    <engine:Label text="feedback" class="category" />
+    <engine:VisualElement class="content">
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="overview">
+          <engine:Label
+            text="CircularProgress is a visual indicator that displays progress in a circular format. It can be used to show the status of an operation, like loading content, processing data, or uploading files."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component supports two variants: determinate and indeterminate. The determinate variant shows concrete progress with a specific value, while the indeterminate variant displays a continuous animation indicating an ongoing process without a specific completion percentage."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="Use CircularProgress when you want to show progress in a compact, circular format. It's particularly useful in scenarios where space is limited or when you want to maintain visual harmony with circular design elements."
+            class="parapgraph"
+          />
+          <engine:Label
+            text="The component features customizable properties including inner radius, rounded corners, and color styling to match your application's design system."
+            class="parapgraph"
+          />
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="props">
+          <engine:VisualElement class="prop">
+            <engine:Label text="innerRadius" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0.38f" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Defines the inner radius of the circular progress indicator. The value ranges from 0 to 1, where 0 creates a solid circle and 1 creates the thinnest possible ring."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a circular progress with medium thickness"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;CircularProgress inner-radius="0.5" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="variant" class="prop-name" />
+            <engine:Label text="Variant" class="prop-type" />
+            <engine:Label text="Variant.Indeterminate" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Specifies the type of progress indication. Can be either Indeterminate (continuous animation) or Determinate (specific progress value)."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a determinate circular progress at 75% completion"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;CircularProgress variant="Determinate" value="0.75" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="value" class="prop-name" />
+            <engine:Label text="float" class="prop-type" />
+            <engine:Label text="0" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="The current progress value, normalized between 0 and 1. Only relevant when variant is set to Determinate."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Update progress value programmatically"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="circularProgress.value = 0.5f; // Set progress to 50%"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="size" class="prop-name" />
+            <engine:Label text="Size" class="prop-type" />
+            <engine:Label text="Size.M" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Determines the size of the circular progress indicator. Available options are defined in the Size enum."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Create a large circular progress indicator"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text='&lt;CircularProgress size="L" /&gt;'
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+          <engine:VisualElement class="prop">
+            <engine:Label text="colorOverride" class="prop-name" />
+            <engine:Label text="Color" class="prop-type" />
+            <engine:Label text="Color.white" class="prop-value" />
+            <engine:Label text="True" class="prop-code-support support" />
+            <engine:Label text="True" class="prop-uxml-support support" />
+            <engine:VisualElement class="prop-description">
+              <engine:Label
+                text="Override the default color of the progress indicator. If not set, the color will be determined by the USS style."
+                class="parapgraph"
+              />
+            </engine:VisualElement>
+            <engine:VisualElement class="prop-examples">
+              <engine:VisualElement class="example">
+                <engine:Label
+                  text="Set the progress color to blue"
+                  class="scenario-description"
+                />
+                <engine:Label
+                  text="circularProgress.colorOverride = Color.blue;"
+                  class="code"
+                />
+              </engine:VisualElement>
+            </engine:VisualElement>
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+      <engine:VisualElement class="section">
+        <engine:VisualElement class="examples">
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Basic indeterminate circular progress"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a default circular progress with indeterminate animation"
+              class="scenario-description"
+            />
+            <engine:Label text="&lt;CircularProgress /&gt;" class="code" />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Determinate progress with custom styling"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Creates a large determinate progress indicator with custom color and thickness"
+              class="scenario-description"
+            />
+            <engine:Label
+              text='&lt;CircularProgress variant="Determinate" value="0.75" inner-radius="0.4" color-override="#2196F3" size="L" /&gt;'
+              class="code"
+            />
+          </engine:VisualElement>
+          <engine:VisualElement class="example">
+            <engine:Label
+              text="Progress with code-behind interaction"
+              class="parapgraph"
+            />
+            <engine:Label
+              text="Demonstrates how to create and update a circular progress indicator programmatically"
+              class="scenario-description"
+            />
+            <engine:Label
+              text="var progress = new CircularProgress();
+progress.variant = Progress.Variant.Determinate;
+progress.value = 0.0f;
+
+// Update progress value over time
+float currentValue = 0f;
+void UpdateProgress() {
+    currentValue = Mathf.Min(currentValue + 0.1f, 1f);
+    progress.value = currentValue;
+}"
+              class="code"
+            />
+          </engine:VisualElement>
+        </engine:VisualElement>
+      </engine:VisualElement>
+    </engine:VisualElement>
+  </engine:VisualElement>
+</engine:UXML>

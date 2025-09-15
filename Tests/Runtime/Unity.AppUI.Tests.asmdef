@@ -39,6 +39,11 @@
             "name": "com.unity.localization",
             "expression": "",
             "define": "UNITY_LOCALIZATION_PRESENT"
+        },
+        {
+            "name": "com.unity.test-framework",
+            "expression": "1.4",
+            "define": "TEST_FRAMEWORK_1_4_0_OR_NEWER"
         }
     ],
     "noEngineReferences": false

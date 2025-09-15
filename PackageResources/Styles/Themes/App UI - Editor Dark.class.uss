@@ -44,7 +44,7 @@
     --appui-base-25: var(--appui-primary-100);
     --appui-foregrounds-200: var(--appui-primary-1100);
     --appui-foregrounds-100: var(--appui-primary-1000);
-    --appui-foregrounds-50: var(--appui-primary-900);
+    --appui-foregrounds-50: var(--appui-primary-800);
     --appui-foregrounds-25: var(--appui-primary-700);
     --appui-backgrounds-300: var(--appui-primary-300);
     --appui-backgrounds-200: var(--appui-primary-200);
@@ -54,7 +54,7 @@
     --appui-color-dark-gray-1500: #e9e9e9; /* darkGray: tint */
     --appui-color-dark-gray-1400: #eeeeee; /* darkGray: tint */
     --appui-color-dark-gray-1300: #d2d2d2; /* darkGray: tint */
-    --appui-color-dark-gray-1200: #d2d2d2; /* darkGray: tint */
+    --appui-color-dark-gray-1200: #cbcbcb; /* darkGray: tint */
     --appui-color-dark-gray-1100: #b4b4b4; /* darkGray: tint */
     --appui-color-dark-gray-1000: #a2a2a2; /* darkGray: tint */
     --appui-color-dark-gray-900: #858585; /* darkGray: tint */
@@ -88,7 +88,11 @@
     --appui-alias-actions-border-color-active: #242424;
     --appui-alias-actions-border-color-hover: #303030;
     --appui-alias-actions-border-color-default: #303030;
-    --appui-alias-actions-background-color-selected: #46607C;
+    --appui-alias-actions-selected-background-color-default: #46607c;
+    --appui-alias-actions-selected-background-color-hover: #4f657f;
+    --appui-alias-actions-selected-background-color-active: #4f657f;
+    --appui-alias-actions-selected-background-color-focus: #537395;
+    --appui-alias-actions-selected-background-color-disabled: rgba(70, 96, 124, 0.5);
     --appui-alias-actions-background-color-disabled: #585858;
     --appui-alias-actions-background-color-focus: #6E6E6E;
     --appui-alias-actions-background-color-active: #6E6E6E;

@@ -1,4 +1,5 @@
 using System;
+using Unity.AppUI.Bridge;
 using Unity.AppUI.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -286,6 +287,27 @@ namespace Unity.AppUI.UI
         }
 
         /// <summary>
+        /// `True` if the popup is resizable, `False` otherwise. Default is `False`.
+        /// </summary>
+        /// <remarks>
+        /// When the Popup is set to resizable, it will be resizable by dragging the bottom right corner.
+        /// </remarks>
+        public bool resizable
+        {
+            get => popover.resizable;
+            set => popover.resizable = value;
+        }
+
+        /// <summary>
+        /// The direction of the drag.
+        /// </summary>
+        public Draggable.DragDirection resizeDirection
+        {
+            get => popover.resizeHandle.dragDirection;
+            set => popover.resizeHandle.dragDirection = value;
+        }
+
+        /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="referenceView">The view used as context provider for the Popover.</param>
@@ -366,6 +388,12 @@ namespace Unity.AppUI.UI
             return true;
         }
 
+        /// <inheritdoc />
+        protected override bool ShouldRefreshPosition()
+        {
+            return !resizable;
+        }
+
         /// <summary>
         /// Enable or disable the blocking of outside click events.
         /// </summary>
@@ -374,6 +402,29 @@ namespace Unity.AppUI.UI
         public Popover SetModalBackdrop(bool enableModalBackdrop)
         {
             modalBackdrop = enableModalBackdrop;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the popup as resizable.
+        /// </summary>
+        /// <param name="isResizable"> `True` to activate the feature, `False` otherwise.</param>
+        /// <returns> The popover instance.</returns>
+        /// <seealso cref="resizable"/>
+        public Popover SetResizable(bool isResizable)
+        {
+            resizable = isResizable;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the resize direction of the popover.
+        /// </summary>
+        /// <param name="direction"> The direction of the resize.</param>
+        /// <returns> The popover instance.</returns>
+        public Popover SetResizeDirection(Draggable.DragDirection direction)
+        {
+            resizeDirection = direction;
             return this;
         }
 
@@ -393,16 +444,28 @@ namespace Unity.AppUI.UI
         protected override void InvokeShownEventHandlers()
         {
             base.InvokeShownEventHandlers();
-            containerView?.panel?.visualTree?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-            containerView?.panel?.visualTree?.RegisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
+            rootView?.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView?.RegisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
         }
 
         /// <inheritdoc />
         protected override void HideView(DismissType reason)
         {
-            containerView?.panel?.visualTree?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
-            containerView?.panel?.visualTree?.UnregisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
+            rootView?.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView?.UnregisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
             base.HideView(reason);
+        }
+
+        internal void EnsureEventHandlersRegistered()
+        {
+            if (rootView == null)
+                return;
+
+            rootView.UnregisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView.UnregisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
+
+            rootView.RegisterCallback<PointerDownEvent>(OnTreeDown, TrickleDown.TrickleDown);
+            rootView.RegisterCallback<WheelEvent>(OnWheel, TrickleDown.TrickleDown);
         }
 
         /// <summary>
@@ -422,6 +485,8 @@ namespace Unity.AppUI.UI
 
             public const string tipUssClassName = ussClassName + "__tip";
 
+            public const string resizeHandleUssClassName = ussClassName + "__resize-handle";
+
             public const string upUssClassName = ussClassName + "--up";
 
             public const string downUssClassName = ussClassName + "--down";
@@ -430,9 +495,16 @@ namespace Unity.AppUI.UI
 
             public const string rightUssClassName = ussClassName + "--right";
 
+            public const string resizableUssClassName = ussClassName + "--resizable";
+
             readonly VisualElement m_ContentContainer;
 
             PopoverPlacement m_Placement = PopoverPlacement.Top;
+
+            /// <summary>
+            /// The resize handle of the popover.
+            /// </summary>
+            public ResizeHandle resizeHandle { get; }
 
             /// <summary>
             /// Default constructor.
@@ -449,8 +521,10 @@ namespace Unity.AppUI.UI
                     name = popoverUssClassName,
                     pickingMode = PickingMode.Ignore,
                     focusable = true,
-                    usageHints = UsageHints.DynamicTransform,
                 };
+                popoverElement.SetIsCompositeRoot(true);
+                popoverElement.SetExcludeFromFocusRing(true);
+                popoverElement.EnableDynamicTransform(true);
                 popoverElement.AddToClassList(popoverUssClassName);
                 hierarchy.Add(popoverElement);
 
@@ -479,6 +553,27 @@ namespace Unity.AppUI.UI
 
                 m_ContentContainer.Add(content);
 
+                resizeHandle = new ResizeHandle(content)
+                {
+                    name = resizeHandleUssClassName,
+                    pickingMode = PickingMode.Position,
+                    focusable = false,
+                };
+                resizeHandle.AddToClassList(resizeHandleUssClassName);
+                m_ContentContainer.hierarchy.Add(resizeHandle);
+
+                resizable = false;
+
+                // auto-set delegate focus if there are focusable elements in the content
+                foreach (var element in m_ContentContainer.Query().Build())
+                {
+                    if (element is {focusable: true, delegatesFocus: false} && element.resolvedStyle.display != DisplayStyle.None)
+                    {
+                        popoverElement.delegatesFocus = true;
+                        break;
+                    }
+                }
+
                 RefreshPlacement();
             }
 
@@ -488,8 +583,12 @@ namespace Unity.AppUI.UI
             /// </summary>
             public VisualElement popoverElement { get; }
 
+            /// <summary>
+            /// The tip UI element.
+            /// </summary>
             public VisualElement tipElement { get; }
 
+            /// <inheritdoc />
             public override VisualElement contentContainer => m_ContentContainer;
 
             /// <summary>
@@ -505,6 +604,9 @@ namespace Unity.AppUI.UI
                 }
             }
 
+            /// <summary>
+            /// Whether the popover has a modal backdrop.
+            /// </summary>
             public bool modalBackdrop
             {
                 get => ClassListContains(modalBackdropUssClassName);
@@ -513,6 +615,15 @@ namespace Unity.AppUI.UI
                     EnableInClassList(modalBackdropUssClassName, value);
                     pickingMode = value ? PickingMode.Position : PickingMode.Ignore;
                 }
+            }
+
+            /// <summary>
+            /// Whether the popover is resizable.
+            /// </summary>
+            public bool resizable
+            {
+                get => ClassListContains(resizableUssClassName);
+                set => EnableInClassList(resizableUssClassName, value);
             }
 
             void RefreshPlacement()
@@ -529,6 +640,7 @@ namespace Unity.AppUI.UI
                     case PopoverPlacement.InsideTopStart:
                     case PopoverPlacement.InsideTopLeft:
                     case PopoverPlacement.InsideTop:
+                    case PopoverPlacement.InsideTopEnd:
                         up = true;
                         break;
                     case PopoverPlacement.Top:
